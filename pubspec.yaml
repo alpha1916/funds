@@ -69,6 +69,15 @@ flutter:
     - assets/home/banner.jpg
     - assets/home/banner2.jpg
 
+    - assets/funds/tray0.png
+    - assets/funds/tray1.png
+    - assets/funds/tray2.png
+    - assets/funds/tray3.png
+
+    - assets/trial/type0.png
+    - assets/trial/type1.png
+    - assets/trial/done.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

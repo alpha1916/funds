@@ -9,6 +9,11 @@ class CustomIcons {
   static const homeBanner2 = 'assets/home/banner2.jpg';
   static const homePeriodPrefix = 'assets/home/period';
 
+  static const fundsPeriodTrayPrefix = 'assets/funds/tray';
+
+  static const trialDone = 'assets/trial/done.png';
+  static const trialTypeTray0 = 'assets/trial/type0.png';
+  static const trialTypeTray1 = 'assets/trial/type1.png';
 }
 
 class CustomSize {
@@ -21,9 +26,11 @@ class CustomSize {
 class CustomColors {
   static const Color homeBackground = Color(0xFFE7E7F8);
 
-  static const Color trialContentBackground = Color(0xFFE7E7F8);
-  static const Color trialBackground = Color(0xFFE7E7F8);
+  static const Color trialContentBackground = Color(0xFFFEE3B9);
+  static const Color trialBackground = Color(0xFFC51623);
 
+
+  static const Color red = Color(0xFFCC2E31);
 }
 
 class CustomStyles {
@@ -48,4 +55,38 @@ class CustomStyles {
     color: Colors.red,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle trialItemTitleStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.black,
+  );
+
+  static const TextStyle trialItemStateStyle = TextStyle(
+    fontSize: 13,
+    color: Colors.white,
+  );
+
+  static const TextStyle trialItemNormalTextStyle = TextStyle(
+    fontSize: 16,
+    color: Color(0xBF000000),
+  );
+
+  static const TextStyle trialItemDateStyle = TextStyle(
+    fontSize: 13,
+    color: Colors.black54,
+  );
+
+  static const TextStyle trialItemProfitStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.red,
+  );
+}
+
+class Constants {
+  static const itemTextList = [
+    {'title': '天天盈', 'interest': '按天计息'},
+    {'title': '周周盈', 'interest': '按周计息'},
+    {'title': '月月盈', 'interest': '按月计息'},
+    {'title': '互惠盈', 'interest': '免管理费'},
+  ];
 }

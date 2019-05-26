@@ -96,6 +96,7 @@ class _ItemView extends StatelessWidget {
   final int minRate;
   final int maxRate;
   final int startPrice;
+  _ItemView(this.type, this.startPrice, this.minRate, this.maxRate);
 
   Widget getItemIcon(type) {
     final String path = CustomIcons.homePeriodPrefix + type.toString() + '.png';
@@ -103,19 +104,12 @@ class _ItemView extends StatelessWidget {
   }
 
   createView () {
-    final _itemTextList = [
-      {'title': '天天盈', 'interest': '按天计息'},
-      {'title': '周周盈', 'interest': '按周计息'},
-      {'title': '月月盈', 'interest': '按月计息'},
-      {'title': '互惠盈', 'interest': '免管理费'},
-    ];
-    final texts = _itemTextList[type];
+    final texts = Constants.itemTextList[type];
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 16, right: 16, top:10, bottom: 10),
 //      child: getItemIcon(type),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(
         children: [
           //周期图标
           getItemIcon(type),
@@ -179,6 +173,4 @@ class _ItemView extends StatelessWidget {
       },
     );
   }
-
-  _ItemView(this.type, this.startPrice, this.minRate, this.maxRate);
 }

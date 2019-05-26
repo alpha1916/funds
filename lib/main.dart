@@ -40,7 +40,7 @@ class _AppState extends State<App> {
 //  PageController _pageController;
   List<Widget> _pages;
   List<NavigationIconView> _navigationViews;
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   BottomNavigationBar _navigationBar;
   @override
   void initState() {
@@ -63,7 +63,6 @@ class _AppState extends State<App> {
       );
     }).toList();
 
-    print('pages');
 //    _pageController = PageController(initialPage: _currentIndex);
     _pages = [
       HomeView(),
