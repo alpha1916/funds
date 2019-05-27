@@ -30,7 +30,7 @@ class _TrialViewState extends State<TrialView> {
               children: <Widget>[
                 _createCenterText(
                     '全民来配资，XX新体验',
-                    TextStyle(fontSize: 26, color: Colors.limeAccent),
+                    TextStyle(fontSize: 26, color: Color(0xFFFEFDAC)),
                     EdgeInsets.only(top: 40)),
                 _createCenterText(
                     '已参与体验',
@@ -38,7 +38,7 @@ class _TrialViewState extends State<TrialView> {
                     EdgeInsets.only(top: 15)),
                 _createCenterText(
                     '140598',
-                    TextStyle(fontSize: 28, color: Colors.amber),
+                    TextStyle(fontSize: 28, color: Color(0xFFFEFA85)),
                     EdgeInsets.only(top: 1)
                 ),
                 _ContentView(),
@@ -84,7 +84,8 @@ class __ContentViewState extends State<_ContentView>
         child: Column(
           children: <Widget>[
             _tabBar(),
-            Container(height: 10),
+//            Container(height: 10),
+            const SizedBox(height: 10),
             _currentIndex == 0 ? TakeTrialPage() : MyTrialPage(),
           ],
         ),

@@ -14,8 +14,8 @@ class _MyTrialPageState extends State<MyTrialPage> {
     // TODO: implement initState
     super.initState();
     _dataList = [
-      {'type': 0, 'ongoing' : true, 'title': '免息体验', 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
-      {'type': 1, 'ongoing' : false, 'title': '免息体验', 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
+      {'type': 0, 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
+      {'type': 1, 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
     ];
 //    _dataList = [
 //      {'type': 0, 'startPrice': 2000, 'minRate': 3, 'maxRate': 10},
@@ -32,6 +32,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
+            padding: EdgeInsets.only(bottom: 10),
             child: _ItemView(
               data['type'],
               data['ongoing'],
@@ -42,8 +43,6 @@ class _MyTrialPageState extends State<MyTrialPage> {
               data['profit'],
             ),
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey))),
           );
         },
         itemCount: _dataList.length,
@@ -70,7 +69,6 @@ class _ItemView extends StatelessWidget {
       this.profit
       );
 
-//      {'ongoing' : true, 'title': '免息体验', 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': '6082.12', 'contract': '6000', 'profit': '82.12'},
   getTitle(type) {
     return type == 0 ? '免费体验' : '免息体验';
   }
@@ -145,9 +143,8 @@ class _ItemView extends StatelessWidget {
                 ),
               ),
 
-              Container(
-                width: 30,
-              ),
+//              Container(width: 30),
+              const SizedBox(width: 30),
 
               Row(
                 children: <Widget>[

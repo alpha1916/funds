@@ -63,9 +63,8 @@ class _HomeViewState extends State<HomeView> {
           children: [
             banner1,
             banner2,
-            Container(
-              height: 12,
-            ),
+//            Container(height: 12),
+            const SizedBox(height: 12),
             _itemListView(),
           ]
         )
