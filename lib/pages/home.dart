@@ -57,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: Container(
-        color: CustomColors.homeBackground,
+        color: CustomColors.background1,
         //首页内容
         child: Column(
           children: [

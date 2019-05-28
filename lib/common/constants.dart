@@ -4,6 +4,7 @@ class CustomIcons {
   static const mail0 = 'assets/common/mail0.png';
   static const mail1 = 'assets/common/mail1.png';
   static const rightArrow = 'assets/common/ic_right_arrow.png';
+  static const divider = 'assets/common/divider.png';
 
   static const homeBanner1 = 'assets/home/banner.jpg';
   static const homeBanner2 = 'assets/home/banner2.jpg';
@@ -14,6 +15,12 @@ class CustomIcons {
   static const trialDone = 'assets/trial/done.png';
   static const trialTypeTray0 = 'assets/trial/type0.png';
   static const trialTypeTray1 = 'assets/trial/type1.png';
+
+  static const myShare = 'assets/my/ic_share.png';
+  static const myService = 'assets/my/ic_service.png';
+  static const myCoupon = 'assets/my/ic_coupon.png';
+  static const myAsset = 'assets/my/ic_asset.png';
+  static const myAbout = 'assets/my/ic_about.png';
 }
 
 class CustomSize {
@@ -24,13 +31,11 @@ class CustomSize {
 }
 
 class CustomColors {
-  static const Color homeBackground = Color(0xFFE7E7F8);
+  static const Color red = Color(0xFFCC2E31);
+  static const Color background1 = Color(0xFFE7E7F8);
 
   static const Color trialContentBackground = Color(0xFFFEE3B9);
   static const Color trialBackground = Color(0xFFC51623);
-
-
-  static const Color red = Color(0xFFCC2E31);
 }
 
 class CustomStyles {
@@ -89,4 +94,10 @@ class Constants {
     {'title': '月月盈', 'interest': '按月计息'},
     {'title': '互惠盈', 'interest': '免管理费'},
   ];
+}
+
+class ContractType {
+  static const int trial = 0;
+  static const int current = 1;
+  static const int history = 2;
 }

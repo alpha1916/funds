@@ -61,6 +61,7 @@ flutter:
     - assets/common/mail0.png
     - assets/common/service.png
     - assets/common/ic_right_arrow.png
+    - assets/common/divider.png
 
     - assets/home/period3.png
     - assets/home/period2.png
@@ -77,6 +78,13 @@ flutter:
     - assets/trial/type0.png
     - assets/trial/type1.png
     - assets/trial/done.png
+
+    - assets/my/ic_service.png
+    - assets/my/ic_coupon.png
+    - assets/my/ic_asset.png
+    - assets/my/ic_about.png
+    - assets/my/ic_share.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

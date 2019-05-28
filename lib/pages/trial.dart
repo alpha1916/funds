@@ -84,8 +84,6 @@ class __ContentViewState extends State<_ContentView>
         child: Column(
           children: <Widget>[
             _tabBar(),
-//            Container(height: 10),
-            const SizedBox(height: 10),
             _currentIndex == 0 ? TakeTrialPage() : MyTrialPage(),
           ],
         ),

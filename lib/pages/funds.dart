@@ -14,6 +14,20 @@ class _FundsViewState extends State<FundsView> {
     return Scaffold(
       appBar: AppBar(
         title:Text('配资'),
+        leading: IconButton(
+            icon: Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon),
+            onPressed: (){
+              print('press service');
+            }
+        ),
+        actions: [
+          FlatButton(
+            child: const Text('我的交易'),
+            onPressed: () {
+              print('press trade');
+            },
+          ),
+        ],
       ),
       body: Column(
 //        color: Colors.red,

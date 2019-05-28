@@ -319,7 +319,7 @@ class _TipsView extends StatelessWidget {
             children: <TableRow> [
               TableRow(
                   children: <Widget> [
-                    _gridTitle('       '),
+                    _gridTitle(''),
                     _gridTitle('杠杆本金'),
                     _gridTitle('赠送资金'),
                     _gridTitle('交易期限'),
