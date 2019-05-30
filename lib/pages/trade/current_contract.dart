@@ -24,6 +24,8 @@ class _CurrentContractPageState extends State<CurrentContractPage> {
 
   @override
   Widget build(BuildContext context) {
+    final realWidth = MediaQuery.of(context).size.width;
+
     _dataList = [
       {'title': '免费体验', 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
       {'title': '免息体验', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
@@ -48,6 +50,7 @@ class _CurrentContractPageState extends State<CurrentContractPage> {
               data['total'],
               data['contract'],
               data['profit'],
+              realWidth,
             ),
             alignment: Alignment.center,
           );

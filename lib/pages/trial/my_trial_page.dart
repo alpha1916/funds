@@ -28,12 +28,13 @@ class _MyTrialPageState extends State<MyTrialPage> {
 
   @override
   Widget build(BuildContext context) {
+    final realWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: adapt(10, realWidth)),
 //            padding: EdgeInsets.only(bottom: 10),
             child: ContractItemView(
               ContractType.trial,
@@ -44,6 +45,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
               data['total'],
               data['contract'],
               data['profit'],
+              realWidth,
             ),
             alignment: Alignment.center,
           );

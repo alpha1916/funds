@@ -21,15 +21,22 @@ class _TradeViewState extends State<TradeView>
       vsync: this,
     );
 
-    _tabController.index = 1;
-    _tabController.addListener(() {
-//      if(_currentIndex != _tabController.index){
-//        setState(() {
-//          _currentIndex = _tabController.index;
-//          print(_currentIndex);
-//        });
-//      }
-    });
+//    _tabController.index = 1;
+//    _tabController.addListener(() {
+////      if(_currentIndex != _tabController.index){
+////        setState(() {
+////          _currentIndex = _tabController.index;
+////          print(_currentIndex);
+////        });
+////      }
+//    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override

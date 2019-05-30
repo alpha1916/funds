@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../common/constants.dart';
 
+double realWidth;
 class TakeTrialPage extends StatefulWidget {
   @override
   _TakeTrialPageState createState() => _TakeTrialPageState();
 }
 
 class _TakeTrialPageState extends State<TakeTrialPage> {
+//  double realWidth;
 //  var _dataList;
 
   @override
@@ -22,10 +24,12 @@ class _TakeTrialPageState extends State<TakeTrialPage> {
 
   @override
   Widget build(BuildContext context) {
+    realWidth = MediaQuery.of(context).size.width;
+    final px10 = adapt(10, realWidth);
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: px10),
           child: Column(
             children: <Widget>[
               _SelectView(),
@@ -59,7 +63,7 @@ class _TrialItem extends StatelessWidget {
 
   Widget _textView() {
     final Color tipsColor = selected ? CustomColors.red : Colors.grey;
-    final double topMargin = 10;
+    final double topMargin = adapt(10, realWidth);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -68,24 +72,24 @@ class _TrialItem extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 45),
+                margin: EdgeInsets.only(top: adapt(45, realWidth)),
                 child: Text('$money元',
                     style: TextStyle(
                         color: CustomColors.red,
-                        fontSize: 26,
+                        fontSize: adapt(26, realWidth),
                         fontWeight: FontWeight.w500)),
               ),
               Container(
                 margin: EdgeInsets.only(top: topMargin),
                 child: Text(
                   '操盘体验资金',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: adapt(18, realWidth), fontWeight: FontWeight.w500),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: topMargin),
                 child: Text(periodTips,
-                    style: TextStyle(color: tipsColor, fontSize: 14)),
+                    style: TextStyle(color: tipsColor, fontSize: adapt(14, realWidth))),
               ),
             ],
           ),
@@ -99,13 +103,13 @@ class _TrialItem extends StatelessWidget {
     if (selected)
       decoration = BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(adapt(10, realWidth))),
         border: Border.all(color: Color(0xFFFF0000), width: 1), // 边色与边宽度
       );
     else
       decoration = BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: BorderRadius.all(Radius.circular(adapt(5, realWidth))),
       );
 
     return decoration;
@@ -113,8 +117,8 @@ class _TrialItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double size = 160;
-    final double traySize = 100;
+    final double size = adapt(160, realWidth);
+    final double traySize = adapt(100, realWidth);
     final String trayIconPath =
         selected ? CustomIcons.trialTypeTray1 : CustomIcons.trialTypeTray0;
 
@@ -125,11 +129,11 @@ class _TrialItem extends StatelessWidget {
         child: Image.asset(trayIconPath, width: traySize),
       ),
       Positioned(
-        left: 6,
-        top: 4,
+        left: adapt(6, realWidth),
+        top: adapt(4, realWidth),
         child: Text(
           title,
-          style: TextStyle(fontSize: 14.0, color: Colors.white),
+          style: TextStyle(fontSize: adapt(14, realWidth), color: Colors.white),
         ),
       ),
       _textView(),
@@ -140,7 +144,7 @@ class _TrialItem extends StatelessWidget {
         right: 0,
         child: Image.asset(
           CustomIcons.trialDone,
-          width: 50,
+          width: adapt(50, realWidth),
         ),
       ));
 
@@ -218,13 +222,13 @@ class __SelectViewState extends State<_SelectView> {
           }).toList(),
         ),
         Container(
-          margin: EdgeInsets.only(top: 40, bottom: 60),
-          width: 180,
-          height: 48,
+          margin: EdgeInsets.only(top: adapt(40, realWidth), bottom: adapt(60, realWidth)),
+          width: adapt(180, realWidth),
+          height: adapt(48, realWidth),
           child: RaisedButton(
-            child: const Text(
+            child: Text(
               '立即体验',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: adapt(16, realWidth)),
             ),
             onPressed: _onStartTrial,
             color: CustomColors.red,
@@ -257,21 +261,22 @@ class _TipsView extends StatelessWidget {
   static final String p6 = 'xx对此活动拥有最终解释权';
 
   Widget _tipsContent(String text) {
-    TextStyle tipsContentStyle = TextStyle(fontSize: 14, color: Colors.black54);
+    final double px18 = adapt(18, realWidth);
+    TextStyle tipsContentStyle = TextStyle(fontSize: adapt(14, realWidth), color: Colors.black54);
     return Padding(
-      padding: EdgeInsets.only(left: 18, right: 18, bottom: 18),
+      padding: EdgeInsets.only(left: px18, right: px18, bottom: px18),
       child: Text(text, style: tipsContentStyle),
     );
   }
 
   Widget _gridTitle(text) {
     return Container(
-      height: 30,
+      height: adapt(30, realWidth),
       color: Colors.white,
       child:Center(
         child:Text(text,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: adapt(14, realWidth),
             color: Colors.grey,
           ),
           textAlign: TextAlign.center,
@@ -282,14 +287,14 @@ class _TipsView extends StatelessWidget {
 
   Widget _gridItemView(String text, Color color) {
     return Container(
-      height : 30,
+      height : adapt(30, realWidth),
       margin: EdgeInsets.all(0.5),
       color: Colors.white,
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 13,
+            fontSize: adapt(13, realWidth),
             color: color,
           ),
         )

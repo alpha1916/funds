@@ -79,7 +79,7 @@ class __ContentViewState extends State<_ContentView>
         margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 40),
         decoration: BoxDecoration(
           color: CustomColors.trialContentBackground,
-          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         child: Column(
           children: <Widget>[
@@ -103,7 +103,6 @@ class __ContentViewState extends State<_ContentView>
         if(_currentIndex != _tabController.index){
           setState(() {
             _currentIndex = _tabController.index;
-            print(_currentIndex);
           });
         }
     });

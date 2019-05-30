@@ -5,6 +5,7 @@ class CustomIcons {
   static const mail1 = 'assets/common/mail1.png';
   static const rightArrow = 'assets/common/ic_right_arrow.png';
   static const divider = 'assets/common/divider.png';
+  static const iconText = 'assets/common/logo_with_text.png';
 
   static const homeBanner1 = 'assets/home/banner.jpg';
   static const homeBanner2 = 'assets/home/banner2.jpg';
@@ -60,31 +61,6 @@ class CustomStyles {
     color: Colors.red,
     fontWeight: FontWeight.w500,
   );
-
-  static const TextStyle trialItemTitleStyle = TextStyle(
-    fontSize: 16,
-    color: Colors.black,
-  );
-
-  static const TextStyle trialItemStateStyle = TextStyle(
-    fontSize: 13,
-    color: Colors.white,
-  );
-
-  static const TextStyle trialItemNormalTextStyle = TextStyle(
-    fontSize: 16,
-    color: Color(0xBF000000),
-  );
-
-  static const TextStyle trialItemDateStyle = TextStyle(
-    fontSize: 13,
-    color: Colors.black54,
-  );
-
-  static const TextStyle trialItemProfitStyle = TextStyle(
-    fontSize: 16,
-    color: Colors.red,
-  );
 }
 
 class Constants {
@@ -100,4 +76,23 @@ class ContractType {
   static const int trial = 0;
   static const int current = 1;
   static const int history = 2;
+}
+
+final desWidth = 414;
+adapt(number, realWidth) {
+  return number * realWidth / desWidth;
+}
+
+alert(context, tips) {
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Center(
+            child: Text(
+              tips,
+              textAlign: TextAlign.center,
+            )),
+        titleTextStyle: TextStyle(fontSize: 16, color: Colors.white),
+        backgroundColor: Colors.black87,
+      ));
 }

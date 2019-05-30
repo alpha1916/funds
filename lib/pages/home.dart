@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../common/constants.dart';
+import 'package:funds/routes/account/login_page.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -38,21 +39,19 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
+    return LoginPage();
+
     return Scaffold(
       appBar: AppBar(
         title:Text('首页'),
         leading: IconButton(
             icon: iconService,
-            onPressed: (){
-              print('press service');
-            }
+            onPressed: _onPressService,
         ),
         actions: [
           IconButton(
               icon: iconMail,
-              onPressed: (){
-                print('press mail');
-              }
+              onPressed: _onPressedMail,
           ),
         ],
       ),
@@ -70,6 +69,24 @@ class _HomeViewState extends State<HomeView> {
         )
       ),
     );
+
+  }
+
+
+  _onPressService() {
+    print('press service');
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (_) {
+        return LoginPage();
+      }),
+    );
+    print('press service2');
+  }
+
+  _onPressedMail() {
+    print('press mail');
+
   }
 
   _itemListView() {

@@ -10,12 +10,13 @@ class ContractItemView extends StatelessWidget {
   final double total;
   final double contract;
   final double profit;
+  final double realWidth;
 
   Color totalColor;
   Color profitValueColor;
   String profitTitle;
   ContractItemView(this.type, this.title, this.ongoing, this.startDate, this.endDate,
-      this.total, this.contract, this.profit){
+      this.total, this.contract, this.profit, this.realWidth){
     switch(type){
       case ContractType.trial:
         totalColor = Colors.black;
@@ -38,48 +39,67 @@ class ContractItemView extends StatelessWidget {
     }
   }
 
-  getTitle(type) {
-    return type == 0 ? '免费体验' : '免息体验';
-  }
-
   _stateView() {
     final String text = ongoing ? '操盘中' : '已结束';
     final Color color = ongoing ? CustomColors.red : Colors.grey;
     return Container(
-      width: 50,
-      height: 22,
+      width: adapt(50, realWidth),
+      height: adapt(22, realWidth),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderRadius: BorderRadius.all(Radius.circular(adapt(10, realWidth))),
       ),
       child: Center(
-        child: Text(text, style: CustomStyles.trialItemStateStyle),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: adapt(13, realWidth),
+            color: Colors.white,
+          ),
+        ),
       ),
     );
+//    return Chip(
+//      backgroundColor: color,
+//      label: Text(text),
+//    );
   }
 
   _dateView() {
     String text = '$startDate 至 $endDate';
-    return Text(text, style: CustomStyles.trialItemDateStyle);
+    return Text(
+        text,
+        style: TextStyle(
+          fontSize: adapt(13, realWidth),
+          color: Colors.black54,
+        ),
+    );
   }
 
   Widget _buildRow1() {
+    final px6 = adapt(6, realWidth);
+    final px16 = adapt(16, realWidth);
     return Container(
 //      width: double.infinity,
 //      height: 10,
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: 16),
-            child: Text('资产总值',
-                style: CustomStyles.trialItemNormalTextStyle),
+            margin: EdgeInsets.only(left: px16),
+            child: Text(
+              '资产总值',
+              style: TextStyle(
+                fontSize: px16,
+                color: Color(0xBF000000),
+              ),
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 6),
+            margin: EdgeInsets.only(left: px6),
             child: Text(
               '$total',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: px16,
                 color: totalColor,
               ),
             ),
@@ -95,14 +115,20 @@ class ContractItemView extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: 16),
+            margin: EdgeInsets.only(left: adapt(16, realWidth)),
             child: Text('合约金额',
-                style: CustomStyles.trialItemNormalTextStyle),
+                style: TextStyle(
+                  fontSize: adapt(16, realWidth),
+                  color: Color(0xBF000000),
+                )),
           ),
           Container(
-            margin: EdgeInsets.only(left: 6),
+            margin: EdgeInsets.only(left: adapt(6, realWidth)),
             child: Text('$contract',
-                style: CustomStyles.trialItemTitleStyle),
+                style: TextStyle(
+                  fontSize: adapt(16, realWidth),
+                  color: Colors.black,
+                )),
           ),
         ],
       ),
@@ -110,20 +136,28 @@ class ContractItemView extends StatelessWidget {
   }
 
   Widget _buildRow3() {
+    final px6 = adapt(6, realWidth);
+    final px16 = adapt(16, realWidth);
     return Container(
 //      width: 150,
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: 16, right: 6),
+            margin: EdgeInsets.only(left: px16, right: px6),
             child:
-            Text(profitTitle, style: CustomStyles.trialItemNormalTextStyle),
+            Text(
+              profitTitle, 
+              style: TextStyle(
+                fontSize: px16,
+                color: Color(0xBF000000),
+              ),
+            ),
           ),
           Container(
             child: Text(
               '$profit',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: px16,
                 color: profitValueColor,
               ),
             ),
@@ -134,30 +168,40 @@ class ContractItemView extends StatelessWidget {
   }
 
   createView() {
+    final px1 = adapt(1, realWidth);
+    final px6 = adapt(6, realWidth);
+    final px10 = adapt(10, realWidth);
+    final px16 = adapt(16, realWidth);
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: EdgeInsets.only(top: px10, bottom: px10),
       child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 16, right: 6),
-                child: Text(title, style: CustomStyles.trialItemTitleStyle),
+                margin: EdgeInsets.only(left: px16, right: px6),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: px16,
+                    color: Colors.black,
+                    ),
+                ),
               ),
               _stateView(),
               Expanded(
                 child: Container(),
               ),
               Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
+                margin: EdgeInsets.only(left: px16, right: px16),
                 child: _dateView(),
               ),
             ],
           ),
           Container(
-            height: 1,
-            margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            height: px1,
+            margin: EdgeInsets.only(left: px10, top: px10, bottom: px10),
             color: CustomColors.background1,
           ),
           Table(
@@ -171,7 +215,7 @@ class ContractItemView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: px6),
           _buildRow3()
         ],
       ),
