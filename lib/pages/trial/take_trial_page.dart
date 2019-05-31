@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
 
 double realWidth;
 class TakeTrialPage extends StatefulWidget {

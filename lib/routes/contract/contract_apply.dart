@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/routes/contract/contract_apply_detail.dart';
 
+var ctx;
 class ContractApplyPage extends StatefulWidget {
+  final int type;
+  ContractApplyPage([this.type = 0]);
   @override
-  _ContractApplyPageState createState() => _ContractApplyPageState();
+  _ContractApplyPageState createState() => _ContractApplyPageState(type);
 }
 
 class _ContractApplyPageState extends State<ContractApplyPage> {
+  _ContractApplyPageState(int type){
+    final data = _dataList.where((data) => data['type'] == type);
+    _currentTypeIdx = _dataList.indexOf(data);
+  }
   var _dataList = [];
   int _currentTypeIdx = 0;
   int _currentTimesIdx = 0;
@@ -15,36 +23,35 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    inputController.addListener((){
-      print(inputController.text);
-      setState(() {
-
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    ctx = context;
     _dataList = [
       {
+        'type' : 0,
         'title': '天天盈',
         'min': 2000,
         'max': 5000000,
         'timesList': [3, 4, 5, 6, 7, 8,9,10, 11, 12, 13, 49,50]
       },
       {
+        'type' : 1,
         'title': '周周盈',
         'min': 2000,
         'max': 5000000,
         'timesList': [3, 4, 5, 6, 7]
       },
       {
+        'type' : 2,
         'title': '月月盈',
         'min': 2000,
         'max': 5000000,
         'timesList': [3, 4, 5, 6, 7]
       },
       {
+        'type' : 3,
         'title': '互惠盈',
         'min': 2000,
         'max': 5000000,
@@ -93,7 +100,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
             child: RaisedButton(
                 child: Text(
                 '下一步',
-                style: TextStyle(color: Colors.white, fontSize: adapt(24, realWidth)),
+                style: TextStyle(color: Colors.white, fontSize: adapt(18, realWidth)),
             ),
             onPressed: _onPressedNext,
             color: Colors.black,
@@ -106,7 +113,35 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
 
   _onPressedNext() {
     print('type:$_currentTypeIdx:times:$_currentTimesIdx');
+    if(inputController.text.length == 0){
+      alert(ctx, '请输入申请金额');
+      return;
+    }
+
+    final inputNum = int.parse(inputController.text);
+    final data = _dataList[_currentTypeIdx];
+    final min = data['min'];
+    if(inputNum < min){
+      alert(ctx, '额度不能小于$min');
+      return;
+    }
+
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+          builder: (_) {
+            return ContractApplyDetailPage(ContractApplyDetailPage.getTestData());;
+          }),
+    );
+
   }
+
+//  _selectable() {
+//    if(inputController.text.length == 0)
+//      return false;
+//
+//    final num = int.parse(inputController.text);
+//    return num >= _dataList[_currentTypeIdx]['min'];
+//  }
 
   Widget _buildChip(idx, title, size) {
     Color titleColor;
@@ -167,22 +202,28 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   TextEditingController inputController = TextEditingController();
   Widget _buildTextFiled(hintText) {
     return Container(
-        color: Colors.white,
-        child: Container(
-          child: TextField(
-            textAlign: TextAlign.center,
-            controller: inputController,
-            keyboardType: TextInputType.number,
-            cursorColor: Colors.black12,
-            decoration: InputDecoration(
-              //          border: InputBorder.none,
-              hintText: hintText,
-              labelStyle: TextStyle(fontSize: 30),
-            ),
-            autofocus: false,
-            onChanged: (text) => setState((){}),
+      color: Colors.white,
+      margin: EdgeInsets.only(left: 30, right: 30),
+      child: Container(
+        child: TextField(
+          textAlign: TextAlign.center,
+          controller: inputController,
+          keyboardType: TextInputType.number,
+          cursorColor: Colors.black12,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            labelStyle: TextStyle(fontSize: 30),
           ),
-        ));
+          autofocus: false,
+          onChanged: (text) => setState((){}),
+        ),
+        decoration: BoxDecoration(
+//          borderRadius: BorderRadius.all(Radius.circular(5)),
+          border: Border.all(color: Colors.grey, width: 0.5), // 边色与边宽度
+        ),
+      )
+    );
   }
 
   _getHintText(min, max) {

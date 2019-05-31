@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
 import '../contract_item.dart';
 
 class CurrentContractPage extends StatefulWidget {

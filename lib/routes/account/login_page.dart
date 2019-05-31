@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
 import 'login_input_view.dart';
 import 'register_input_view.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
@@ -34,6 +35,7 @@ class CustomSize {
 class CustomColors {
   static const Color red = Color(0xFFCC2E31);
   static const Color background1 = Color(0xFFE7E7F8);
+  static const Color background2 = Color(0xFFEDECF2);
 
   static const Color trialContentBackground = Color(0xFFFEE3B9);
   static const Color trialBackground = Color(0xFFC51623);
@@ -83,7 +85,7 @@ adapt(number, realWidth) {
   return number * realWidth / desWidth;
 }
 
-alert(context, tips) {
+alert(BuildContext context, String tips) {
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -94,5 +96,45 @@ alert(context, tips) {
             )),
         titleTextStyle: TextStyle(fontSize: 16, color: Colors.white),
         backgroundColor: Colors.black87,
-      ));
+      )
+  );
+}
+
+alert2(BuildContext context, String title, String tips, String btnTitle) {
+  final borderColor = Colors.grey;
+  showCupertinoDialog(
+      context:context,
+      builder:(BuildContext context){
+        return new CupertinoAlertDialog(
+          title: new Text(
+            title,
+          ),
+          content: new Text(tips),
+          actions: <Widget>[
+            new Container(
+              decoration: BoxDecoration(
+                  border: Border(right:BorderSide(color: borderColor,width: 1.0),top:BorderSide(color: borderColor,width: 1.0))
+              ),
+              child: FlatButton(
+                child: new Text(btnTitle, style: TextStyle(color: Colors.blueAccent),),
+                onPressed:(){
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+//            new Container(
+//              decoration: BoxDecoration(
+//                  border: Border(top:BorderSide(color: borderColor,width: 1.0))
+//              ),
+//              child: FlatButton(
+//                child: new Text("取消"),
+//                onPressed:(){
+//                  Navigator.pop(context);
+//                },
+//              ),
+//            )
+          ],
+        );
+      }
+  );
 }

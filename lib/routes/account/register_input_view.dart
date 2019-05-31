@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
 
 class RegisterInputView extends StatefulWidget {
   @override

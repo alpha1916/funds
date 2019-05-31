@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../common/constants.dart';
+import 'package:funds/common/constants.dart';
 
 class LoginInputView extends StatefulWidget {
   @override
