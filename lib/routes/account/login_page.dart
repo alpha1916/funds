@@ -11,6 +11,7 @@ import 'register_input_view.dart';
 class LoginPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    final realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text('登录注册'),
@@ -19,9 +20,9 @@ class LoginPage extends StatelessWidget{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 20,),
-          Center(child: Image.asset(CustomIcons.iconText, width: 150,)),
-          SizedBox(height: 20,),
+          SizedBox(height: 10,),
+          Center(child: Image.asset(CustomIcons.iconText, width: realWidth * 0.4,)),
+          SizedBox(height: 10,),
           _InputView(),
         ],
       ),

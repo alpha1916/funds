@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
 import 'package:funds/routes/account/login_page.dart';
+import 'package:funds/routes/contract/contract_apply.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
-    return LoginPage();
+    return ContractApplyPage();
 
     return Scaffold(
       appBar: AppBar(

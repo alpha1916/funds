@@ -58,7 +58,7 @@ class LoginInputViewState extends State<LoginInputView> {
           ),
 
           Container(
-            margin: EdgeInsets.only(top: 40, bottom: 20),
+            margin: EdgeInsets.only(top: 20, bottom: 10),
             width: 180,
             height: 48,
             child: RaisedButton(

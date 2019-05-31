@@ -42,23 +42,6 @@ class RegisterInputViewState extends State<RegisterInputView> {
     );
   }
 
-  _sendCode() async {
-    await Future.delayed(Duration(seconds: 1));
-    return {'success':false};
-  }
-
-  _onPressedSendCode() async {
-//    return Future
-    if (!_isValidPhoneNumber(phoneController.text)) {
-      alert(context, '请输入正确的手机号码');
-      return Future.value(false);
-    }
-
-    var result = await _sendCode();
-
-    return Future.value(result['success']);
-  }
-
   _buildCodeTextFiled() {
     return Container(
       margin: EdgeInsets.only(top: 1),
@@ -131,7 +114,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 40, bottom: 20),
+            margin: EdgeInsets.only(top: 20, bottom: 10),
             width: 180,
             height: 48,
             child: RaisedButton(
@@ -178,6 +161,24 @@ class RegisterInputViewState extends State<RegisterInputView> {
       passController.clear();
     });
   }
+
+  _sendCode() async {
+    await Future.delayed(Duration(seconds: 1));
+    return {'success':false};
+  }
+
+  _onPressedSendCode() async {
+//    return Future
+    if (!_isValidPhoneNumber(phoneController.text)) {
+      alert(context, '请输入正确的手机号码');
+      return Future.value(false);
+    }
+
+    var result = await _sendCode();
+    alert(context, '发送失败');
+
+    return Future.value(result['success']);
+  }
 }
 
 class PhoneCodeButton extends StatefulWidget {
@@ -202,7 +203,6 @@ class _PhoneCodeButtonState extends State<PhoneCodeButton> {
 
     bool success = await onCallback();
     if(!success){
-      alert(context, '发送失败');
       setState(() {
         _onPressed = countdown;
       });
