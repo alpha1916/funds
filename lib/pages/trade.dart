@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'trade/current_contract.dart';
 import 'trade/history_contract.dart';
 
 class TradeView extends StatefulWidget {
+  final bool secondary;
+  TradeView([this.secondary = false]);
   @override
-  _TradeViewState createState() => _TradeViewState();
+  _TradeViewState createState() => _TradeViewState(secondary);
 }
 
 class _TradeViewState extends State<TradeView>
     with SingleTickerProviderStateMixin{
+
+  final bool secondary;
+  _TradeViewState(this.secondary);
+
+
   TabController _tabController;
   final List<String> _titles = ['当前合约', '历史合约'];
   @override
@@ -38,19 +46,14 @@ class _TradeViewState extends State<TradeView>
     super.dispose();
     _tabController.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-
+    
     return Scaffold(
       appBar: AppBar(
         title:Text('我的交易'),
-        leading: IconButton(
-            icon: Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon),
-            onPressed: (){
-              print('press service');
-            }
-        ),
+        leading: secondary ? null : Utils.buildServiceIconButton(context),
         bottom: TabBar(
           tabs: <Widget>[
             Text('当前合约'),

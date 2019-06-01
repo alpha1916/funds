@@ -148,15 +148,6 @@ class _TrialItem extends StatelessWidget {
         ),
       ));
 
-//    return Container(
-//      decoration: _decoration(),
-//      width: size,
-//      height: size,
-//      child: Stack(
-//        children: stackChildren,
-//      ),
-//    );
-
     return GestureDetector(
       child: Container(
         decoration: _decoration(),

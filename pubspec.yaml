@@ -65,6 +65,10 @@ flutter:
     - assets/common/divider.png
     - assets/common/logo_with_text.png
 
+    - assets/common/bg_coupon_red.png
+    - assets/common/bg_coupon_orange.png
+    - assets/common/bg_coupon_blue.png
+
     - assets/home/period3.png
     - assets/home/period2.png
     - assets/home/period1.png

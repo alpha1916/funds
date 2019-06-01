@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
+import 'package:funds/routes/contract/contract_apply.dart';
+import 'package:funds/model/contract_data.dart';
+import 'package:funds/network/http_request.dart';
 
 
 class FundsView extends StatefulWidget {
@@ -8,30 +13,18 @@ class FundsView extends StatefulWidget {
 }
 
 class _FundsViewState extends State<FundsView> {
-  List<Map<String, int>> _dataList;
+  List<ContractApplyItemData> _dataList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title:Text('配资'),
-        leading: IconButton(
-            icon: Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon),
-            onPressed: (){
-              print('press service');
-            }
-        ),
+        leading: Utils.buildServiceIconButton(context),
         actions: [
-          FlatButton(
-            child: const Text('我的交易'),
-            onPressed: () {
-              print('press trade');
-            },
-          ),
+          Utils.buildMyTradeButton(context),
         ],
       ),
       body: Column(
-//        color: Colors.red,
-//        child: _ItemView(0, 1000, 3, 8),
         children: <Widget>[
           _itemListView(),
         ],
@@ -39,17 +32,24 @@ class _FundsViewState extends State<FundsView> {
     );
   }
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
 
-    _dataList = [
-      {'type': 0, 'startPrice': 2000, 'minRate': 3, 'maxRate': 10},
-      {'type': 1, 'startPrice': 2000, 'minRate': 3, 'maxRate': 8},
-      {'type': 2, 'startPrice': 2000, 'minRate': 3, 'maxRate': 6},
-      {'type': 3, 'startPrice': 1000, 'minRate': 6, 'maxRate': 8},
-    ];
+    _getApplyItemData();
   }
+
+  _getApplyItemData() async{
+    _dataList = await HttpRequest.getApplyItemList();
+
+    if(!mounted)
+      return;
+
+    setState(() {
+
+    });
+  }
+
 
   _itemListView () {
     return Expanded(
@@ -57,7 +57,7 @@ class _FundsViewState extends State<FundsView> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            child: _ItemView(data['type'], data['startPrice'], data['minRate'], data['maxRate']),
+            child: _ItemView(data),
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey))),
@@ -70,15 +70,12 @@ class _FundsViewState extends State<FundsView> {
 }
 
 class _ItemView extends StatelessWidget {
-  final int type;
-  final int minRate;
-  final int maxRate;
-  final int startPrice;
+  final ContractApplyItemData data;
 
   createView() {
 //    final texts = Constants.itemTextList[type];
 
-    final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + type.toString() + '.png';
+    final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + data.type.toString() + '.png';
     return Container(
       child: Image.asset(trayImagePath,
           fit: BoxFit.fitWidth
@@ -88,14 +85,17 @@ class _ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('item view type:$type');
     return GestureDetector(
       child: createView(),
-      onTap: () {
-        print('press item type:$type');
+      onTap: () async{
+//        print('press item type:$type');
+        final applyItemDataList = await HttpRequest.getApplyItemList();
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => ContractApplyPage(applyItemDataList, data.type)),
+        );
       },
     );
   }
 
-  _ItemView(this.type, this.startPrice, this.minRate, this.maxRate);
+  _ItemView(this.data);
 }

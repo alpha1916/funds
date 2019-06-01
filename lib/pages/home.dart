@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/routes/account/login_page.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
+import 'package:funds/routes/contract/coupon_select.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -28,7 +30,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget iconService = Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon);
     final Widget iconMail = Image.asset(mail, width: CustomSize.icon, height: CustomSize.icon);
 
     Widget banner1 = new Image.asset(
@@ -41,16 +42,14 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
+//    return CouponSelectPage(CouponSelectPage.getTestData());
 //    return ContractApplyPage();
-    return ContractApplyDetailPage(ContractApplyDetailPage.getTestData());
+//    return ContractApplyDetailPage(ContractApplyDetailPage.getTestData());
 
     return Scaffold(
       appBar: AppBar(
         title:Text('首页'),
-        leading: IconButton(
-            icon: iconService,
-            onPressed: _onPressService,
-        ),
+        leading: Utils.buildServiceIconButton(context),
         actions: [
           IconButton(
               icon: iconMail,
@@ -73,18 +72,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
 
-  }
-
-
-  _onPressService() {
-    print('press service');
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (_) {
-        return LoginPage();
-      }),
-    );
-    print('press service2');
   }
 
   _onPressedMail() {
@@ -184,7 +171,6 @@ class _ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('item view type:$type');
     return GestureDetector(
       child: createView(),
       onTap: () {

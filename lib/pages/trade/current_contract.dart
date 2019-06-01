@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
-import '../contract_item.dart';
+import '../contract_item_view.dart';
+import 'package:funds/model/contract_data.dart';
 
 class CurrentContractPage extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class CurrentContractPage extends StatefulWidget {
 }
 
 class _CurrentContractPageState extends State<CurrentContractPage> {
-  var _dataList;
+  List<ContractData> _dataList;
   @override
   void initState() {
     // TODO: implement initState
@@ -26,12 +27,18 @@ class _CurrentContractPageState extends State<CurrentContractPage> {
   Widget build(BuildContext context) {
     final realWidth = MediaQuery.of(context).size.width;
 
-    _dataList = [
+    var _oDataList = [
       {'title': '免费体验', 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
       {'title': '免息体验', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
       {'title': '天天盈', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
       {'title': '天天盈T+1', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
     ];
+
+    _dataList = _oDataList.map((data) {
+      data['type'] = ContractType.current;
+      data['ongoing'] = true;
+      return ContractData(data);
+    }).toList();
 
     return Container(
       color: CustomColors.background1,
@@ -40,18 +47,8 @@ class _CurrentContractPageState extends State<CurrentContractPage> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-                padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(
-              ContractType.current,
-              data['title'],
-              true,
-              data['startDate'],
-              data['endDate'],
-              data['total'],
-              data['contract'],
-              data['profit'],
-              realWidth,
-            ),
+            padding: EdgeInsets.only(bottom: 10),
+            child: ContractItemView(data, realWidth),
             alignment: Alignment.center,
           );
         },

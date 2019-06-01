@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
+import 'package:funds/model/contract_data.dart';
+import 'package:funds/network/http_request.dart';
 
 var ctx;
 class ContractApplyPage extends StatefulWidget {
+  final List<ContractApplyItemData> dataList;
   final int type;
-  ContractApplyPage([this.type = 0]);
+  ContractApplyPage(this.dataList, [this.type = 0]);
   @override
-  _ContractApplyPageState createState() => _ContractApplyPageState(type);
+  _ContractApplyPageState createState() => _ContractApplyPageState(dataList, type);
 }
 
 class _ContractApplyPageState extends State<ContractApplyPage> {
-  _ContractApplyPageState(int type){
-    final data = _dataList.where((data) => data['type'] == type);
-    _currentTypeIdx = _dataList.indexOf(data);
-  }
-  var _dataList = [];
+  final List<ContractApplyItemData> dataList;
   int _currentTypeIdx = 0;
   int _currentTimesIdx = 0;
+
+  _ContractApplyPageState(this.dataList, type) {
+    print(type);
+    final ContractApplyItemData currentData = dataList.firstWhere((data) =>
+    data.type == type);
+    _currentTypeIdx = dataList.indexOf(currentData);
+  }
 
   @override
   void initState() {
@@ -28,53 +35,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   @override
   Widget build(BuildContext context) {
     ctx = context;
-    _dataList = [
-      {
-        'type' : 0,
-        'title': '天天盈',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7, 8,9,10, 11, 12, 13, 49,50]
-      },
-      {
-        'type' : 1,
-        'title': '周周盈',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7]
-      },
-      {
-        'type' : 2,
-        'title': '月月盈',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7]
-      },
-      {
-        'type' : 3,
-        'title': '互惠盈',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7]
-      },
-      {
-        'title': '互惠盈',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7]
-      },
-    ];
     final realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text('申请合约'),
         actions: [
-          FlatButton(
-            child: const Text('我的交易'),
-            onPressed: () {
-              print('press trade');
-            },
-          ),
+          Utils.buildMyTradeButton(context),
         ],
       ),
       body: Column(
@@ -111,7 +77,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     );
   }
 
-  _onPressedNext() {
+  _onPressedNext() async {
     print('type:$_currentTypeIdx:times:$_currentTimesIdx');
     if(inputController.text.length == 0){
       alert(ctx, '请输入申请金额');
@@ -119,18 +85,25 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     }
 
     final inputNum = int.parse(inputController.text);
-    final data = _dataList[_currentTypeIdx];
-    final min = data['min'];
+    final data = dataList[_currentTypeIdx];
+    final min = data.min;
     if(inputNum < min){
       alert(ctx, '额度不能小于$min');
       return;
     }
 
+    if(inputNum % 1000 != 0){
+      alert(ctx, '请输入千的整数倍');
+      return;
+    }
+
+    final applyDetailData =  await HttpRequest.getApplyItemDetail();
     Navigator.of(context).push(
       new MaterialPageRoute(
           builder: (_) {
-            return ContractApplyDetailPage(ContractApplyDetailPage.getTestData());;
-          }),
+            return ContractApplyDetailPage(applyDetailData);;
+          }
+      ),
     );
 
   }
@@ -192,8 +165,8 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       child: Wrap(
         spacing: chipSize * 0.2, //主轴上子控件的间距
         runSpacing: chipSize * 0.1, //交叉轴上子控件之间的间距
-        children: _dataList.map((data) {
-          return _buildChip(_dataList.indexOf(data), data['title'], chipSize);
+        children: dataList.map((data) {
+          return _buildChip(dataList.indexOf(data), data.title, chipSize);
         }).toList(), //要显示的子控件集合
       ),
     );
@@ -332,10 +305,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   }
 
   Widget _inputView(itemSize) {
-    final data = _dataList[_currentTypeIdx];
-    final min = data['min'];
-    final max = data['max'];
-    final timesList = data['timesList'];
+    final ContractApplyItemData data = dataList[_currentTypeIdx];
+    final min = data.min;
+    final max = data.max;
+    final timesList = data.timesList;
     return Expanded(
       child: Center(
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -33,17 +34,11 @@ class _MyViewState extends State<MyView> {
   }
 
   Widget build(BuildContext context) {
-    final Widget iconService = Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon);
     final Widget iconMail = Image.asset(mail, width: CustomSize.icon, height: CustomSize.icon);
     return Scaffold(
       appBar: AppBar(
         title:Text('我的'),
-        leading: IconButton(
-            icon: iconService,
-            onPressed: (){
-              print('press service');
-            }
-        ),
+        leading: Utils.buildServiceIconButton(context),
         actions: [
           IconButton(
               icon: iconMail,

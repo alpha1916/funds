@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/model/contract_data.dart';
 
 class ContractItemView extends StatelessWidget {
-  final int type;
-  final String title;
-  final bool ongoing;
-  final String startDate;
-  final String endDate;
-  final double total;
-  final double contract;
-  final double profit;
+//  final int type;
+//  final String title;
+//  final bool ongoing;
+//  final String startDate;
+//  final String endDate;
+//  final double total;
+//  final double contract;
+//  final double profit;
   final double realWidth;
+  final ContractData data;
 
   Color totalColor;
   Color profitValueColor;
   String profitTitle;
-  ContractItemView(this.type, this.title, this.ongoing, this.startDate, this.endDate,
-      this.total, this.contract, this.profit, this.realWidth){
-    switch(type){
+  ContractItemView(this.data, this.realWidth){
+    switch(data.type){
       case ContractType.trial:
         totalColor = Colors.black;
         profitValueColor = CustomColors.red;
@@ -25,14 +26,19 @@ class ContractItemView extends StatelessWidget {
         break;
 
       case ContractType.current:
-        totalColor = Colors.black;
-        profitValueColor = CustomColors.red;
+        totalColor = CustomColors.red;;
+        profitValueColor = Colors.black;
         profitTitle = '可提现金';
         break;
 
       case ContractType.history:
-        totalColor = CustomColors.red;
-        profitValueColor = Colors.black;
+        totalColor = Colors.black;
+        if(data.profit > 0)
+          profitValueColor = CustomColors.red;
+        else if(data.profit < 0)
+          profitValueColor = Colors.green;
+        else
+          profitValueColor = Colors.black;;
         profitTitle = '结算退还';
         break;
 
@@ -40,8 +46,8 @@ class ContractItemView extends StatelessWidget {
   }
 
   _stateView() {
-    final String text = ongoing ? '操盘中' : '已结束';
-    final Color color = ongoing ? CustomColors.red : Colors.grey;
+    final String text = data.ongoing ? '操盘中' : '已结束';
+    final Color color = data.ongoing ? CustomColors.red : Colors.grey;
     return Container(
       width: adapt(50, realWidth),
       height: adapt(22, realWidth),
@@ -66,7 +72,7 @@ class ContractItemView extends StatelessWidget {
   }
 
   _dateView() {
-    String text = '$startDate 至 $endDate';
+    String text = '${data.startDate} 至 ${data.endDate}';
     return Text(
         text,
         style: TextStyle(
@@ -97,7 +103,7 @@ class ContractItemView extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: px6),
             child: Text(
-              '$total',
+              '${data.total}',
               style: TextStyle(
                 fontSize: px16,
                 color: totalColor,
@@ -124,7 +130,7 @@ class ContractItemView extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(left: adapt(6, realWidth)),
-            child: Text('$contract',
+            child: Text(data.contract.toString(),
                 style: TextStyle(
                   fontSize: adapt(16, realWidth),
                   color: Colors.black,
@@ -155,7 +161,7 @@ class ContractItemView extends StatelessWidget {
           ),
           Container(
             child: Text(
-              '$profit',
+              data.profit.toString(),
               style: TextStyle(
                 fontSize: px16,
                 color: profitValueColor,
@@ -182,7 +188,7 @@ class ContractItemView extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: px16, right: px6),
                 child: Text(
-                  title,
+                  data.title,
                   style: TextStyle(
                     fontSize: px16,
                     color: Colors.black,

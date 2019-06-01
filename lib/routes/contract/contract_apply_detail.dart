@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
-import 'package:funds/routes/contract/contract_detail_data.dart';
+import 'package:funds/model/contract_data.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/model/coupon_data.dart';
+import 'package:funds/routes/contract/coupon_select.dart';
 var realWidth;
 BuildContext ctx;
 
@@ -11,26 +13,6 @@ class ContractApplyDetailPage extends StatefulWidget {
 
   @override
   _ContractApplyDetailPageState createState() => _ContractApplyDetailPageState(data);
-
-  static getTestData() {
-    var testData = {
-      'title': '互惠盈T+1',
-      'profit': 90,
-      'total': 1167,
-      'capital': 167,
-      'cost': 0,
-      'cordon': 1084,
-      'cut': 1050,
-      'date': '2019-05-22',
-      'holdTips': '主板单票100%，创业板总仓位100%',
-      'period': '2个交易日，到期不可续约',
-      'coupons': [
-        {'cost': 50, 'title': '管理费抵用券', 'date': '2019-06-29'},
-        {'cost': 100, 'title': '管理费抵用券', 'date': '2019-06-29'},
-      ],
-    };
-    return ContractApplyDetailData(testData);
-  }
 }
 
 class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
@@ -46,12 +28,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       appBar: AppBar(
         title: Text(data.title),
         actions: [
-          FlatButton(
-            child: const Text('我的交易'),
-            onPressed: () {
-              print('press trade');
-            },
-          ),
+          Utils.buildMyTradeButton(context),
         ],
       ),
       body:Container(
@@ -221,8 +198,20 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
           children: list,
         ),
       ),
-      onTap: (){
+      onTap: () async{
+        final int idx = await Navigator.of(ctx).push(
+          new MaterialPageRoute(
+              builder: (_) {
+                return CouponSelectPage(data.coupons, _selectedCouponIdx);
+              }),
+        );
 
+        print('select $idx');
+        if(idx != null){
+          setState(() {
+            _selectedCouponIdx = _selectedCouponIdx == idx ? -1 : idx;
+          });
+        }
       },
     );
   }

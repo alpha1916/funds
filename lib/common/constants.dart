@@ -8,6 +8,11 @@ class CustomIcons {
   static const divider = 'assets/common/divider.png';
   static const iconText = 'assets/common/logo_with_text.png';
 
+  static const couponBG1 = 'assets/common/bg_coupon_blue.png';
+  static const couponBG2 = 'assets/common/bg_coupon_orange.png';
+  static const couponBG3 = 'assets/common/bg_coupon_red.png';
+
+
   static const homeBanner1 = 'assets/home/banner.jpg';
   static const homeBanner2 = 'assets/home/banner2.jpg';
   static const homePeriodPrefix = 'assets/home/period';

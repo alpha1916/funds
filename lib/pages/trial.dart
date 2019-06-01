@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../common/constants.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'trial/my_trial_page.dart';
 import 'trial/take_trial_page.dart';
 
@@ -12,18 +13,11 @@ class _TrialViewState extends State<TrialView> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget iconService = Image.asset(CustomIcons.service,
-        width: CustomSize.icon, height: CustomSize.icon);
     return Scaffold(
         appBar: AppBar(
           title: Text('体验'),
-          leading: IconButton(
-              icon: iconService,
-              onPressed: () {
-                print('press service');
-              }),
+          leading: Utils.buildServiceIconButton(context),
         ),
-//      body: _contentView(),
         body: Container(
             color: CustomColors.trialBackground,
             child: Column(
