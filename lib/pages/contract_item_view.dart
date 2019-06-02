@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
+import 'package:funds/common/utils.dart';
 
 class ContractItemView extends StatelessWidget {
 //  final int type;
@@ -34,12 +35,7 @@ class ContractItemView extends StatelessWidget {
 
       case ContractType.history:
         totalColor = Colors.black;
-        if(data.profit > 0)
-          profitValueColor = CustomColors.red;
-        else if(data.profit < 0)
-          profitValueColor = Colors.green;
-        else
-          profitValueColor = Colors.black;;
+        profitValueColor = Utils.getProfitColor(data.profit);
         profitTitle = '结算退还';
         break;
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
 
 var realWidth;
+var ctx;
 
 class CurrentContractDetail extends StatefulWidget {
   @override
@@ -30,62 +32,65 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   @override
   Widget build(BuildContext context) {
+    ctx = context;
     realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(data?.title ?? '当前合约详情'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh, size: adapt(32, realWidth), color: Colors.black87),
+            icon: Icon(Icons.refresh,
+                size: adapt(32, realWidth), color: Colors.black87),
             onPressed: onPressedRefresh,
           )
         ],
       ),
       body: Column(
         children: <Widget>[
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                //资产栏
-                _buildFundsView(),
-                _buildSplitLine(),
-                //信息栏
-                _buildInfoView(),
-                _buildSplitLine(),
-                //图标栏
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Container(),),
-                    _buildUnderlineTextButton('今日限买股', _onPressedLimited),
-                  ]
-                ),
-                SizedBox(height: 10,),
-                _buildMeterView(realWidth),
-                _buildSplitLine(),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: adapt(42, realWidth)),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        '警戒线：${data?.cordon ?? 0}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Text(
-                        '止损线：${data?.cut ?? 0}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
           Expanded(
-            child: Container(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  //资产栏
+                  _buildFundsView(),
+                  _buildSplitLine(),
+                  //信息栏
+                  _buildInfoView(),
+                  _buildSplitLine(),
+                  //图标栏
+                  Row(children: <Widget>[
+                    Expanded(
+                      child: Container(),
+                    ),
+                    _buildUnderlineTextButton('今日限买股', _onPressedLimited),
+                  ]),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _buildMeterView(realWidth),
+                  _buildSplitLine(),
+                  Container(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: adapt(42, realWidth)),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          '警戒线：${data?.cordon ?? 0}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Text(
+                          '止损线：${data?.cut ?? 0}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           Table(
             children: <TableRow>[
@@ -93,9 +98,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
                 children: <Widget>[
                   _buildMoreButton(),
                   _buildBottomButton(
-                    title: '提取现金',
-                    onPressed: _onPressedWithdraw
-                  ),
+                      title: '提取现金', onPressed: _onPressedWithdraw),
                   _buildBottomButton(
                     title: '委托交易',
                     titleColor: Colors.white,
@@ -114,15 +117,23 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   _buildInfoView() {
     return Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            SizedBox(width: adapt(18, realWidth),),
-            Text('合约信息', style: TextStyle(fontSize: 16),),
-            Text('(${data?.info ?? ''})', style: TextStyle(fontSize: 12),),
-            Expanded(child: Container(),),
-            _buildUnderlineTextButton('查看合约流水', _onPressedFlow),
-          ]
-        ),
+        Row(children: <Widget>[
+          SizedBox(
+            width: adapt(18, realWidth),
+          ),
+          Text(
+            '合约信息',
+            style: TextStyle(fontSize: 16),
+          ),
+          Text(
+            '(${data?.info ?? ''})',
+            style: TextStyle(fontSize: 12),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          _buildUnderlineTextButton('查看合约流水', _onPressedFlow),
+        ]),
         Table(
           children: <TableRow>[
             TableRow(
@@ -140,24 +151,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             TableRow(
               children: [
                 _buildInfoItem('管理费用', '${data?.capital}/月'),
-                _buildInfoItem('使用天数', '${data?.days ?? 0}交易日'),
+                _buildInfoItem('使用天数', '${data?.days ?? 0}个交易日'),
               ],
             ),
           ],
-
         ),
       ],
     );
   }
-
-//  _buildInfoRow() {
-//    return TableRow(
-//      children: [
-//        _buildInfoItem('11'),
-//        _buildInfoItem('12'),
-//      ],
-//    );
-//  }
 
   _buildInfoItem(title, value) {
     return Container(
@@ -168,30 +169,37 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       ),
       child: Row(
         children: <Widget>[
-          Text(title, style: TextStyle(fontSize: 16),),
-          SizedBox(width: adapt(8, realWidth),),
-          Text(value, style: TextStyle(fontSize: 14),),
+          Text(
+            title,
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(
+            width: adapt(8, realWidth),
+          ),
+          Text(
+            value,
+            style: TextStyle(fontSize: 14),
+          ),
         ],
       ),
     );
   }
 
-  _buildUnderlineTextButton(title, onPressed){
+  _buildUnderlineTextButton(title, onPressed) {
     return Container(
-      height: adapt(20, realWidth),
-      child: FlatButton(
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize:
-            adapt(16, realWidth),
-            decoration: TextDecoration.underline,
+        height: adapt(20, realWidth),
+        child: FlatButton(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: adapt(16, realWidth),
+              decoration: TextDecoration.underline,
+            ),
           ),
-        ),
-        onPressed: onPressed,
-      )
-    );
+          onPressed: onPressed,
+        ));
   }
+
   _onPressedFlow() {
     print('press cash flow');
   }
@@ -232,42 +240,60 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _buildMoreButton() {
     final buttonView = Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey, width: 0.5),
-      ),
-      child: FlatButton(
-        onPressed: null,
-        child: Row(
-          children: <Widget>[
-            Icon(Icons.menu, color: Colors.black,),
-            Text(
-              '更多操作',
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-          ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey, width: 0.5),
         ),
-      )
-    );
+        child: FlatButton(
+          onPressed: null,
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              Text(
+                '更多操作',
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+            ],
+          ),
+        ));
 
     return PopupMenuButton<int>(
       child: buttonView,
       itemBuilder: (builder) => <PopupMenuEntry<int>>[
-        const PopupMenuItem<int>(
-          child: Text("追加本金", textAlign: TextAlign.center,),
-          value: 1,
-        ),
-        const PopupMenuItem(
-          child: Text("申请结算"),
-          value: 2,
-        ),
-        const PopupMenuItem(
-          child: Text("停牌转合约"),
-          value: 3,
-        )
-      ],
-      onSelected:(item){
-      },
+            const PopupMenuItem<int>(
+              child: Text(
+                "追加本金",
+                textAlign: TextAlign.center,
+              ),
+              value: 1,
+            ),
+            const PopupMenuItem<int>(
+              child: Text(
+                "缩小合约",
+                textAlign: TextAlign.center,
+              ),
+              value: 1,
+            ),
+            const PopupMenuItem<int>(
+              child: Text(
+                "放大合约",
+                textAlign: TextAlign.center,
+              ),
+              value: 1,
+            ),
+            const PopupMenuItem(
+              child: Text("申请结算"),
+              value: 2,
+            ),
+            const PopupMenuItem(
+              child: Text("停牌转合约"),
+              value: 3,
+            )
+          ],
+      onSelected: (item) {},
     );
   }
 
@@ -279,23 +305,45 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     );
   }
 
-  _buildFundsItem(title, value, valueFontSize, valueColor,
+  _buildFundsItem(title, value, valueFontSize,
       [percent, onPressed]) {
+    Widget titleText;
+    if (onPressed != null) {
+      titleText = Row(
+        children: <Widget>[
+          Text(title,
+              style: TextStyle(
+                  fontSize: adapt(15, realWidth), color: Colors.black87)),
+          SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            child: Icon(
+              Icons.help,
+              size: adapt(24, realWidth),
+            ),
+            onTap: onPressed,
+          ),
+        ],
+      );
+    } else {
+      titleText = Text(title,
+          style:
+              TextStyle(fontSize: adapt(15, realWidth), color: Colors.black87));
+    }
     List<Widget> children = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title.toString(),
-              style: TextStyle(
-                  fontSize: adapt(15, realWidth), color: Colors.black87)),
-          SizedBox(
-            height: adapt(5, realWidth),
+          titleText,
+          SizedBox(height: adapt(5, realWidth)),
+          Text(
+            value.toString(),
+            style: TextStyle(
+                fontSize: valueFontSize,
+                color: Utils.getProfitColor(value),
+                fontWeight: FontWeight.w700),
           ),
-          Text(value.toString(),
-              style: TextStyle(
-                  fontSize: valueFontSize,
-                  color: valueColor,
-                  fontWeight: FontWeight.w700)),
         ],
       ),
       Expanded(child: Container()),
@@ -327,9 +375,16 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
               TableRow(
                 children: <Widget>[
                   _buildFundsItem('资产总值', data?.total ?? 0,
-                      adapt(25, realWidth), CustomColors.red),
-                  _buildFundsItem('可提现金', data?.cash ?? 0, adapt(25, realWidth),
-                      Colors.black),
+                      adapt(25, realWidth)),
+                  _buildFundsItem(
+                    '可提现金',
+                    data?.cash ?? 0,
+                    adapt(25, realWidth),
+                    null,
+                    () {
+                      alert2(ctx, '可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
+                    },
+                  ),
                 ],
               ),
             ],
@@ -339,7 +394,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             '累计盈亏',
             data?.profit ?? 0,
             adapt(18, realWidth),
-            Colors.green,
+            null,
+            () {
+              alert2(ctx, '累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
+            },
           ),
         ],
       ),
@@ -347,8 +405,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _getRotateAngle() {
-    if(data == null)
-      return 0.0;
+    if (data == null) return 0.0;
 
     //根据图片pi*0.3角度为警戒线到止损线之间的角度差
     double unit = pi * 0.3 / (data.cordon - data.cut);

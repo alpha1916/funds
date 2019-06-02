@@ -4,7 +4,6 @@ class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
   static const mail1 = 'assets/common/mail1.png';
-  static const rightArrow = 'assets/common/ic_right_arrow.png';
   static const divider = 'assets/common/divider.png';
   static const iconText = 'assets/common/logo_with_text.png';
 

@@ -23,4 +23,16 @@ class Utils {
         }
     );
   }
+  
+  static getProfitColor(value) {
+    Color color;
+    if(value > 0)
+      color = CustomColors.red;
+    else if(value < 0)
+      color = Colors.green;
+    else
+      color = Colors.black;
+
+    return color;
+  }
 }
