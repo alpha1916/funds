@@ -28,6 +28,9 @@ class CustomIcons {
   static const myCoupon = 'assets/my/ic_coupon.png';
   static const myAsset = 'assets/my/ic_asset.png';
   static const myAbout = 'assets/my/ic_about.png';
+
+  static const meter = 'assets/contract/meter.png';
+  static const meterArrow = 'assets/contract/meter_arrow.png';
 }
 
 class CustomSize {

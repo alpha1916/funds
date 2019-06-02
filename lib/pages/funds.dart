@@ -36,20 +36,14 @@ class _FundsViewState extends State<FundsView> {
     // TODO: implement initState
     super.initState();
 
-    _getApplyItemData();
+    _refresh();
   }
 
-  _getApplyItemData() async{
+  _refresh() async{
     _dataList = await HttpRequest.getApplyItemList();
 
-    if(!mounted)
-      return;
-
-    setState(() {
-
-    });
+    if(mounted) setState(() {});
   }
-
 
   _itemListView () {
     return Expanded(

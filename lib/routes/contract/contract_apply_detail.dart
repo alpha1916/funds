@@ -114,7 +114,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     }else if(titleIcon){
       //标题图标
       list.add(Container(width: adapt(5, realWidth),));
-      list.add(Icon(Icons.help));
+      list.add(Icon(Icons.help, color: Colors.black54,));
     }
     list.add(Expanded(child: Container()));
     list.add(Text(
@@ -187,7 +187,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     ));
 
     list.add(
-      Image.asset(CustomIcons.rightArrow, width: adapt(16, realWidth), height: adapt(14, realWidth)),
+      Icon(Icons.arrow_forward_ios, color: Colors.black54, size: adapt(20, realWidth)),
     );
 
     return GestureDetector(

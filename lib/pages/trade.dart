@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'trade/current_contract.dart';
-import 'trade/history_contract.dart';
+import 'trade/current_contract_list.dart';
+import 'trade/history_contract_list.dart';
 
 class TradeView extends StatefulWidget {
   final bool secondary;
@@ -76,8 +76,8 @@ class _TradeViewState extends State<TradeView>
       body:TabBarView(
         controller: _tabController,
         children: <Widget>[
-          CurrentContractPage(),
-          HistoryContractPage(),
+          CurrentContractListPage(),
+          HistoryContractListPage(),
       ],)
     );
   }

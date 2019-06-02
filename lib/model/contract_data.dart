@@ -56,12 +56,14 @@ class ContractData {
 class ContractApplyItemData{
   final int type;
   final String title;//标题
+  final String interest;
   final int min;
   final int max;
   final List<int> timesList;
   ContractApplyItemData(data):
         type = data['type'],
         title = data['title'],
+        interest = data['interest'],
         min = data['min'],
         max = data['max'],
         timesList = data['timesList'];

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
+import 'package:funds/network/http_request.dart';
 import 'package:funds/routes/account/login_page.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
+import 'package:funds/routes/contract/current_contract_detail.dart';
+import 'package:funds/model/contract_data.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -13,19 +17,20 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String mail = CustomIcons.mail0;
-  List<Map<String, int>> _dataList;
+  List<ContractApplyItemData> _dataList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _dataList = [
-      {'type': 0, 'startPrice': 2000, 'minRate': 3, 'maxRate': 10},
-      {'type': 1, 'startPrice': 2000, 'minRate': 3, 'maxRate': 8},
-      {'type': 2, 'startPrice': 2000, 'minRate': 3, 'maxRate': 6},
-      {'type': 3, 'startPrice': 1000, 'minRate': 6, 'maxRate': 8},
-    ];
+    _refresh();
+  }
+
+  _refresh() async{
+    _dataList = await HttpRequest.getApplyItemList();
+
+    if(mounted) setState(() {});
   }
 
   @override
@@ -42,6 +47,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
+//    return CurrentContractDetail();
 //    return CouponSelectPage(CouponSelectPage.getTestData());
 //    return ContractApplyPage();
 //    return ContractApplyDetailPage(ContractApplyDetailPage.getTestData());
@@ -53,7 +59,13 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
               icon: iconMail,
-              onPressed: _onPressedMail,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_){
+                      return CurrentContractDetail();
+                    },
+                ));
+              },
           ),
         ],
       ),
@@ -76,7 +88,6 @@ class _HomeViewState extends State<HomeView> {
 
   _onPressedMail() {
     print('press mail');
-
   }
 
   _itemListView() {
@@ -85,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            child: _ItemView(data['type'], data['startPrice'], data['minRate'], data['maxRate']),
+            child: _ItemView(data),
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey))),
@@ -98,11 +109,8 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class _ItemView extends StatelessWidget {
-  final int type;
-  final int minRate;
-  final int maxRate;
-  final int startPrice;
-  _ItemView(this.type, this.startPrice, this.minRate, this.maxRate);
+  final ContractApplyItemData data;
+  _ItemView(this.data);
 
   Widget getItemIcon(type) {
     final String path = CustomIcons.homePeriodPrefix + type.toString() + '.png';
@@ -110,7 +118,8 @@ class _ItemView extends StatelessWidget {
   }
 
   createView () {
-    final texts = Constants.itemTextList[type];
+    final int minRate = data.timesList.first;
+    final int maxRate = data.timesList.last;
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 16, right: 16, top:10, bottom: 10),
@@ -118,7 +127,7 @@ class _ItemView extends StatelessWidget {
       child: Row(
         children: [
           //周期图标
-          getItemIcon(type),
+          getItemIcon(data.type),
           //文本内容
           Expanded(
             child: Column(
@@ -127,12 +136,12 @@ class _ItemView extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5.0),
-                      child: Text(texts['title'], style: CustomStyles.homeItemStyle1),
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                      child: Text(data.title, style: CustomStyles.homeItemStyle1),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5.0),
-                      child: Text(texts['interest'], style: CustomStyles.homeItemStyle2),
+                      child: Text(data.interest, style: CustomStyles.homeItemStyle2),
                     ),
                   ],
                 ),
@@ -141,7 +150,7 @@ class _ItemView extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 3),
-                      child: Text('$startPrice元', style: CustomStyles.homeItemStyle3),
+                      child: Text('${data.min}元', style: CustomStyles.homeItemStyle3),
                     ),
                     Container(
                       padding: const EdgeInsets.only(right: 8),
@@ -162,7 +171,7 @@ class _ItemView extends StatelessWidget {
             ),
           ),
           //右箭头
-          Image.asset(CustomIcons.rightArrow, width: 16, height: 16),
+          Icon(Icons.arrow_forward_ios, color: Colors.black26,),
         ],
       ),
     );
@@ -173,8 +182,11 @@ class _ItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: createView(),
-      onTap: () {
-        print('press item type:$type');
+      onTap: () async{
+        final applyItemDataList = await HttpRequest.getApplyItemList();
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => ContractApplyPage(applyItemDataList, data.type)),
+        );
       },
     );
   }

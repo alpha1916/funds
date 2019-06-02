@@ -42,7 +42,9 @@ class _MyTrialPageState extends State<MyTrialPage> {
           return Container(
             margin: EdgeInsets.only(top: adapt(10, realWidth)),
 //            padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(data, realWidth),
+            child: ContractItemView(data, realWidth, () {
+              print('select $index');
+            }),
             alignment: Alignment.center,
           );
         },

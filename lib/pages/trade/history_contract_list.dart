@@ -2,19 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
+import 'package:funds/network/http_request.dart';
 
-class HistoryContractPage extends StatefulWidget {
+class HistoryContractListPage extends StatefulWidget {
   @override
-  _HistoryContractPageState createState() => _HistoryContractPageState();
+  _HistoryContractListPageState createState() => _HistoryContractListPageState();
 }
 
-class _HistoryContractPageState extends State<HistoryContractPage> {
-  List<ContractData> _dataList;
+class _HistoryContractListPageState extends State<HistoryContractListPage> {
+  List<ContractData> _dataList = [];
 
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
+
+//    _refresh();
+  }
+
+  _refresh() async{
+    _dataList = await HttpRequest.getCurrentContractList();
+
+    if(mounted) setState(() {});
   }
 
   @override
@@ -41,7 +50,9 @@ class _HistoryContractPageState extends State<HistoryContractPage> {
           final data = _dataList[index];
           return Container(
             padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(data, realWidth),
+            child: ContractItemView(data, realWidth, () {
+              print('select $index');
+            }),
             alignment: Alignment.center,
           );
         },

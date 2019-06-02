@@ -13,11 +13,12 @@ class ContractItemView extends StatelessWidget {
 //  final double profit;
   final double realWidth;
   final ContractData data;
+  final onPressed;
 
   Color totalColor;
   Color profitValueColor;
   String profitTitle;
-  ContractItemView(this.data, this.realWidth){
+  ContractItemView(this.data, this.realWidth, this.onPressed){
     switch(data.type){
       case ContractType.trial:
         totalColor = Colors.black;
@@ -233,9 +234,7 @@ class ContractItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: createView(),
-      onTap: () {
-        print('press contract');
-      },
+      onTap: onPressed,
     );
   }
 }

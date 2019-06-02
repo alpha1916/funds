@@ -91,6 +91,9 @@ flutter:
     - assets/my/ic_about.png
     - assets/my/ic_share.png
 
+    - assets/contract/meter.png
+    - assets/contract/meter_arrow.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
