@@ -66,7 +66,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     super.initState();
     _tabController = TabController(
       length: tabBarTitles.length,
-      initialIndex: 3,
+      initialIndex: 1,
       vsync: this,
     );
 

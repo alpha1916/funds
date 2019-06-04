@@ -87,6 +87,11 @@ class ContractType {
   static const int history = 2;
 }
 
+class TradeType {
+  static const int buy = 1;
+  static const int sell = -1;
+}
+
 final desWidth = 414;
 adapt(number, realWidth) {
   return number * realWidth / desWidth;

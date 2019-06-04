@@ -21,19 +21,22 @@ class StockListView extends StatelessWidget {
     double itemWidth = realWidth - leftPadding - rightPadding;
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
 
-    return Column(
-      children: <Widget>[
-        _buildTitleList(sizeList, leftPadding, rightPadding),
-        Container(height: adapt(1, realWidth), color: Colors.black12),
-        Expanded(
-          child:ListView.builder(
-            itemBuilder: (BuildContext context, int index){
-              return _buildStockItem(index, sizeList, leftPadding, rightPadding);
-            },
-            itemCount: dataList.length,
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          _buildTitleList(sizeList, leftPadding, rightPadding),
+          Container(height: adapt(1, realWidth), color: Colors.black12),
+          Expanded(
+            child:ListView.builder(
+              itemBuilder: (BuildContext context, int index){
+                return _buildStockItem(index, sizeList, leftPadding, rightPadding);
+              },
+              itemCount: dataList.length,
+            ),
           ),
-        ),
-      ],
+        ],
+      )
     );
   }
 

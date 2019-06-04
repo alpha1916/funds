@@ -45,7 +45,6 @@ class Utils {
     List<String> tmp = value.toStringAsFixed(2).split('.');
     List<String> intPartList = [];
     String strIntPart = tmp[0];
-    print(strIntPart);
 
     while(strIntPart.length > 3){
       intPartList.add(strIntPart.substring(strIntPart.length - 4, strIntPart.length - 1));

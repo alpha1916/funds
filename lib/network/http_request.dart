@@ -132,4 +132,32 @@ class HttpRequest {
 
     return dataList;
   }
+
+  static  TradingStockData getTradingStockData(int code) {
+    var testData = {
+      'title': '工商银行',
+      'code': 666666,
+      'closingPrice': 3.00,
+      'upLimitPrice': 3.30,
+      'downLimitPrice': 2.70,
+      'buyList': [
+        [2.94, 100],
+        [2.93, 2000],
+        [2.92, 300],
+        [2.91, 4000],
+        [2.90, 5000],
+      ],
+      'sellList': [
+        [3.09, 1000],
+        [3.11, 2000],
+        [3.12, 3000],
+        [3.13, 4000],
+        [13.14, 5000],
+      ],
+    };
+
+    final TradingStockData data = TradingStockData(testData);
+    return data;
+
+  }
 }

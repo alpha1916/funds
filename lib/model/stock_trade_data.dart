@@ -39,3 +39,23 @@ class StockCancelData{
         strDay = data['strDay'],
         strTime = data['strTime'];
 }
+
+class TradingStockData{
+  final String title;
+  final int code;
+  final double closingPrice;
+  final double upLimitPrice;
+  final double downLimitPrice;
+//  final int buyableCount;
+  final List<dynamic> buyList;
+  final List<dynamic> sellList;
+  TradingStockData(data):
+        title = data['title'],
+        code = data['code'],
+        closingPrice = data['closingPrice'],
+        upLimitPrice = data['upLimitPrice'],
+        downLimitPrice = data['downLimitPrice'],
+//        buyableCount = data['buyableCount'],
+        buyList = data['buyList'],
+        sellList = data['sellList'];
+}
