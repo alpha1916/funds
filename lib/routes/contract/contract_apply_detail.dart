@@ -265,7 +265,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   _buildAgreeView() {
     return Container(
-      margin: EdgeInsets.only(top: 5),
+      margin: EdgeInsets.only(top: adapt(5, realWidth)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -273,7 +273,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
             '申请即表示已阅读并同意',
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 16,
+              fontSize: adapt(16, realWidth),
             ),
           ),
           FlatButton(

@@ -1,6 +1,7 @@
 
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/model/stock_trade_data.dart';
 
 class HttpRequest {
   static Future<List<ContractApplyItemData>> getApplyItemList() async{
@@ -104,6 +105,30 @@ class HttpRequest {
       data['ongoing'] = true;
       return ContractData(data);
     }).toList();
+
+    return dataList;
+  }
+
+  static Future<List<StockData>> getStockHoldList() async{
+    print('getStockHoldList');
+    var testDataList = [
+      {'title': '天山生物', 'code': 606666, 'value': 3918.00, 'profit': -440.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 6.53},
+      {'title': '紫金银行', 'code': 606666, 'value': 1440000.00, 'profit': 1240000.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 8.53},
+    ];
+
+    final dataList = testDataList.map((data) => StockData(data)).toList();
+
+    return dataList;
+  }
+
+  static Future<List<StockCancelData>> getStockCancelList() async{
+    print('getStockHoldList');
+    var testDataList = [
+      {'title': '天山生物', 'code': 606666,  'price': 6.53, 'count': 600, 'type': 1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
+      {'title': '天山生物', 'code': 606666,  'price': 8.53, 'count': 600, 'type': -1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
+    ];
+
+    final dataList = testDataList.map((data) => StockCancelData(data)).toList();
 
     return dataList;
   }

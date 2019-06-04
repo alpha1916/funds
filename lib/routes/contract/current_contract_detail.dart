@@ -4,6 +4,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/routes/trade/stock_trade_main.dart';
 
 var realWidth;
 var ctx;
@@ -65,7 +66,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
                     _buildUnderlineTextButton('今日限买股', _onPressedLimited),
                   ]),
                   SizedBox(
-                    height: 10,
+                    height: adapt(10, realWidth),
                   ),
                   _buildMeterView(realWidth),
                   _buildSplitLine(),
@@ -76,14 +77,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
                       children: <Widget>[
                         Text(
                           '警戒线：${data?.cordon ?? 0}',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: adapt(16, realWidth)),
                         ),
                         Expanded(
                           child: Container(),
                         ),
                         Text(
                           '止损线：${data?.cut ?? 0}',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: adapt(16, realWidth)),
                         ),
                       ],
                     ),
@@ -123,11 +124,11 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           ),
           Text(
             '合约信息',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: adapt(16, realWidth)),
           ),
           Text(
             '(${data?.info ?? ''})',
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: adapt(12, realWidth)),
           ),
           Expanded(
             child: Container(),
@@ -171,14 +172,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: adapt(16, realWidth)),
           ),
           SizedBox(
             width: adapt(8, realWidth),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: adapt(14, realWidth)),
           ),
         ],
       ),
@@ -214,6 +215,11 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _onPressedTrade() {
     print('press trade');
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_){
+        return StockTradeMainPage(data.title);
+      },
+    ));
   }
 
   _buildBottomButton({
@@ -231,7 +237,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       child: FlatButton(
         child: Text(
           title,
-          style: TextStyle(fontSize: 18, color: titleColor),
+          style: TextStyle(fontSize: adapt(18, realWidth), color: titleColor),
         ),
         onPressed: onPressed,
       ),
@@ -251,10 +257,11 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
               Icon(
                 Icons.menu,
                 color: Colors.black,
+                size: adapt(20, realWidth),
               ),
               Text(
                 '更多操作',
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: adapt(18, realWidth), color: Colors.black),
               ),
             ],
           ),

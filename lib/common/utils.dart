@@ -35,4 +35,25 @@ class Utils {
 
     return color;
   }
+
+  static getTrisection(double value) {
+    String sign = '';
+    if(value < 0){
+      sign = '-';
+      value = -value;
+    }
+    List<String> tmp = value.toStringAsFixed(2).split('.');
+    List<String> intPartList = [];
+    String strIntPart = tmp[0];
+    print(strIntPart);
+
+    while(strIntPart.length > 3){
+      intPartList.add(strIntPart.substring(strIntPart.length - 4, strIntPart.length - 1));
+      strIntPart = strIntPart.substring(0, strIntPart.length - 3);
+    }
+    intPartList.add(strIntPart);
+
+    return sign + intPartList.reversed.join(',') + '.' + tmp[1];
+
+  }
 }
