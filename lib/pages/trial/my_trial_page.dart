@@ -40,7 +40,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            margin: EdgeInsets.only(top: adapt(10, realWidth)),
+            margin: EdgeInsets.only(top: a.px10),
 //            padding: EdgeInsets.only(bottom: 10),
             child: ContractItemView(data, realWidth, () {
               print('select $index');

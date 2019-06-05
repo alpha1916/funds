@@ -57,26 +57,26 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       child:Container(
         width: double.infinity,
 //        height: realWidth * 0.5,
-        padding: EdgeInsets.only(top: adapt(32, realWidth), bottom: adapt(30, realWidth)),
+        padding: EdgeInsets.only(top: a.px32, bottom: a.px30),
         color: Color(0xFF201F46),
         child: Column(
           children: <Widget>[
-            Text(data.total.toString(), style: TextStyle(fontSize: adapt(32, realWidth), color: Color(0xFFFCC94C)),),
-            SizedBox(height: adapt(12, realWidth),),
-            Text('合约金额 = 申请资金 + 杠杆资金', style: TextStyle(fontSize: adapt(15, realWidth), color: Colors.white),),
-            SizedBox(height: adapt(12, realWidth),),
+            Text(data.total.toString(), style: TextStyle(fontSize: a.px32, color: Color(0xFFFCC94C)),),
+            SizedBox(height: a.px12,),
+            Text('合约金额 = 申请资金 + 杠杆资金', style: TextStyle(fontSize: a.px15, color: Colors.white),),
+            SizedBox(height: a.px12,),
             Container(
-              width: adapt(150, realWidth),
-              height: adapt(25, realWidth),
+              width: a.px(150),
+              height: a.px25,
               decoration: BoxDecoration(
                 color: CustomColors.red,
-                borderRadius: BorderRadius.all(Radius.circular(adapt(10, realWidth))),
+                borderRadius: BorderRadius.all(Radius.circular(a.px10)),
               ),
               child: Center(
                 child: Text(
                   '${data.profit}%盈利分配',
                   style: TextStyle(
-                    fontSize: adapt(15, realWidth),
+                    fontSize: a.px15,
                     color: Colors.white,
                   ),
                 ),
@@ -89,31 +89,31 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   Widget _buildItemView(title, content, contentColor, [titleTips, titleIcon = false, onPressed]) {
-    final px12 = adapt(12, realWidth);
+    final px12 = a.px12;
     List<Widget> list = [];
     //标题
     list.add(Text(
         title,
         style: TextStyle(
           color: Colors.black87,
-          fontSize: adapt(18, realWidth),
+          fontSize: a.px18,
           fontWeight: FontWeight.w500,
         )
     ));
 
     if(titleTips != null) {
       //标题文字提示
-      list.add(Container(width: adapt(5, realWidth),));
+      list.add(Container(width: a.px5,));
       list.add(Text(
           '($titleTips)',
           style: TextStyle(
             color: Colors.black54,
-            fontSize: adapt(12, realWidth),
+            fontSize: a.px12,
           )
       ));
     }else if(titleIcon){
       //标题图标
-      list.add(Container(width: adapt(5, realWidth),));
+      list.add(Container(width: a.px5,));
       list.add(Icon(Icons.help, color: Colors.black54,));
     }
     list.add(Expanded(child: Container()));
@@ -121,7 +121,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         content,
         style: TextStyle(
           color: contentColor,
-          fontSize: adapt(16, realWidth),
+          fontSize: a.px16,
           fontWeight: FontWeight.w500,
         )
     ));
@@ -146,7 +146,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   int _selectedCouponIdx = -1;
   Widget _buildCouponItemView() {
-    final px12 = adapt(12, realWidth);
+    final px12 = a.px12;
     String content1;
     String content2;
     if(_selectedCouponIdx != -1){
@@ -163,7 +163,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         '抵用券',
         style: TextStyle(
           color: Colors.black87,
-          fontSize: adapt(18, realWidth),
+          fontSize: a.px18,
           fontWeight: FontWeight.w500,
         )
     ));
@@ -173,7 +173,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         content1,
         style: TextStyle(
           color: CustomColors.red,
-          fontSize: adapt(16, realWidth),
+          fontSize: a.px16,
           fontWeight: FontWeight.w500,
         )
     ));
@@ -181,13 +181,13 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         content2,
         style: TextStyle(
           color: Colors.black87,
-          fontSize: adapt(16, realWidth),
+          fontSize: a.px16,
           fontWeight: FontWeight.w500,
         )
     ));
 
     list.add(
-      Icon(Icons.arrow_forward_ios, color: Colors.black26, size: adapt(20, realWidth)),
+      Icon(Icons.arrow_forward_ios, color: Colors.black26, size: a.px20),
     );
 
     return GestureDetector(
@@ -220,7 +220,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     return Container(
         height: 1,
         color: Colors.black12,
-        margin: EdgeInsets.only(left: adapt(12, realWidth)),
+        margin: EdgeInsets.only(left: a.px12),
     );
   }
 
@@ -235,12 +235,12 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     list.add(_buildItemSplit());
 
     list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, (){
-      alert2(ctx, '警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了');
+      alert2('警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了');
     }));
     list.add(_buildItemSplit());
 
     list.add(_buildItemView('止损线', '${data.cut} 元', blackColor, null, true, (){
-      alert2(ctx, '止损线', '当触及止损线，即会被强制平仓', '知道了');
+      alert2('止损线', '当触及止损线，即会被强制平仓', '知道了');
     }));
     list.add(_buildItemSplit());
 
@@ -265,7 +265,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   _buildAgreeView() {
     return Container(
-      margin: EdgeInsets.only(top: adapt(5, realWidth)),
+      margin: EdgeInsets.only(top: a.px5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -273,7 +273,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
             '申请即表示已阅读并同意',
             style: TextStyle(
               color: Colors.black87,
-              fontSize: adapt(16, realWidth),
+              fontSize: a.px16,
             ),
           ),
           FlatButton(
@@ -286,7 +286,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
               ),
             ),
             onPressed: (){
-              alert(ctx, '协议界面未做');
+              alert('协议界面未做');
             },
           )
         ],
@@ -297,11 +297,11 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   _buildButton() {
     return Container(
       width: realWidth,
-      height: adapt(50, realWidth),
+      height: a.px50,
       child: RaisedButton(
         child: Text(
           '立即申请',
-          style: TextStyle(color: Colors.white, fontSize: adapt(18, realWidth)),
+          style: TextStyle(color: Colors.white, fontSize: a.px18),
         ),
         onPressed: _onPressedNext,
         color: Colors.black,

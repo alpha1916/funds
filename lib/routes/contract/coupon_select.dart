@@ -11,7 +11,7 @@ class CouponSelectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     realWidth = MediaQuery.of(context).size.width;
-    final margin = adapt(16, realWidth);
+    final margin = a.px16;
     final itemHeight = (realWidth - margin * 2) * 0.2;
     return Scaffold(
       backgroundColor: CustomColors.background1,
@@ -54,23 +54,23 @@ class CouponSelectPage extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            SizedBox(width: adapt(12, realWidth),),
-            Text('￥\n', style: TextStyle(color: Colors.white, fontSize: adapt(25, realWidth))),
+            SizedBox(width: a.px12,),
+            Text('￥\n', style: TextStyle(color: Colors.white, fontSize: a.px25)),
             Expanded(child: Container(),),
-            Text(data.cost.toString(), style: TextStyle(color: Colors.white, fontSize: adapt(36, realWidth))),
-            SizedBox(width: adapt(12, realWidth),),
+            Text(data.cost.toString(), style: TextStyle(color: Colors.white, fontSize: a.px36)),
+            SizedBox(width: a.px12,),
           ],
         ),
       ),
-      SizedBox(width: adapt(10, realWidth)),
+      SizedBox(width: a.px10),
       Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: adapt(15, realWidth), fontWeight: FontWeight.w500)),
-            SizedBox(height: adapt(3, realWidth),),
-            Text('有效期至：${data.date}', style: TextStyle(color: Colors.black54, fontSize: adapt(14, realWidth))),
+            Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
+            SizedBox(height: a.px3,),
+            Text('有效期至：${data.date}', style: TextStyle(color: Colors.black54, fontSize: a.px14)),
           ],
         ),
       ),

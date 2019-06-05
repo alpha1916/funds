@@ -46,17 +46,17 @@ class ContractItemView extends StatelessWidget {
     final String text = data.ongoing ? '操盘中' : '已结束';
     final Color color = data.ongoing ? CustomColors.red : Colors.grey;
     return Container(
-      width: adapt(50, realWidth),
-      height: adapt(22, realWidth),
+      width: a.px50,
+      height: a.px22,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(adapt(10, realWidth))),
+        borderRadius: BorderRadius.all(Radius.circular(a.px10)),
       ),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-            fontSize: adapt(13, realWidth),
+            fontSize: a.px13,
             color: Colors.white,
           ),
         ),
@@ -73,15 +73,15 @@ class ContractItemView extends StatelessWidget {
     return Text(
         text,
         style: TextStyle(
-          fontSize: adapt(13, realWidth),
+          fontSize: a.px13,
           color: Colors.black54,
         ),
     );
   }
 
   Widget _buildRow1() {
-    final px6 = adapt(6, realWidth);
-    final px16 = adapt(16, realWidth);
+    final px6 = a.px6;
+    final px16 = a.px16;
     return Container(
 //      width: double.infinity,
 //      height: 10,
@@ -118,18 +118,18 @@ class ContractItemView extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: adapt(16, realWidth)),
+            margin: EdgeInsets.only(left: a.px16),
             child: Text('合约金额',
                 style: TextStyle(
-                  fontSize: adapt(16, realWidth),
+                  fontSize: a.px16,
                   color: Color(0xBF000000),
                 )),
           ),
           Container(
-            margin: EdgeInsets.only(left: adapt(6, realWidth)),
+            margin: EdgeInsets.only(left: a.px6),
             child: Text(data.contract.toString(),
                 style: TextStyle(
-                  fontSize: adapt(16, realWidth),
+                  fontSize: a.px16,
                   color: Colors.black,
                 )),
           ),
@@ -139,8 +139,8 @@ class ContractItemView extends StatelessWidget {
   }
 
   Widget _buildRow3() {
-    final px6 = adapt(6, realWidth);
-    final px16 = adapt(16, realWidth);
+    final px6 = a.px6;
+    final px16 = a.px16;
     return Container(
 //      width: 150,
       child: Row(
@@ -171,10 +171,10 @@ class ContractItemView extends StatelessWidget {
   }
 
   createView() {
-    final px1 = adapt(1, realWidth);
-    final px6 = adapt(6, realWidth);
-    final px10 = adapt(10, realWidth);
-    final px16 = adapt(16, realWidth);
+    final px1 = a.px1;
+    final px6 = a.px6;
+    final px10 = a.px10;
+    final px16 = a.px16;
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(top: px10, bottom: px10),

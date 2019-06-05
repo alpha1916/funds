@@ -5,10 +5,6 @@ import 'package:funds/network/http_request.dart';
 import 'stock_list_view.dart';
 import 'package:funds/model/stock_trade_data.dart';
 
-var realWidth;
-px(x) {
-  return adapt(x, realWidth);
-}
 class StockBuyView extends StatefulWidget {
   @override
   _StockBuyViewState createState() => _StockBuyViewState();
@@ -103,18 +99,18 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
 
   _buildTitleView() {
     return Container(
-      margin: EdgeInsets.only(top:px(20), left: px(15), right: px(15)),
-      padding: EdgeInsets.symmetric(horizontal: px(10)),
-//      width: px(220),
-      height: px(50),
+      margin: EdgeInsets.only(top:a.px20, left: a.px15, right: a.px15),
+      padding: EdgeInsets.symmetric(horizontal: a.px10),
+//      width: a.px(220),
+      height: a.px50,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26, width: px(1)),
+        border: Border.all(color: Colors.black26, width: a.px1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: 100,
+            width: a.px(100),
             child: TextField(
               textAlign: TextAlign.left,
               controller: codeInputController,
@@ -123,13 +119,13 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '股票代码',
-                labelStyle: TextStyle(fontSize: px(30)),
+                labelStyle: TextStyle(fontSize: a.px30),
               ),
               autofocus: false,
               onChanged: _onCodeInputChange,
             ),
           ),
-          Text(data?.title ?? '', style: TextStyle(fontSize: px(16)),)
+          Text(data?.title ?? '', style: TextStyle(fontSize: a.px16),)
         ],
       ),
     );
@@ -142,14 +138,14 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
   _buildPriceView() {
     buildButton(icon, onPressed) {
       Widget view = Container(
-        padding: EdgeInsets.only(top: px(5), bottom: px(1)),
-        width: px(50),
+        padding: EdgeInsets.only(top: a.px5, bottom: a.px1),
+        width: a.px50,
         color: Color(0xFFE9E9FA),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(icon, size: px(20),),
-            Text('0.01', style: TextStyle(fontSize: 13),),
+            Icon(icon, size: a.px20,),
+            Text('0.01', style: TextStyle(fontSize: a.px13),),
           ],
         )
       );
@@ -160,10 +156,10 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       );
     }
     return Container(
-      height: px(50),
-      margin: EdgeInsets.only(top:px(10), left: px(15), right: px(15)),
+      height: a.px50,
+      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26, width: px(1)),
+        border: Border.all(color: Colors.black26, width: a.px1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,7 +177,7 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: '0.00',
-                  labelStyle: TextStyle(fontSize: px(30)),
+                  labelStyle: TextStyle(fontSize: a.px30),
                 ),
                 autofocus: false,
                 onChanged: _onCodeInputChange,
@@ -225,13 +221,13 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
 
   _buildLimitView() {
     buildText(title, [color]) {
-      return Text(title, style: TextStyle(fontSize: px(14), color: color),);
+      return Text(title, style: TextStyle(fontSize: a.px14, color: color),);
     }
 
     double downLimitPrice = data?.downLimitPrice ?? 0.00;
     double upLimitPrice = data?.downLimitPrice ?? 0.00;
     return Container(
-      margin: EdgeInsets.only(top:px(10), left: px(15), right: px(15)),
+      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -265,18 +261,18 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       tips = '可卖 $count 股';
     }
     return Container(
-      margin: EdgeInsets.only(top:px(10), left: px(15), right: px(15)),
-      padding: EdgeInsets.symmetric(horizontal: px(10)),
-//      width: px(220),
-      height: px(50),
+      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
+      padding: EdgeInsets.symmetric(horizontal: a.px10),
+//      width: a.px220),
+      height: a.px50,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26, width: px(1)),
+        border: Border.all(color: Colors.black26, width: a.px1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: px(100),
+            width: a.px(100),
             child: TextField(
               textAlign: TextAlign.left,
               controller: codeInputController,
@@ -285,14 +281,14 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
-                hintStyle: TextStyle(fontSize: px(16)),
-                labelStyle: TextStyle(fontSize: px(15)),
+                hintStyle: TextStyle(fontSize: a.px16),
+                labelStyle: TextStyle(fontSize: a.px15),
               ),
               autofocus: false,
               onChanged: _onCodeInputChange,
             ),
           ),
-          Text(tips, style: TextStyle(fontSize: px(15)),)
+          Text(tips, style: TextStyle(fontSize: a.px15),)
         ],
       ),
     );
@@ -314,13 +310,13 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
     }
 
     return Container(
-      margin: EdgeInsets.only(top:px(10), left: px(15), right: px(15)),
-      height: px(50),
-      width: px(220),
+      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
+      height: a.px50,
+      width: a.px(220),
       child: RaisedButton(
         child: Text(
           title,
-          style: TextStyle(color: Colors.white, fontSize: adapt(18, realWidth)),
+          style: TextStyle(color: Colors.white, fontSize: a.px18),
         ),
         onPressed: _onBtnTrade,
         color: color,
@@ -337,14 +333,14 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       color: Colors.white,
       width: realWidth * 0.4,
       height: realWidth * 0.7,
-      padding: EdgeInsets.symmetric(vertical: px(16)),
+      padding: EdgeInsets.symmetric(vertical: a.px16),
       child: Column(
         children: <Widget>[
           _buildSellListView(data.sellList),
           Container(
-            margin: EdgeInsets.only(left: px(4), right: px(8), bottom: px(16), top: px(16)),
+            margin: EdgeInsets.only(left: a.px4, right: a.px8, bottom: a.px16, top: a.px16),
             color: Colors.black12,
-            height: px(1),
+            height: a.px1,
           ),
           _buildBuyListView(data.buyList),
         ],
@@ -368,9 +364,9 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       }
 
       double width = realWidth * 0.4;
-      double fontSize = px(13);
+      double fontSize = a.px13;
       list.add(Container(
-        margin: EdgeInsets.only(left: px(4), right: px(14), top: px(4)),
+        margin: EdgeInsets.only(left: a.px4, right: a.px14, top: a.px4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -415,9 +411,9 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       }
 
       double width = realWidth * 0.4;
-      double fontSize = px(13);
+      double fontSize = a.px13;
       list.add(Container(
-        margin: EdgeInsets.only(left: px(4), right: px(14), top: px(4)),
+        margin: EdgeInsets.only(left: a.px4, right: a.px14, top: a.px4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

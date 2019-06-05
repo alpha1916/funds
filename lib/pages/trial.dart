@@ -24,16 +24,16 @@ class _TrialViewState extends State<TrialView> {
               children: <Widget>[
                 _createCenterText(
                     '全民来配资，XX新体验',
-                    TextStyle(fontSize: 26, color: Color(0xFFFEFDAC)),
-                    EdgeInsets.only(top: 40)),
+                    TextStyle(fontSize: a.px26, color: Color(0xFFFEFDAC)),
+                    EdgeInsets.only(top: a.px40)),
                 _createCenterText(
                     '已参与体验',
-                    TextStyle(fontSize: 16, color: Colors.white),
-                    EdgeInsets.only(top: 15)),
+                    TextStyle(fontSize: a.px16, color: Colors.white),
+                    EdgeInsets.only(top: a.px15)),
                 _createCenterText(
                     '140598',
-                    TextStyle(fontSize: 28, color: Color(0xFFFEFA85)),
-                    EdgeInsets.only(top: 1)
+                    TextStyle(fontSize: a.px28, color: Color(0xFFFEFA85)),
+                    EdgeInsets.only(top: a.px1)
                 ),
                 _ContentView(),
               ],
@@ -70,10 +70,10 @@ class __ContentViewState extends State<_ContentView>
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 40),
+        margin: EdgeInsets.only(left: a.px20, right: a.px20, top: a.px10, bottom: a.px40),
         decoration: BoxDecoration(
           color: CustomColors.trialContentBackground,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderRadius: BorderRadius.all(Radius.circular(a.px12)),
         ),
         child: Column(
           children: <Widget>[
@@ -120,9 +120,9 @@ class __ContentViewState extends State<_ContentView>
       isScrollable: false,
       labelColor: Colors.black,
       unselectedLabelColor: Colors.black,
-      indicatorWeight: 3.0,
-      labelStyle: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: TextStyle(fontSize: 17, height: 1.5),
+      indicatorWeight: a.px3,
+      labelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5), fontWeight: FontWeight.bold),
+      unselectedLabelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5)),
     );
   }
 }

@@ -41,7 +41,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh,
-                size: adapt(32, realWidth), color: Colors.black87),
+                size: a.px32, color: Colors.black87),
             onPressed: onPressedRefresh,
           )
         ],
@@ -66,25 +66,25 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
                     _buildUnderlineTextButton('今日限买股', _onPressedLimited),
                   ]),
                   SizedBox(
-                    height: adapt(10, realWidth),
+                    height: a.px10,
                   ),
                   _buildMeterView(realWidth),
                   _buildSplitLine(),
                   Container(
                     padding:
-                    EdgeInsets.symmetric(horizontal: adapt(42, realWidth)),
+                    EdgeInsets.symmetric(horizontal: a.px42),
                     child: Row(
                       children: <Widget>[
                         Text(
                           '警戒线：${data?.cordon ?? 0}',
-                          style: TextStyle(fontSize: adapt(16, realWidth)),
+                          style: TextStyle(fontSize: a.px16),
                         ),
                         Expanded(
                           child: Container(),
                         ),
                         Text(
                           '止损线：${data?.cut ?? 0}',
-                          style: TextStyle(fontSize: adapt(16, realWidth)),
+                          style: TextStyle(fontSize: a.px16),
                         ),
                       ],
                     ),
@@ -120,15 +120,15 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       children: <Widget>[
         Row(children: <Widget>[
           SizedBox(
-            width: adapt(18, realWidth),
+            width: a.px18,
           ),
           Text(
             '合约信息',
-            style: TextStyle(fontSize: adapt(16, realWidth)),
+            style: TextStyle(fontSize: a.px16),
           ),
           Text(
             '(${data?.info ?? ''})',
-            style: TextStyle(fontSize: adapt(12, realWidth)),
+            style: TextStyle(fontSize: a.px12),
           ),
           Expanded(
             child: Container(),
@@ -164,22 +164,22 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   _buildInfoItem(title, value) {
     return Container(
       padding: EdgeInsets.only(
-        left: adapt(18, realWidth),
-        right: adapt(18, realWidth),
-        top: adapt(5, realWidth),
+        left: a.px18,
+        right: a.px18,
+        top: a.px5,
       ),
       child: Row(
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: adapt(16, realWidth)),
+            style: TextStyle(fontSize: a.px16),
           ),
           SizedBox(
-            width: adapt(8, realWidth),
+            width: a.px8,
           ),
           Text(
             value,
-            style: TextStyle(fontSize: adapt(14, realWidth)),
+            style: TextStyle(fontSize: a.px14),
           ),
         ],
       ),
@@ -188,12 +188,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _buildUnderlineTextButton(title, onPressed) {
     return Container(
-        height: adapt(20, realWidth),
+        height: a.px20,
         child: FlatButton(
           child: Text(
             title,
             style: TextStyle(
-              fontSize: adapt(16, realWidth),
+              fontSize: a.px16,
               decoration: TextDecoration.underline,
             ),
           ),
@@ -237,7 +237,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       child: FlatButton(
         child: Text(
           title,
-          style: TextStyle(fontSize: adapt(18, realWidth), color: titleColor),
+          style: TextStyle(fontSize: a.px18, color: titleColor),
         ),
         onPressed: onPressed,
       ),
@@ -257,11 +257,11 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
               Icon(
                 Icons.menu,
                 color: Colors.black,
-                size: adapt(20, realWidth),
+                size: a.px20,
               ),
               Text(
                 '更多操作',
-                style: TextStyle(fontSize: adapt(18, realWidth), color: Colors.black),
+                style: TextStyle(fontSize: a.px18, color: Colors.black),
               ),
             ],
           ),
@@ -306,8 +306,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _buildSplitLine() {
     return Container(
-      height: adapt(1, realWidth),
-      margin: EdgeInsets.symmetric(vertical: adapt(10, realWidth)),
+      height: a.px1,
+      margin: EdgeInsets.symmetric(vertical: a.px10),
       color: Colors.black26,
     );
   }
@@ -320,14 +320,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         children: <Widget>[
           Text(title,
               style: TextStyle(
-                  fontSize: adapt(15, realWidth), color: Colors.black87)),
+                  fontSize: a.px15, color: Colors.black87)),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
             child: Icon(
               Icons.help,
-              size: adapt(24, realWidth),
+              size: a.px24,
             ),
             onTap: onPressed,
           ),
@@ -336,14 +336,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     } else {
       titleText = Text(title,
           style:
-              TextStyle(fontSize: adapt(15, realWidth), color: Colors.black87));
+              TextStyle(fontSize: a.px15, color: Colors.black87));
     }
     List<Widget> children = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           titleText,
-          SizedBox(height: adapt(5, realWidth)),
+          SizedBox(height: a.px5),
           Text(
             value.toString(),
             style: TextStyle(
@@ -354,7 +354,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         ],
       ),
       Expanded(child: Container()),
-      SizedBox(width: adapt(16, realWidth)),
+      SizedBox(width: a.px16),
     ];
     if (onPressed != null)
       children.add(Container(
@@ -373,7 +373,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   _buildFundsView() {
     return Container(
       margin: EdgeInsets.only(
-          left: adapt(30, realWidth), top: adapt(20, realWidth)),
+          left: a.px30, top: a.px20),
       child: Column(
         children: <Widget>[
           Table(
@@ -382,28 +382,28 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
               TableRow(
                 children: <Widget>[
                   _buildFundsItem('资产总值', data?.total ?? 0,
-                      adapt(25, realWidth)),
+                      a.px25),
                   _buildFundsItem(
                     '可提现金',
                     data?.cash ?? 0,
-                    adapt(25, realWidth),
+                    a.px25,
                     null,
                     () {
-                      alert2(ctx, '可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
+                      alert2('可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
                     },
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: adapt(8, realWidth)),
+          SizedBox(height: a.px8),
           _buildFundsItem(
             '累计盈亏',
             data?.profit ?? 0,
-            adapt(18, realWidth),
+            a.px18,
             null,
             () {
-              alert2(ctx, '累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
+              alert2('累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
             },
           ),
         ],

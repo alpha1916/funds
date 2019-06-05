@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget iconMail = Image.asset(mail, width: CustomSize.icon, height: CustomSize.icon);
+    final Widget iconMail = Image.asset(mail, width: a.px22, height: a.px22);
 
     Widget banner1 = new Image.asset(
       CustomIcons.homeBanner1,
@@ -60,14 +60,10 @@ class _HomeViewState extends State<HomeView> {
         leading: Utils.buildServiceIconButton(context),
         actions: [
           IconButton(
-              icon: iconMail,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_){
-                      return CurrentContractDetail();
-                    },
-                ));
-              },
+            icon: iconMail,
+            onPressed: () {
+              Utils.navigateTo(CurrentContractDetail());
+            },
           ),
         ],
       ),
@@ -78,8 +74,7 @@ class _HomeViewState extends State<HomeView> {
           children: [
             banner1,
             banner2,
-//            Container(height: 12),
-            const SizedBox(height: 12),
+            SizedBox(height: a.px12),
             _itemListView(),
           ]
         )
@@ -116,15 +111,33 @@ class _ItemView extends StatelessWidget {
 
   Widget getItemIcon(type) {
     final String path = CustomIcons.homePeriodPrefix + type.toString() + '.png';
-    return Image.asset(path, width: 48, height: 48);
+    return Image.asset(path, width: a.px48, height: a.px48);
   }
 
   createView () {
+    TextStyle homeItemStyle1 = TextStyle(
+      fontSize: a.px18,
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+    );
+
+    TextStyle homeItemStyle2 = TextStyle(
+      fontSize: a.px16,
+      color: Colors.black87,
+    );
+
+    TextStyle homeItemStyle3 = TextStyle(
+      fontSize: a.px18,
+      color: Colors.red,
+      fontWeight: FontWeight.w500,
+    );
+    
+    
     final int minRate = data.timesList.first;
     final int maxRate = data.timesList.last;
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(left: 16, right: 16, top:10, bottom: 10),
+      padding: EdgeInsets.only(left: a.px16, right: a.px16, top:a.px10, bottom: a.px10),
 //      child: getItemIcon(type),
       child: Row(
         children: [
@@ -138,12 +151,12 @@ class _ItemView extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                      child: Text(data.title, style: CustomStyles.homeItemStyle1),
+                      padding: EdgeInsets.only(left: a.px10, right: a.px10, bottom: a.px5),
+                      child: Text(data.title, style: homeItemStyle1),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5.0),
-                      child: Text(data.interest, style: CustomStyles.homeItemStyle2),
+                      padding: EdgeInsets.only(left: a.px10, right: a.px10, bottom: a.px5),
+                      child: Text(data.interest, style: homeItemStyle2),
                     ),
                   ],
                 ),
@@ -151,21 +164,21 @@ class _ItemView extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(left: 10, right: 3),
-                      child: Text('${data.min}元', style: CustomStyles.homeItemStyle3),
+                      padding: EdgeInsets.only(left: a.px10, right: a.px3),
+                      child: Text('${data.min}元', style: homeItemStyle3),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Text('起', style: CustomStyles.homeItemStyle2),
+                      padding: EdgeInsets.only(right: a.px8),
+                      child: Text('起', style: homeItemStyle2),
                     ),
 
                     Container(
-                      padding: const EdgeInsets.only(left: 10, right: 3),
-                      child: Text('$minRate-$maxRate倍', style: CustomStyles.homeItemStyle3),
+                      padding: EdgeInsets.only(left: a.px10, right: a.px3),
+                      child: Text('$minRate-$maxRate倍', style: homeItemStyle3),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Text('杠杆', style: CustomStyles.homeItemStyle2),
+                      padding: EdgeInsets.only(right: a.px10),
+                      child: Text('杠杆', style: homeItemStyle2),
                     ),
                   ],
                 ),
@@ -186,9 +199,8 @@ class _ItemView extends StatelessWidget {
       child: createView(),
       onTap: () async{
         final applyItemDataList = await HttpRequest.getApplyItemList();
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ContractApplyPage(applyItemDataList, data.type)),
-        );
+        print('apply item:${data.type}');
+        Utils.navigateTo(ContractApplyPage(applyItemDataList, data.type));
       },
     );
   }

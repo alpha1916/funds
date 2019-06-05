@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'common/constants.dart';
+import 'common/utils.dart';
+import 'common/alert.dart';
 import 'package:funds/network/http_request.dart';
 
 import 'pages/home.dart';
@@ -9,7 +11,6 @@ import 'pages/trial.dart';
 import 'pages/funds.dart';
 
 void main() {
-  HttpRequest.init();
   runApp(MaterialApp(
     theme: ThemeData(
 //    primarySwatch: Colors.blue,
@@ -23,7 +24,7 @@ class NavigationIconView {
   BottomNavigationBarItem item;
   final String dir = 'assets/navigation_bar/';
   NavigationIconView({Key key, String title, String iconName, String activeIconName}) {
-    final double iconSize = CustomSize.navigationBarIcon;
+    final double iconSize = a.px22;
     final Widget icon = Image.asset(dir + iconName + '.png', width: iconSize, height: iconSize);
     final Widget activeIcon = Image.asset(dir + activeIconName + '.png', width: iconSize, height: iconSize);
     item = new BottomNavigationBarItem(
@@ -33,6 +34,13 @@ class NavigationIconView {
         backgroundColor: Colors.blue,
     );
   }
+}
+
+void appInit(context) {
+  Utils.init(context);
+  HttpRequest.init();
+  CustomAlert.init(context);
+  a.init(MediaQuery.of(context).size.width);
 }
 
 class App extends StatefulWidget {
@@ -79,7 +87,8 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    HttpRequest.realWidth = MediaQuery.of(context).size.width;
+    appInit(context);
+//    HttpRequest.realWidth = MediaQuery.of(context).size.width;
 
     _navigationBar = BottomNavigationBar(
       fixedColor: Colors.black87,
@@ -88,8 +97,8 @@ class _AppState extends State<App> {
       }).toList(),
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
-      selectedFontSize : CustomSize.navigationBarFontSize,
-      unselectedFontSize : CustomSize.navigationBarFontSize,
+      selectedFontSize : a.px11,
+      unselectedFontSize : a.px11,
       onTap: (int index) {
         setState(() {
 //          print('click tab:$index');

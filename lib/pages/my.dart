@@ -34,7 +34,7 @@ class _MyViewState extends State<MyView> {
   }
 
   Widget build(BuildContext context) {
-    final Widget iconMail = Image.asset(mail, width: CustomSize.icon, height: CustomSize.icon);
+    final Widget iconMail = Image.asset(mail, width: a.px22, height: a.px22);
     return Scaffold(
       appBar: AppBar(
         title:Text('我的'),
@@ -61,8 +61,8 @@ class _MyViewState extends State<MyView> {
   }
 
   //---------------------------------上部分-------------------------------------/
-  _buildArrayIcon() {
-    return Icon(Icons.arrow_forward_ios, color: Colors.black26, size: 16);
+  _buildArrayIcon(color) {
+    return Icon(Icons.arrow_forward_ios, color: color, size: 16);
   }
 
   _buildTableRow(title, value, hasDivider, onPressed) {
@@ -76,7 +76,7 @@ class _MyViewState extends State<MyView> {
         ],
       ),
       Expanded(child: Container()),
-      _buildArrayIcon(),
+      _buildArrayIcon(Colors.white),
       SizedBox(width: 16),
     ];
     if(hasDivider)
@@ -138,7 +138,7 @@ class _MyViewState extends State<MyView> {
                   print('press setting');
                 },
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.black12, size: 16),
+              Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
 
               SizedBox(width: 16),
             ],
@@ -208,7 +208,7 @@ class _MyViewState extends State<MyView> {
               Expanded(child: Container()),
               Text(tips, style: tipsStyle,),
               SizedBox(width: 10,),
-              _buildArrayIcon(),
+              _buildArrayIcon(Colors.black26),
             ],
           )
       ),

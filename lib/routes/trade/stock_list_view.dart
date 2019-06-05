@@ -5,9 +5,7 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
 
 double realWidth;
-px(x) {
-  return adapt(x, realWidth);
-}
+
 class StockListView extends StatelessWidget {
   final List<StockData> dataList;
 
@@ -16,8 +14,8 @@ class StockListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     realWidth = MediaQuery.of(context).size.width;
-    double leftPadding = px(10);
-    double rightPadding = px(0);
+    double leftPadding = a.px10;
+    double rightPadding = 0;
     double itemWidth = realWidth - leftPadding - rightPadding;
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
 
@@ -26,7 +24,7 @@ class StockListView extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _buildTitleList(sizeList, leftPadding, rightPadding),
-          Container(height: adapt(1, realWidth), color: Colors.black12),
+          Container(height: a.px1, color: Colors.black12),
           Expanded(
             child:ListView.builder(
               itemBuilder: (BuildContext context, int index){
@@ -46,13 +44,13 @@ class StockListView extends StatelessWidget {
   _buildTitleList(sizeList, leftPadding, rightPadding) {
 //    return SizedBox(height: 10,);
     return Container(
-      padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: px(8), bottom: px(8)),
+      padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
       child:Row(
         children: _titles.map((title){
           final int idx = _titles.indexOf(title);
           return Container(
             width: sizeList[idx],
-            child: Text(title, style: TextStyle(fontSize: px(15), color: Colors.grey),)
+            child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.grey),)
           );
         }).toList(),
       ),
@@ -61,12 +59,12 @@ class StockListView extends StatelessWidget {
 
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
     StockData data = dataList[index];
-    double fontSize = px(15);
+    double fontSize = a.px15;
     return Container(
-//      margin: EdgeInsets.only(right: rightPadding, top: px(8), bottom: px(8)),
+//      margin: EdgeInsets.only(right: rightPadding, top: a.px8, bottom: a.px8),
       child: Column(
         children: <Widget>[
-          SizedBox(height: px(10),),
+          SizedBox(height: a.px10,),
           Row(
             children: <Widget>[
               //名称/代码
@@ -105,7 +103,7 @@ class StockListView extends StatelessWidget {
               ),
               //持仓/可用
               Container(
-                padding: EdgeInsets.only(left: leftPadding, right: px(5)),
+                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[2],
                 child: Column(
                   children: <Widget>[
@@ -122,7 +120,7 @@ class StockListView extends StatelessWidget {
               ),
               //成本/现价
               Container(
-                padding: EdgeInsets.only(left: leftPadding, right: px(5)),
+                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[2],
                 child: Column(
                   children: <Widget>[
@@ -139,8 +137,8 @@ class StockListView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: px(10),),
-          Container(height: adapt(1, realWidth), color: Colors.black12),
+          SizedBox(height: a.px10),
+          Container(height: a.px1, color: Colors.black12),
         ],
       ),
     );

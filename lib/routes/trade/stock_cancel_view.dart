@@ -5,10 +5,7 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
 
 var ctx;
-double realWidth;
-px(x) {
-  return adapt(x, realWidth);
-}
+var realWidth;
 
 class StockCancelView extends StatefulWidget {
   @override
@@ -35,17 +32,17 @@ class _StockCancelViewState extends State<StockCancelView> {
 
   @override
   Widget build(BuildContext context) {
-    ctx = context;
     realWidth = MediaQuery.of(context).size.width;
-    double leftPadding = px(10);
-    double rightPadding = px(0);
+    ctx = context;
+    double leftPadding = a.px10;
+    double rightPadding = 0;
     double itemWidth = realWidth - leftPadding - rightPadding;
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
 
     return Column(
       children: <Widget>[
         _buildTitleList(sizeList, leftPadding, rightPadding),
-        Container(height: adapt(1, realWidth), color: Colors.black12),
+        Container(height: a.px1, color: Colors.black12),
         Expanded(
           child:ListView.builder(
             itemBuilder: (BuildContext context, int index){
@@ -65,7 +62,7 @@ class _StockCancelViewState extends State<StockCancelView> {
   _buildTitleList(sizeList, leftPadding, rightPadding) {
 //    return SizedBox(height: 10,);
     return Container(
-      padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: px(8), bottom: px(8)),
+      padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
       child:Row(
         children: _titles.map((title){
           final int idx = _titles.indexOf(title);
@@ -74,13 +71,13 @@ class _StockCancelViewState extends State<StockCancelView> {
                 width: sizeList[idx],
                 child: Align(
                   alignment: FractionalOffset.center,
-                  child: Text(title, style: TextStyle(fontSize: px(15), color: Colors.grey),)
+                  child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.grey),)
                 ),
             );
           }
           return Container(
               width: sizeList[idx],
-              child: Text(title, style: TextStyle(fontSize: px(15), color: Colors.grey),)
+              child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.grey),)
           );
         }).toList(),
       ),
@@ -89,21 +86,21 @@ class _StockCancelViewState extends State<StockCancelView> {
 
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
     StockCancelData data = _dataList[index];
-    double fontSize = px(15);
+    double fontSize = a.px15;
     bool selected = _selectedIdxs.indexOf(index) != -1;
     IconData selectedIconData = selected ? Icons.brightness_1 : Icons.panorama_fish_eye;
     Widget itemView = Container(
-//      margin: EdgeInsets.only(right: rightPadding, top: px(8), bottom: px(8)),
+//      margin: EdgeInsets.only(right: rightPadding, top: a.px8, bottom: a.px8),
       child: Column(
         children: <Widget>[
-          SizedBox(height: px(10),),
+          SizedBox(height: a.px10),
           Row(
             children: <Widget>[
               //选中标记
               Container(
                 padding: EdgeInsets.only(left: leftPadding),
                 width: sizeList[0],
-                child: Icon(selectedIconData, color: Color(0xFFFE7301), size: px(30),),
+                child: Icon(selectedIconData, color: Color(0xFFFE7301), size: a.px30),
               ),
 
               //名称/代码
@@ -125,7 +122,7 @@ class _StockCancelViewState extends State<StockCancelView> {
               ),
               //价格/数量'
               Container(
-                padding: EdgeInsets.only(left: leftPadding, right: px(5)),
+                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[2],
                 child: Column(
                   children: <Widget>[
@@ -142,7 +139,7 @@ class _StockCancelViewState extends State<StockCancelView> {
               ),
               //状态/类型
               Container(
-                padding: EdgeInsets.only(left: leftPadding, right: px(5)),
+                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[3],
                 child: Column(
                   children: <Widget>[
@@ -159,7 +156,7 @@ class _StockCancelViewState extends State<StockCancelView> {
               ),
               //委托时间
               Container(
-                padding: EdgeInsets.only(left: leftPadding, right: px(5)),
+                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[4],
                 child: Column(
                   children: <Widget>[
@@ -176,8 +173,8 @@ class _StockCancelViewState extends State<StockCancelView> {
               ),
             ],
           ),
-          SizedBox(height: px(10),),
-          Container(height: adapt(1, realWidth), color: Colors.black12),
+          SizedBox(height: a.px10),
+          Container(height: a.px1, color: Colors.black12),
         ],
       ),
     );
@@ -201,16 +198,16 @@ class _StockCancelViewState extends State<StockCancelView> {
   _buildButton() {
     return Container(
       width: realWidth,
-      height: adapt(50, realWidth),
+      height: a.px50,
       child: RaisedButton(
         child: Text(
           '撤单',
-          style: TextStyle(color: Colors.white, fontSize: adapt(18, realWidth)),
+          style: TextStyle(color: Colors.white, fontSize: a.px18),
         ),
         onPressed: () {
           print('cancel');
           if(_selectedIdxs.length == 0){
-            alert2(ctx, '提示', '请选择需要撤单的委托', '确定');
+            alert2('提示', '请选择需要撤单的委托', '确定');
           }
         },
         color: Colors.black87,

@@ -14,9 +14,6 @@ import 'stock_cancel_view.dart';
 import 'stock_query_view.dart';
 
 double realWidth;
-px(number) {
-  return adapt(number, realWidth);
-}
 
 class StockTradeMainPage extends StatefulWidget {
   final String contractTitle;
@@ -36,13 +33,13 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text('委托交易', style: TextStyle(fontSize: adapt(20, realWidth)),),
+        title: Text('委托交易', style: TextStyle(fontSize: a.px20),),
         leading: FlatButton(
           child: Container(
             child:Row(
               children: <Widget>[
-                Icon(Icons.arrow_back_ios, color: Colors.blueAccent, size: adapt(18, realWidth),),
-                Text(contractTitle, style: TextStyle(fontSize: adapt(16, realWidth), color: Colors.blueAccent),),
+                Icon(Icons.arrow_back_ios, color: Colors.blueAccent, size: a.px18,),
+                Text(contractTitle, style: TextStyle(fontSize: a.px16, color: Colors.blueAccent),),
               ],
             ),
           ),
@@ -94,9 +91,9 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
   }
 
   _buildCashView() {
-    final fontSize = px(16);
-    final hp = px(16);
-    final vp = px(12);
+    final fontSize = a.px16;
+    final hp = a.px16;
+    final vp = a.px12;
     return Container(
       padding: EdgeInsets.only(left: hp, right: hp, top: vp, bottom: vp),
       color: Colors.white,
@@ -118,7 +115,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
         controller: _tabController,
         tabs: tabBarTitles.map<Widget>((title) {
           return Container(
-            margin: EdgeInsets.symmetric(vertical: px(5)),
+            margin: EdgeInsets.symmetric(vertical: a.px5),
             child: Text(title),
           );
         }).toList(),
@@ -128,8 +125,8 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
         labelColor: Colors.black,
         unselectedLabelColor: Colors.black,
         indicatorWeight: 2.0,
-        labelStyle: TextStyle(fontSize: px(17), height: px(1.5), fontWeight: FontWeight.bold),
-        unselectedLabelStyle: TextStyle(fontSize: px(17), height: px(1.5)),
+        labelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5), fontWeight: FontWeight.bold),
+        unselectedLabelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5)),
       ),
     );
   }

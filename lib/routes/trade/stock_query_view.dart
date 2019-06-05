@@ -15,17 +15,17 @@ class _StockQueryViewState extends State<StockQueryView> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SizedBox(height: adapt(14, width), ),
+          SizedBox(height: a.px14 ),
           _buildItem(width, '当日成交', _onPressDayDeal),
-          Container(height: adapt(1, width), margin: EdgeInsets.only(left: adapt(16, width)), color: Colors.black12),
+          Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
           _buildItem(width, '当日委托', _onPressDayDelegate),
-          SizedBox(height: adapt(14, width),),
+          SizedBox(height: a.px14,),
           _buildItem(width, '历史成交', _onPressHistoryDeal),
-          Container(height: adapt(1, width), margin: EdgeInsets.only(left: adapt(16, width)), color: Colors.black12),
+          Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
           _buildItem(width, '历史委托', _onPressHistoryDelegate),
-          SizedBox(height: adapt(14, width),),
+          SizedBox(height: a.px14,),
           _buildItem(width, '当日资金流水', _onPressDayCashFlow),
-          Container(height: adapt(1, width), margin: EdgeInsets.only(left: adapt(16, width)), color: Colors.black12),
+          Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
           _buildItem(width, '历史资金流水', _onPressHistoryCashFlow),
         ],
       )
@@ -36,12 +36,12 @@ class _StockQueryViewState extends State<StockQueryView> {
     Widget view = Container(
       color: Colors.white,
       width: width,
-      padding: EdgeInsets.symmetric(vertical: adapt(12, width), horizontal: adapt(16, width)),
+      padding: EdgeInsets.symmetric(vertical: a.px12, horizontal: a.px16),
       child: Row(
         children: <Widget>[
-          Text(title, style: TextStyle(fontSize: adapt(16, width), color: Colors.black87),),
+          Text(title, style: TextStyle(fontSize: a.px16, color: Colors.black87),),
           Expanded(child: Container(),),
-          Icon(Icons.arrow_forward_ios, size: adapt(20, width), color: Colors.black26,),
+          Icon(Icons.arrow_forward_ios, size: a.px20, color: Colors.black26,),
         ],
       ),
     );

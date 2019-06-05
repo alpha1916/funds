@@ -20,7 +20,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   int _currentTimesIdx = 0;
 
   _ContractApplyPageState(this.dataList, type) {
-    print(type);
     final ContractApplyItemData currentData = dataList.firstWhere((data) =>
     data.type == type);
     _currentTypeIdx = dataList.indexOf(currentData);
@@ -62,11 +61,11 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
           SizedBox(height: 10),
           Container(
             width: realWidth,
-            height: adapt(50, realWidth),
+            height: a.px50,
             child: RaisedButton(
                 child: Text(
                 '下一步',
-                style: TextStyle(color: Colors.white, fontSize: adapt(18, realWidth)),
+                style: TextStyle(color: Colors.white, fontSize: a.px18),
             ),
             onPressed: _onPressedNext,
             color: Colors.black,
@@ -80,7 +79,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   _onPressedNext() async {
     print('type:$_currentTypeIdx:times:$_currentTimesIdx');
     if(inputController.text.length == 0){
-      alert(ctx, '请输入申请金额');
+      alert('请输入申请金额');
       return;
     }
 
@@ -88,12 +87,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     final data = dataList[_currentTypeIdx];
     final min = data.min;
     if(inputNum < min){
-      alert(ctx, '额度不能小于$min');
+      alert('额度不能小于$min');
       return;
     }
 
     if(inputNum % 1000 != 0){
-      alert(ctx, '请输入千的整数倍');
+      alert('请输入千的整数倍');
       return;
     }
 

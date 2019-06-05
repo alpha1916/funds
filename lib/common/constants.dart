@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'alert.dart';
 class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
@@ -32,13 +33,6 @@ class CustomIcons {
   static const meterArrow = 'assets/contract/meter_arrow.png';
 }
 
-class CustomSize {
-  static const double navigationBarIcon = 22;
-  static const double navigationBarFontSize = 11;
-
-  static const double icon = 22;
-}
-
 class CustomColors {
   static const Color red = Color(0xFFCC2E31);
   static const Color background1 = Color(0xFFE7E7F8);
@@ -46,30 +40,6 @@ class CustomColors {
 
   static const Color trialContentBackground = Color(0xFFFEE3B9);
   static const Color trialBackground = Color(0xFFC51623);
-}
-
-class CustomStyles {
-  static const TextStyle navigationBarText = TextStyle(
-    fontSize: 12,
-    color: Colors.black,
-  );
-
-  static const TextStyle homeItemStyle1 = TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const TextStyle homeItemStyle2 = TextStyle(
-    fontSize: 16,
-    color: Colors.black87,
-  );
-
-  static const TextStyle homeItemStyle3 = TextStyle(
-    fontSize: 18,
-    color: Colors.red,
-    fontWeight: FontWeight.w500,
-  );
 }
 
 class Constants {
@@ -92,61 +62,139 @@ class TradeType {
   static const int sell = -1;
 }
 
-final desWidth = 414;
-adapt(number, realWidth) {
-  return number * realWidth / desWidth;
+alert(String tips) {
+  CustomAlert.show(tips);
 }
 
-alert(BuildContext context, String tips) {
-  showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Center(
-            child: Text(
-              tips,
-              textAlign: TextAlign.center,
-            )),
-        titleTextStyle: TextStyle(fontSize: 16, color: Colors.white),
-        backgroundColor: Colors.black87,
-      )
-  );
+alert2(String title, String tips, String btnTitle) {
+  CustomAlert.show2(title, tips, btnTitle);
 }
 
-alert2(BuildContext context, String title, String tips, String btnTitle) {
-  final borderColor = Colors.grey;
-  showCupertinoDialog(
-      context:context,
-      builder:(BuildContext context){
-        return new CupertinoAlertDialog(
-          title: new Text(
-            title,
-          ),
-          content: new Text(tips),
-          actions: <Widget>[
-            new Container(
-              decoration: BoxDecoration(
-                  border: Border(right:BorderSide(color: borderColor,width: 1.0),top:BorderSide(color: borderColor,width: 1.0))
-              ),
-              child: FlatButton(
-                child: new Text(btnTitle, style: TextStyle(color: Colors.blueAccent),),
-                onPressed:(){
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-//            new Container(
-//              decoration: BoxDecoration(
-//                  border: Border(top:BorderSide(color: borderColor,width: 1.0))
-//              ),
-//              child: FlatButton(
-//                child: new Text("取消"),
-//                onPressed:(){
-//                  Navigator.pop(context);
-//                },
-//              ),
-//            )
-          ],
-        );
-      }
-  );
+
+class a{
+//  static double screenWidth;
+  static double ratio;
+  static double screenWidth;
+
+  static double px1;
+  static double px2;
+  static double px3;
+  static double px4;
+  static double px5;
+  static double px6;
+  static double px7;
+  static double px8;
+  static double px9;
+  static double px10;
+  static double px11;
+  static double px12;
+  static double px13;
+  static double px14;
+  static double px15;
+  static double px16;
+  static double px17;
+  static double px18;
+  static double px19;
+  static double px20;
+  static double px21;
+  static double px22;
+  static double px23;
+  static double px24;
+  static double px25;
+  static double px26;
+  static double px27;
+  static double px28;
+  static double px29;
+  static double px30;
+  static double px31;
+  static double px32;
+  static double px33;
+  static double px34;
+  static double px35;
+  static double px36;
+  static double px37;
+  static double px38;
+  static double px39;
+  static double px40;
+  static double px41;
+  static double px42;
+  static double px43;
+  static double px44;
+  static double px45;
+  static double px46;
+  static double px47;
+  static double px48;
+  static double px49;
+  static double px50;
+
+  static init(double width){
+    screenWidth = width;
+    ratio = screenWidth / 414;
+
+    px1 = px(1);
+    px2 = px(2);
+    px3 = px(3);
+    px4 = px(4);
+    px5 = px(5);
+    px6 = px(6);
+    px7 = px(7);
+    px8 = px(8);
+    px9 = px(9);
+    px10 = px(10);
+    px11 = px(11);
+    px12 = px(12);
+    px13 = px(13);
+    px14 = px(14);
+    px15 = px(15);
+    px16 = px(16);
+    px17 = px(17);
+    px18 = px(18);
+    px19 = px(19);
+    px20 = px(20);
+    px21 = px(21);
+    px22 = px(22);
+    px23 = px(23);
+    px24 = px(24);
+    px25 = px(25);
+    px26 = px(26);
+    px27 = px(27);
+    px28 = px(28);
+    px29 = px(29);
+    px30 = px(30);
+    px31 = px(31);
+    px32 = px(32);
+    px33 = px(33);
+    px34 = px(34);
+    px35 = px(35);
+    px36 = px(36);
+    px37 = px(37);
+    px38 = px(38);
+    px39 = px(39);
+    px40 = px(40);
+    px41 = px(41);
+    px42 = px(42);
+    px43 = px(43);
+    px44 = px(44);
+    px45 = px(45);
+    px46 = px(46);
+    px47 = px(47);
+    px48 = px(48);
+    px49 = px(49);
+    px50 = px(50);
+
+//    for(var i = 11; i < 51; ++i){
+//      print('static double px$i;');
+//    }
+//
+//    for(var i = 11; i < 51; ++i){
+//      print('px$i = px($i);');
+//    }
+  }
+
+  static double px(double num){
+    return num * ratio;
+  }
+}
+
+class Global{
 }

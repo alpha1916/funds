@@ -67,8 +67,6 @@ class _ItemView extends StatelessWidget {
   final ContractApplyItemData data;
 
   createView() {
-//    final texts = Constants.itemTextList[type];
-
     final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + data.type.toString() + '.png';
     return Container(
       child: Image.asset(trayImagePath,

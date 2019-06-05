@@ -146,9 +146,9 @@ class RegisterInputViewState extends State<RegisterInputView> {
   _onPressedLogin() {
     print({'phone': phoneController.text, 'password': passController.text});
     if (!_isValidPhoneNumber(phoneController.text)) {
-      alert(context, '请输入正确的手机号码');
+      alert('请输入正确的手机号码');
     } else if (!_isValidPassword(passController.text)) {
-      alert(context, '密码必须为6-16位字母和数字组成');
+      alert('密码必须为6-16位字母和数字组成');
     } else {
 //      alert(context, '登录成功');
 //      phoneController.clear();
@@ -170,12 +170,12 @@ class RegisterInputViewState extends State<RegisterInputView> {
   _onPressedSendCode() async {
 //    return Future
     if (!_isValidPhoneNumber(phoneController.text)) {
-      alert(context, '请输入正确的手机号码');
+      alert('请输入正确的手机号码');
       return Future.value(false);
     }
 
     var result = await _sendCode();
-    alert(context, '发送失败');
+    alert('发送失败');
 
     return Future.value(result['success']);
   }

@@ -4,25 +4,33 @@ import 'constants.dart';
 import 'package:funds/network/http_request.dart';
 
 class Utils {
+  static BuildContext context;
+  static init(ctx){
+    context = ctx;
+  }
+
+  static navigateTo(Widget page) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => page),
+    );
+  }
+
   static buildMyTradeButton(BuildContext context) {
     return FlatButton(
       child: const Text('我的交易'),
       onPressed: () {
-//        print('press trade');
-//        Navigator.of(context).push(
-//          MaterialPageRoute(builder: (_) => TradeView(true)),
-//        );
-        alert(context, 'width:${HttpRequest.realWidth}');
+        print('press trade');
+        Utils.navigateTo(TradeView(true));
       },
     );
   }
 
   static buildServiceIconButton(BuildContext context) {
     return IconButton(
-        icon: Image.asset(CustomIcons.service, width: CustomSize.icon, height: CustomSize.icon),
+        icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
         onPressed: (){
           print('press service');
-          HttpRequest.getRegisterCaptcha(context, '18666612345');
+          HttpRequest.getRegisterCaptcha('18666612345');
         }
     );
   }
