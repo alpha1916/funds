@@ -48,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
-    return StockTradeMainPage('互惠盈T+1');
+//    return StockTradeMainPage('互惠盈T+1');
 //    return CurrentContractDetail();
 //    return CouponSelectPage(CouponSelectPage.getTestData());
 //    return ContractApplyPage();

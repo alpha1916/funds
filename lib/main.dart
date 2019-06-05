@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'common/constants.dart';
+import 'package:funds/network/http_request.dart';
 
 import 'pages/home.dart';
 import 'pages/my.dart';
@@ -7,13 +8,16 @@ import 'pages/trade.dart';
 import 'pages/trial.dart';
 import 'pages/funds.dart';
 
-void main() => runApp(MaterialApp(
-  theme: ThemeData(
+void main() {
+  HttpRequest.init();
+  runApp(MaterialApp(
+    theme: ThemeData(
 //    primarySwatch: Colors.blue,
-    primaryColor:Colors.white
-  ),
-  home: App(),
-));
+      primaryColor:Colors.white
+    ),
+    home: App(),
+  ));
+}
 
 class NavigationIconView {
   BottomNavigationBarItem item;
@@ -75,6 +79,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    HttpRequest.realWidth = MediaQuery.of(context).size.width;
 
     _navigationBar = BottomNavigationBar(
       fixedColor: Colors.black87,

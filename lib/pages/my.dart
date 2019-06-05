@@ -62,7 +62,7 @@ class _MyViewState extends State<MyView> {
 
   //---------------------------------上部分-------------------------------------/
   _buildArrayIcon() {
-    return Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16);
+    return Icon(Icons.arrow_forward_ios, color: Colors.black26, size: 16);
   }
 
   _buildTableRow(title, value, hasDivider, onPressed) {
@@ -138,7 +138,7 @@ class _MyViewState extends State<MyView> {
                   print('press setting');
                 },
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+              Icon(Icons.arrow_forward_ios, color: Colors.black12, size: 16),
 
               SizedBox(width: 16),
             ],

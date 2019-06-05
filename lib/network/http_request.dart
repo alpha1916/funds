@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/constants.dart';
@@ -159,5 +160,41 @@ class HttpRequest {
     final TradingStockData data = TradingStockData(testData);
     return data;
 
+  }
+
+  static getRegisterCaptcha(context, String phone) async {
+//    final api = '/api/v1/register/phone-captcha';
+    final api = '/api/v1/register/phone-captcha';
+    var data = {
+      'phone': phone,
+    };
+    sendGet(context, api, data);
+  }
+
+  static sendGet(context, api, data) async{
+    try {
+      Response response = await dio.get(api, queryParameters: data);
+      print(response.data.toString());
+      alert(context, response.data.toString());
+    } catch (e) {
+      print(e);
+      alert(context, e);
+    }
+  }
+
+  static post() {
+
+  }
+
+
+  static Dio dio;
+  static double realWidth;
+  static void init(){
+    dio = Dio(); // 使用默认配置
+    print(dio);
+//    dio.options.baseUrl = 'http://119.29.142.63:8070';
+    dio.options.baseUrl = 'http://www.baidu.com';
+    dio.options.connectTimeout = 5000; //5s
+    dio.options.receiveTimeout = 3000;
   }
 }

@@ -41,8 +41,8 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
           child: Container(
             child:Row(
               children: <Widget>[
-                Icon(Icons.arrow_back_ios, color: Colors.blueAccent, size: adapt(20, realWidth),),
-                Text(contractTitle, style: TextStyle(fontSize: adapt(18, realWidth), color: Colors.blueAccent),),
+                Icon(Icons.arrow_back_ios, color: Colors.blueAccent, size: adapt(18, realWidth),),
+                Text(contractTitle, style: TextStyle(fontSize: adapt(16, realWidth), color: Colors.blueAccent),),
               ],
             ),
           ),

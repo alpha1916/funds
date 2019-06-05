@@ -187,7 +187,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     ));
 
     list.add(
-      Icon(Icons.arrow_forward_ios, color: Colors.black54, size: adapt(20, realWidth)),
+      Icon(Icons.arrow_forward_ios, color: Colors.black26, size: adapt(20, realWidth)),
     );
 
     return GestureDetector(
