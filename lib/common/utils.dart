@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/pages/trade.dart';
 import 'constants.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/model/account_data.dart';
 
 class Utils {
   static BuildContext context;
@@ -13,6 +14,10 @@ class Utils {
     return Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => page),
     );
+  }
+
+  static navigatePop(data) {
+    Navigator.of(context).pop(data);
   }
 
   static buildMyTradeButton(BuildContext context) {
@@ -65,5 +70,14 @@ class Utils {
 
     return sign + intPartList.reversed.join(',') + '.' + tmp[1];
 
+  }
+
+  static login(phone, pwd) async {
+    final result = await AccountRequest.login(phone, pwd);
+    if(result.success){
+      AccountData.getInstance().updateToken(result.token);
+    }
+
+    return result.success;
   }
 }

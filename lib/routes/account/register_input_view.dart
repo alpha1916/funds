@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
+
 
 class RegisterInputView extends StatefulWidget {
   @override
@@ -16,7 +19,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
   TextEditingController passController = TextEditingController();
 
   //验证码的控制器
-  TextEditingController codeController = TextEditingController();
+  TextEditingController captchaController = TextEditingController();
 
   _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
     return Container(
@@ -42,7 +45,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
     );
   }
 
-  _buildCodeTextFiled() {
+  _buildCaptchaTextFiled() {
     return Container(
       margin: EdgeInsets.only(top: 1),
       color: Colors.white,
@@ -51,7 +54,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
         children: <Widget>[
           Expanded(
             child: TextField(
-              controller: codeController,
+              controller: captchaController,
               keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
@@ -69,7 +72,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
               autofocus: false,
             ),
           ),
-          PhoneCodeButton(_onPressedSendCode),
+          PhoneCaptchaButton(_onPressedGetCaptcha),
         ],
       ),
     );
@@ -93,7 +96,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
               child: Icon(Icons.phone),
             ),
           ),
-          _buildCodeTextFiled(),
+          _buildCaptchaTextFiled(),
           _buildTextFiled(
             passController,
             TextInputType.text,
@@ -122,7 +125,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
                 '完成',
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              onPressed: _onPressedLogin,
+              onPressed: _onPressedRegister,
               color: Colors.black,
               shape: StadiumBorder(),
             ),
@@ -143,7 +146,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
     return RegExp(exp).hasMatch(str);
   }
 
-  _onPressedLogin() {
+  _onPressedRegister() async {
     print({'phone': phoneController.text, 'password': passController.text});
     if (!_isValidPhoneNumber(phoneController.text)) {
       alert('请输入正确的手机号码');
@@ -152,6 +155,17 @@ class RegisterInputViewState extends State<RegisterInputView> {
     } else {
 //      alert(context, '登录成功');
 //      phoneController.clear();
+      final result = await AccountRequest.register(phoneController.text, passController.text, captchaController.text);
+      if(result.success){
+        _login();
+      }
+    }
+  }
+  
+  _login() async {
+    final success = await Utils.login(phoneController.text, passController.text);
+    if(success){
+      Utils.navigatePop(true);
     }
   }
 
@@ -162,35 +176,47 @@ class RegisterInputViewState extends State<RegisterInputView> {
     });
   }
 
-  _sendCode() async {
-    await Future.delayed(Duration(seconds: 1));
-    return {'success':false};
-  }
+//  _sendGetCaptcha() async {
+////    await Future.delayed(Duration(seconds: 1));
+////    return {'success':false};
+//    if (!_isValidPhoneNumber(phoneController.text)) {
+//      alert('请输入正确的手机号码');
+//      return;
+//    }
+//
+//    final ResultData result = await AccountRequest.getPhoneCaptcha(phoneController.text);
+//    if(result.success){
+//      captchaController.text = result.data;
+//    }
+//  }
 
-  _onPressedSendCode() async {
-//    return Future
+  _onPressedGetCaptcha() async {
     if (!_isValidPhoneNumber(phoneController.text)) {
       alert('请输入正确的手机号码');
       return Future.value(false);
     }
 
-    var result = await _sendCode();
-    alert('发送失败');
+    final ResultData result = await AccountRequest.getPhoneCaptcha(phoneController.text);
+    if(result.success){
+      captchaController.text = result.data;
+    }
+//    var result = await _sendGetCaptcha();
+//    alert('发送失败');
 
-    return Future.value(result['success']);
+    return Future.value(result.success);
   }
 }
 
-class PhoneCodeButton extends StatefulWidget {
+class PhoneCaptchaButton extends StatefulWidget {
   final onPressed;
-  PhoneCodeButton(this.onPressed);
+  PhoneCaptchaButton(this.onPressed);
   @override
-  _PhoneCodeButtonState createState() => _PhoneCodeButtonState(onPressed);
+  _PhoneCaptchaButtonState createState() => _PhoneCaptchaButtonState(onPressed);
 }
 
-class _PhoneCodeButtonState extends State<PhoneCodeButton> {
+class _PhoneCaptchaButtonState extends State<PhoneCaptchaButton> {
   final onCallback;
-  _PhoneCodeButtonState(this.onCallback);
+  _PhoneCaptchaButtonState(this.onCallback);
   Timer _countdownTimer;
   final int cd = 15;
   String title = '短信验证';

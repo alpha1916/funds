@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/stock_trade_data.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/routes/account/login_page.dart';
 
 class HttpRequest {
   static Future<List<ContractApplyItemData>> getApplyItemList() async{
@@ -168,14 +170,32 @@ class HttpRequest {
     var data = {
       'phone': phone,
     };
-    sendGet(api, data);
+    var result = await sendGet(api, data);
+  }
+
+  static login (String phone, String password) async {
+    final api = '/api/v1/register/login';
+    var data = {
+      'phone': phone,
+      'password': password,
+    };
+    var result = await sendGet(api, data);
   }
 
   static sendGet(api, data) async{
     try {
       Response response = await dio.get(api, queryParameters: data);
-      print(response.data.toString());
-      alert(response.data.toString());
+
+      if(response.statusCode == 200){
+        print(response.data.toString());
+        return response.data;
+      }else if(response.statusCode == 401){
+        Utils.navigateTo(LoginPage());
+        return null;
+      }else{
+        alert('请求错误，请联系客服');
+        return null;
+      }
     } catch (e) {
       print(e);
       alert(e);
@@ -183,16 +203,86 @@ class HttpRequest {
   }
 
   static post() {
+  }
+
+  static showLoading() {
 
   }
 
+  static hideLoading() {
+
+  }
+
+  static bool isResponseOK(data){
+    int code = data['code'];
+    if(code != 200){
+      alert(data['desc']);
+      return false;
+    }
+
+    return true;
+  }
+
+  static buildBusinessData(success, [data]){
+    return {
+      success: success,
+      data: data,
+    };
+  }
 
   static Dio dio;
   static void init(){
     dio = Dio(); // 使用默认配置
-//    dio.options.baseUrl = 'http://119.29.142.63:8070';
-    dio.options.baseUrl = 'http://www.baidu.com';
+    dio.options.baseUrl = 'http://119.29.142.63:8070';
+//    dio.options.baseUrl = 'http://www.baidu.com';
     dio.options.connectTimeout = 5000; //5s
     dio.options.receiveTimeout = 3000;
+  }
+}
+
+class ResultData{
+  final bool success;
+  final dynamic data;
+  ResultData(this.success, [this.data]);
+}
+
+class AccountRequest {
+  static getPhoneCaptcha(String phone) async {
+    final String api = '/api/v1/register/phone-captcha';
+    var data = {
+      'phone': phone,
+    };
+    var result = await HttpRequest.sendGet(api, data);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true, result['captcha']);
+  }
+
+  static register(String phone, String pwd, String captcha) async {
+    final String api = '/api/v1/register';
+    var data = {
+      "phone": phone,
+      "captcha": captcha,
+      "password": pwd,
+    };
+    var result = await HttpRequest.sendGet(api, data);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true);
+  }
+
+  static login(String phone, String pwd) async {
+    final String api = '/api/v1/login';
+    var data = {
+      "phone": phone,
+      "password": pwd,
+    };
+    var result = await HttpRequest.sendGet(api, data);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true, data['token']);
   }
 }
