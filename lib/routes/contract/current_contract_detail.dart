@@ -215,11 +215,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _onPressedTrade() {
     print('press trade');
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_){
-        return StockTradeMainPage(data.title);
-      },
-    ));
+    Utils.navigateTo(StockTradeMainPage(data.title));
   }
 
   _buildBottomButton({

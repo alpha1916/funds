@@ -9,6 +9,8 @@ import 'register_input_view.dart';
 //}
 
 class LoginPage extends StatelessWidget{
+  final isRegister;
+  LoginPage(this.isRegister);
   @override
   Widget build(BuildContext context) {
     final realWidth = MediaQuery.of(context).size.width;
@@ -23,7 +25,7 @@ class LoginPage extends StatelessWidget{
           SizedBox(height: 10,),
           Center(child: Image.asset(CustomIcons.iconText, width: realWidth * 0.4,)),
           SizedBox(height: 10,),
-          _InputView(),
+          _InputView(isRegister),
         ],
       ),
     );
@@ -31,14 +33,18 @@ class LoginPage extends StatelessWidget{
 }
 
 class _InputView extends StatefulWidget {
+  final isRegister;
+  _InputView(this.isRegister);
   @override
-  __InputViewState createState() => __InputViewState();
+  __InputViewState createState() => __InputViewState(isRegister ? 1 : 0);
 }
 
 class __InputViewState extends State<_InputView>
 with SingleTickerProviderStateMixin{
+  __InputViewState(index): _currentIndex = index;
+
+  int _currentIndex = 0;
   final _titles = ['登录', '注册'];
-  int _currentIndex = 1;
   TabController _tabController;
 
   @override

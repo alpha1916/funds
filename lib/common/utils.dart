@@ -4,10 +4,26 @@ import 'constants.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/model/account_data.dart';
 
+import 'package:funds/routes/account/login_page.dart';
+
 class Utils {
   static BuildContext context;
-  static init(ctx){
+  static var appMainTabSwitch;
+  static init(ctx, tabSwitcher){
     context = ctx;
+    appMainTabSwitch = tabSwitcher;
+  }
+
+  static bool needLogin() {
+    if(!AccountData.getInstance().isLogin()){
+      Utils.navigateToLoginPage();
+      return true;
+    }
+    return false;
+  }
+
+  static navigateToLoginPage([isRegister = false]) {
+    return navigateTo(LoginPage(isRegister));
   }
 
   static navigateTo(Widget page) {
@@ -16,8 +32,17 @@ class Utils {
     );
   }
 
-  static navigatePop(data) {
+  static navigatePop([data]) {
     Navigator.of(context).pop(data);
+  }
+
+  static navigatePopAll([tabIndex = 0]) {
+    Navigator.of(context).popUntil((Route<dynamic> route) {
+//      print(route);
+      return route.settings.name == '/';
+    });
+
+    appMainTabSwitch(tabIndex);
   }
 
   static buildMyTradeButton(BuildContext context) {
@@ -30,12 +55,17 @@ class Utils {
     );
   }
 
+  static test() async {
+//    AccountData.getInstance().clear();
+    Loading.show();
+  }
+
   static buildServiceIconButton(BuildContext context) {
     return IconButton(
         icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
         onPressed: (){
           print('press service');
-          HttpRequest.getRegisterCaptcha('18666612345');
+          test();
         }
     );
   }
@@ -73,7 +103,7 @@ class Utils {
   }
 
   static login(phone, pwd) async {
-    final result = await AccountRequest.login(phone, pwd);
+    final result = await LoginRequest.login(phone, pwd);
     if(result.success){
       AccountData.getInstance().updateToken(result.token);
     }

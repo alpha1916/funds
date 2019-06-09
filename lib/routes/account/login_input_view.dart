@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
 
 class LoginInputView extends StatefulWidget {
   @override
@@ -40,6 +42,8 @@ class LoginInputViewState extends State<LoginInputView> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.text = '18612345671';
+    passController.text = '123456';
     return Container(
       child: Column(
         children: <Widget>[
@@ -50,7 +54,7 @@ class LoginInputViewState extends State<LoginInputView> {
               child: Icon(Icons.phone),
             ),
           ),
-          _buildTextFiled(passController, TextInputType.text, '请输入登录密码', false,
+          _buildTextFiled(passController, TextInputType.text, '请输入登录密码', true,
             Container(
               margin: EdgeInsets.only(left: 5),
               child: Icon(Icons.lock),
@@ -106,15 +110,19 @@ class LoginInputViewState extends State<LoginInputView> {
     return RegExp(exp).hasMatch(str);
   }
 
-  void _onPressedLogin() {
+  void _onPressedLogin() async {
     print({'phone': phoneController.text, 'password': passController.text});
     if (!_isValidPhoneNumber(phoneController.text)) {
       alert(context, '请输入正确的手机号码');
     } else if (!_isValidPassword(passController.text)) {
       alert(context, '密码必须为6-16位字母和数字组成');
     } else {
-      alert(context, '登录成功');
+//      alert(context, '登录成功');
 //      phoneController.clear();
+      ResultData result = await LoginRequest.login(phoneController.text, passController.text);
+      if(result.success){
+        Utils.navigatePopAll();
+      }
     }
   }
 

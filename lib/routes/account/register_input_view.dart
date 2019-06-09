@@ -80,6 +80,8 @@ class RegisterInputViewState extends State<RegisterInputView> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.text = '18612345671';
+    passController.text = '123456';
     return Container(
       child: Column(
         children: <Widget>[
@@ -101,7 +103,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
             passController,
             TextInputType.text,
             '设置登录密码',
-            false,
+            true,
             Container(
               margin: EdgeInsets.only(left: 5),
               child: Icon(Icons.lock),
@@ -141,7 +143,6 @@ class RegisterInputViewState extends State<RegisterInputView> {
   }
 
   _isValidPassword(String str) {
-//    final exp = r'^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$';
     final exp = r'^[a-zA-Z0-9]{6,16}$';
     return RegExp(exp).hasMatch(str);
   }
@@ -155,7 +156,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
     } else {
 //      alert(context, '登录成功');
 //      phoneController.clear();
-      final result = await AccountRequest.register(phoneController.text, passController.text, captchaController.text);
+      final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text);
       if(result.success){
         _login();
       }
@@ -163,9 +164,9 @@ class RegisterInputViewState extends State<RegisterInputView> {
   }
   
   _login() async {
-    final success = await Utils.login(phoneController.text, passController.text);
-    if(success){
-      Utils.navigatePop(true);
+    final ResultData result = await LoginRequest.login(phoneController.text, passController.text);
+    if(result.success){
+      Utils.navigatePopAll();
     }
   }
 
@@ -173,6 +174,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
     setState(() {
       phoneController.clear();
       passController.clear();
+      captchaController.clear();
     });
   }
 
@@ -196,7 +198,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
       return Future.value(false);
     }
 
-    final ResultData result = await AccountRequest.getPhoneCaptcha(phoneController.text);
+    final ResultData result = await LoginRequest.getPhoneCaptcha(phoneController.text);
     if(result.success){
       captchaController.text = result.data;
     }

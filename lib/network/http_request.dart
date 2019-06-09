@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/stock_trade_data.dart';
+import 'package:funds/model/account_data.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/routes/account/login_page.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HttpRequest {
   static Future<List<ContractApplyItemData>> getApplyItemList() async{
@@ -164,45 +167,87 @@ class HttpRequest {
 
   }
 
-  static getRegisterCaptcha(String phone) async {
-//    final api = '/api/v1/register/phone-captcha';
-    final api = '/api/v1/register/phone-captcha';
-    var data = {
-      'phone': phone,
-    };
-    var result = await sendGet(api, data);
-  }
+  static List<int> businessErrorCodes = [500, 501, 502, 503, 504, 400];
+//  static sendGet(api, data) async{
+//    try {
+//      print('http get:$api,data:${data.toString()}');
+//      Response response = await dio.get(api, queryParameters: data);
+//
+//      if(response.statusCode == 200){
+//        var data = response.data;
+//        if(businessErrorCodes.indexOf(data['code']) != -1){
+//          print(data['desc']);
+//          alert(data['desc']);
+//          return null;
+//        }
+//
+//        print(response.data.toString());
+//        return response.data;
+//      }else if(response.statusCode == 401){
+//        Utils.navigateToLoginPage();
+//        return null;
+//      }else{
+//        alert('请求错误，请联系客服');
+//        return null;
+//      }
+//    } catch (e) {
+//      print(e);
+//      alert(e);
+//    }
+//  }
 
-  static login (String phone, String password) async {
-    final api = '/api/v1/register/login';
-    var data = {
-      'phone': phone,
-      'password': password,
-    };
-    var result = await sendGet(api, data);
-  }
-
-  static sendGet(api, data) async{
+  static send(api, data, [isPost = true]) async{
     try {
-      Response response = await dio.get(api, queryParameters: data);
+      Loading.show();
+      print('http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
+      Response response;
+      RequestOptions options = RequestOptions(
+        headers: {
+          "Accept": "*/*",
+          "Content-Type": "application/json",
+          'token': data['token'],
+        }
+      );
+      if(isPost)
+        response = await dio.post(api, data: data, options: options);
+      else
+        response = await dio.get(api, queryParameters: data);
 
+      Loading.hide();
       if(response.statusCode == 200){
+        var data = response.data;
+        if(businessErrorCodes.indexOf(data['code']) != -1){
+          print(data['desc']);
+          alert(data['desc']);
+          return null;
+        }
+
         print(response.data.toString());
         return response.data;
       }else if(response.statusCode == 401){
-        Utils.navigateTo(LoginPage());
+        Utils.navigateToLoginPage();
         return null;
       }else{
         alert('请求错误，请联系客服');
         return null;
       }
     } catch (e) {
+      Loading.hide();
       print(e);
-      alert(e);
+      alert(e.toString());
     }
   }
 
-  static post() {
+
+
+  static sendTokenGet(api) async {
+    String token = AccountData.getInstance().token;
+
+    if(token == null){
+      token = await Utils.navigateToLoginPage();
+    }
+
+    return send(api, {'token': token});
   }
 
   static showLoading() {
@@ -231,12 +276,44 @@ class HttpRequest {
   }
 
   static Dio dio;
-  static void init(){
+  static void init(BuildContext context){
     dio = Dio(); // 使用默认配置
     dio.options.baseUrl = 'http://119.29.142.63:8070';
 //    dio.options.baseUrl = 'http://www.baidu.com';
     dio.options.connectTimeout = 5000; //5s
     dio.options.receiveTimeout = 3000;
+
+    Loading.init(context);
+  }
+}
+
+class Loading {
+  static bool displaying = false;
+  static BuildContext context;
+  static init(BuildContext ctx){
+    context = ctx;
+  }
+
+  static Widget _buildLoadingView() {
+    return SpinKitCircle(color: Colors.white, size: a.px(80));
+  }
+
+  static show() async {
+    displaying = true;
+    showDialog(
+        context: context,
+        builder: (context) => _buildLoadingView(),
+        barrierDismissible: false
+    );
+//    await Future.delayed(Duration(seconds: 3));
+//
+//    Utils.navigatePop();
+  }
+
+  static hide() {
+    if(displaying)
+      Utils.navigatePop();
+    displaying = false;
   }
 }
 
@@ -246,17 +323,22 @@ class ResultData{
   ResultData(this.success, [this.data]);
 }
 
-class AccountRequest {
+class LoginRequest {
   static getPhoneCaptcha(String phone) async {
     final String api = '/api/v1/register/phone-captcha';
     var data = {
       'phone': phone,
     };
-    var result = await HttpRequest.sendGet(api, data);
+    var result = await HttpRequest.send(api, data, false);
     if(result == null)
       return ResultData(false);
 
-    return ResultData(true, result['captcha']);
+//    if(result['code'] != 200){
+//      alert(result['desc']);
+//      return ResultData(false);
+//    }
+
+    return ResultData(true, result['data']['captcha']);
   }
 
   static register(String phone, String pwd, String captcha) async {
@@ -266,7 +348,7 @@ class AccountRequest {
       "captcha": captcha,
       "password": pwd,
     };
-    var result = await HttpRequest.sendGet(api, data);
+    var result = await HttpRequest.send(api, data);
     if(result == null)
       return ResultData(false);
 
@@ -279,10 +361,25 @@ class AccountRequest {
       "phone": phone,
       "password": pwd,
     };
-    var result = await HttpRequest.sendGet(api, data);
+    var result = await HttpRequest.send(api, data);
     if(result == null)
       return ResultData(false);
 
-    return ResultData(true, data['token']);
+    String token = result['data']['token'];
+    //记录到本地
+    AccountData.getInstance().updateToken(token);
+    return ResultData(true);
+  }
+}
+
+class UserRequest {
+  static getUserInfo() async {
+    final String api = '/api/v1/user/getUserInfo';
+    var result = await HttpRequest.sendTokenGet(api);
+    if(result == null)
+      return ResultData(false);
+
+    AccountData.getInstance().init(result['data']);
+    return ResultData(true);
   }
 }
