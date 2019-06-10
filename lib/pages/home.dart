@@ -29,9 +29,12 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _refresh() async{
-    _dataList = await HttpRequest.getApplyItemList();
-
-    if(mounted) setState(() {});
+    ResultData result = await ContractRequest.getConfigs();
+    if(mounted && result.success){
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   @override
@@ -93,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            child: _ItemView(data),
+            child: _ItemView(data, _onClickedItem),
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey))),
@@ -103,11 +106,18 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
+
+  _onClickedItem(int type) async{
+//        final applyItemDataList = await HttpRequest.getApplyIdtemList();
+    print('apply item:$type');
+    Utils.navigateTo(ContractApplyPage(_dataList, type));
+  }
 }
 
 class _ItemView extends StatelessWidget {
   final ContractApplyItemData data;
-  _ItemView(this.data);
+  final onPressed;
+  _ItemView(this.data, this.onPressed);
 
   Widget getItemIcon(type) {
     final String path = CustomIcons.homePeriodPrefix + type.toString() + '.png';
@@ -131,7 +141,6 @@ class _ItemView extends StatelessWidget {
       color: Colors.red,
       fontWeight: FontWeight.w500,
     );
-    
     
     final int minRate = data.timesList.first;
     final int maxRate = data.timesList.last;
@@ -198,9 +207,7 @@ class _ItemView extends StatelessWidget {
     return GestureDetector(
       child: createView(),
       onTap: () async{
-        final applyItemDataList = await HttpRequest.getApplyItemList();
-        print('apply item:${data.type}');
-        Utils.navigateTo(ContractApplyPage(applyItemDataList, data.type));
+        this.onPressed(data.type);
       },
     );
   }

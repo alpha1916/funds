@@ -31,16 +31,16 @@ class _MyViewState extends State<MyView> {
     if(!AccountData.getInstance().isLogin())
       return;
 
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(Duration(milliseconds: 10));
     ResultData result = await UserRequest.getUserInfo();
     if(!mounted)
       return;
 
     if(result.success){
       _updateInfo();
-      setState(() {
-      });
     }
+    setState(() {
+    });
   }
 
   _updateInfo() {

@@ -4,8 +4,6 @@ import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
-var realWidth;
-BuildContext ctx;
 
 class ContractApplyDetailPage extends StatefulWidget {
   final ContractApplyDetailData data;
@@ -21,9 +19,6 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    ctx = context;
-    realWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(data.title),
@@ -52,36 +47,42 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   }
 
+  _buildProfitTips() {
+    if(data.profit == null){
+      return Container();
+    }
+    return Container(
+      width: a.px(150),
+      height: a.px25,
+      decoration: BoxDecoration(
+        color: CustomColors.red,
+        borderRadius: BorderRadius.all(Radius.circular(a.px10)),
+      ),
+      child: Center(
+        child: Text(
+          '${data.profit}%盈利分配',
+          style: TextStyle(
+            fontSize: a.px15,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   _buildTitleView() {
     return Center(
       child:Container(
         width: double.infinity,
-//        height: realWidth * 0.5,
         padding: EdgeInsets.only(top: a.px32, bottom: a.px30),
         color: Color(0xFF201F46),
         child: Column(
           children: <Widget>[
             Text(data.total.toString(), style: TextStyle(fontSize: a.px32, color: Color(0xFFFCC94C)),),
-            SizedBox(height: a.px12,),
+            SizedBox(height: a.px12),
             Text('合约金额 = 申请资金 + 杠杆资金', style: TextStyle(fontSize: a.px15, color: Colors.white),),
-            SizedBox(height: a.px12,),
-            Container(
-              width: a.px(150),
-              height: a.px25,
-              decoration: BoxDecoration(
-                color: CustomColors.red,
-                borderRadius: BorderRadius.all(Radius.circular(a.px10)),
-              ),
-              child: Center(
-                child: Text(
-                  '${data.profit}%盈利分配',
-                  style: TextStyle(
-                    fontSize: a.px15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            SizedBox(height: a.px12),
+            _buildProfitTips(),
           ],
         ),
       )
@@ -199,12 +200,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         ),
       ),
       onTap: () async{
-        final int idx = await Navigator.of(ctx).push(
-          new MaterialPageRoute(
-              builder: (_) {
-                return CouponSelectPage(data.coupons, _selectedCouponIdx);
-              }),
-        );
+        final int idx = await Utils.navigateTo(CouponSelectPage(data.coupons, _selectedCouponIdx));
 
         print('select $idx');
         if(idx != null){
@@ -244,8 +240,10 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     }));
     list.add(_buildItemSplit());
 
-    list.add(_buildItemView('单票持仓', data.holdTips, blackColor), );
-    list.add(_buildItemSplit());
+    if(data.holdTips != null){
+      list.add(_buildItemView('单票持仓', data.holdTips, blackColor), );
+      list.add(_buildItemSplit());
+    }
 
     list.add(_buildItemView('开始交易', data.date, blackColor), );
     list.add(_buildItemSplit());
@@ -296,7 +294,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
   _buildButton() {
     return Container(
-      width: realWidth,
+      width: a.screenWidth,
       height: a.px50,
       child: RaisedButton(
         child: Text(

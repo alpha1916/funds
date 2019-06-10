@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
+import 'package:funds/model/contract_data.dart';
+import 'package:funds/routes/contract/contract_apply_detail.dart';
 
 class TakeTrialPage extends StatefulWidget {
   @override
@@ -8,23 +12,37 @@ class TakeTrialPage extends StatefulWidget {
 }
 
 class _TakeTrialPageState extends State<TakeTrialPage> {
+  List<ExperienceInfoData>_dataList;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _refresh();
+  }
+
+  _refresh() async{
+    await Future.delayed(Duration(milliseconds: 10));
+    ResultData result = await ExperienceRequest.getInfoList();
+    if(!mounted)
+      return;
+
+    if(result.success){
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = _dataList == null ? [] : [_SelectView(_dataList), _TipsView(_dataList)];
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(top: a.px10),
           child: Column(
-            children: <Widget>[
-              _SelectView(),
-              _TipsView(),
-            ],
+            children: children,
           ),
         ),
       ),
@@ -34,22 +52,26 @@ class _TakeTrialPageState extends State<TakeTrialPage> {
 
 class _TrialItem extends StatelessWidget {
   final int idx;
-  final bool selected;
+  int money;
+  String periodTips;
+  String title;
+
+//  final data;
   final bool done;
-  final String money;
-  final String periodTips;
-  final String title;
+  final bool selected;
   final void Function(int idx) onPressed;
   _TrialItem(
+      ExperienceInfoData data,
       this.idx,
       this.selected,
       this.done,
-      this.title,
-      this.money,
-      this.periodTips,
       {
         this.onPressed,
-      });
+      }){
+    money = data.loanAmount + data.capital;
+    title = data.title;
+    periodTips = data.timeLimit;
+  }
 
   Widget _textView() {
     final Color tipsColor = selected ? CustomColors.red : Colors.grey;
@@ -155,24 +177,16 @@ class _TrialItem extends StatelessWidget {
 }
 
 class _SelectView extends StatefulWidget {
+  final List<ExperienceInfoData> _dataList;
+  _SelectView(this._dataList);
   @override
-  __SelectViewState createState() => __SelectViewState();
+  __SelectViewState createState() => __SelectViewState(_dataList);
 }
 
 class __SelectViewState extends State<_SelectView> {
+  final List<ExperienceInfoData> _dataList;
+  __SelectViewState(this._dataList);
   int _selectedIdx = 0;
-  List<Map<String, dynamic>>_dataList;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _dataList = [
-      {'done': false, 'title': '免费体验', 'money': '2100', 'period': '2个交易日'},
-      {'done': false, 'title': '免息体验', 'money': '6100', 'period': '一个月'},
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,22 +194,14 @@ class __SelectViewState extends State<_SelectView> {
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: _dataList.map((data){
+          children: _dataList.map<Widget>((ExperienceInfoData data){
             final int idx = _dataList.indexOf(data);
             final bool selected = _selectedIdx == idx;
-            final bool done = data['done'];
-            final String title = data['title'];
-            final String money = data['money'];
-            final String period = data['period'];
-            return _TrialItem(
-                idx,
-                selected,
-                done,
-                title,
-                money,
-                period,
-                onPressed: _onItemSelected,
-            );
+            final bool done = false;
+//            final String title = data['title'];
+//            final String money = data['money'];
+//            final String period = data['period'];
+            return _TrialItem(data, idx, selected, done, onPressed: _onItemSelected);
           }).toList(),
         ),
         Container(
@@ -224,12 +230,28 @@ class __SelectViewState extends State<_SelectView> {
     }
   }
 
-  _onStartTrial() {
+  _onStartTrial() async {
     print('start trial');
+    ExperienceInfoData selectedData = _dataList[_selectedIdx];
+
+    ResultData result = await ExperienceRequest.preApplyContract(selectedData.id);
+
+    if(mounted && result.success){
+      ContractApplyDetailData data = result.data;
+      data.contractType = ContractApplyDetailData.experienceType;
+      data.title = selectedData.title;
+      data.capital = selectedData.capital;
+      data.total = selectedData.capital + selectedData.loanAmount;
+      data.period = '${selectedData.timeLimit}，到期不可续约';
+
+      Utils.navigateTo(ContractApplyDetailPage(data));
+    }
   }
 }
 
 class _TipsView extends StatelessWidget {
+  final List<ExperienceInfoData> _dataList;
+  _TipsView(this._dataList);
   static final String p1 = '1、全民来配资，xx为你准备了如下体验合约：';
   static final String p2 = '免费体验和免息体验可以同时申请，且只能体验一次';
   static final String p3 = '2、 体验合约在合约结算后，盈亏部分+杠杆本金将返还至你的现金余额中(若免费体验合约产生亏损，杠杆本金全额返还)，可进行正常提现操作；';
@@ -280,37 +302,43 @@ class _TipsView extends StatelessWidget {
     );
   }
 
-  TableRow _buildRow(textList) {
+  TableRow _buildRow(ExperienceInfoData data) {
     return TableRow(
       children: <Widget> [
-        _gridItemView(textList[0], Colors.black54),
-        _gridItemView(textList[1], Colors.black),
-        _gridItemView(textList[2], CustomColors.red),
-        _gridItemView(textList[3], Colors.black),
-        _gridItemView(textList[4], CustomColors.red),
+        _gridItemView(data.title, Colors.black54),
+        _gridItemView(data.capital.toString(), Colors.black),
+        _gridItemView(data.loanAmount.toString(), CustomColors.red),
+        _gridItemView(data.timeLimit, Colors.black),
+        _gridItemView(data.riskTips, CustomColors.red),
       ],
     );
   }
 
   Widget _gridView() {
+    List<TableRow> tableRowList = [
+      TableRow(
+          children: <Widget> [
+            _gridTitle(''),
+            _gridTitle('杠杆本金'),
+            _gridTitle('赠送资金'),
+            _gridTitle('交易期限'),
+            _gridTitle('风险承担'),
+          ]
+      )
+    ];
+
+    for(int i = 0; i < _dataList.length; ++i){
+      ExperienceInfoData data = _dataList[i];
+      tableRowList.add(_buildRow(data));
+    }
+
+
     return Container(
       child: Column(
         children: <Widget>[
           Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: <TableRow> [
-              TableRow(
-                  children: <Widget> [
-                    _gridTitle(''),
-                    _gridTitle('杠杆本金'),
-                    _gridTitle('赠送资金'),
-                    _gridTitle('交易期限'),
-                    _gridTitle('风险承担'),
-                  ]
-              ),
-              _buildRow(['免费体验', '100', '2000', '2个交易日', '亏损全赔付']),
-              _buildRow(['免息体验', '1000', '5000', '1个月', '亏损你承担']),
-            ],
+            children: tableRowList,
           ),
         ],
       ),

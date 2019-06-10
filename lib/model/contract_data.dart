@@ -1,31 +1,67 @@
 import 'package:funds/model/coupon_data.dart';
 
+
+class ExperienceInfoData {
+  final int id;
+  final int capital;
+  final int contractTimes;
+  final int loanAmount;
+  final String title;
+  final String timeLimit;
+  final String riskTips;
+  ExperienceInfoData(data):
+        id = data['id'],
+        contractTimes = data['contractTimes'],
+        loanAmount = data['loanAmount'],
+        capital = data['loanAmount'] ~/ data['contractTimes'],
+        title = data['experienceTypename'],
+        timeLimit = data['timeLimitName'],
+        riskTips = data['riskName']
+  ;
+//  "id": 1,
+//  "contractType": 1,
+//  "contractTimes": 20,
+//  "loanAmount": 2000,
+//  "experienceType": 1,
+//  "experienceTypename": "免费体验",
+//  "timeLimitName": "2个交易日",
+//  "riskName": "亏损全赔付"
+}
+
 class ContractApplyDetailData {
-  final String title;//标题
-  final int total;//合约金额
+  static int normalType = 0;
+  static int experienceType = 1;
+
+  int contractType = normalType;
+  String title;//标题
+  int capital;//杠杆本金
+  int total;//合约金额
+  String period;//持仓时间
+  List<CouponData> coupons = [];
+
   final int profit;//盈利分配
-  final int capital;//杠杆本金
   final int cost;//管理费
   final int cordon;//警戒线
   final int cut;//止损线
   final String date;//开始交易时间
   final String holdTips;//单票持仓
-  final String period;//持仓时间
-  final List<CouponData> coupons;
   ContractApplyDetailData(data):
-        title = data['title'],
+//        title = data['title'],
+//        capital = data['capital'],
+
         profit = data['profit'],
-        capital = data['capital'],
-        cost = data['cost'],
-        cordon = data['cordon'],
-        cut = data['cut'],
-        date = data['date'],
-        holdTips = data['holdTips'],
-        period = data['period'],
-        total = data['total'],
-        coupons = data['coupons'].map<CouponData>((couponData){
-          return CouponData(couponData);
-        }).toList()
+        cost = data['managment'],
+        cordon = data['warnLine'],
+        cut = data['stopLossLine'],
+        date = data['createTime'],
+
+        holdTips = data['holdTips']
+
+//        period = data['period'],
+//        total = data['total'],
+//        coupons = data['coupons'].map<CouponData>((couponData){
+//          return CouponData(couponData);
+//        }).toList()
   ;
 
 }
@@ -57,16 +93,18 @@ class ContractApplyItemData{
   final int type;
   final String title;//标题
   final String interest;
+  final String timeLimit;
   final int min;
   final int max;
   final List<int> timesList;
   ContractApplyItemData(data):
         type = data['type'],
-        title = data['title'],
-        interest = data['interest'],
-        min = data['min'],
-        max = data['max'],
-        timesList = data['timesList'];
+        title = data['name'],
+        timeLimit = data['timeLimitName'] ?? '持仓时间',
+        interest = data['interest'] ?? '计息说明',
+        min = data['minMoney'],
+        max = data['maxMoney'],
+        timesList = data['lever'].split(',').map<int>((times) => int.parse(times)).toList();
 }
 
 
@@ -101,3 +139,17 @@ class CurrentContractDetailData {
   ;
 
 }
+
+//class ExperienceContractData {
+//  final int management;
+//  final int contractTimes;
+//  final int loanAmount;
+//  ExperienceContractData(data):
+//      management = data['management'],
+//      cut = data['stopLossLine'],
+//      cordon = data['warnLine']
+//  ;
+////  "management": 0,
+////  "stopLossLine": 0,
+////  "warnLine": 0
+//}

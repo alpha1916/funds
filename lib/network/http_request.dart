@@ -9,7 +9,14 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/routes/account/login_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:connectivity/connectivity.dart';
+
 class HttpRequest {
+  static Future<bool> isNetworkAvailable() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult != ConnectivityResult.none;
+  }
+
   static Future<List<ContractApplyItemData>> getApplyItemList() async{
     var testDataList = [
       {
@@ -196,7 +203,18 @@ class HttpRequest {
 //    }
 //  }
 
-  static send(api, data, [isPost = true]) async{
+  static send({
+    @required api,
+    data,
+    isPost = true,
+    autoLogin = true
+  }) async{
+    bool connected = await isNetworkAvailable();
+    if(!connected){
+      alert('请检测您的网络是否可用');
+      return null;
+    }
+
     try {
       Loading.show();
       print('http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
@@ -205,7 +223,7 @@ class HttpRequest {
         headers: {
           "Accept": "*/*",
           "Content-Type": "application/json",
-          'token': data['token'],
+          'token': AccountData.getInstance().token,
         }
       );
       if(isPost)
@@ -225,29 +243,41 @@ class HttpRequest {
         print(response.data.toString());
         return response.data;
       }else if(response.statusCode == 401){
-        Utils.navigateToLoginPage();
+        AccountData.getInstance().clear();
+        if(autoLogin)
+          Utils.navigateToLoginPage();
         return null;
       }else{
-        alert('请求错误，请联系客服');
+        alert('请求数据错误，请联系客服');
         return null;
       }
     } catch (e) {
       Loading.hide();
+      if(e.response != null && e.response.statusCode == 401){
+        print('token Unauthorized');
+        AccountData.getInstance().clear();
+        if(autoLogin)
+          Utils.navigateToLoginPage();
+        return null;
+      }
       print(e);
       alert(e.toString());
     }
   }
 
 
-
-  static sendTokenGet(api) async {
+  static sendTokenGet({
+    @required api,
+    data,
+    autoLogin = true
+  }) async {
     String token = AccountData.getInstance().token;
 
     if(token == null){
       token = await Utils.navigateToLoginPage();
     }
 
-    return send(api, {'token': token});
+    return send(api: api, data: data, autoLogin: autoLogin);
   }
 
   static showLoading() {
@@ -329,14 +359,9 @@ class LoginRequest {
     var data = {
       'phone': phone,
     };
-    var result = await HttpRequest.send(api, data, false);
+    var result = await HttpRequest.send(api: api, data: data, isPost: false);
     if(result == null)
       return ResultData(false);
-
-//    if(result['code'] != 200){
-//      alert(result['desc']);
-//      return ResultData(false);
-//    }
 
     return ResultData(true, result['data']['captcha']);
   }
@@ -348,7 +373,7 @@ class LoginRequest {
       "captcha": captcha,
       "password": pwd,
     };
-    var result = await HttpRequest.send(api, data);
+    var result = await HttpRequest.send(api: api, data: data);
     if(result == null)
       return ResultData(false);
 
@@ -361,7 +386,7 @@ class LoginRequest {
       "phone": phone,
       "password": pwd,
     };
-    var result = await HttpRequest.send(api, data);
+    var result = await HttpRequest.send(api: api, data: data);
     if(result == null)
       return ResultData(false);
 
@@ -375,11 +400,115 @@ class LoginRequest {
 class UserRequest {
   static getUserInfo() async {
     final String api = '/api/v1/user/getUserInfo';
-    var result = await HttpRequest.sendTokenGet(api);
-    if(result == null)
+    var result = await HttpRequest.sendTokenGet(api: api, autoLogin: false);
+    if(result == null){
       return ResultData(false);
+    }
 
     AccountData.getInstance().init(result['data']);
     return ResultData(true);
+  }
+}
+
+class ExperienceRequest {
+  static Future<ResultData> getInfoList() async {
+
+    final String api = '/api/v1/experience/getExperienceList';
+    var result = await HttpRequest.send(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<ExperienceInfoData> dataList = oDataList.map((data) => ExperienceInfoData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  static Future<ResultData> applyContract(id) async {
+    final String api = '/api/v1/experience/applyContract';
+    var data = {'id': id};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
+  }
+
+  static Future<ResultData> getContractList() async {
+    final String api = '/api/v1/experience/getMyExperienceContract';
+    var result = await HttpRequest.sendTokenGet(api: api, autoLogin: false);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
+  }
+
+  static Future<ResultData> preApplyContract(id) async {
+//    final String api = '/api/v1/experience/preApplyContract';
+//    var data = {'id': id};
+//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+//
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
+//
+//    return ResultData(true, resultData);
+
+    await Future.delayed(Duration(milliseconds: 100));
+    ResultData result = ResultData(true, ContractApplyDetailData({
+      'profit' : null,
+      'managment' : 0,
+      'warnLine' : 5500,
+      'stopLossLine' : 5300,
+      'createTime' : '2019-06-19',
+    }));
+    return result;
+  }
+//  final List<ContractApplyItemData> list = testDataList.map((data) => ContractApplyItemData(data)).toList();
+//  return Future.value(list);
+}
+
+class ContractRequest {
+  static Future<ResultData> getConfigs() async {
+    final String api = '/api/v1/contract/getContractConfig';
+    var result = await HttpRequest.send(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    final List<ContractApplyItemData> dataList = oDataList.map((data) => ContractApplyItemData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  static Future<ResultData> preApplyContract(type, times, loanAmount) async {
+//    final String api = '/api/v1/contract/preApplyContract';
+//    var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
+//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+//
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
+//
+//    return ResultData(true, resultData);
+
+    await Future.delayed(Duration(milliseconds: 100));
+    ResultData result = ResultData(true, ContractApplyDetailData({
+      'profit' : null,
+      'managment' : 0,
+      'warnLine' : 5500,
+      'stopLossLine' : 5300,
+      'createTime' : '2019-06-19',
+    }));
+    return result;
   }
 }

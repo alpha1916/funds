@@ -20,8 +20,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   int _currentTimesIdx = 0;
 
   _ContractApplyPageState(this.dataList, type) {
-    final ContractApplyItemData currentData = dataList.firstWhere((data) =>
-    data.type == type);
+    final ContractApplyItemData currentData = dataList.firstWhere((data) => data.type == type);
     _currentTypeIdx = dataList.indexOf(currentData);
   }
 
@@ -83,28 +82,31 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       return;
     }
 
-    final inputNum = int.parse(inputController.text);
+    final loanAmount = int.parse(inputController.text);
     final data = dataList[_currentTypeIdx];
     final min = data.min;
-    if(inputNum < min){
+    if(loanAmount < min){
       alert('额度不能小于$min');
       return;
     }
 
-    if(inputNum % 1000 != 0){
+    if(loanAmount % 1000 != 0){
       alert('请输入千的整数倍');
       return;
     }
 
-    final applyDetailData =  await HttpRequest.getApplyItemDetail();
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-          builder: (_) {
-            return ContractApplyDetailPage(applyDetailData);;
-          }
-      ),
-    );
+    ContractApplyItemData selectedData = dataList[_currentTypeIdx];
+    final times = selectedData.timesList[_currentTimesIdx];
+    final ResultData result =  await ContractRequest.preApplyContract(selectedData.type, times, loanAmount);
+    if(result.success){
+      ContractApplyDetailData data = result.data;
+      data.title = selectedData.title;
+      data.capital = (loanAmount / times).round();
+      data.total = data.capital + loanAmount;
+      data.period = '${selectedData.timeLimit}，到期不可续约';
 
+      Utils.navigateTo(ContractApplyDetailPage(data));
+    }
   }
 
 //  _selectable() {
