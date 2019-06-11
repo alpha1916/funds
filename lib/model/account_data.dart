@@ -22,9 +22,9 @@ class AccountData {
   }
 
   init(data){
-    stock = Utils.convertDouble(data['bondWealth']);
-    cash = Utils.convertDouble(data['cashWealth']);
-    total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
+    stock = Utils.convertDoubleString(data['bondWealth']);
+    cash = Utils.convertDoubleString(data['cashWealth']);
+    total = Utils.convertDoubleString(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
 
     String strExperiences = data['experierceList'];

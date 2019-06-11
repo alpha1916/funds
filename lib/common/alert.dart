@@ -64,4 +64,43 @@ class CustomAlert {
         }
     );
   }
+
+  static Future<int> show3(String title, String tips, String btnTitle1, String btnTitle2){
+    final borderColor = Colors.grey;
+    return showCupertinoDialog(
+        context:context,
+        builder:(BuildContext context){
+          return new CupertinoAlertDialog(
+            title: new Text(
+              title,
+            ),
+            content: new Text(tips),
+            actions: <Widget>[
+              new Container(
+                decoration: BoxDecoration(
+                    border: Border(right:BorderSide(color: borderColor,width: 1.0),top:BorderSide(color: borderColor,width: 1.0))
+                ),
+                child: FlatButton(
+                  child: new Text(btnTitle1, style: TextStyle(color: Colors.blueAccent)),
+                  onPressed:(){
+                    Navigator.pop(context, 1);
+                  },
+                ),
+              ),
+              new Container(
+                decoration: BoxDecoration(
+                    border: Border(top:BorderSide(color: borderColor,width: 1.0))
+                ),
+                child: FlatButton(
+                  child: new Text(btnTitle2, style: TextStyle(color: Colors.blueAccent)),
+                  onPressed:(){
+                    Navigator.pop(context, 2);
+                  },
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
 }

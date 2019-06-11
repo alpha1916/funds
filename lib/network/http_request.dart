@@ -174,7 +174,7 @@ class HttpRequest {
 
   }
 
-  static List<int> businessErrorCodes = [500, 501, 502, 503, 504, 400];
+  static List<int> businessErrorCodes = [500, 501, 502, 503, 400];
 //  static sendGet(api, data) async{
 //    try {
 //      print('http get:$api,data:${data.toString()}');
@@ -226,28 +226,37 @@ class HttpRequest {
       Loading.show();
       print('http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
       Response response;
+      RequestOptions options;
+      if(token != null) {
+        options = RequestOptions(
+            headers: {
+              "Accept": "*/*",
+              'token': token,
+            }
+        );
+        print('token:$token');
+      }
       if(isPost){
-        if(token != null){
-          RequestOptions options = RequestOptions(
-              headers: {
-                "Accept": "*/*",
-                'token': token,
-              }
-          );
-          print('token:$token');
+        if(token != null) {
           response = await dio.post(api, queryParameters: data, options: options);
         }else{
           response = await dio.post(api, data: data);
         }
+      }else{
+//        if(token != null){
+//          response = await dio.get(api, queryParameters: data, options: options);
+//        }else{
+          response = await dio.get(api, queryParameters: data, options: options);
+//        }
       }
-      else
-        response = await dio.get(api, queryParameters: data);
 
       Loading.hide();
+      print('response.statusCode:${response.statusCode}');
       if(response.statusCode == 200){
         var data = response.data;
         if(businessErrorCodes.indexOf(data['code']) != -1){
-          print('code:${data['code']}, desc:${data['desc']}');
+//          print('code:${data['code']}, desc:${data['desc']}');
+          print(data.toString());
           alert(data['desc']);
           return null;
         }
@@ -273,7 +282,7 @@ class HttpRequest {
   }
 
 
-  static sendTokenGet({
+  static sendTokenRequest({
     @required api,
     data,
     askLogin = true
@@ -287,6 +296,20 @@ class HttpRequest {
     return send(api: api, data: data, askLogin: askLogin, token: token);
   }
 
+  static sendTokenGet({
+    @required api,
+    data,
+    askLogin = true
+  }) async {
+    String token = AccountData.getInstance().token;
+
+    if(askLogin && token == null){
+      token = await Utils.navigateToLoginPage();
+    }
+
+//    return send(api: api, data: data, askLogin: askLogin, token: token);
+    return send(api: api, data: data, askLogin: askLogin, token: token, isPost: false);
+  }
 //  static bool isResponseOK(data){
 //    int code = data['code'];
 //    if(code != 200){
@@ -399,7 +422,7 @@ class LoginRequest {
 class UserRequest {
   static getUserInfo() async {
     final String api = '/api/v1/user/getUserInfo';
-    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
+    var result = await HttpRequest.sendTokenRequest(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -427,7 +450,7 @@ class ExperienceRequest {
   static Future<ResultData> preApplyContract(id) async {
     final String api = '/api/v1/experience/preApplyContract';
     var data = {'id': id};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -451,18 +474,18 @@ class ExperienceRequest {
   static Future<ResultData> applyContract(id) async {
     final String api = '/api/v1/experience/applyContract';
     var data = {'id': id};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
     }
 
-    return ResultData(true, result['data']);
+    return ResultData(true, result);
   }
 
   static Future<ResultData> getContractList() async {
     final String api = '/api/v1/experience/getMyExperienceContract';
-    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
+    var result = await HttpRequest.sendTokenRequest(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -488,7 +511,7 @@ class ContractRequest {
   static Future<ResultData> preApplyContract(type, times, loanAmount) async {
     final String api = '/api/v1/contract/preApplyContract';
     var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -507,5 +530,37 @@ class ContractRequest {
 //      'createTime' : '2019-06-19',
 //    }));
 //    return result;
+  }
+
+  static Future<ResultData> applyContract(int type, int times, int loanAmount) async {
+    final String api = '/api/v1/contract/applyContract';
+    var data = {
+      'type': type,
+      'times': times,
+      'loanAmount': loanAmount,
+    };
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result);
+  }
+}
+
+class RechargeRequest{
+  static recharge(double money, String comment) async {
+    final String api = '/api/v1/capital/pay/payReq';
+    var data = {
+      'money': money,
+      'url': 'test',
+    };
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true);
   }
 }

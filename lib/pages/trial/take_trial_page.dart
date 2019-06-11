@@ -258,7 +258,9 @@ class __SelectViewState extends State<_SelectView> {
       data.total = selectedData.capital + selectedData.loanAmount;
       data.period = '${selectedData.timeLimit}，到期不可续约';
 
-      Utils.navigateTo(ContractApplyDetailPage(data));
+      await Utils.navigateTo(ContractApplyDetailPage(data));
+//      setState(() {
+//      });
     }
   }
 }

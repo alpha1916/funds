@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/account_data.dart';
+import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:funds/network/http_request.dart';
 
 class MyView extends StatefulWidget {
@@ -317,8 +318,10 @@ class _MyViewState extends State<MyView> {
     print('press about');
   }
 
-  _onPressCharge() {
-    print('press charge');
+  _onPressCharge() async {
+    print('press recharge');
+    Utils.navigateTo(RechargePage());
+//    _refresh();
   }
 
   _onPressWithdraw() {

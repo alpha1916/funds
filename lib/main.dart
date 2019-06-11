@@ -45,7 +45,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   List<Widget> _pages;
   List<NavigationIconView> _navigationViews;
-  int _currentIndex = 0;
+  int _currentIndex = 4;
   BottomNavigationBar _navigationBar;
   bool initialized = false;
 

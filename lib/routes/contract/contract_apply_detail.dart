@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/common/alert.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
+import 'package:funds/routes/recharge/recharge_page.dart';
 
 
 class ContractApplyDetailPage extends StatefulWidget {
@@ -310,11 +312,37 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     );
   }
 
-  _onPressedNext() async {
+  _onPressedNext(){
+    if(data.contractType == ContractApplyDetailData.experienceType)
+      _applyExperience();
+    else
+      _applyContract();
+  }
+
+  _applyExperience() async {
     ResultData result = await ExperienceRequest.applyContract(data.id);
     if(result.success){
-      await alert('申请体验成功');
+      await UserRequest.getUserInfo();
+      await alert('体验申请成功');
       Utils.navigatePopAll(AppTabIndex.experience);
+    }
+  }
+
+  _applyContract() async {
+    ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount);
+    if(result.success){
+      if(result.data['code'] == 504){
+        int select = await CustomAlert.show3('提示', '您的现金余额不足', '取消', '立即充值');
+        if(select == 2){
+          Utils.navigateTo(RechargePage());
+        }
+        return;
+      }
+      await UserRequest.getUserInfo();
+      await alert('合约申请成功');
+      Utils.navigatePopAll();
+    }else{
+//      if(result.code)
     }
   }
 }

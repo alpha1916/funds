@@ -1,4 +1,5 @@
 import 'package:funds/model/coupon_data.dart';
+import 'package:funds/common/utils.dart';
 
 
 class ExperienceInfoData {
@@ -33,7 +34,6 @@ class ContractApplyDetailData {
   static int normalType = 0;
   static int experienceType = 1;
 
-  int id;
   int contractType = normalType;
   String title;//标题
   int capital;//杠杆本金
@@ -42,17 +42,24 @@ class ContractApplyDetailData {
   List<CouponData> coupons = [];
 
   final int profit;//盈利分配
-  final int cost;//管理费
+  final double cost;//管理费
   final int cordon;//警戒线
   final int cut;//止损线
   final String date;//开始交易时间
   final String holdTips;//单票持仓
+
+  //体验合约专用
+  int id;
+  //普通合约专用
+  int type;
+  int times;
+  int loadAmount;
   ContractApplyDetailData(data):
 //        title = data['title'],
 //        capital = data['capital'],
 
         profit = data['profitRate'],
-        cost = data['management'],
+        cost = Utils.convertDouble(data['management']),
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
         date = data['tradeStartTime'],

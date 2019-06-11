@@ -82,8 +82,12 @@ class Utils {
     return color;
   }
 
-  static convertDouble(num, [fixed = 2]){
+  static convertDoubleString(num, [fixed = 3]){
     return num.toStringAsFixed(fixed);
+  }
+
+  static double convertDouble(num, [fixed = 3]){
+    return double.parse(convertDoubleString(num, fixed));
   }
 
   static getTrisection(double value) {
@@ -113,5 +117,20 @@ class Utils {
     }
 
     return result.success;
+  }
+
+  static buildFullWidthButton(title, onPressed){
+    return Container(
+      width: a.screenWidth,
+      height: a.px(50),
+      child: RaisedButton(
+        child: Text(
+          title,
+          style: TextStyle(color: Colors.white, fontSize: a.px18),
+        ),
+        onPressed: onPressed,
+        color: Colors.black,
+      ),
+    );
   }
 }

@@ -105,6 +105,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       data.total = data.capital + loanAmount;
       data.period = '${selectedData.timeLimit}，到期不可续约';
 
+      data.type = selectedData.type;
+      data.times = times;
+      data.loadAmount = loanAmount;
+
       Utils.navigateTo(ContractApplyDetailPage(data));
     }
   }
