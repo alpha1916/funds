@@ -202,12 +202,19 @@ class HttpRequest {
 //      alert(e);
 //    }
 //  }
+  static void handleUnauthorized(askLogin) {
+    print('token Unauthorized');
+    AccountData.getInstance().clear();
+    if(askLogin)
+      Utils.navigateToLoginPage();
+  }
 
   static send({
     @required api,
     data,
+    token,
     isPost = true,
-    autoLogin = true
+    askLogin = true
   }) async{
     bool connected = await isNetworkAvailable();
     if(!connected){
@@ -219,15 +226,20 @@ class HttpRequest {
       Loading.show();
       print('http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
       Response response;
-      RequestOptions options = RequestOptions(
-        headers: {
-          "Accept": "*/*",
-          "Content-Type": "application/json",
-          'token': AccountData.getInstance().token,
+      if(isPost){
+        if(token != null){
+          RequestOptions options = RequestOptions(
+              headers: {
+                "Accept": "*/*",
+                'token': token,
+              }
+          );
+          print('token:$token');
+          response = await dio.post(api, queryParameters: data, options: options);
+        }else{
+          response = await dio.post(api, data: data);
         }
-      );
-      if(isPost)
-        response = await dio.post(api, data: data, options: options);
+      }
       else
         response = await dio.get(api, queryParameters: data);
 
@@ -235,7 +247,7 @@ class HttpRequest {
       if(response.statusCode == 200){
         var data = response.data;
         if(businessErrorCodes.indexOf(data['code']) != -1){
-          print(data['desc']);
+          print('code:${data['code']}, desc:${data['desc']}');
           alert(data['desc']);
           return null;
         }
@@ -243,9 +255,7 @@ class HttpRequest {
         print(response.data.toString());
         return response.data;
       }else if(response.statusCode == 401){
-        AccountData.getInstance().clear();
-        if(autoLogin)
-          Utils.navigateToLoginPage();
+        handleUnauthorized(askLogin);
         return null;
       }else{
         alert('请求数据错误，请联系客服');
@@ -254,10 +264,7 @@ class HttpRequest {
     } catch (e) {
       Loading.hide();
       if(e.response != null && e.response.statusCode == 401){
-        print('token Unauthorized');
-        AccountData.getInstance().clear();
-        if(autoLogin)
-          Utils.navigateToLoginPage();
+        handleUnauthorized(askLogin);
         return null;
       }
       print(e);
@@ -269,34 +276,26 @@ class HttpRequest {
   static sendTokenGet({
     @required api,
     data,
-    autoLogin = true
+    askLogin = true
   }) async {
     String token = AccountData.getInstance().token;
 
-    if(token == null){
+    if(askLogin && token == null){
       token = await Utils.navigateToLoginPage();
     }
 
-    return send(api: api, data: data, autoLogin: autoLogin);
+    return send(api: api, data: data, askLogin: askLogin, token: token);
   }
 
-  static showLoading() {
-
-  }
-
-  static hideLoading() {
-
-  }
-
-  static bool isResponseOK(data){
-    int code = data['code'];
-    if(code != 200){
-      alert(data['desc']);
-      return false;
-    }
-
-    return true;
-  }
+//  static bool isResponseOK(data){
+//    int code = data['code'];
+//    if(code != 200){
+//      alert(data['desc']);
+//      return false;
+//    }
+//
+//    return true;
+//  }
 
   static buildBusinessData(success, [data]){
     return {
@@ -400,7 +399,7 @@ class LoginRequest {
 class UserRequest {
   static getUserInfo() async {
     final String api = '/api/v1/user/getUserInfo';
-    var result = await HttpRequest.sendTokenGet(api: api, autoLogin: false);
+    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -414,7 +413,7 @@ class ExperienceRequest {
   static Future<ResultData> getInfoList() async {
 
     final String api = '/api/v1/experience/getExperienceList';
-    var result = await HttpRequest.send(api: api);
+    var result = await HttpRequest.send(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -423,6 +422,30 @@ class ExperienceRequest {
     List<ExperienceInfoData> dataList = oDataList.map((data) => ExperienceInfoData(data)).toList();
 
     return ResultData(true, dataList);
+  }
+
+  static Future<ResultData> preApplyContract(id) async {
+    final String api = '/api/v1/experience/preApplyContract';
+    var data = {'id': id};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+
+    if(result == null){
+      return ResultData(false);
+    }
+
+    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
+
+    return ResultData(true, resultData);
+
+//    await Future.delayed(Duration(milliseconds: 100));
+//    ResultData result = ResultData(true, ContractApplyDetailData({
+//      'profit' : null,
+//      'managment' : 0,
+//      'warnLine' : 5500,
+//      'stopLossLine' : 5300,
+//      'createTime' : '2019-06-19',
+//    }));
+//    return result;
   }
 
   static Future<ResultData> applyContract(id) async {
@@ -439,39 +462,13 @@ class ExperienceRequest {
 
   static Future<ResultData> getContractList() async {
     final String api = '/api/v1/experience/getMyExperienceContract';
-    var result = await HttpRequest.sendTokenGet(api: api, autoLogin: false);
+    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
 
     return ResultData(true, result['data']);
   }
-
-  static Future<ResultData> preApplyContract(id) async {
-//    final String api = '/api/v1/experience/preApplyContract';
-//    var data = {'id': id};
-//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
-//
-//    if(result == null){
-//      return ResultData(false);
-//    }
-//
-//    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
-//
-//    return ResultData(true, resultData);
-
-    await Future.delayed(Duration(milliseconds: 100));
-    ResultData result = ResultData(true, ContractApplyDetailData({
-      'profit' : null,
-      'managment' : 0,
-      'warnLine' : 5500,
-      'stopLossLine' : 5300,
-      'createTime' : '2019-06-19',
-    }));
-    return result;
-  }
-//  final List<ContractApplyItemData> list = testDataList.map((data) => ContractApplyItemData(data)).toList();
-//  return Future.value(list);
 }
 
 class ContractRequest {
@@ -489,26 +486,26 @@ class ContractRequest {
   }
 
   static Future<ResultData> preApplyContract(type, times, loanAmount) async {
-//    final String api = '/api/v1/contract/preApplyContract';
-//    var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
-//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
-//
-//    if(result == null){
-//      return ResultData(false);
-//    }
-//
-//    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
-//
-//    return ResultData(true, resultData);
+    final String api = '/api/v1/contract/preApplyContract';
+    var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
 
-    await Future.delayed(Duration(milliseconds: 100));
-    ResultData result = ResultData(true, ContractApplyDetailData({
-      'profit' : null,
-      'managment' : 0,
-      'warnLine' : 5500,
-      'stopLossLine' : 5300,
-      'createTime' : '2019-06-19',
-    }));
-    return result;
+    if(result == null){
+      return ResultData(false);
+    }
+
+    ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
+
+    return ResultData(true, resultData);
+
+//    await Future.delayed(Duration(milliseconds: 100));
+//    ResultData result = ResultData(true, ContractApplyDetailData({
+//      'profit' : null,
+//      'managment' : 0,
+//      'warnLine' : 5500,
+//      'stopLossLine' : 5300,
+//      'createTime' : '2019-06-19',
+//    }));
+//    return result;
   }
 }

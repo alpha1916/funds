@@ -36,7 +36,7 @@ class Utils {
     Navigator.of(context).pop(data);
   }
 
-  static navigatePopAll([tabIndex = 0]) {
+  static navigatePopAll([tabIndex = AppTabIndex.home]) {
     Navigator.of(context).popUntil((Route<dynamic> route) {
 //      print(route);
       return route.settings.name == '/';
@@ -56,8 +56,8 @@ class Utils {
   }
 
   static test() async {
-//    AccountData.getInstance().clear();
-    Loading.show();
+    AccountData.getInstance().clear();
+//    Loading.show();
   }
 
   static buildServiceIconButton(BuildContext context) {
@@ -80,6 +80,10 @@ class Utils {
       color = Colors.black;
 
     return color;
+  }
+
+  static convertDouble(num, [fixed = 2]){
+    return num.toStringAsFixed(fixed);
   }
 
   static getTrisection(double value) {

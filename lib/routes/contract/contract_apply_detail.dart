@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
+
 
 class ContractApplyDetailPage extends StatefulWidget {
   final ContractApplyDetailData data;
@@ -48,7 +50,8 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _buildProfitTips() {
-    if(data.profit == null){
+    //少于100才显示盈利分配
+    if(data.profit == 100){
       return Container();
     }
     return Container(
@@ -307,6 +310,11 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     );
   }
 
-  _onPressedNext() {
+  _onPressedNext() async {
+    ResultData result = await ExperienceRequest.applyContract(data.id);
+    if(result.success){
+      await alert('申请体验成功');
+      Utils.navigatePopAll(AppTabIndex.experience);
+    }
   }
 }

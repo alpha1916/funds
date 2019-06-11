@@ -26,6 +26,7 @@
 .pub-cache/
 .pub/
 /build/
+/funds_doc/
 
 # Android related
 **/android/**/gradle-wrapper.jar

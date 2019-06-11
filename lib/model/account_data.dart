@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:funds/common/utils.dart';
 
 class AccountData {
   static AccountData ins;
@@ -9,19 +10,27 @@ class AccountData {
     return ins;
   }
 
-  double stock = 0.0;
-  double cash = 0.0;
+  String stock = '0.00';
+  String cash = '0.00';
+  String total = '0.00';
   String phone = '';
   String token;
+  List<int> experiences = [];
 
   bool isLogin() {
     return token != null;
   }
 
   init(data){
-    stock = data['bondWealth'] ?? 0.00;
-    cash = data['cashWealth'];
+    stock = Utils.convertDouble(data['bondWealth']);
+    cash = Utils.convertDouble(data['cashWealth']);
+    total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
+
+    String strExperiences = data['experierceList'];
+    if(strExperiences != null && strExperiences != ''){
+      experiences = strExperiences.split(',').map((id) => int.parse(id)).toList();
+    }
   }
 
   getLocalToken() async {
@@ -37,12 +46,17 @@ class AccountData {
   }
 
   clear() async {
-    stock = 0.0;
-    cash = 0.0;
+    stock = '0.00';
+    cash = '0.00';
     phone = '';
     token = null;
+    experiences = [];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
+  }
+
+  isExperienceDone(int id) {
+    return experiences.indexOf(id) != -1;
   }
 }

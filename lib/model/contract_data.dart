@@ -9,6 +9,7 @@ class ExperienceInfoData {
   final String title;
   final String timeLimit;
   final String riskTips;
+  bool done = false;
   ExperienceInfoData(data):
         id = data['id'],
         contractTimes = data['contractTimes'],
@@ -32,6 +33,7 @@ class ContractApplyDetailData {
   static int normalType = 0;
   static int experienceType = 1;
 
+  int id;
   int contractType = normalType;
   String title;//标题
   int capital;//杠杆本金
@@ -49,11 +51,11 @@ class ContractApplyDetailData {
 //        title = data['title'],
 //        capital = data['capital'],
 
-        profit = data['profit'],
-        cost = data['managment'],
+        profit = data['profitRate'],
+        cost = data['management'],
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
-        date = data['createTime'],
+        date = data['tradeStartTime'],
 
         holdTips = data['holdTips']
 
@@ -100,8 +102,8 @@ class ContractApplyItemData{
   ContractApplyItemData(data):
         type = data['type'],
         title = data['name'],
-        timeLimit = data['timeLimitName'] ?? '持仓时间',
-        interest = data['interest'] ?? '计息说明',
+        timeLimit = data['timeLimitName'],
+        interest = data['managementName'],
         min = data['minMoney'],
         max = data['maxMoney'],
         timesList = data['lever'].split(',').map<int>((times) => int.parse(times)).toList();

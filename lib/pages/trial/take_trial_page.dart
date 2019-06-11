@@ -4,6 +4,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/model/contract_data.dart';
+import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
 
 class TakeTrialPage extends StatefulWidget {
@@ -23,6 +24,7 @@ class _TakeTrialPageState extends State<TakeTrialPage> {
 
   _refresh() async{
     await Future.delayed(Duration(milliseconds: 10));
+    await UserRequest.getUserInfo();
     ResultData result = await ExperienceRequest.getInfoList();
     if(!mounted)
       return;
@@ -52,24 +54,25 @@ class _TakeTrialPageState extends State<TakeTrialPage> {
 
 class _TrialItem extends StatelessWidget {
   final int idx;
+  bool done;
   int money;
   String periodTips;
   String title;
 
 //  final data;
-  final bool done;
   final bool selected;
   final void Function(int idx) onPressed;
   _TrialItem(
       ExperienceInfoData data,
       this.idx,
-      this.selected,
       this.done,
+      this.selected,
       {
         this.onPressed,
       }){
     money = data.loanAmount + data.capital;
     title = data.title;
+    done = AccountData.getInstance().isExperienceDone(data.id);
     periodTips = data.timeLimit;
   }
 
@@ -170,7 +173,8 @@ class _TrialItem extends StatelessWidget {
         ),
       ),
       onTap: () {
-        onPressed(idx);
+        if(!done)
+          onPressed(idx);
       },
     );
   }
@@ -184,9 +188,17 @@ class _SelectView extends StatefulWidget {
 }
 
 class __SelectViewState extends State<_SelectView> {
+  int _selectedIdx;
   final List<ExperienceInfoData> _dataList;
-  __SelectViewState(this._dataList);
-  int _selectedIdx = 0;
+  __SelectViewState(this._dataList){
+    for(int i = 0; i < _dataList.length; ++i){
+      ExperienceInfoData data = _dataList[i];
+      if(!AccountData.getInstance().isExperienceDone(data.id)){
+        _selectedIdx = i;
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -196,12 +208,9 @@ class __SelectViewState extends State<_SelectView> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: _dataList.map<Widget>((ExperienceInfoData data){
             final int idx = _dataList.indexOf(data);
+            final bool done = AccountData.getInstance().isExperienceDone(data.id);
             final bool selected = _selectedIdx == idx;
-            final bool done = false;
-//            final String title = data['title'];
-//            final String money = data['money'];
-//            final String period = data['period'];
-            return _TrialItem(data, idx, selected, done, onPressed: _onItemSelected);
+            return _TrialItem(data, idx, done, selected, onPressed: _onItemSelected);
           }).toList(),
         ),
         Container(
@@ -231,13 +240,18 @@ class __SelectViewState extends State<_SelectView> {
   }
 
   _onStartTrial() async {
-    print('start trial');
+    print('start experience');
+    if(_selectedIdx == null){
+      alert('请选择要体验的项目');
+      return;
+    }
     ExperienceInfoData selectedData = _dataList[_selectedIdx];
 
     ResultData result = await ExperienceRequest.preApplyContract(selectedData.id);
 
     if(mounted && result.success){
       ContractApplyDetailData data = result.data;
+      data.id = selectedData.id;
       data.contractType = ContractApplyDetailData.experienceType;
       data.title = selectedData.title;
       data.capital = selectedData.capital;

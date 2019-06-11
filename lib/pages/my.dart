@@ -11,12 +11,12 @@ class MyView extends StatefulWidget {
 
 class _MyViewState extends State<MyView> {
   String mail = CustomIcons.mail0;
-//  AccountData _data;
+  AccountData _data;
 
-  String _name = '';
-  String _stock = '0.00';
-  String _cash = '0.00';
-  String _total = '0.00';
+//  String _name = '';
+//  String _stock = '0.00';
+//  String _cash = '0.00';
+//  String _total = '0.00';
 
   @override
   void initState() {
@@ -44,11 +44,11 @@ class _MyViewState extends State<MyView> {
   }
 
   _updateInfo() {
-    AccountData data = AccountData.getInstance();
-    _name = data.phone;
-    _stock = data.stock.toStringAsFixed(2);
-    _cash = data.cash.toStringAsFixed(2);
-    _total = (data.cash + data.stock).toStringAsFixed(2);
+    _data = AccountData.getInstance();
+//    _name = data.phone;
+//    _stock = data.stock.toStringAsFixed(2);
+//    _cash = data.cash.toStringAsFixed(2);
+//    _total = (data.cash + data.stock).toStringAsFixed(2);
   }
 
   Widget build(BuildContext context) {
@@ -102,6 +102,7 @@ class _MyViewState extends State<MyView> {
 
     return GestureDetector(
       child: Container(
+        color: Color(0x00000000),
         padding: EdgeInsets.only(left: a.px20),
         child: Row(
           children: children,
@@ -171,7 +172,7 @@ class _MyViewState extends State<MyView> {
             children: <Widget>[
               SizedBox(width: a.px20,),
               Text(
-                '用户：$_name',
+                '用户：${_data.phone}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: a.px18
@@ -202,8 +203,8 @@ class _MyViewState extends State<MyView> {
             children: <TableRow>[
               TableRow(
                 children: <Widget>[
-                  _buildTableRow('证券净值', _stock, true, _onPressContract),
-                  _buildTableRow('现金金额', _cash, false, _onPressCashFlow),
+                  _buildTableRow('证券净值', _data.stock, true, _onPressContract),
+                  _buildTableRow('现金金额', _data.cash, false, _onPressCashFlow),
                 ],
               ),
             ],
@@ -225,7 +226,7 @@ class _MyViewState extends State<MyView> {
                 children: <Widget>[
                   Text('资产总计', style: TextStyle(color: Colors.white, fontSize: a.px15),),
                   SizedBox(height: a.px3),
-                  Text(_total, style: TextStyle(color: Color(0xFFFDC336), fontSize: a.px20),),
+                  Text(_data.total, style: TextStyle(color: Color(0xFFFDC336), fontSize: a.px20),),
                 ],
               ),
               Expanded(child: Container()),

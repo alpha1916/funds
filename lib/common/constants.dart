@@ -42,13 +42,12 @@ class CustomColors {
   static const Color trialBackground = Color(0xFFC51623);
 }
 
-class Constants {
-  static const itemTextList = [
-    {'title': '天天盈', 'interest': '按天计息'},
-    {'title': '周周盈', 'interest': '按周计息'},
-    {'title': '月月盈', 'interest': '按月计息'},
-    {'title': '互惠盈', 'interest': '免管理费'},
-  ];
+class AppTabIndex{
+  static const int home = 0;
+  static const int experience = 1;
+  static const int funds = 2;
+  static const int trade = 3;
+  static const int my = 4;
 }
 
 class ContractType {
@@ -63,11 +62,11 @@ class TradeType {
 }
 
 alert(String tips) {
-  CustomAlert.show(tips);
+  return CustomAlert.show(tips);
 }
 
 alert2(String title, String tips, String btnTitle) {
-  CustomAlert.show2(title, tips, btnTitle);
+  return CustomAlert.show2(title, tips, btnTitle);
 }
 
 

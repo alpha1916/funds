@@ -78,10 +78,10 @@ flutter:
     - assets/home/banner.jpg
     - assets/home/banner2.jpg
 
-    - assets/funds/tray0.png
     - assets/funds/tray1.png
     - assets/funds/tray2.png
     - assets/funds/tray3.png
+    - assets/funds/tray4.png
 
     - assets/trial/type0.png
     - assets/trial/type1.png

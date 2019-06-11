@@ -4,7 +4,6 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
 
 
 class FundsView extends StatefulWidget {
@@ -31,8 +30,9 @@ class _FundsViewState extends State<FundsView> {
       ),
     );
   }
+
   @override
-  void initState(){
+  void initState() {
     // TODO: implement initState
     super.initState();
 
@@ -40,9 +40,12 @@ class _FundsViewState extends State<FundsView> {
   }
 
   _refresh() async{
-    _dataList = await HttpRequest.getApplyItemList();
-
-    if(mounted) setState(() {});
+    ResultData result = await ContractRequest.getConfigs();
+    if(mounted && result.success){
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   _itemListView () {
@@ -51,7 +54,7 @@ class _FundsViewState extends State<FundsView> {
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
-            child: _ItemView(data),
+            child: _ItemView(data, _onClickedItem),
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey))),
@@ -61,10 +64,16 @@ class _FundsViewState extends State<FundsView> {
       ),
     );
   }
+
+  _onClickedItem(int type) async{
+    print('apply item:$type');
+    Utils.navigateTo(ContractApplyPage(_dataList, type));
+  }
 }
 
 class _ItemView extends StatelessWidget {
   final ContractApplyItemData data;
+  final onPressed;
 
   createView() {
     final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + data.type.toString() + '.png';
@@ -79,15 +88,11 @@ class _ItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: createView(),
-      onTap: () async{
-//        print('press item type:$type');
-        final applyItemDataList = await HttpRequest.getApplyItemList();
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ContractApplyPage(applyItemDataList, data.type)),
-        );
+      onTap: () {
+        this.onPressed(data.type);
       },
     );
   }
 
-  _ItemView(this.data);
+  _ItemView(this.data, this.onPressed);
 }

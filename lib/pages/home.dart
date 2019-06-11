@@ -206,7 +206,7 @@ class _ItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: createView(),
-      onTap: () async{
+      onTap: () {
         this.onPressed(data.type);
       },
     );
