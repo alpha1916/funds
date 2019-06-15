@@ -3,13 +3,15 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
+import 'package:funds/routes/trade/bloc/trade_bloc.dart';
 
 double realWidth;
 
 class StockListView extends StatelessWidget {
-  final List<StockData> dataList;
+  List<StockHoldData> dataList;
+  final onItemSelected;
 
-  StockListView(this.dataList);
+  StockListView(this.onItemSelected);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +21,37 @@ class StockListView extends StatelessWidget {
     double itemWidth = realWidth - leftPadding - rightPadding;
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
 
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          _buildTitleList(sizeList, leftPadding, rightPadding),
-          Container(height: a.px1, color: Colors.black12),
-          Expanded(
-            child:ListView.builder(
-              itemBuilder: (BuildContext context, int index){
-                return _buildStockItem(index, sizeList, leftPadding, rightPadding);
-              },
-              itemCount: dataList.length,
-            ),
-          ),
-        ],
-      )
+    TradeBloc bloc = TradeBloc.getInstance();
+    return StreamBuilder<List<StockHoldData>>(
+        stream: bloc.holdListStream,
+        initialData: bloc.holdList,
+        builder: (BuildContext context, AsyncSnapshot<List<StockHoldData>> snapshot){
+          dataList = snapshot.data;
+          return Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                _buildTitleList(sizeList, leftPadding, rightPadding),
+                Container(height: a.px1, color: Colors.black12),
+                Expanded(
+                  child:ListView.builder(
+                    itemBuilder: (BuildContext context, int index){
+                      return GestureDetector(
+                        child: _buildStockItem(index, sizeList, leftPadding, rightPadding),
+                        onTap: (){
+                          onItemSelected(dataList[index]);
+                        },
+                      );
+                    },
+                    itemCount: dataList.length,
+                  ),
+                ),
+              ],
+            )
+          );
+        }
     );
+
   }
 
   final _titles = ['名称/代码', '市值/盈亏', '持仓/可用', '成本/现价'];
@@ -58,9 +74,10 @@ class StockListView extends StatelessWidget {
   }
 
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
-    StockData data = dataList[index];
+    StockHoldData data = dataList[index];
     double fontSize = a.px15;
     return Container(
+      color: Colors.transparent,
 //      margin: EdgeInsets.only(right: rightPadding, top: a.px8, bottom: a.px8),
       child: Column(
         children: <Widget>[

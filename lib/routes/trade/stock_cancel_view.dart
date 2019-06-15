@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/network/stock_trade_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
+import 'bloc/trade_bloc.dart';
 
 var ctx;
 var realWidth;
@@ -13,7 +15,7 @@ class StockCancelView extends StatefulWidget {
 }
 
 class _StockCancelViewState extends State<StockCancelView> {
-  List<StockCancelData> _dataList = [];
+  List<StockEntrustData> _dataList = [];
   List<int> _selectedIdxs = [];
   @override
   void initState(){
@@ -24,11 +26,14 @@ class _StockCancelViewState extends State<StockCancelView> {
   }
 
   _refresh() async{
-    _dataList = await HttpRequest.getStockCancelList();
+    ResultData result = await StockTradeRequest.getEntrustList(TradeBloc.getInstance().contractNumber);
 
-    if(mounted) setState(() {});
+    if(result.success && mounted){
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +89,15 @@ class _StockCancelViewState extends State<StockCancelView> {
     );
   }
 
+  Color _getEntrustTypeColor(type) {
+    if(type == TradeType.buy)
+      return Utils.getProfitColor(1);
+    else
+      return Utils.getProfitColor(-1);
+  }
+
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
-    StockCancelData data = _dataList[index];
+    StockEntrustData data = _dataList[index];
     double fontSize = a.px15;
     bool selected = _selectedIdxs.indexOf(index) != -1;
     IconData selectedIconData = selected ? Icons.brightness_1 : Icons.panorama_fish_eye;
@@ -149,7 +161,7 @@ class _StockCancelViewState extends State<StockCancelView> {
                     ),
                     Align(
                       alignment: FractionalOffset.topLeft,
-                      child: Text(data.type == 1 ? '买入' : '卖出', style: TextStyle(fontSize: fontSize, color: Utils.getProfitColor(data.type))),
+                      child: Text(data.type == TradeType.buy ? '买入' : '卖出', style: TextStyle(fontSize: fontSize, color: _getEntrustTypeColor(data.type))),
                     ),
                   ],
                 ),
@@ -204,14 +216,28 @@ class _StockCancelViewState extends State<StockCancelView> {
           '撤单',
           style: TextStyle(color: Colors.white, fontSize: a.px18),
         ),
-        onPressed: () {
-          print('cancel');
-          if(_selectedIdxs.length == 0){
-            alert2('提示', '请选择需要撤单的委托', '确定');
-          }
-        },
+        onPressed: _onPressedCancel,
         color: Colors.black87,
       ),
     );
+  }
+
+  _onPressedCancel() async{
+    print('cancel');
+    if(_selectedIdxs.length == 0){
+      alert2('提示', '请选择需要撤单的委托', '确定');
+      return;
+    }
+
+    List<int> ids = [];
+    for(int i = 0; i < _selectedIdxs.length; ++i){
+      StockEntrustData data = _dataList[_selectedIdxs[i]];
+      print('撤销id:' + data.id.toString());
+      ids.add(data.id);
+    }
+    ResultData result = await StockTradeRequest.cancel(ids.join(','));
+    if(result.success){
+      alert('撤销已提交，请稍候刷新查看');
+    }
   }
 }

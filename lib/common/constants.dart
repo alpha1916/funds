@@ -58,7 +58,7 @@ class ContractType {
 
 class TradeType {
   static const int buy = 1;
-  static const int sell = -1;
+  static const int sell = 2;
 }
 
 alert(String tips) {
@@ -196,4 +196,5 @@ class a{
 }
 
 class Global{
+  static bool debug = !bool.fromEnvironment("dart.vm.product") ;
 }

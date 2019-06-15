@@ -75,26 +75,26 @@ class ContractApplyDetailData {
 
 }
 
-class ContractData {
-  final int type;
-  final String title;
-  final bool ongoing;
-  final String startDate;
-  final String endDate;
-  final double total;
-  final double contract;
-  final double profit;
-  ContractData(data):
-        type = data['type'],
-        title = data['title'],
-        ongoing = data['ongoing'],
-        startDate = data['startDate'],
-        endDate = data['endDate'],
-        total = data['total'],
-        contract = data['contract'],
-        profit = data['profit']
-  ;
-}
+//class ContractData {
+//  final int type;
+//  final String title;
+//  final bool ongoing;
+//  final String startDate;
+//  final String endDate;
+//  final double total;
+//  final double contract;
+//  final double profit;
+//  ContractData(data):
+//        type = data['type'],
+//        title = data['title'],
+//        ongoing = data['ongoing'],
+//        startDate = data['startDate'],
+//        endDate = data['endDate'],
+//        total = data['total'],
+//        contract = data['contract'],
+//        profit = data['profit']
+//  ;
+//}
 //ContractItemView(this.type, this.title, this.ongoing, this.startDate, this.endDate,
 //this.total, this.contract, this.profit
 
@@ -117,34 +117,49 @@ class ContractApplyItemData{
 }
 
 
-class CurrentContractDetailData {
-  final String title;//标题
-  final double total;//合约金额
+class ContractData {
+  final double contractMoney;//合约金额
+  final String contractNumber;//合约信息
   final double profit;//累计盈亏
-  final double cash;//可提现金
-  final double cost;//管理费用
-  final String info;//合约信息
   final double capital;//杠杆本金
+  final double cash;//可提现金
+  final double operateMoney;//操盘金额
+  final String beginTime;
+  final String endTime;
   final double loan;//借款金额
-  final double contract;//合约金额
-  final double stocks;//合约金额
+  final double totalMoney;//资产总值
+  final double cost;//管理费用
+  final double usableMoney;//可用现金
+
+  final String title;//标题
   final int days;//使用天数
-  final double cordon;//警戒线
-  final double cut;//止损线
-  CurrentContractDetailData(data):
-        title = data['title'],
-        total = data['total'],
-        cash = data['cash'],
+  final int cordon;//警戒线
+  final int cut;//止损线
+  final bool ongoing;//操盘中
+
+  //历史合约专用
+  final double returnMoney;//结束退还本金
+
+  ContractData(data):
+        contractNumber = data['contractNumber'],
+        contractMoney = Utils.convertDouble(data['contractMoney']),
         profit = data['profit'],
-        capital = data['capital'],
-        cost = data['cost'],
-        cordon = data['cordon'],
-        info = data['info'],
-        loan = data['loan'],
-        contract = data['contract'],
-        cut = data['cut'],
-        stocks = data['stocks'],
-        days = data['days']
+        returnMoney = Utils.convertDouble(data['returnMoney']),
+        cash = Utils.convertDouble(data['cash']),
+        operateMoney = data['operateMoney'],
+        capital = Utils.convertDouble(data['principal']),
+        loan = Utils.convertDouble(data['loanAmount']),
+        cost = Utils.convertDouble(data['management']),
+        beginTime = data['beginTime'].split(' ')[0],
+        endTime = data['endTime'].split(' ')[0],
+        totalMoney = Utils.convertDouble(data['totalMoney']),
+        usableMoney = data['availableMoney'],
+
+        title = data['title'],
+        cordon = data['warnLine'],
+        cut = data['stopLossLine'],
+        days = data['useDay'],
+        ongoing = data['stat'] == 1
   ;
 
 }

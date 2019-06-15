@@ -17,31 +17,20 @@ class _HistoryContractListPageState extends State<HistoryContractListPage> {
     // TODO: implement initState
     super.initState();
 
-//    _refresh();
+    _refresh();
   }
 
   _refresh() async{
-    _dataList = await HttpRequest.getCurrentContractList();
-
-    if(mounted) setState(() {});
+    ResultData result = await ContractRequest.getContractList(1);
+    if(mounted && result.success) {
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
-    var _oDataList = [
-      {'title': '免费体验', 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
-      {'title': '免息体验', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 0.00},
-      {'title': '天天盈', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': -82.12},
-      {'title': '天天盈T+1', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
-    ];
-
-    _dataList = _oDataList.map((data) {
-      data['type'] = ContractType.history;
-      data['ongoing'] = false;
-      return ContractData(data);
-    }).toList();
-
     return Container(
       color: CustomColors.background1,
 //      child: Expanded(
@@ -50,7 +39,7 @@ class _HistoryContractListPageState extends State<HistoryContractListPage> {
           final data = _dataList[index];
           return Container(
             padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(data, realWidth, () {
+            child: ContractItemView(ContractType.history, data, () {
               print('select $index');
             }),
             alignment: Alignment.center,

@@ -9,80 +9,16 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/routes/account/login_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:connectivity/connectivity.dart';
+//import 'package:connectivity/connectivity.dart';
 
 class HttpRequest {
   static Future<bool> isNetworkAvailable() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult != ConnectivityResult.none;
+    return true;
+//    var connectivityResult = await (Connectivity().checkConnectivity());
+//    return connectivityResult != ConnectivityResult.none;
   }
 
-  static Future<List<ContractApplyItemData>> getApplyItemList() async{
-    var testDataList = [
-      {
-        'type' : 0,
-        'title': '天天盈',
-        'interest': '按天计息',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7, 8,9,10]
-      },
-      {
-        'type' : 1,
-        'title': '周周盈',
-        'interest': '按周计息',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6, 7, 8]
-      },
-      {
-        'type' : 2,
-        'title': '月月盈',
-        'interest': '按月盈息',
-        'min': 2000,
-        'max': 5000000,
-        'timesList': [3, 4, 5, 6]
-      },
-      {
-        'type' : 3,
-        'title': '互惠盈',
-        'interest': '免管理费',
-        'min': 1000,
-        'max': 5000000,
-        'timesList': [6, 7, 8]
-      },
-    ];
-
-//    await Future.delayed(Duration(milliseconds: 3000));
-
-    final List<ContractApplyItemData> list = testDataList.map((data) => ContractApplyItemData(data)).toList();
-//    return list;
-    return Future.value(list);
-  }
-
-  static Future<ContractApplyDetailData> getApplyItemDetail() {
-    var testData = {
-      'title': '互惠盈T+1',
-      'profit': 90,
-      'total': 1167,
-      'capital': 167,
-      'cost': 0,
-      'cordon': 1084,
-      'cut': 1050,
-      'date': '2019-05-22',
-      'holdTips': '主板单票100%，创业板总仓位100%',
-      'period': '2个交易日，到期不可续约',
-      'coupons': [
-        {'cost': 50, 'title': '管理费抵用券', 'date': '2019-06-29'},
-        {'cost': 200, 'title': '管理费抵用券', 'date': '2019-06-29'},
-        {'cost': 1000, 'title': '管理费抵用券', 'date': '2019-06-29'},
-      ],
-    };
-    final ContractApplyDetailData data = ContractApplyDetailData(testData);
-    return Future.value(data);
-  }
-
-  static Future<CurrentContractDetailData> getCurrentContractDetail() async{
+  static Future<ContractData> getCurrentContractDetail() async{
     var testData = {
       'title': '互惠盈T+1',
       'total': 5004.06,
@@ -99,7 +35,7 @@ class HttpRequest {
       'days': 11,
     };
 
-    final CurrentContractDetailData data = CurrentContractDetailData(testData);
+    final ContractData data = ContractData(testData);
     return data;
 
   }
@@ -122,34 +58,35 @@ class HttpRequest {
     return dataList;
   }
 
-  static Future<List<StockData>> getStockHoldList() async{
+  static Future<List<StockHoldData>> getStockHoldList() async{
     print('getStockHoldList');
+    await Future.delayed(Duration(milliseconds: 10));
     var testDataList = [
-      {'title': '天山生物', 'code': 606666, 'value': 3918.00, 'profit': -440.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 6.53},
-      {'title': '紫金银行', 'code': 606666, 'value': 1440000.00, 'profit': 1240000.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 8.53},
+      {'title': '天山生物', 'code': '600030', 'value': 3918.00, 'profit': -440.70, 'hold': 600, 'usable': 300, 'cost': 7.26, 'price': 6.53},
+      {'title': '紫金银行', 'code': '600030', 'value': 1440000.00, 'profit': 1240000.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 8.53},
     ];
 
-    final dataList = testDataList.map((data) => StockData(data)).toList();
+    final dataList = testDataList.map((data) => StockHoldData(data)).toList();
 
     return dataList;
   }
 
-  static Future<List<StockCancelData>> getStockCancelList() async{
+  static Future<List<StockEntrustData>> getStockCancelList() async{
     print('getStockHoldList');
     var testDataList = [
-      {'title': '天山生物', 'code': 606666,  'price': 6.53, 'count': 600, 'type': 1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
-      {'title': '天山生物', 'code': 606666,  'price': 8.53, 'count': 600, 'type': -1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
+      {'title': '天山生物', 'code': '600030',  'price': 6.53, 'count': 600, 'type': 1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
+      {'title': '天山生物', 'code': '600030',  'price': 8.53, 'count': 600, 'type': -1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
     ];
 
-    final dataList = testDataList.map((data) => StockCancelData(data)).toList();
+    final dataList = testDataList.map((data) => StockEntrustData(data)).toList();
 
     return dataList;
   }
 
   static  TradingStockData getTradingStockData(int code) {
     var testData = {
-      'title': '工商银行',
-      'code': 666666,
+      'title': '紫金银行',
+      'code': 600030,
       'closingPrice': 3.00,
       'upLimitPrice': 3.30,
       'downLimitPrice': 2.70,
@@ -169,12 +106,40 @@ class HttpRequest {
       ],
     };
 
-    final TradingStockData data = TradingStockData(testData);
+    var testData2 = {
+      'title': '天山生物',
+      'code': 600030,
+      'closingPrice': 3.00,
+      'upLimitPrice': 3.30,
+      'downLimitPrice': 2.70,
+      'buyList': [
+        [2.94, 100],
+        [2.93, 2000],
+        [2.92, 300],
+        [2.91, 4000],
+        [2.90, 5000],
+      ],
+      'sellList': [
+        [3.09, 1000],
+        [3.11, 2000],
+        [3.12, 3000],
+        [3.13, 4000],
+        [13.14, 5000],
+      ],
+    };
+
+    var dataMap = {
+      '555555': testData,
+      '666666': testData2,
+    };
+
+    final TradingStockData data = TradingStockData(dataMap[code.toString()]);
+    print(data.code);
     return data;
 
   }
 
-  static List<int> businessErrorCodes = [500, 501, 502, 503, 400];
+  static List<int> businessErrorCodes = [500, 501, 502, 503, 512, 400];
 //  static sendGet(api, data) async{
 //    try {
 //      print('http get:$api,data:${data.toString()}');
@@ -351,6 +316,9 @@ class Loading {
   }
 
   static show() async {
+    if(displaying)
+      return;
+
     displaying = true;
     showDialog(
         context: context,
@@ -490,7 +458,9 @@ class ExperienceRequest {
       return ResultData(false);
     }
 
-    return ResultData(true, result['data']);
+    List<dynamic> oDataList = result['data'];
+    final List<ContractData> dataList = oDataList.map((data) => ContractData(data)).toList();
+    return ResultData(true, dataList);
   }
 }
 
@@ -547,6 +517,35 @@ class ContractRequest {
 
     return ResultData(true, result);
   }
+
+  //type 0为当前合约，1为历史合约
+  static Future<ResultData> getContractList(type) async {
+    final String api = '/api/v1/contract/getContract';
+    var data = {'isHistory': type};
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    final List<ContractData> dataList = oDataList.map((data) => ContractData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  static Future<ResultData> getContractDetail(contractNumber) async {
+    final String api = '/api/v1/contract/getContractByNo';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+
+    if(result == null){
+      return ResultData(false);
+    }
+
+    ContractData resultData = ContractData(result['data']);
+
+    return ResultData(true, resultData);
+  }
 }
 
 class RechargeRequest{
@@ -556,7 +555,7 @@ class RechargeRequest{
       'money': money,
       'url': 'test',
     };
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
     if(result == null){
       return ResultData(false);
     }

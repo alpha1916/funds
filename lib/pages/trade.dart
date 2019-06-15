@@ -28,16 +28,6 @@ class _TradeViewState extends State<TradeView>
       length: _titles.length,
       vsync: this,
     );
-
-//    _tabController.index = 1;
-//    _tabController.addListener(() {
-////      if(_currentIndex != _tabController.index){
-////        setState(() {
-////          _currentIndex = _tabController.index;
-////          print(_currentIndex);
-////        });
-////      }
-//    });
   }
 
   @override
@@ -70,9 +60,7 @@ class _TradeViewState extends State<TradeView>
           unselectedLabelStyle: TextStyle(fontSize: 17, height: 1.5),
         ),
       ),
-//      body: Container(
-//        color: CustomColors.homeBackground,
-//      ),
+
       body:TabBarView(
         controller: _tabController,
         children: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
-import '../contract_item_view.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/routes/contract/current_contract_detail.dart';
 import 'package:funds/network/http_request.dart';
@@ -22,15 +23,16 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
   }
 
   _refresh() async{
-    _dataList = await HttpRequest.getCurrentContractList();
-
-    if(mounted) setState(() {});
+    ResultData result = await ContractRequest.getContractList(0);
+    if(mounted && result.success) {
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
-
     return Container(
       color: CustomColors.background1,
 //      child: Expanded(
@@ -39,12 +41,8 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
           final data = _dataList[index];
           return Container(
             padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(data, realWidth, (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_){
-                  return CurrentContractDetail();
-                },
-              ));
+            child: ContractItemView(ContractType.current, data, (){
+              Utils.navigateTo(CurrentContractDetail(data));
             }),
             alignment: Alignment.center,
           );

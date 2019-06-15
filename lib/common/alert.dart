@@ -7,7 +7,7 @@ class CustomAlert {
     context = ctx;
   }
 
-  static show(tips) async {
+  static show(tips, [duration = 1000]) async {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -22,12 +22,11 @@ class CustomAlert {
       ),
       barrierDismissible: false
     );
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: duration));
     Utils.navigatePop();
   }
 
   static show2(String title, String tips, String btnTitle){
-    final borderColor = Colors.grey;
     showCupertinoDialog(
         context:context,
         builder:(BuildContext context){
@@ -37,28 +36,7 @@ class CustomAlert {
             ),
             content: new Text(tips),
             actions: <Widget>[
-              new Container(
-                decoration: BoxDecoration(
-                    border: Border(right:BorderSide(color: borderColor,width: 1.0),top:BorderSide(color: borderColor,width: 1.0))
-                ),
-                child: FlatButton(
-                  child: new Text(btnTitle, style: TextStyle(color: Colors.blueAccent),),
-                  onPressed:(){
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-//            new Container(
-//              decoration: BoxDecoration(
-//                  border: Border(top:BorderSide(color: borderColor,width: 1.0))
-//              ),
-//              child: FlatButton(
-//                child: new Text("取消"),
-//                onPressed:(){
-//                  Navigator.pop(context);
-//                },
-//              ),
-//            )
+              _buildButton(btnTitle, Colors.blueAccent),
             ],
           );
         }
@@ -66,41 +44,35 @@ class CustomAlert {
   }
 
   static Future<int> show3(String title, String tips, String btnTitle1, String btnTitle2){
-    final borderColor = Colors.grey;
     return showCupertinoDialog(
         context:context,
         builder:(BuildContext context){
           return new CupertinoAlertDialog(
-            title: new Text(
-              title,
-            ),
+            title: new Text(title),
             content: new Text(tips),
             actions: <Widget>[
-              new Container(
-                decoration: BoxDecoration(
-                    border: Border(right:BorderSide(color: borderColor,width: 1.0),top:BorderSide(color: borderColor,width: 1.0))
-                ),
-                child: FlatButton(
-                  child: new Text(btnTitle1, style: TextStyle(color: Colors.blueAccent)),
-                  onPressed:(){
-                    Navigator.pop(context, 1);
-                  },
-                ),
-              ),
-              new Container(
-                decoration: BoxDecoration(
-                    border: Border(top:BorderSide(color: borderColor,width: 1.0))
-                ),
-                child: FlatButton(
-                  child: new Text(btnTitle2, style: TextStyle(color: Colors.blueAccent)),
-                  onPressed:(){
-                    Navigator.pop(context, 2);
-                  },
-                ),
-              )
+              _buildButton(btnTitle1, Colors.blueAccent,1),
+              _buildButton(btnTitle2, Colors.blueAccent,2),
             ],
           );
         }
+    );
+  }
+
+  static _buildButton(title, [color, value]){
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+            top:BorderSide(color: Colors.grey,width: 1.0),
+            right :BorderSide(color: Colors.grey,width: 0.5),
+          )
+      ),
+      child: FlatButton(
+        child: new Text(title, style: TextStyle(color: color)),
+        onPressed:(){
+          Navigator.pop(context, value);
+        },
+      ),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+import 'package:funds/network/http_request.dart';
 import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
+import 'package:funds/routes/contract/current_contract_detail.dart';
 
 class MyTrialPage extends StatefulWidget {
   @override
@@ -9,32 +12,27 @@ class MyTrialPage extends StatefulWidget {
 }
 
 class _MyTrialPageState extends State<MyTrialPage> {
-  List<ContractData> _dataList;
+  List<ContractData> _dataList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var _oDataList = [
-      {'title':'免费体验', 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
-      {'title':'免息体验', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
-    ];
 
-    _dataList = _oDataList.map((data) {
-      data['type'] = ContractType.trial;
-      return ContractData(data);
-    }).toList();
-//    _dataList = [
-//      {'type': 0, 'startPrice': 2000, 'minRate': 3, 'maxRate': 10},
-//      {'type': 1, 'startPrice': 2000, 'minRate': 3, 'maxRate': 8},
-//      {'type': 2, 'startPrice': 2000, 'minRate': 3, 'maxRate': 6},
-//      {'type': 3, 'startPrice': 1000, 'minRate': 6, 'maxRate': 8},
-//    ];
+    _refresh();
+  }
+
+  _refresh() async{
+    ResultData result = await ExperienceRequest.getContractList();
+    if(mounted && result.success){
+      setState(() {
+        _dataList = result.data;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
@@ -42,8 +40,11 @@ class _MyTrialPageState extends State<MyTrialPage> {
           return Container(
             margin: EdgeInsets.only(top: a.px10),
 //            padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(data, realWidth, () {
+            child: ContractItemView(ContractType.trial, data, () {
               print('select $index');
+              if(data.ongoing){
+                Utils.navigateTo(CurrentContractDetail(data));
+              }
             }),
             alignment: Alignment.center,
           );

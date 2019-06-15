@@ -10,25 +10,30 @@ var realWidth;
 var ctx;
 
 class CurrentContractDetail extends StatefulWidget {
+  final ContractData data;
+  CurrentContractDetail(this.data);
   @override
-  _CurrentContractDetailState createState() => _CurrentContractDetailState();
+  _CurrentContractDetailState createState() => _CurrentContractDetailState(data);
 }
 
 class _CurrentContractDetailState extends State<CurrentContractDetail> {
-  CurrentContractDetailData data;
+  _CurrentContractDetailState(this.data);
+  ContractData data;
 
-  _getData() async {
-    data = await HttpRequest.getCurrentContractDetail();
-    if (!mounted) return;
-
-    setState(() {});
+  _refresh() async {
+    ResultData result = await ContractRequest.getContractDetail(data.contractNumber);
+    if(result.success && mounted){
+      setState(() {
+        data = result.data;
+      });
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData();
+    _refresh();
   }
 
   @override
@@ -127,7 +132,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             style: TextStyle(fontSize: a.px16),
           ),
           Text(
-            '(${data?.info ?? ''})',
+            '(${data.contractNumber})',
             style: TextStyle(fontSize: a.px12),
           ),
           Expanded(
@@ -139,20 +144,20 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           children: <TableRow>[
             TableRow(
               children: [
-                _buildInfoItem('杠杆本金', data?.capital.toString()),
-                _buildInfoItem('借款金额', data?.loan.toString()),
+                _buildInfoItem('杠杆本金', data.capital.toStringAsFixed(2)),
+                _buildInfoItem('借款金额', data.loan.toStringAsFixed(2)),
               ],
             ),
             TableRow(
               children: [
-                _buildInfoItem('合约金额', data?.contract.toString()),
-                _buildInfoItem('操盘金额', data?.stocks.toString()),
+                _buildInfoItem('合约金额', data.contractMoney.toStringAsFixed(2)),
+                _buildInfoItem('操盘金额', data.operateMoney.toStringAsFixed(2)),
               ],
             ),
             TableRow(
               children: [
-                _buildInfoItem('管理费用', '${data?.capital}/月'),
-                _buildInfoItem('使用天数', '${data?.days ?? 0}个交易日'),
+                _buildInfoItem('管理费用', '${data.cost.toStringAsFixed(2)}/月'),
+                _buildInfoItem('使用天数', '${data.days}个交易日'),
               ],
             ),
           ],
@@ -215,7 +220,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _onPressedTrade() {
     print('press trade');
-    Utils.navigateTo(StockTradeMainPage(data.title));
+    Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
   }
 
   _buildBottomButton({
@@ -341,7 +346,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           titleText,
           SizedBox(height: a.px5),
           Text(
-            value.toString(),
+            value.toStringAsFixed(2),
             style: TextStyle(
                 fontSize: valueFontSize,
                 color: Utils.getProfitColor(value),
@@ -377,7 +382,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             children: <TableRow>[
               TableRow(
                 children: <Widget>[
-                  _buildFundsItem('资产总值', data?.total ?? 0,
+                  _buildFundsItem('资产总值', data.totalMoney,
                       a.px25),
                   _buildFundsItem(
                     '可提现金',
@@ -412,7 +417,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
     //根据图片pi*0.3角度为警戒线到止损线之间的角度差
     double unit = pi * 0.3 / (data.cordon - data.cut);
-    double angle = (data.total - data.cordon) * unit;
+    double angle = (data.totalMoney - data.cordon) * unit;
 
     //根据图片，旋转左边最小值为-1.4，右边最大值为1.35
     angle = max(angle, -1.4);
@@ -442,6 +447,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   onPressedRefresh() {
-    _getData();
+    _refresh();
   }
 }

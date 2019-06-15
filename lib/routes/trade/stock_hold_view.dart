@@ -11,29 +11,19 @@ class StockHoldView extends StatefulWidget {
 }
 
 class _StockHoldViewState extends State<StockHoldView> {
-  List<StockData> _dataList = [];
+  List<StockHoldData> _dataList = [];
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: StockListView(_dataList),
+      child: StockListView(_onSelectStock),
     );
   }
 
-  @override
-  void initState(){
-    // TODO: implement initState
-    super.initState();
-
-    _refresh();
-  }
-
-  _refresh() async{
-    _dataList = await HttpRequest.getStockHoldList();
-
-    if(mounted) setState(() {});
+  _onSelectStock(StockHoldData data) {
+    print(data.title);
   }
 }
 

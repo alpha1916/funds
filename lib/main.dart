@@ -24,7 +24,7 @@ void main() {
 class NavigationIconView {
   BottomNavigationBarItem item;
   final String dir = 'assets/navigation_bar/';
-  NavigationIconView({Key key, String title, String iconName, String activeIconName}) {
+  NavigationIconView({String title, String iconName, String activeIconName}) {
     final double iconSize = a.px22;
     final Widget icon = Image.asset(dir + iconName + '.png', width: iconSize, height: iconSize);
     final Widget activeIcon = Image.asset(dir + activeIconName + '.png', width: iconSize, height: iconSize);
@@ -44,10 +44,10 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   List<Widget> _pages;
-  List<NavigationIconView> _navigationViews;
-  int _currentIndex = 4;
-  BottomNavigationBar _navigationBar;
-  bool initialized = false;
+  List<NavigationIconView> _navigationIconViews;
+  int _currentIndex = 0;
+  bool _hacked = false;
+  bool _initialized = false;
 
   final viewDataList = [
     ['首页', 'ic_home_unchecked', 'ic_home_checked'],
@@ -56,23 +56,33 @@ class _AppState extends State<App> {
     ['交易', 'ic_deal_unchecked', 'ic_deal_checked'],
     ['我的', 'ic_me_unchecked', 'ic_me_checked'],
   ];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-//    _pageController = PageController(initialPage: _currentIndex);
+  _adaptHack() async{
+    await Future.delayed(Duration(milliseconds: 10));
+    _hacked = true;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    if(!initialized)
+    print('main build');
+    if(!_hacked){
+      _adaptHack();
+      return Container();
+    }
+    if(!_initialized)
       appInit(context);
-//    HttpRequest.realWidth = MediaQuery.of(context).size.width;
 
-    _navigationBar = BottomNavigationBar(
+    return Scaffold(
+      body: _pages[_currentIndex],
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  _buildBottomNavigationBar() {
+    return BottomNavigationBar(
       fixedColor: Colors.black87,
-      items: _navigationViews.map((NavigationIconView view) {
+      items: _navigationIconViews.map((NavigationIconView view) {
         return view.item;
       }).toList(),
       currentIndex: _currentIndex,
@@ -81,16 +91,12 @@ class _AppState extends State<App> {
       unselectedFontSize : a.px11,
       onTap: tabSwitcher,
     );
-    return Scaffold(
-      body: _pages[_currentIndex],
-      bottomNavigationBar: _navigationBar,
-    );
   }
 
   tabSwitcher(int index) {
     //交易界面先判断是否登录状态,非登录状态要先登录
     if(index == 3 && Utils.needLogin())
-        return;
+      return;
 
     setState(() {
       _currentIndex = index;
@@ -98,6 +104,7 @@ class _AppState extends State<App> {
   }
 
   void appInit(context) {
+    print('app init');
     Utils.init(context, tabSwitcher);
     HttpRequest.init(context);
     CustomAlert.init(context);
@@ -105,15 +112,15 @@ class _AppState extends State<App> {
 
     AccountData.getInstance().getLocalToken();
 
-
     //
-    _navigationViews = viewDataList.map((list) {
+    _navigationIconViews = viewDataList.map((list) {
       return NavigationIconView(
         title: list[0],
         iconName: list[1],
         activeIconName: list[2],
       );
     }).toList();
+
 
     _pages = [
       HomeView(),
@@ -123,6 +130,14 @@ class _AppState extends State<App> {
       MyView(),
     ];
 
-    initialized = true;
+//    _pages = [
+//      Container(color: Colors.blueAccent),
+//      Container(color: Colors.green),
+//      Container(color: Colors.black26),
+//      Container(color: Colors.pink),
+//      Container(color: Colors.purple),
+//    ];
+
+    _initialized = true;
   }
 }

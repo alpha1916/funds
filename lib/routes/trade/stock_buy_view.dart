@@ -4,77 +4,119 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'stock_list_view.dart';
 import 'package:funds/model/stock_trade_data.dart';
+import 'package:funds/routes/trade/bloc/trade_bloc.dart';
+import 'package:funds/network/stock_trade_request.dart';
 
-class StockBuyView extends StatefulWidget {
-  @override
-  _StockBuyViewState createState() => _StockBuyViewState();
-}
-
-class _StockBuyViewState extends State<StockBuyView> {
-  List<StockData> _dataList = [];
+class StockBuyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     realWidth = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         children: <Widget>[
-          StockTradeFrame(TradeType.buy),
-          SizedBox(height: 10,),
+          StockTradeFrame(),
+          SizedBox(height: a.px10,),
           Expanded(
-            child: StockListView(_dataList),
+            child: StockListView(onSelectStock),
           ),
         ],
       ),
     );
   }
 
-  _refresh() async{
-    _dataList = await HttpRequest.getStockHoldList();
-
-    if(mounted) setState(() {});
-  }
-
-  @override
-  void initState(){
-    // TODO: implement initState
-    super.initState();
-
-    _refresh();
+  onSelectStock(StockHoldData data) {
+    TradeBloc.getInstance().getStockInfo(data.code);
   }
 }
 
-class StockTradeFrame extends StatefulWidget {
-  final type;
-  StockTradeFrame(this.type);
-  @override
-  _StockTradeFrameState createState() => _StockTradeFrameState(type);
-}
 
-class _StockTradeFrameState extends State<StockTradeFrame> {
-  final type;
-  TradingStockData data;
-  _StockTradeFrameState(this.type);
-
-//  _getStockData() async{
-//    data = await HttpRequest.getTradingStockData(666666);
-//    setState(() {
+//class StockBuyView extends StatefulWidget {
+//  @override
+//  _StockBuyViewState createState() => _StockBuyViewState();
+//}
 //
-//    });
+//class _StockBuyViewState extends State<StockBuyView> {
+//  List<StockHoldData> _dataList = [];
+//  @override
+//  Widget build(BuildContext context) {
+//    realWidth = MediaQuery.of(context).size.width;
+//    return Container(
+//      child: Column(
+//        children: <Widget>[
+//          StockTradeFrame(TradeType.buy),
+//          SizedBox(height: 10,),
+//          Expanded(
+//            child: StockListView(_onSelectStock),
+//          ),
+//        ],
+//      ),
+//    );
 //  }
+//
+//  _onSelectStock(StockHoldData data) {
+//    TradeBloc.getInstance().getStockInfo(data.code);
+//  }
+//
+//  _refresh() async{
+//    _dataList = await HttpRequest.getStockHoldList();
+//
+//    if(mounted) setState(() {});
+//  }
+//
+//  @override
+//  void initState(){
+//    // TODO: implement initState
+//    super.initState();
+//
+//    _refresh();
+//  }
+//}
+
+//class StockTradeFrame extends StatefulWidget {
+//  StockTradeFrame();
+//  @override
+//  StockTradeFrameState createState() => StockTradeFrameState();
+//}
+
+class StockTradeFrame extends StatelessWidget{
+  final TradeBloc bloc = TradeBloc.getInstance();
+  TradingStockData stockInfo;
 
   @override
   Widget build(BuildContext context) {
-//    _getStockData();
-    data = HttpRequest.getTradingStockData(666666);
-    return Container(
-      child: Row(
-        children: <Widget>[
-          _buildInfoView(),
-          _buildListView(),
-        ],
-      ),
+    return StreamBuilder<TradingStockData>(
+      stream: bloc.stockStream,
+      initialData: bloc.stockInfo,
+      builder: (BuildContext context, AsyncSnapshot<TradingStockData> snapshot){
+//        _updateStockInfo(snapshot.data);
+        stockInfo = snapshot.data;
+        if(stockInfo != null){
+          codeInputController.text = stockInfo.code.toString();
+          double price;
+          if(stockInfo.sellList.length > 0)
+            price = stockInfo.sellList[0][0];
+          else
+            price = stockInfo.buyList[0][0];
+          priceInputController.text = Utils.convertDoubleString(price);
+
+          updateUsableCount(price);
+        }else{
+          updateUsableCount(0.0);
+        }
+
+        return Container(
+          child: Row(
+            children: <Widget>[
+              _buildInfoView(),
+              _buildListView(),
+            ],
+          ),
+        );
+      },
     );
   }
+
+  String title;
 
   _buildInfoView() {
     return Container(
@@ -86,7 +128,7 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
           _buildTitleView(),
           _buildPriceView(),
           _buildLimitView(),
-          _buildCountView(),
+          buildCountView(),
           _buildButton(),
         ],
       ),
@@ -125,14 +167,22 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
               onChanged: _onCodeInputChange,
             ),
           ),
-          Text(data?.title ?? '', style: TextStyle(fontSize: a.px16),)
+          Text(stockInfo?.title ?? '', style: TextStyle(fontSize: a.px16),)
         ],
       ),
     );
   }
 
   _onCodeInputChange(text) {
-
+    if(text.length == 6){
+      int code = int.parse(text);
+      if(code > 99999){
+        print(code);
+        bloc.getStockInfo(code);
+        return;
+      }
+    }
+    bloc.clearStockInfo();
   }
 
   _buildPriceView() {
@@ -167,7 +217,7 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
         children: <Widget>[
           buildButton(Icons.remove_circle_outline, _onPressMinusPrice),
           Container(
-            width: 80,
+            width: a.px(80),
             child: Center(
               child: TextField(
                 textAlign: TextAlign.center,
@@ -180,7 +230,7 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
                   labelStyle: TextStyle(fontSize: a.px30),
                 ),
                 autofocus: false,
-                onChanged: _onCodeInputChange,
+                onChanged: onPriceInputChange,
               ),
             ),
           ),
@@ -190,33 +240,46 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
     );
   }
 
-  _getInputPrice() {
-    double value = 0.00;
+  onPriceInputChange(text) {
+    updateUsableCount(getInputPrice());
+  }
+
+
+  updateUsableCount(price){
+    bloc.updateUsableCount(price);
+  }
+
+  getInputPrice() {
     if(priceInputController.text.length > 0){
-      value = double.parse(priceInputController.text);
+      double value = double.parse(priceInputController.text);
+      if(value > 0){
+        return value;
+      }
     }
-    return value;
+    return 0.0;
   }
 
   _onPressAddPrice() {
-    if(data == null)
+    if(stockInfo == null)
       return;
 
-    double price = _getInputPrice();
+    double price = getInputPrice();
     price += 0.01;
     priceInputController.text = price.toStringAsFixed(2);
+    onPriceInputChange('');
   }
 
   _onPressMinusPrice() {
-    if(data == null)
+    if(stockInfo == null)
       return;
 
-    double price = _getInputPrice();
+    double price = getInputPrice();
     price -= 0.01;
     if(price < 0.0)
       price = 0.0;
 
     priceInputController.text = price.toStringAsFixed(2);
+    onPriceInputChange('');
   }
 
   _buildLimitView() {
@@ -224,8 +287,8 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       return Text(title, style: TextStyle(fontSize: a.px14, color: color),);
     }
 
-    double downLimitPrice = data?.downLimitPrice ?? 0.00;
-    double upLimitPrice = data?.downLimitPrice ?? 0.00;
+    double downLimitPrice = stockInfo?.downLimitPrice ?? 0.00;
+    double upLimitPrice = stockInfo?.downLimitPrice ?? 0.00;
     return Container(
       margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       child: Row(
@@ -248,82 +311,105 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
     );
   }
 
-  _buildCountView() {
-    String hintText;
-    String tips;
-    if(type == TradeType.buy){
-      int count = 1000;
-      hintText = '委买数量';
-      tips = '可买 $count 股';
-    }else{
-      int count = 100;
-      hintText = '委卖数量';
-      tips = '可卖 $count 股';
-    }
-    return Container(
-      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
-      padding: EdgeInsets.symmetric(horizontal: a.px10),
+  String tradeCountHintText = '委买数量';
+  String tradeCountPrefix = '可买';
+  String tradeButtonTitle = '买入';
+  Color tradeButtonColor = CustomColors.red;
+
+  buildCountView() {
+    return buildUsableCountView(bloc.countStream, bloc.usableCount);
+  }
+
+  buildUsableCountView(Stream<int> steam, int initCount) {
+    return StreamBuilder<int>(
+      stream: steam,
+      initialData: initCount,
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot){
+        String tips = tradeCountPrefix + '${snapshot.data}股';
+        return Container(
+          margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
+          padding: EdgeInsets.symmetric(horizontal: a.px10),
 //      width: a.px220),
-      height: a.px50,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26, width: a.px1),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            width: a.px(100),
-            child: TextField(
-              textAlign: TextAlign.left,
-              controller: codeInputController,
-              keyboardType: TextInputType.number,
-              cursorColor: Colors.black12,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hintText,
-                hintStyle: TextStyle(fontSize: a.px16),
-                labelStyle: TextStyle(fontSize: a.px15),
-              ),
-              autofocus: false,
-              onChanged: _onCodeInputChange,
-            ),
+          height: a.px50,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black26, width: a.px1),
           ),
-          Text(tips, style: TextStyle(fontSize: a.px15),)
-        ],
-      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: a.px(100),
+                child: TextField(
+                  textAlign: TextAlign.left,
+                  controller: countInputController,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Colors.black12,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: tradeCountHintText,
+                    hintStyle: TextStyle(fontSize: a.px16),
+                    labelStyle: TextStyle(fontSize: a.px15),
+                  ),
+                  autofocus: false,
+                ),
+              ),
+              Text(tips, style: TextStyle(fontSize: a.px15),)
+            ],
+          ),
+        );
+      },
     );
   }
 
-  _onBtnTrade() {
+  onBtnTrade() async{
+    if(stockInfo == null)
+      return;
 
+    int count = int.parse(countInputController.text);
+    if(count > 0){
+      if(count % 100 != 0){
+        alert('委买数量必须是100的整数倍');
+        return;
+      }
+
+    }else{
+      alert('请输入正确的委买数量');
+    }
+
+    ResultData result = await StockTradeRequest.buy(
+        bloc.contractNumber,
+        codeInputController.text,
+        getInputPrice(),
+        count,
+    );
+
+    if(result.success){
+      alert('委托成功');
+    }
   }
 
   _buildButton() {
-    String title;
-    Color color;
-    if(type == TradeType.buy){
-      title = '买入';
-      color = CustomColors.red;
-    }else{
-      title = '卖出';
-      color = Colors.green;
-    }
-
     return Container(
       margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       height: a.px50,
       width: a.px(220),
       child: RaisedButton(
         child: Text(
-          title,
+          tradeButtonTitle,
           style: TextStyle(color: Colors.white, fontSize: a.px18),
         ),
-        onPressed: _onBtnTrade,
-        color: color,
+        onPressed: onBtnTrade,
+        color: tradeButtonColor,
         shape: StadiumBorder(),
       ),
     );
   }
+
+//  _getSellList() {
+//    if(_data){
+//      return
+//    }
+//  }
 
   /*------------------------------------------------操作 end---------------------------------------------------*/
 
@@ -336,13 +422,13 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       padding: EdgeInsets.symmetric(vertical: a.px16),
       child: Column(
         children: <Widget>[
-          _buildSellListView(data.sellList),
+          _buildSellListView(stockInfo?.sellList),
           Container(
             margin: EdgeInsets.only(left: a.px4, right: a.px8, bottom: a.px16, top: a.px16),
             color: Colors.black12,
             height: a.px1,
           ),
-          _buildBuyListView(data.buyList),
+          _buildBuyListView(stockInfo?.buyList),
         ],
       ),
     );
@@ -355,18 +441,20 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       String strCount = '--';
       Color priceColor = Colors.black87;
 
-      var order = dataList[i];
-      if(order != null){
-        double price = order[0];
-        strPrice = order[0].toStringAsFixed(2);
-        strCount = order[1].toString();
-        priceColor = Utils.getProfitColor(price - data.closingPrice);
+      if(dataList != null){
+        var order = dataList[i];
+        if(order != null){
+          double price = order[0];
+          strPrice = order[0].toStringAsFixed(2);
+          strCount = order[1].toString();
+          priceColor = Utils.getProfitColor(price - stockInfo.closingPrice);
+        }
       }
 
       double width = realWidth * 0.4;
-      double fontSize = a.px13;
+      double fontSize = a.px14;
       list.add(Container(
-        margin: EdgeInsets.only(left: a.px4, right: a.px14, top: a.px4),
+        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px2),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -402,18 +490,20 @@ class _StockTradeFrameState extends State<StockTradeFrame> {
       String strCount = '--';
       Color priceColor = Colors.black87;
 
-      var order = dataList[i];
-      if(order != null){
-        double price = order[0];
-        strPrice = order[0].toStringAsFixed(2);
-        strCount = order[1].toString();
-        priceColor = Utils.getProfitColor(price - data.closingPrice);
+      if(dataList != null){
+        var order = dataList[i];
+        if(order != null){
+          double price = order[0];
+          strPrice = order[0].toStringAsFixed(2);
+          strCount = order[1].toString();
+          priceColor = Utils.getProfitColor(price - stockInfo.closingPrice);
+        }
       }
 
       double width = realWidth * 0.4;
-      double fontSize = a.px13;
+      double fontSize = a.px14;
       list.add(Container(
-        margin: EdgeInsets.only(left: a.px4, right: a.px14, top: a.px4),
+        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px2),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

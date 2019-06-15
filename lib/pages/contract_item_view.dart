@@ -12,31 +12,36 @@ class ContractItemView extends StatelessWidget {
 //  final double total;
 //  final double contract;
 //  final double profit;
-  final double realWidth;
+//  final double realWidth;
+  final int type;
   final ContractData data;
   final onPressed;
 
   Color totalColor;
   Color profitValueColor;
   String profitTitle;
-  ContractItemView(this.data, this.realWidth, this.onPressed){
-    switch(data.type){
+  String profitValue;
+  ContractItemView(this.type, this.data, this.onPressed){
+    switch(type){
       case ContractType.trial:
         totalColor = Colors.black;
         profitValueColor = CustomColors.red;
         profitTitle = '累计盈亏';
+        profitValue = data.profit.toStringAsFixed(2);
         break;
 
       case ContractType.current:
         totalColor = CustomColors.red;;
         profitValueColor = Colors.black;
         profitTitle = '可提现金';
+        profitValue = data.cash.toStringAsFixed(2);
         break;
 
       case ContractType.history:
         totalColor = Colors.black;
         profitValueColor = Utils.getProfitColor(data.profit);
         profitTitle = '结算退还';
+        profitValue = data.returnMoney.toStringAsFixed(2);
         break;
 
     }
@@ -69,7 +74,7 @@ class ContractItemView extends StatelessWidget {
   }
 
   _dateView() {
-    String text = '${data.startDate} 至 ${data.endDate}';
+    String text = '${data.beginTime} 至 ${data.endTime}';
     return Text(
         text,
         style: TextStyle(
@@ -100,7 +105,7 @@ class ContractItemView extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: px6),
             child: Text(
-              '${data.total}',
+              '${data.totalMoney}',
               style: TextStyle(
                 fontSize: px16,
                 color: totalColor,
@@ -127,7 +132,7 @@ class ContractItemView extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(left: a.px6),
-            child: Text(data.contract.toString(),
+            child: Text(data.contractMoney.toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: a.px16,
                   color: Colors.black,
@@ -158,7 +163,7 @@ class ContractItemView extends StatelessWidget {
           ),
           Container(
             child: Text(
-              data.profit.toString(),
+              profitValue,
               style: TextStyle(
                 fontSize: px16,
                 color: profitValueColor,

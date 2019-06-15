@@ -82,11 +82,11 @@ class Utils {
     return color;
   }
 
-  static convertDoubleString(num, [fixed = 3]){
+  static convertDoubleString(num, [fixed = 2]){
     return num.toStringAsFixed(fixed);
   }
 
-  static double convertDouble(num, [fixed = 3]){
+  static double convertDouble(num, [fixed = 2]){
     return double.parse(convertDoubleString(num, fixed));
   }
 

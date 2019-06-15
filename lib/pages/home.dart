@@ -51,7 +51,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
-//    return StockTradeMainPage('互惠盈T+1');
+//    return StockTradeMainPage( '00110514000737', '互惠盈T+1');
 //    return CurrentContractDetail();
 //    return CouponSelectPage(CouponSelectPage.getTestData());
 //    return ContractApplyPage();
@@ -65,7 +65,6 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             icon: iconMail,
             onPressed: () {
-              Utils.navigateTo(CurrentContractDetail());
             },
           ),
         ],

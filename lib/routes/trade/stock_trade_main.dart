@@ -4,6 +4,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
+import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
@@ -13,11 +14,14 @@ import 'stock_sell_view.dart';
 import 'stock_cancel_view.dart';
 import 'stock_query_view.dart';
 
-double realWidth;
+import 'package:funds/routes/trade/bloc/trade_bloc.dart';
+
 
 class StockTradeMainPage extends StatefulWidget {
   final String contractTitle;
-  StockTradeMainPage(this.contractTitle);
+  StockTradeMainPage(contractNumber, this.contractTitle){
+    TradeBloc.getInstance().setContractNumber(contractNumber);
+  }
   @override
   _StockTradeMainPageState createState() => _StockTradeMainPageState(contractTitle);
 }
@@ -25,12 +29,13 @@ class StockTradeMainPage extends StatefulWidget {
 class _StockTradeMainPageState extends State<StockTradeMainPage>
     with SingleTickerProviderStateMixin {
   final String contractTitle;
+  Timer refreshTimer;
+  int _currentIndex = 0;
   double cash = 0;
 
   _StockTradeMainPageState(this.contractTitle);
   @override
   Widget build(BuildContext context) {
-    realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('委托交易', style: TextStyle(fontSize: a.px20),),
@@ -63,7 +68,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     super.initState();
     _tabController = TabController(
       length: tabBarTitles.length,
-      initialIndex: 1,
+      initialIndex: _currentIndex,
       vsync: this,
     );
 
@@ -74,6 +79,29 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
       StockCancelView(),
       StockQueryView(),
     ];
+
+    _tabController.addListener((){
+      if(_tabController.index < 3 && _currentIndex != _tabController.index){
+        _currentIndex = _tabController.index;
+        print('_tab refresh:${_tabController.index}');
+        _refresh();
+      }
+    });
+    _refresh();
+//    refreshTimer = Timer.periodic(Duration(milliseconds: 1000), (_){
+//      TradeBloc.getInstance().refresh();
+//    });
+  }
+
+  _refresh() {
+    TradeBloc.getInstance().refresh();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    refreshTimer?.cancel();
   }
 
   _buildPageBody() {
@@ -82,7 +110,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
       child: Column(
         children: <Widget>[
           _buildCashView(),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           _buildTabBar(),
           _buildTabBarView(),
         ],
@@ -94,17 +122,25 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     final fontSize = a.px16;
     final hp = a.px16;
     final vp = a.px12;
-    return Container(
-      padding: EdgeInsets.only(left: hp, right: hp, top: vp, bottom: vp),
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          Text('可用现金', style: TextStyle(fontSize: fontSize),),
-          Expanded(child: Container(),),
-          Text(cash.toStringAsFixed(2), style: TextStyle(fontSize: fontSize, color: CustomColors.red),),
-          Text(' 元', style: TextStyle(fontSize: fontSize)),
-        ],
-      ),
+
+    TradeBloc bloc = TradeBloc.getInstance();
+    return StreamBuilder<double>(
+      stream: bloc.moneyStream,
+      initialData: bloc.money,
+      builder: (BuildContext context, AsyncSnapshot<double> snapshot){
+        return Container(
+          padding: EdgeInsets.only(left: hp, right: hp, top: vp, bottom: vp),
+          color: Colors.white,
+          child: Row(
+            children: <Widget>[
+              Text('可用现金', style: TextStyle(fontSize: fontSize),),
+              Expanded(child: Container(),),
+              Text(snapshot.data.toStringAsFixed(2), style: TextStyle(fontSize: fontSize, color: CustomColors.red),),
+              Text(' 元', style: TextStyle(fontSize: fontSize)),
+            ],
+          ),
+        );
+      },
     );
   }
 
