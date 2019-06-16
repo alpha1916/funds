@@ -38,6 +38,8 @@ class CustomColors {
   static const Color background1 = Color(0xFFE7E7F8);
   static const Color background2 = Color(0xFFEDECF2);
 
+  static const Color splitLineColor1 = Color(0x2A000000);
+
   static const Color trialContentBackground = Color(0xFFFEE3B9);
   static const Color trialBackground = Color(0xFFC51623);
 }

@@ -58,6 +58,7 @@ class _AppState extends State<App> {
   ];
 
   _adaptHack() async{
+    print('_adaptHack');
     await Future.delayed(Duration(milliseconds: 10));
     _hacked = true;
     setState(() {});
@@ -65,7 +66,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    print('main build');
     if(!_hacked){
       _adaptHack();
       return Container();
@@ -139,5 +139,8 @@ class _AppState extends State<App> {
 //    ];
 
     _initialized = true;
+
+//    if(Global.debug)
+//      _currentIndex = 3;
   }
 }

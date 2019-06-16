@@ -130,6 +130,8 @@ class ContractData {
   final double totalMoney;//资产总值
   final double cost;//管理费用
   final double usableMoney;//可用现金
+  final int profitRate;//盈利分配
+  final double realCost;//实收管理费
 
   final String title;//标题
   final int days;//使用天数
@@ -144,6 +146,8 @@ class ContractData {
         contractNumber = data['contractNumber'],
         contractMoney = Utils.convertDouble(data['contractMoney']),
         profit = data['profit'],
+        realCost = Utils.convertDouble(data['realCost'] ?? 0),
+        profitRate = data['profitRate'] ?? 100,
         returnMoney = Utils.convertDouble(data['returnMoney']),
         cash = Utils.convertDouble(data['cash']),
         operateMoney = data['operateMoney'],

@@ -3,6 +3,8 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/common/utils.dart';
+import 'history_contract_detail.dart';
 
 class HistoryContractListPage extends StatefulWidget {
   @override
@@ -41,6 +43,7 @@ class _HistoryContractListPageState extends State<HistoryContractListPage> {
             padding: EdgeInsets.only(bottom: 10),
             child: ContractItemView(ContractType.history, data, () {
               print('select $index');
+              Utils.navigateTo(HistoryContractDetail(data));
             }),
             alignment: Alignment.center,
           );

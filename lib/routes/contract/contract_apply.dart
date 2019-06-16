@@ -20,8 +20,14 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   int _currentTimesIdx = 0;
 
   _ContractApplyPageState(this.dataList, type) {
-    final ContractApplyItemData currentData = dataList.firstWhere((data) => data.type == type);
-    _currentTypeIdx = dataList.indexOf(currentData);
+    ContractApplyItemData currentData;
+    if(type == 0){
+      currentData = dataList[0];
+      _currentTypeIdx = 0;
+    }else{
+      currentData = dataList.firstWhere((data) => data.type == type);
+      _currentTypeIdx = dataList.indexOf(currentData);
+    }
   }
 
   @override

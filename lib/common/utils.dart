@@ -55,6 +55,10 @@ class Utils {
     );
   }
 
+  static buildForwardIcon([size, color]) {
+    return Icon(Icons.arrow_forward_ios, size: size ?? a.px16, color: color ?? Colors.black26,);
+  }
+
   static test() async {
     AccountData.getInstance().clear();
 //    Loading.show();
