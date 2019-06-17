@@ -133,7 +133,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
           color: Colors.white,
           child: Row(
             children: <Widget>[
-              Text('可用现金', style: TextStyle(fontSize: fontSize),),
+              Text('可用现金', style: TextStyle(fontSize: fontSize)),
               Expanded(child: Container(),),
               Text(snapshot.data.toStringAsFixed(2), style: TextStyle(fontSize: fontSize, color: CustomColors.red),),
               Text(' 元', style: TextStyle(fontSize: fontSize)),

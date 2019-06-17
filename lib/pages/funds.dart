@@ -17,7 +17,7 @@ class _FundsViewState extends State<FundsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('配资'),
+        title:Text('交易'),
         leading: Utils.buildServiceIconButton(context),
         actions: [
           Utils.buildMyTradeButton(context),

@@ -1,72 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/network/http_request.dart';
-import 'package:funds/model/stock_trade_data.dart';
-import 'package:funds/routes/trade/bloc/trade_bloc.dart';
+import 'package:funds/model/contract_data.dart';
 
-double realWidth;
-
-class StockListView extends StatelessWidget {
-  List<StockHoldData> dataList;
-  final onItemSelected;
-
-  StockListView(this.onItemSelected);
-
+class TradeFlowPage extends StatelessWidget {
+  final List<TradeFlowData> dataList;
+  TradeFlowPage(this.dataList);
   @override
   Widget build(BuildContext context) {
-    realWidth = MediaQuery.of(context).size.width;
+    final realWidth = MediaQuery.of(context).size.width;
     double leftPadding = a.px10;
     double rightPadding = 0;
     double itemWidth = realWidth - leftPadding - rightPadding;
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
-
-    TradeBloc bloc = TradeBloc.getInstance();
-    return StreamBuilder<List<StockHoldData>>(
-        stream: bloc.holdListStream,
-        initialData: bloc.holdList,
-        builder: (BuildContext context, AsyncSnapshot<List<StockHoldData>> snapshot){
-          dataList = snapshot.data;
-          return Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                _buildTitleList(sizeList, leftPadding, rightPadding),
-                Container(height: a.px1, color: Colors.black12),
-                Expanded(
-                  child:ListView.builder(
-                    itemBuilder: (BuildContext context, int index){
-                      return GestureDetector(
-                        child: _buildStockItem(index, sizeList, leftPadding, rightPadding),
-                        onTap: (){
-                          onItemSelected(dataList[index]);
-                        },
-                      );
-                    },
-                    itemCount: dataList.length,
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('交易流水')
+      ),
+      body: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              _buildTitleList(sizeList, leftPadding, rightPadding),
+              Container(height: a.px1, color: Colors.black12),
+              Expanded(
+                child:ListView.builder(
+                  itemBuilder: (BuildContext context, int index){
+                    return _buildStockItem(index, sizeList, leftPadding, rightPadding);
+                  },
+                  itemCount: dataList.length,
                 ),
-              ],
-            )
-          );
-        }
+              ),
+            ],
+          )
+      ),
     );
-
   }
-
-  final _titles = ['名称/代码', '市值/盈亏', '持仓/可用', '成本/现价'];
-  final List<double> _sizeListRate = [0.2, 0.4, 0.2, 0.2];
+  final _titles = ['名称/代码', '价格/数量', '状态/类型', '成交时间'];
+  final List<double> _sizeListRate = [0.25, 0.25, 0.25, 0.25];
 
   _buildTitleList(sizeList, leftPadding, rightPadding) {
-//    return SizedBox(height: 10,);
+    buildText(title, alignment){
+      Widget text = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500));
+      text = Align(
+        alignment: alignment,
+        child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500)),
+      );
+      return text;
+    }
+//    Text text = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500));
     return Container(
       padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
       child:Row(
         children: _titles.map((title){
           final int idx = _titles.indexOf(title);
           return Container(
+            padding: EdgeInsets.only(right: leftPadding),
             width: sizeList[idx],
-            child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.grey),)
+            child: buildText(title, idx < 3 ? FractionalOffset.topLeft : FractionalOffset.topRight),
           );
         }).toList(),
       ),
@@ -74,7 +65,7 @@ class StockListView extends StatelessWidget {
   }
 
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
-    StockHoldData data = dataList[index];
+    TradeFlowData data = dataList[index];
     double fontSize = a.px15;
     return Container(
       color: Colors.transparent,
@@ -101,7 +92,7 @@ class StockListView extends StatelessWidget {
                   ],
                 ),
               ),
-              //市值/盈亏
+              //价格/数量
               Container(
                 padding: EdgeInsets.only(left: leftPadding),
                 width: sizeList[1],
@@ -109,33 +100,33 @@ class StockListView extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: FractionalOffset.topLeft,
-                      child: Text(Utils.getTrisection(data.value), style: TextStyle(fontSize: fontSize),),
+                      child: Text(data.price.toStringAsFixed(2), style: TextStyle(fontSize: fontSize),),
                     ),
                     Align(
                       alignment: FractionalOffset.topLeft,
-                      child: Text('${Utils.getTrisection(data.profit)}(${data.profitRate})', style: TextStyle(fontSize: fontSize, color: Utils.getProfitColor(data.profit))),
+                      child: Text(Utils.getTrisectionInt(data.count.toString()), style: TextStyle(fontSize: fontSize)),
                     ),
                   ],
                 ),
               ),
-              //持仓/可用
+              //状态/类型
               Container(
                 padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[2],
                 child: Column(
                   children: <Widget>[
                     Align(
-                      alignment: FractionalOffset.topRight,
-                      child: Text(data.hold.toString(), style: TextStyle(fontSize: fontSize),),
+                      alignment: FractionalOffset.topLeft,
+                      child: Text(data.strState, style: TextStyle(fontSize: fontSize),),
                     ),
                     Align(
-                      alignment: FractionalOffset.topRight,
-                      child: Text(data.usable.toString(), style: TextStyle(fontSize: fontSize)),
+                      alignment: FractionalOffset.topLeft,
+                      child: Text(data.strType, style: TextStyle(fontSize: fontSize, color: Utils.getEntrustTypeColor(data.type))),
                     ),
                   ],
                 ),
               ),
-              //成本/现价
+              //成交时间
               Container(
                 padding: EdgeInsets.only(left: leftPadding, right: a.px5),
                 width: sizeList[3],
@@ -143,11 +134,11 @@ class StockListView extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: FractionalOffset.topRight,
-                      child: Text(data.cost.toString(), style: TextStyle(fontSize: fontSize),),
+                      child: Text(data.strDay, style: TextStyle(fontSize: fontSize),),
                     ),
                     Align(
                       alignment: FractionalOffset.topRight,
-                      child: Text(data.price.toString(), style: TextStyle(fontSize: fontSize, color: Utils.getProfitColor(data.profit))),
+                      child: Text(data.strTime, style: TextStyle(fontSize: fontSize)),
                     ),
                   ],
                 ),

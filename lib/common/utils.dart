@@ -86,6 +86,13 @@ class Utils {
     return color;
   }
 
+  static Color getEntrustTypeColor(type) {
+    if(type == TradeType.buy)
+      return Utils.getProfitColor(1);
+    else
+      return Utils.getProfitColor(-1);
+  }
+
   static convertDoubleString(num, [fixed = 2]){
     return num.toStringAsFixed(fixed);
   }
@@ -101,17 +108,30 @@ class Utils {
       value = -value;
     }
     List<String> tmp = value.toStringAsFixed(2).split('.');
+//    List<String> intPartList = [];
+//    String strIntPart = tmp[0];
+//
+//    while(strIntPart.length > 3){
+//      intPartList.add(strIntPart.substring(strIntPart.length - 4, strIntPart.length - 1));
+//      strIntPart = strIntPart.substring(0, strIntPart.length - 3);
+//    }
+//    intPartList.add(strIntPart);
+//
+//    return sign + intPartList.reversed.join(',') + '.' + tmp[1];
+    String strIntPart = getTrisectionInt(tmp[0]);
+    return sign + strIntPart + '.' + tmp[1];
+
+  }
+  
+  static getTrisectionInt(String strValue){
     List<String> intPartList = [];
-    String strIntPart = tmp[0];
-
-    while(strIntPart.length > 3){
-      intPartList.add(strIntPart.substring(strIntPart.length - 4, strIntPart.length - 1));
-      strIntPart = strIntPart.substring(0, strIntPart.length - 3);
+    while(strValue.length > 3){
+      intPartList.add(strValue.substring(strValue.length - 4, strValue.length - 1));
+      strValue = strValue.substring(0, strValue.length - 3);
     }
-    intPartList.add(strIntPart);
+    intPartList.add(strValue);
 
-    return sign + intPartList.reversed.join(',') + '.' + tmp[1];
-
+    return intPartList.reversed.join(',');
   }
 
   static login(phone, pwd) async {

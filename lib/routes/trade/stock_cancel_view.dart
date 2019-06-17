@@ -89,13 +89,6 @@ class _StockCancelViewState extends State<StockCancelView> {
     );
   }
 
-  Color _getEntrustTypeColor(type) {
-    if(type == TradeType.buy)
-      return Utils.getProfitColor(1);
-    else
-      return Utils.getProfitColor(-1);
-  }
-
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
     StockEntrustData data = _dataList[index];
     double fontSize = a.px15;
@@ -161,7 +154,7 @@ class _StockCancelViewState extends State<StockCancelView> {
                     ),
                     Align(
                       alignment: FractionalOffset.topLeft,
-                      child: Text(data.type == TradeType.buy ? '买入' : '卖出', style: TextStyle(fontSize: fontSize, color: _getEntrustTypeColor(data.type))),
+                      child: Text(data.type == TradeType.buy ? '买入' : '卖出', style: TextStyle(fontSize: fontSize, color: Utils.getEntrustTypeColor(data.type))),
                     ),
                   ],
                 ),

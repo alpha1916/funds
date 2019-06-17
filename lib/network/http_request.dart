@@ -546,6 +546,20 @@ class ContractRequest {
 
     return ResultData(true, resultData);
   }
+
+  static Future<ResultData> getTradeFlowList(contractNumber) async {
+    final String api = '/api/v1/trade/getContractTradeRecord';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
 }
 
 class RechargeRequest{

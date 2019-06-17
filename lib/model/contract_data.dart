@@ -1,6 +1,6 @@
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/common/utils.dart';
-
+import 'package:funds/common/constants.dart';
 
 class ExperienceInfoData {
   final int id;
@@ -146,8 +146,8 @@ class ContractData {
         contractNumber = data['contractNumber'],
         contractMoney = Utils.convertDouble(data['contractMoney']),
         profit = data['profit'],
-        realCost = Utils.convertDouble(data['realCost'] ?? 0),
-        profitRate = data['profitRate'] ?? 100,
+        realCost = Utils.convertDouble(data['realManagement']),
+        profitRate = data['profitRate'],
         returnMoney = Utils.convertDouble(data['returnMoney']),
         cash = Utils.convertDouble(data['cash']),
         operateMoney = data['operateMoney'],
@@ -166,6 +166,30 @@ class ContractData {
         ongoing = data['stat'] == 1
   ;
 
+}
+
+final tradeFlowStatus = ['未知', '已成交'];
+
+class TradeFlowData{
+  final String title;
+  final String code;
+  final double price;
+  final int count;
+  final String strDay;
+  final String strTime;
+  final String strType;
+  final int type;
+  final String strState;
+  TradeFlowData(data):
+      title = data['secShortname'],
+      code = data['secCode'],
+      count = data['count'],
+      price = Utils.convertDouble(data['price']),
+      type = data['type'],
+      strType = data['type'] == TradeType.buy ? '买入' : '卖出',
+      strState = tradeFlowStatus[data['status']],
+      strDay = data['recordTime'].split(' ')[0],
+      strTime = data['recordTime'].split(' ')[1];
 }
 
 //class ExperienceContractData {

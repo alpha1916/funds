@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
+import 'package:funds/network/http_request.dart';
+import 'contract_flow_page.dart';
+import 'trade_flow_page.dart';
+
 
 class HistoryContractDetail extends StatelessWidget {
   final ContractData data;
@@ -146,7 +150,7 @@ class HistoryContractDetail extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text('计算退还', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
+          Text('结算退还', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
           Text('(${data.profitRate}%盈利分配)', style: TextStyle(fontSize: a.px13, color: Colors.black)),
           Expanded(child:Container()),
           Text(data.returnMoney.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500, color: Utils.getProfitColor(data.returnMoney)),
@@ -175,10 +179,15 @@ class HistoryContractDetail extends StatelessWidget {
 
   _onPressFlow() {
     print('flow');
+    Utils.navigateTo(ContractFlowPage());
   }
 
-  _onPressTradeHistory() {
+  _onPressTradeHistory() async{
     print('history');
+//    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
+    ResultData result = await ContractRequest.getTradeFlowList('00120515000261');
+    if(result.success)
+      Utils.navigateTo(TradeFlowPage(result.data));
   }
 }
 

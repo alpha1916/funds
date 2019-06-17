@@ -15,7 +15,7 @@ class _TrialViewState extends State<TrialView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('体验'),
+          title: Text('活动专区'),
           leading: Utils.buildServiceIconButton(context),
         ),
         body: Container(
@@ -57,10 +57,10 @@ class _TrialViewState extends State<TrialView> {
 
 class _ContentView extends StatefulWidget {
   @override
-  __ContentViewState createState() => __ContentViewState();
+  _ContentViewState createState() => _ContentViewState();
 }
 
-class __ContentViewState extends State<_ContentView>
+class _ContentViewState extends State<_ContentView>
     with SingleTickerProviderStateMixin{
   TabController _tabController;
   final _titles = ['参加体验', '我的体验'];
