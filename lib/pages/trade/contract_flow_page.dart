@@ -28,7 +28,6 @@ class _ContractFlowPageState extends State<ContractFlowPage>
           children: <Widget>[
             _buildInfoView(),
             SizedBox(height: a.px12),
-//            _buildListView(),
             _buildTabBar(),
             _buildListView(),
           ],

@@ -53,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
-    return ContractFlowPage();
+//    return ContractFlowPage();
 //    return StockTradeMainPage( '00110514000737', '互惠盈T+1');
 //    return CurrentContractDetail();
 //    return CouponSelectPage(CouponSelectPage.getTestData());
@@ -110,7 +110,6 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _onClickedItem(int type) async{
-//        final applyItemDataList = await HttpRequest.getApplyIdtemList();
     print('apply item:$type');
     Utils.navigateTo(ContractApplyPage(_dataList, type));
   }

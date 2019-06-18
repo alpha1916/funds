@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
+
+class TradeConFirmDialog {
+  static Future<bool> show(type, data) async {
+    String strType = type == TradeType.buy ? '买入' : '卖出';
+    String title = '委托$strType确认';
+    String btnTitle = '确认$strType';
+    Color colorType = type == TradeType.buy ? CustomColors.red : Colors.green;
+    return showDialog(
+      context: Global.buildContext,
+      builder: (context) => Center(
+        child: Material(
+          child: Container(
+            width: a.px(360),
+            height: a.px(260),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(a.px12)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: a.px16, top: a.px16, bottom: a.px8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(title, style: TextStyle(fontSize: a.px20, fontWeight: FontWeight.w400, color: Colors.black),),
+                ),
+                _buildColumnItem('股票代码', data['code']),
+                _buildColumnItem('股票名称', data['title']),
+                SizedBox(height: a.px4),
+                Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+                SizedBox(height: a.px4),
+                _buildColumnItem('委托价格', data['price'].toStringAsFixed(2), colorType),
+                _buildColumnItem('委托数量', '${data['count'] }股', colorType),
+                SizedBox(height: a.px4),
+                Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+                _buildConfirmButton(btnTitle),
+              ],
+            ),
+          )
+        ),
+      ),
+      barrierDismissible: true
+    );
+  }
+
+  static _buildColumnItem(leftText, rightText, [color = Colors.black]){
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(leftText, style: TextStyle(fontSize: a.px16),),
+          Text(rightText, style: TextStyle(fontSize: a.px16, color: color),),
+        ],
+      ),
+    );
+  }
+  static _buildConfirmButton(btnTitle) {
+    return GestureDetector(
+      child:Container(
+        margin: EdgeInsets.symmetric(vertical: a.px12),
+        color: Colors.transparent,
+        child: Center(
+          child: Text(btnTitle, style: TextStyle(fontSize: a.px22, color: Color(0xFFF48C33)),),
+        ),
+      ),
+      onTap: () => Utils.navigatePop(true),
+    );
+  }
+}

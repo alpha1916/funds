@@ -105,6 +105,7 @@ class _AppState extends State<App> {
 
   void appInit(context) {
     print('app init');
+    Global.buildContext = context;
     Utils.init(context, tabSwitcher);
     HttpRequest.init(context);
     CustomAlert.init(context);

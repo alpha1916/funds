@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
-import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'stock_buy_view.dart';
 import 'stock_list_view.dart';
-import 'package:funds/model/stock_trade_data.dart';
-import 'package:funds/routes/trade/bloc/trade_bloc.dart';
 import 'package:funds/network/stock_trade_request.dart';
+import 'package:funds/routes/trade/trade_confirm_dialog.dart';
 
 class StockSellView extends StockBuyView {
   @override
@@ -65,6 +63,17 @@ class SellFrame extends StockTradeFrame {
       alert('委卖数量超过可卖数量');
       return;
     }
+
+    var data = {
+      'code': stockInfo.code,
+      'title': stockInfo.title,
+      'price': getInputPrice(),
+      'count': count,
+    };
+
+    var confirm = await TradeConFirmDialog.show(TradeType.sell, data);
+    if(confirm == null)
+      return;
 
     ResultData result = await StockTradeRequest.sell(
       bloc.selectedHoldData.id,

@@ -198,5 +198,6 @@ class a{
 }
 
 class Global{
+  static BuildContext buildContext;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
 }

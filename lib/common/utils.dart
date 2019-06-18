@@ -5,6 +5,9 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/account/login_page.dart';
+import 'package:funds/routes/trade/trade_confirm_dialog.dart';
+
+
 
 class Utils {
   static BuildContext context;
@@ -60,7 +63,15 @@ class Utils {
   }
 
   static test() async {
-    AccountData.getInstance().clear();
+//    AccountData.getInstance().clear();
+    var data = {
+      'code': '666666',
+      'title': '招商银行',
+      'price': 6.66,
+      'count': '200',
+    };
+    TradeConFirmDialog.show(TradeType.sell, data);
+
 //    Loading.show();
   }
 

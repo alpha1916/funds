@@ -6,6 +6,7 @@ import 'stock_list_view.dart';
 import 'package:funds/model/stock_trade_data.dart';
 import 'package:funds/routes/trade/bloc/trade_bloc.dart';
 import 'package:funds/network/stock_trade_request.dart';
+import 'package:funds/routes/trade/trade_confirm_dialog.dart';
 
 class StockBuyView extends StatelessWidget {
   @override
@@ -28,55 +29,6 @@ class StockBuyView extends StatelessWidget {
     TradeBloc.getInstance().getStockInfo(data.code);
   }
 }
-
-
-//class StockBuyView extends StatefulWidget {
-//  @override
-//  _StockBuyViewState createState() => _StockBuyViewState();
-//}
-//
-//class _StockBuyViewState extends State<StockBuyView> {
-//  List<StockHoldData> _dataList = [];
-//  @override
-//  Widget build(BuildContext context) {
-//    realWidth = MediaQuery.of(context).size.width;
-//    return Container(
-//      child: Column(
-//        children: <Widget>[
-//          StockTradeFrame(TradeType.buy),
-//          SizedBox(height: 10,),
-//          Expanded(
-//            child: StockListView(_onSelectStock),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//
-//  _onSelectStock(StockHoldData data) {
-//    TradeBloc.getInstance().getStockInfo(data.code);
-//  }
-//
-//  _refresh() async{
-//    _dataList = await HttpRequest.getStockHoldList();
-//
-//    if(mounted) setState(() {});
-//  }
-//
-//  @override
-//  void initState(){
-//    // TODO: implement initState
-//    super.initState();
-//
-//    _refresh();
-//  }
-//}
-
-//class StockTradeFrame extends StatefulWidget {
-//  StockTradeFrame();
-//  @override
-//  StockTradeFrameState createState() => StockTradeFrameState();
-//}
 
 class StockTradeFrame extends StatelessWidget{
   final TradeBloc bloc = TradeBloc.getInstance();
@@ -376,6 +328,17 @@ class StockTradeFrame extends StatelessWidget{
       alert('请输入正确的委买数量');
     }
 
+    var data = {
+      'code': stockInfo.code,
+      'title': stockInfo.title,
+      'price': getInputPrice(),
+      'count': count,
+    };
+
+    var confirm = await TradeConFirmDialog.show(TradeType.buy, data);
+    if(confirm == null)
+      return;
+
     ResultData result = await StockTradeRequest.buy(
         bloc.contractNumber,
         codeInputController.text,
@@ -404,12 +367,6 @@ class StockTradeFrame extends StatelessWidget{
       ),
     );
   }
-
-//  _getSellList() {
-//    if(_data){
-//      return
-//    }
-//  }
 
   /*------------------------------------------------操作 end---------------------------------------------------*/
 
@@ -486,7 +443,7 @@ class StockTradeFrame extends StatelessWidget{
   _buildSellListView(List<dynamic> dataList){
     List<Widget> list = [];
     for(int i = 4; i >= 0; --i){
-      String strPrice = '--';
+      String strPrice = '0.00';
       String strCount = '--';
       Color priceColor = Colors.black87;
 
