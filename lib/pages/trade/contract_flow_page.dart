@@ -112,6 +112,13 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     _tabController.index = _currentIndex;
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
+  }
+
   Widget _buildTabBar() {
     return Container(
       color: Colors.white,

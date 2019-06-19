@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'alert.dart';
+import 'custom_dialog.dart';
 class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
@@ -63,6 +63,19 @@ class TradeType {
   static const int sell = 2;
 }
 
+class StateType {
+  static const int deal = 1;//已成交
+  static const int noDeal = 2;//未成交
+  static const int partDeal = 3;//部分成交
+}
+
+class ContractOperate {
+  static const int addMoney = 1;
+  static const int applySettlement = 2;
+  static const int delaySell = 3;
+  static const int convert = 4;
+}
+
 alert(String tips) {
   return CustomAlert.show(tips);
 }
@@ -70,7 +83,6 @@ alert(String tips) {
 alert2(String title, String tips, String btnTitle) {
   return CustomAlert.show2(title, tips, btnTitle);
 }
-
 
 class a{
 //  static double screenWidth;

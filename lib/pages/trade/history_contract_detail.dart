@@ -184,10 +184,10 @@ class HistoryContractDetail extends StatelessWidget {
 
   _onPressTradeHistory() async{
     print('history');
-//    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
-    ResultData result = await ContractRequest.getTradeFlowList('00120515000261');
+    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
+//    ResultData result = await ContractRequest.getTradeFlowList('00120515000261');
     if(result.success)
-      Utils.navigateTo(TradeFlowPage(result.data));
+      Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, result.data));
   }
 }
 

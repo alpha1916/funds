@@ -5,7 +5,9 @@ import 'package:funds/model/contract_data.dart';
 
 class TradeFlowPage extends StatelessWidget {
   final List<TradeFlowData> dataList;
-  TradeFlowPage(this.dataList);
+  final String title;
+  final int type;
+  TradeFlowPage(this.title, this.type, this.dataList);
   @override
   Widget build(BuildContext context) {
     final realWidth = MediaQuery.of(context).size.width;
@@ -15,7 +17,7 @@ class TradeFlowPage extends StatelessWidget {
     List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
     return Scaffold(
       appBar: AppBar(
-          title: Text('交易流水')
+          title: Text(title)
       ),
       body: Container(
           color: Colors.white,
@@ -36,10 +38,21 @@ class TradeFlowPage extends StatelessWidget {
       ),
     );
   }
-  final _titles = ['名称/代码', '价格/数量', '状态/类型', '成交时间'];
+
+  _getStateText() {
+    String text;
+    if(type == StateType.deal)
+      text = '成交';
+    else if(type == StateType.noDeal)
+      text = '委托';
+
+    return text;
+  }
+
   final List<double> _sizeListRate = [0.25, 0.25, 0.25, 0.25];
 
   _buildTitleList(sizeList, leftPadding, rightPadding) {
+    final _titles = ['名称/代码', '价格/数量', '状态/类型', '${_getStateText()}时间'];
     buildText(title, alignment){
       Widget text = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500));
       text = Align(
@@ -48,7 +61,7 @@ class TradeFlowPage extends StatelessWidget {
       );
       return text;
     }
-//    Text text = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500));
+
     return Container(
       padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
       child:Row(

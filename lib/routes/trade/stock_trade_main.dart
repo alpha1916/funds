@@ -102,6 +102,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     // TODO: implement dispose
     super.dispose();
     refreshTimer?.cancel();
+    _tabController.dispose();
   }
 
   _buildPageBody() {

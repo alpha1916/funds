@@ -7,6 +7,7 @@ import 'package:funds/model/stock_trade_data.dart';
 import 'package:funds/routes/trade/bloc/trade_bloc.dart';
 import 'package:funds/network/stock_trade_request.dart';
 import 'package:funds/routes/trade/trade_confirm_dialog.dart';
+import 'package:funds/common/custom_dialog.dart';
 
 class StockBuyView extends StatelessWidget {
   @override
@@ -313,6 +314,22 @@ class StockTradeFrame extends StatelessWidget{
     );
   }
 
+  Future<bool> queryTradeConfirm(type, count, price) async{
+    var data = {
+      'code': stockInfo.code,
+      'title': stockInfo.title,
+      'price': price,
+      'count': count,
+    };
+
+//    var confirm = await TradeConFirmDialog.show(type, data);
+    var confirm = await CustomAlert.showCustomDialog(TradeConfirmDialog(type, data));
+    if(confirm == null)
+      return false;
+
+    return true;
+  }
+
   onBtnTrade() async{
     if(stockInfo == null)
       return;
@@ -328,21 +345,15 @@ class StockTradeFrame extends StatelessWidget{
       alert('请输入正确的委买数量');
     }
 
-    var data = {
-      'code': stockInfo.code,
-      'title': stockInfo.title,
-      'price': getInputPrice(),
-      'count': count,
-    };
-
-    var confirm = await TradeConFirmDialog.show(TradeType.buy, data);
-    if(confirm == null)
+    double price = getInputPrice();
+    bool confirm = await queryTradeConfirm(TradeType.buy, count, price);
+    if(!confirm)
       return;
 
     ResultData result = await StockTradeRequest.buy(
         bloc.contractNumber,
         codeInputController.text,
-        getInputPrice(),
+        price,
         count,
     );
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'common/constants.dart';
 import 'common/utils.dart';
-import 'common/alert.dart';
+import 'common/custom_dialog.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/model/account_data.dart';
 

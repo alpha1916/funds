@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
+import 'contract_add_capital_page.dart';
 
 var realWidth;
 var ctx;
@@ -33,7 +35,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _refresh();
   }
 
   @override
@@ -247,61 +248,75 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _buildMoreButton() {
     final buttonView = Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey, width: 0.5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey, width: 0.5),
+      ),
+      child: FlatButton(
+        onPressed: null,
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.menu,
+              color: Colors.black,
+              size: a.px20,
+            ),
+            Text(
+              '更多操作',
+              style: TextStyle(fontSize: a.px18, color: Colors.black),
+            ),
+          ],
         ),
-        child: FlatButton(
-          onPressed: null,
-          child: Row(
-            children: <Widget>[
-              Icon(
-                Icons.menu,
-                color: Colors.black,
-                size: a.px20,
-              ),
-              Text(
-                '更多操作',
-                style: TextStyle(fontSize: a.px18, color: Colors.black),
-              ),
-            ],
-          ),
-        ));
+      )
+    );
+
+    buildMenuItem(title, value) {
+      return PopupMenuItem<int>(
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+        ),
+        value: value,
+      );
+    }
 
     return PopupMenuButton<int>(
       child: buttonView,
       itemBuilder: (builder) => <PopupMenuEntry<int>>[
-            const PopupMenuItem<int>(
-              child: Text(
-                "追加本金",
-                textAlign: TextAlign.center,
-              ),
-              value: 1,
-            ),
-            const PopupMenuItem<int>(
-              child: Text(
-                "缩小合约",
-                textAlign: TextAlign.center,
-              ),
-              value: 1,
-            ),
-            const PopupMenuItem<int>(
-              child: Text(
-                "放大合约",
-                textAlign: TextAlign.center,
-              ),
-              value: 1,
-            ),
-            const PopupMenuItem(
-              child: Text("申请结算"),
-              value: 2,
-            ),
-            const PopupMenuItem(
-              child: Text("停牌转合约"),
-              value: 3,
-            )
-          ],
-      onSelected: (item) {},
+        buildMenuItem('追加本金', ContractOperate.addMoney),
+        buildMenuItem('申请结算', ContractOperate.applySettlement),
+        buildMenuItem('延期卖出', ContractOperate.delaySell),
+        buildMenuItem('停牌转合约', ContractOperate.convert),
+      ],
+      onSelected: (value) async{
+        print(value);
+        switch(value){
+          case ContractOperate.addMoney:
+            double minAdd = (data.operateMoney * 0.01 * 100).round() / 100;
+            var success = await Utils.navigateTo(ContractAddCapitalPage(data.contractNumber, minAdd));
+            if(success == true)
+              _refresh();
+            break;
+
+          case ContractOperate.applySettlement:
+            int select = await CustomAlert.show3('提示', '确认结算当前合约', '取消', '确定');
+            if(select == 2){
+              ResultData result = await ContractRequest.applySettlement(data.contractNumber);
+              if(result.success){
+                alert('申请结算成功');
+                Utils.navigatePop();
+              }
+            }
+            break;
+
+          case ContractOperate.delaySell:
+            break;
+
+          case ContractOperate.convert:
+            break;
+
+        }
+      },
     );
   }
 

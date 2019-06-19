@@ -9,164 +9,17 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/routes/account/login_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-//import 'package:connectivity/connectivity.dart';
+import 'package:connectivity/connectivity.dart';
 
 class HttpRequest {
   static Future<bool> isNetworkAvailable() async {
-    return true;
-//    var connectivityResult = await (Connectivity().checkConnectivity());
-//    return connectivityResult != ConnectivityResult.none;
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult != ConnectivityResult.none;
   }
 
-  static Future<ContractData> getCurrentContractDetail() async{
-    var testData = {
-      'title': '互惠盈T+1',
-      'total': 5004.06,
-      'cash': 0.00,
-      'profit': -930.09,
-      'capital': 167.00,
-      'cost': 0.00,
-      'cordon': 5500.00,
-      'cut': 5300.00,
-      'info': '142791870591850',
-      'loan': 5000.00,
-      'contract': 6000.00,
-      'stocks': 6080.86,
-      'days': 11,
-    };
+//  static List<int> businessErrorCodes = [500, 501, 502, 503, 512, 400];
+  static List<int> businessErrorCodes = [200, 401];
 
-    final ContractData data = ContractData(testData);
-    return data;
-
-  }
-
-  static Future<List<ContractData>> getCurrentContractList() async{
-    print('getCurrentContractList');
-    var testData = [
-      {'title': '免费体验', 'ongoing' : true, 'startDate': '2019-5-17', 'endDate': '2019-6-17', 'total': 6082.12, 'contract': 6000.00, 'profit': 82.12},
-      {'title': '免息体验', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
-      {'title': '天天盈', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
-      {'title': '天天盈T+1', 'ongoing' : false, 'startDate': '2019-5-14', 'endDate': '2019-5-15', 'total': 682.12, 'contract': 600.00, 'profit': 82.12},
-    ];
-
-    final dataList = testData.map((data) {
-      data['type'] = ContractType.current;
-      data['ongoing'] = true;
-      return ContractData(data);
-    }).toList();
-
-    return dataList;
-  }
-
-  static Future<List<StockHoldData>> getStockHoldList() async{
-    print('getStockHoldList');
-    await Future.delayed(Duration(milliseconds: 10));
-    var testDataList = [
-      {'title': '天山生物', 'code': '600030', 'value': 3918.00, 'profit': -440.70, 'hold': 600, 'usable': 300, 'cost': 7.26, 'price': 6.53},
-      {'title': '紫金银行', 'code': '600030', 'value': 1440000.00, 'profit': 1240000.70, 'hold': 600, 'usable': 0, 'cost': 7.26, 'price': 8.53},
-    ];
-
-    final dataList = testDataList.map((data) => StockHoldData(data)).toList();
-
-    return dataList;
-  }
-
-  static Future<List<StockEntrustData>> getStockCancelList() async{
-    print('getStockHoldList');
-    var testDataList = [
-      {'title': '天山生物', 'code': '600030',  'price': 6.53, 'count': 600, 'type': 1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
-      {'title': '天山生物', 'code': '600030',  'price': 8.53, 'count': 600, 'type': -1, 'strDay': '2019-05-31', 'strTime': '09:30:10'},
-    ];
-
-    final dataList = testDataList.map((data) => StockEntrustData(data)).toList();
-
-    return dataList;
-  }
-
-  static  TradingStockData getTradingStockData(int code) {
-    var testData = {
-      'title': '紫金银行',
-      'code': 600030,
-      'closingPrice': 3.00,
-      'upLimitPrice': 3.30,
-      'downLimitPrice': 2.70,
-      'buyList': [
-        [2.94, 100],
-        [2.93, 2000],
-        [2.92, 300],
-        [2.91, 4000],
-        [2.90, 5000],
-      ],
-      'sellList': [
-        [3.09, 1000],
-        [3.11, 2000],
-        [3.12, 3000],
-        [3.13, 4000],
-        [13.14, 5000],
-      ],
-    };
-
-    var testData2 = {
-      'title': '天山生物',
-      'code': 600030,
-      'closingPrice': 3.00,
-      'upLimitPrice': 3.30,
-      'downLimitPrice': 2.70,
-      'buyList': [
-        [2.94, 100],
-        [2.93, 2000],
-        [2.92, 300],
-        [2.91, 4000],
-        [2.90, 5000],
-      ],
-      'sellList': [
-        [3.09, 1000],
-        [3.11, 2000],
-        [3.12, 3000],
-        [3.13, 4000],
-        [13.14, 5000],
-      ],
-    };
-
-    var dataMap = {
-      '555555': testData,
-      '666666': testData2,
-    };
-
-    final TradingStockData data = TradingStockData(dataMap[code.toString()]);
-    print(data.code);
-    return data;
-
-  }
-
-  static List<int> businessErrorCodes = [500, 501, 502, 503, 512, 400];
-//  static sendGet(api, data) async{
-//    try {
-//      print('http get:$api,data:${data.toString()}');
-//      Response response = await dio.get(api, queryParameters: data);
-//
-//      if(response.statusCode == 200){
-//        var data = response.data;
-//        if(businessErrorCodes.indexOf(data['code']) != -1){
-//          print(data['desc']);
-//          alert(data['desc']);
-//          return null;
-//        }
-//
-//        print(response.data.toString());
-//        return response.data;
-//      }else if(response.statusCode == 401){
-//        Utils.navigateToLoginPage();
-//        return null;
-//      }else{
-//        alert('请求错误，请联系客服');
-//        return null;
-//      }
-//    } catch (e) {
-//      print(e);
-//      alert(e);
-//    }
-//  }
   static void handleUnauthorized(askLogin) {
     print('token Unauthorized');
     AccountData.getInstance().clear();
@@ -208,26 +61,20 @@ class HttpRequest {
           response = await dio.post(api, data: data);
         }
       }else{
-//        if(token != null){
-//          response = await dio.get(api, queryParameters: data, options: options);
-//        }else{
-          response = await dio.get(api, queryParameters: data, options: options);
-//        }
+        response = await dio.get(api, queryParameters: data, options: options);
       }
 
       Loading.hide();
       print('response.statusCode:${response.statusCode}');
       if(response.statusCode == 200){
         var data = response.data;
-        if(businessErrorCodes.indexOf(data['code']) != -1){
-//          print('code:${data['code']}, desc:${data['desc']}');
-          print(data.toString());
+        print(data.toString());
+        if(businessErrorCodes.indexOf(data['code']) == -1){
           alert(data['desc']);
           return null;
         }
 
-        print(response.data.toString());
-        return response.data;
+        return data;
       }else if(response.statusCode == 401){
         handleUnauthorized(askLogin);
         return null;
@@ -247,7 +94,7 @@ class HttpRequest {
   }
 
 
-  static sendTokenRequest({
+  static sendTokenPost({
     @required api,
     data,
     askLogin = true
@@ -272,7 +119,6 @@ class HttpRequest {
       token = await Utils.navigateToLoginPage();
     }
 
-//    return send(api: api, data: data, askLogin: askLogin, token: token);
     return send(api: api, data: data, askLogin: askLogin, token: token, isPost: false);
   }
 //  static bool isResponseOK(data){
@@ -296,7 +142,6 @@ class HttpRequest {
   static void init(BuildContext context){
     dio = Dio(); // 使用默认配置
     dio.options.baseUrl = 'http://119.29.142.63:8070';
-//    dio.options.baseUrl = 'http://www.baidu.com';
     dio.options.connectTimeout = 5000; //5s
     dio.options.receiveTimeout = 3000;
 
@@ -326,7 +171,6 @@ class Loading {
         barrierDismissible: false
     );
 //    await Future.delayed(Duration(seconds: 3));
-//
 //    Utils.navigatePop();
   }
 
@@ -390,7 +234,7 @@ class LoginRequest {
 class UserRequest {
   static getUserInfo() async {
     final String api = '/api/v1/user/getUserInfo';
-    var result = await HttpRequest.sendTokenRequest(api: api, askLogin: false);
+    var result = await HttpRequest.sendTokenPost(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -418,7 +262,7 @@ class ExperienceRequest {
   static Future<ResultData> preApplyContract(id) async {
     final String api = '/api/v1/experience/preApplyContract';
     var data = {'id': id};
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -427,22 +271,12 @@ class ExperienceRequest {
     ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
 
     return ResultData(true, resultData);
-
-//    await Future.delayed(Duration(milliseconds: 100));
-//    ResultData result = ResultData(true, ContractApplyDetailData({
-//      'profit' : null,
-//      'managment' : 0,
-//      'warnLine' : 5500,
-//      'stopLossLine' : 5300,
-//      'createTime' : '2019-06-19',
-//    }));
-//    return result;
   }
 
   static Future<ResultData> applyContract(id) async {
     final String api = '/api/v1/experience/applyContract';
     var data = {'id': id};
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -453,7 +287,7 @@ class ExperienceRequest {
 
   static Future<ResultData> getContractList() async {
     final String api = '/api/v1/experience/getMyExperienceContract';
-    var result = await HttpRequest.sendTokenRequest(api: api, askLogin: false);
+    var result = await HttpRequest.sendTokenPost(api: api, askLogin: false);
     if(result == null){
       return ResultData(false);
     }
@@ -481,7 +315,7 @@ class ContractRequest {
   static Future<ResultData> preApplyContract(type, times, loanAmount) async {
     final String api = '/api/v1/contract/preApplyContract';
     var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -490,16 +324,6 @@ class ContractRequest {
     ContractApplyDetailData resultData = ContractApplyDetailData(result['data']);
 
     return ResultData(true, resultData);
-
-//    await Future.delayed(Duration(milliseconds: 100));
-//    ResultData result = ResultData(true, ContractApplyDetailData({
-//      'profit' : null,
-//      'managment' : 0,
-//      'warnLine' : 5500,
-//      'stopLossLine' : 5300,
-//      'createTime' : '2019-06-19',
-//    }));
-//    return result;
   }
 
   static Future<ResultData> applyContract(int type, int times, int loanAmount) async {
@@ -509,7 +333,7 @@ class ContractRequest {
       'times': times,
       'loanAmount': loanAmount,
     };
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -522,7 +346,7 @@ class ContractRequest {
   static Future<ResultData> getContractList(type) async {
     final String api = '/api/v1/contract/getContract';
     var data = {'isHistory': type};
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
       return ResultData(false);
     }
@@ -536,7 +360,7 @@ class ContractRequest {
   static Future<ResultData> getContractDetail(contractNumber) async {
     final String api = '/api/v1/contract/getContractByNo';
     var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
 
     if(result == null){
       return ResultData(false);
@@ -560,6 +384,20 @@ class ContractRequest {
 
     return ResultData(true, dataList);
   }
+
+  static Future<ResultData> addCapital(contractNumber, capital) async {
+    final String api = '/api/v1/contract/addPrincipal';
+    var data = {'contractNumber': contractNumber, 'principal': capital};
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    return ResultData(result == null);
+  }
+
+  static Future<ResultData> applySettlement(contractNumber) async {
+    final String api = '/api/v1/contract/settlementContract';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    return ResultData(result != null);
+  }
 }
 
 class RechargeRequest{
@@ -569,7 +407,7 @@ class RechargeRequest{
       'money': money,
       'url': 'test',
     };
-    var result = await HttpRequest.sendTokenRequest(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
       return ResultData(false);
     }

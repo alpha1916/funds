@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/network/stock_trade_request.dart';
+import 'package:funds/pages/trade/trade_flow_page.dart';
+import 'package:funds/routes/contract/current_contract_funds_flow_list.dart';
 
 class StockQueryView extends StatefulWidget {
   @override
@@ -52,28 +55,46 @@ class _StockQueryViewState extends State<StockQueryView> {
     );
   }
 
-  _onPressDayDeal() {
+  _onPressDayDeal() async {
     print('_onPressDayDeal');
+//    ResultData result await StockTradeRequest.getFlowList(contractNumber);
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success){
+      Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, result.data));
+    }
   }
 
-  _onPressDayDelegate() {
-
+  _onPressDayDelegate() async{
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success){
+      Utils.navigateTo(TradeFlowPage('当日委托', StateType.noDeal, result.data));
+    }
   }
 
-  _onPressHistoryDeal() {
-
+  _onPressHistoryDeal() async{
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success){
+      Utils.navigateTo(TradeFlowPage('历史成交', StateType.deal, result.data));
+    }
   }
 
-  _onPressHistoryDelegate() {
-
+  _onPressHistoryDelegate() async{
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success){
+      Utils.navigateTo(TradeFlowPage('历史委托', StateType.noDeal, result.data));
+    }
   }
 
-  _onPressDayCashFlow() {
-
+  _onPressDayCashFlow() async{
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success)
+      Utils.navigateTo(CurrentContractFundsFlowList('当日资金流水', [1, 2]));
   }
 
-  _onPressHistoryCashFlow() {
-
+  _onPressHistoryCashFlow() async{
+    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    if(result.success)
+      Utils.navigateTo(CurrentContractFundsFlowList('历史资金流水', [1, 2]));
   }
 
 }

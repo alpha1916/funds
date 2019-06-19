@@ -64,20 +64,14 @@ class SellFrame extends StockTradeFrame {
       return;
     }
 
-    var data = {
-      'code': stockInfo.code,
-      'title': stockInfo.title,
-      'price': getInputPrice(),
-      'count': count,
-    };
-
-    var confirm = await TradeConFirmDialog.show(TradeType.sell, data);
-    if(confirm == null)
+    double price = getInputPrice();
+    bool confirm = await queryTradeConfirm(TradeType.sell, count, price);
+    if(!confirm)
       return;
 
     ResultData result = await StockTradeRequest.sell(
       bloc.selectedHoldData.id,
-      getInputPrice(),
+      price,
       count,
     );
 

@@ -6,8 +6,9 @@ import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/account/login_page.dart';
 import 'package:funds/routes/trade/trade_confirm_dialog.dart';
+import 'package:funds/common/custom_dialog.dart';
 
-
+import 'package:funds/routes/recharge/recharge_page.dart';
 
 class Utils {
   static BuildContext context;
@@ -63,16 +64,15 @@ class Utils {
   }
 
   static test() async {
-//    AccountData.getInstance().clear();
-    var data = {
-      'code': '666666',
-      'title': '招商银行',
-      'price': 6.66,
-      'count': '200',
-    };
-    TradeConFirmDialog.show(TradeType.sell, data);
-
-//    Loading.show();
+    AccountData.getInstance().clear();
+//    var data = {
+//      'code': '666666',
+//      'title': '招商银行',
+//      'price': 6.66,
+//      'count': '200',
+//    };
+//    var confirm = await CustomAlert.showCustomDialog(TradeConfirmDialog(TradeType.buy, data));
+//    print(confirm);
   }
 
   static buildServiceIconButton(BuildContext context) {
@@ -167,5 +167,27 @@ class Utils {
         color: Colors.black,
       ),
     );
+  }
+
+  static buildSplitLine({
+    height,
+    margin,
+    color = Colors.black26,
+  }){
+    if(height == null)
+      height = a.px(0.5);
+
+    return Container(
+      margin: margin,
+      color: color,
+      height: height,
+    );
+  }
+
+  static showMoneyEnoughTips() async{
+    int result = await CustomAlert.show3('提示', '您的现金余额不足', '取消', '确定');
+    if(result == 2){
+      Utils.navigateTo(RechargePage());
+    }
   }
 }
