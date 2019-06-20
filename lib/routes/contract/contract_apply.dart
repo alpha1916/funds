@@ -326,7 +326,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
           children: <Widget>[
             Text(
               '请输入申请资金',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: a.px16),
             ),
             SizedBox(height: 10),
             _buildTextFiled(_getHintText(min, max)),

@@ -47,9 +47,9 @@ class ContractAddCapitalPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px12),
               child: Row(
                 children: <Widget>[
-                  Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: 13),),
-                  Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: 14, color: CustomColors.red),),
-                  Text(' 元', style: TextStyle(fontSize: 13),),
+                  Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: a.px13),),
+                  Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: CustomColors.red),),
+                  Text(' 元', style: TextStyle(fontSize: a.px13),),
                 ],
               ),
             ),

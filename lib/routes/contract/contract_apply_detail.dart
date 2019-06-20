@@ -284,7 +284,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
               '《操盘协议》',
               style: TextStyle(
                 color: Colors.black87,
-                fontSize: 16,
+                fontSize: a.px16,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -332,7 +332,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount);
     if(result.success){
       if(result.data['code'] == 504){
-        int select = await CustomAlert.show3('提示', '您的现金余额不足', '取消', '立即充值');
+        int select = await CustomDialog.show3('提示', '您的现金余额不足', '取消', '立即充值');
         if(select == 2){
           Utils.navigateTo(RechargePage());
         }

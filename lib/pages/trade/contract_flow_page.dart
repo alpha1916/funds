@@ -43,7 +43,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
         children: <Widget>[
           Align(
             alignment: FractionalOffset.centerLeft,
-            child: Text('初始合约信息', style: TextStyle(fontSize: 16)),
+            child: Text('初始合约信息', style: TextStyle(fontSize: a.px16)),
           ),
           SizedBox(height: a.px10),
           Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
@@ -185,11 +185,11 @@ class _ContractFlowPageState extends State<ContractFlowPage>
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(data['title'], style: TextStyle(fontSize: 14)),
+              Text(data['title'], style: TextStyle(fontSize: a.px14)),
               SizedBox(width: a.px5),
-              Text(data['value'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.red)),
+              Text(data['value'].toString(), style: TextStyle(fontSize: a.px14, color: CustomColors.red)),
               Expanded(child: Container()),
-              Text(data['date'], style: TextStyle(fontSize: 12)),
+              Text(data['date'], style: TextStyle(fontSize: a.px12)),
               SizedBox(width: a.px16),
             ],
           ),

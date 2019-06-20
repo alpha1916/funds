@@ -73,15 +73,15 @@ class ContractOperate {
   static const int addMoney = 1;
   static const int applySettlement = 2;
   static const int delaySell = 3;
-  static const int convert = 4;
+  static const int applySuspendedCycle = 4;
 }
 
 alert(String tips) {
-  return CustomAlert.show(tips);
+  return CustomDialog.show(tips);
 }
 
 alert2(String title, String tips, String btnTitle) {
-  return CustomAlert.show2(title, tips, btnTitle);
+  return CustomDialog.show2(title, tips, btnTitle);
 }
 
 class a{

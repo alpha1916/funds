@@ -7,6 +7,7 @@ import 'package:funds/model/contract_data.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
 import 'contract_add_capital_page.dart';
+import 'contract_apply_delay_page.dart';
 
 var realWidth;
 var ctx;
@@ -58,6 +59,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
+                  _buildDelaySellTips(),
                   //资产栏
                   _buildFundsView(),
                   _buildSplitLine(),
@@ -280,14 +282,18 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       );
     }
 
+    List<PopupMenuItem<int>> menuItems = [
+      buildMenuItem('追加本金', ContractOperate.addMoney),
+      buildMenuItem('申请结算', ContractOperate.applySettlement),
+      buildMenuItem('申请停牌回收', ContractOperate.applySuspendedCycle)
+    ];
+
+    if(data.canDelay)
+      menuItems.insert(2, buildMenuItem('延期卖出', ContractOperate.delaySell));
+
     return PopupMenuButton<int>(
       child: buttonView,
-      itemBuilder: (builder) => <PopupMenuEntry<int>>[
-        buildMenuItem('追加本金', ContractOperate.addMoney),
-        buildMenuItem('申请结算', ContractOperate.applySettlement),
-        buildMenuItem('延期卖出', ContractOperate.delaySell),
-        buildMenuItem('停牌转合约', ContractOperate.convert),
-      ],
+      itemBuilder: (builder) => menuItems,
       onSelected: (value) async{
         print(value);
         switch(value){
@@ -299,7 +305,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.applySettlement:
-            int select = await CustomAlert.show3('提示', '确认结算当前合约', '取消', '确定');
+            int select = await CustomDialog.show3('提示', '确认结算当前合约', '取消', '确定');
             if(select == 2){
               ResultData result = await ContractRequest.applySettlement(data.contractNumber);
               if(result.success){
@@ -310,9 +316,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.delaySell:
+            _onPressedApplyDelaySell();
             break;
 
-          case ContractOperate.convert:
+          case ContractOperate.applySuspendedCycle:
             break;
 
         }
@@ -427,6 +434,33 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     );
   }
 
+  _buildDelaySellTips() {
+    double fontSize = a.px15;
+    return Container(
+      padding: EdgeInsets.only(left: a.px16),
+      color: Color(0xFFFEEEC0),
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.info, size: a.px22, color: CustomColors.red),
+          SizedBox(width: a.px6,),
+          Text('当前合约于今日到期，', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+          FlatButton(
+            child: Text(
+              '点击申请延期卖出',
+              style: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            onPressed: _onPressedApplyDelaySell,
+          ),
+          Text('>>', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+        ],
+      ),
+    );
+  }
+
   _getRotateAngle() {
     if (data == null) return 0.0;
 
@@ -463,5 +497,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   onPressedRefresh() {
     _refresh();
+  }
+
+  _onPressedApplyDelaySell() async{
+//    CustomDialog.show3('提示', tips, btnTitle1, btnTitle2);
+    var result = await Utils.navigateTo(ContractApplyDelayPage());
+    if(result == true){
+      await alert('延期成功');
+      _refresh();
+    }
   }
 }

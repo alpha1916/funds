@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'utils.dart';
 import 'package:funds/common/constants.dart';
 
-class CustomAlert {
+class CustomDialog {
   static BuildContext context;
 
   static init(ctx) {

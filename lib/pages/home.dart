@@ -8,6 +8,7 @@ import 'package:funds/routes/contract/contract_apply.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
 import 'package:funds/routes/contract/current_contract_detail.dart';
+import 'package:funds/routes/contract/contract_apply_delay_page.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
 import 'package:funds/pages/trade/contract_flow_page.dart';
 
@@ -53,6 +54,7 @@ class _HomeViewState extends State<HomeView> {
       fit: BoxFit.cover,
     );
 
+    return ContractApplyDelayPage();
 //    return ContractFlowPage();
 //    return StockTradeMainPage( '00110514000737', '互惠盈T+1');
 //    return CurrentContractDetail();

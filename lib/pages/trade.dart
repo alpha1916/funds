@@ -56,8 +56,8 @@ class _TradeViewState extends State<TradeView>
           labelColor: Colors.black,
           unselectedLabelColor: Colors.black,
           indicatorWeight: 2.0,
-          labelStyle: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: TextStyle(fontSize: 17, height: 1.5),
+          labelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5), fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(fontSize: a.px17, height: a.px(1.5)),
         ),
       ),
 

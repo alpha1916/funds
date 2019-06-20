@@ -185,9 +185,14 @@ class Utils {
   }
 
   static showMoneyEnoughTips() async{
-    int result = await CustomAlert.show3('提示', '您的现金余额不足', '取消', '确定');
+    int result = await CustomDialog.show3('提示', '您的现金余额不足', '取消', '确定');
     if(result == 2){
       Utils.navigateTo(RechargePage());
     }
+  }
+
+  static Future<bool> showConfirmOptionsDialog({title = '提示', tips, cancelTitle = '取消', confirmTitle = '确定'}) async {
+    var selectIdx = await CustomDialog.show3(title, tips, cancelTitle, confirmTitle);
+    return selectIdx == 2;
   }
 }

@@ -142,6 +142,9 @@ class ContractData {
   //历史合约专用
   final double returnMoney;//结束退还本金
 
+  //合约详情操作专用
+  final bool canDelay ;//是否可以延迟卖出
+
   ContractData(data):
         contractNumber = data['contractNumber'],
         contractMoney = Utils.convertDouble(data['contractMoney']),
@@ -158,6 +161,8 @@ class ContractData {
         endTime = data['endTime'].split(' ')[0],
         totalMoney = Utils.convertDouble(data['totalMoney']),
         usableMoney = data['availableMoney'],
+
+        canDelay = data['canDelay'],// ?? true,
 
         title = data['title'],
         cordon = data['warnLine'],

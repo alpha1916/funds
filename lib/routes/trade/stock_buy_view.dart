@@ -323,7 +323,7 @@ class StockTradeFrame extends StatelessWidget{
     };
 
 //    var confirm = await TradeConFirmDialog.show(type, data);
-    var confirm = await CustomAlert.showCustomDialog(TradeConfirmDialog(type, data));
+    var confirm = await CustomDialog.showCustomDialog(TradeConfirmDialog(type, data));
     if(confirm == null)
       return false;
 

@@ -89,7 +89,8 @@ class HttpRequest {
         return null;
       }
       print(e);
-      alert(e.toString());
+//      alert(e.toString());
+      alert('请求数据错误，请联系客服');
     }
   }
 
@@ -395,6 +396,13 @@ class ContractRequest {
   static Future<ResultData> applySettlement(contractNumber) async {
     final String api = '/api/v1/contract/settlementContract';
     var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    return ResultData(result != null);
+  }
+
+  static Future<ResultData> applyDelay(contractNumber, days) async {
+    final String api = '/api/v1/contract/delay';
+    var data = {'contractNumber': contractNumber, 'days': days};
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     return ResultData(result != null);
   }

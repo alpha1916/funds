@@ -108,7 +108,7 @@ class _AppState extends State<App> {
     Global.buildContext = context;
     Utils.init(context, tabSwitcher);
     HttpRequest.init(context);
-    CustomAlert.init(context);
+    CustomDialog.init(context);
     a.init(MediaQuery.of(context).size.width);
 
     AccountData.getInstance().getLocalToken();

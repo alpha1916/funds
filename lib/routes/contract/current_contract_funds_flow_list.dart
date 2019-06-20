@@ -34,7 +34,7 @@ class CurrentContractFundsFlowList extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(data.title, style: TextStyle(fontSize: 16),),
+                        Text(data.title, style: TextStyle(fontSize: a.px16),),
                         Text(data.value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: Utils.getProfitColor(data.value)),),
                       ],
                     ),
