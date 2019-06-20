@@ -4,6 +4,7 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/routes/my/settings_page.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -14,69 +15,93 @@ class _MyViewState extends State<MyView> {
   String mail = CustomIcons.mail0;
   AccountData _data;
 
-//  String _name = '';
-//  String _stock = '0.00';
-//  String _cash = '0.00';
-//  String _total = '0.00';
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    super.initState();
+//
+//    _updateInfo();
+//    _refresh();
+//  }
+//
+//  _refresh() async{
+//    if(!AccountData.getInstance().isLogin())
+//      return;
+//
+//    await Future.delayed(Duration(milliseconds: 10));
+//    ResultData result = await UserRequest.getUserInfo();
+//    if(!mounted)
+//      return;
+//
+//    if(result.success){
+//      _updateInfo();
+//    }
+//    setState(() {
+//    });
+//  }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _updateInfo();
-    _refresh();
-  }
-
-  _refresh() async{
-    if(!AccountData.getInstance().isLogin())
-      return;
-
-    await Future.delayed(Duration(milliseconds: 10));
-    ResultData result = await UserRequest.getUserInfo();
-    if(!mounted)
-      return;
-
-    if(result.success){
-      _updateInfo();
-    }
-    setState(() {
-    });
-  }
-
-  _updateInfo() {
-    _data = AccountData.getInstance();
-//    _name = data.phone;
-//    _stock = data.stock.toStringAsFixed(2);
-//    _cash = data.cash.toStringAsFixed(2);
-//    _total = (data.cash + data.stock).toStringAsFixed(2);
-  }
+//  _updateInfo() {
+//    _data = AccountData.getInstance();
+//  }
 
   Widget build(BuildContext context) {
     final Widget iconMail = Image.asset(mail, width: a.px22, height: a.px22);
-    return Scaffold(
-      appBar: AppBar(
-        title:Text('我的'),
-        leading: Utils.buildServiceIconButton(context),
-        actions: [
-          IconButton(
-              icon: iconMail,
-              onPressed: (){
-                print('press mail');
-              }
+    return StreamBuilder<AccountData>(
+      stream: AccountData.getInstance().dataStream,
+      initialData: AccountData.getInstance(),
+      builder: (BuildContext context, AsyncSnapshot<AccountData> snapshot){
+        print('my builder');
+        _data = snapshot.data;
+        return Scaffold(
+          appBar: AppBar(
+            title:Text('我的'),
+            leading: Utils.buildServiceIconButton(context),
+            actions: [
+              IconButton(
+                  icon: iconMail,
+                  onPressed: (){
+                    print('press mail');
+                  }
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
-            _buildBottomView(),
-          ],
-        ),
-      ),
+          body: Container(
+            color: CustomColors.background1,
+            child: Column(
+              children: <Widget>[
+                AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
+                _buildBottomView(),
+              ],
+            ),
+          ),
+        );
+      }
     );
+
+
+//     return Scaffold(
+//      appBar: AppBar(
+//        title:Text('我的'),
+//        leading: Utils.buildServiceIconButton(context),
+//        actions: [
+//          IconButton(
+//              icon: iconMail,
+//              onPressed: (){
+//                print('press mail');
+//              }
+//          ),
+//        ],
+//      ),
+//      body: Container(
+//        color: CustomColors.background1,
+//        child: Column(
+//          children: <Widget>[
+//            AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
+//            _buildBottomView(),
+//          ],
+//        ),
+//      ),
+//    );
   }
 
   //---------------------------------上部分-------------------------------------/
@@ -103,7 +128,7 @@ class _MyViewState extends State<MyView> {
 
     return GestureDetector(
       child: Container(
-        color: Color(0x00000000),
+        color: Colors.transparent,
         padding: EdgeInsets.only(left: a.px20),
         child: Row(
           children: children,
@@ -173,7 +198,7 @@ class _MyViewState extends State<MyView> {
             children: <Widget>[
               SizedBox(width: a.px20,),
               Text(
-                '用户：${_data.phone}',
+                '用户：${Utils.convertPhoneNumber(_data.phone)}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: a.px18
@@ -190,6 +215,7 @@ class _MyViewState extends State<MyView> {
                 ),
                 onPressed: () {
                   print('press setting');
+                  Utils.navigateTo(SettingsPage());
                 },
               ),
               Icon(Icons.arrow_forward_ios, color: Colors.white, size: a.px16),

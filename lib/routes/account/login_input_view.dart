@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
+import 'new_password_page.dart';
 
 class LoginInputView extends StatefulWidget {
   @override
@@ -18,24 +19,28 @@ class LoginInputViewState extends State<LoginInputView> {
 
   _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
     return Container(
-        margin: EdgeInsets.only(top: 1),
-        color: Colors.white,
-        child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        cursorColor: Colors.black12,
-        decoration: InputDecoration(
-  //                contentPadding: EdgeInsets.all(10),
-          border: InputBorder.none,
-          icon: Container(
+      padding: EdgeInsets.only(left: 10, top: 1),
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          icon,
+          Container(
             margin: EdgeInsets.only(left: 10),
-            child: icon,
-          ),
-          hintText: labelText,
-          labelStyle: TextStyle(fontSize: 20),
-        ),
-        autofocus: false,
-        obscureText: obscureText,
+            width: 300,
+            child:TextField(
+              controller: controller,
+              keyboardType: keyboardType,
+              cursorColor: Colors.black12,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: labelText,
+                labelStyle: TextStyle(fontSize: 20),
+              ),
+              autofocus: false,
+              obscureText: obscureText,
+            ),
+          )
+        ],
       ),
     );
   }
@@ -57,6 +62,7 @@ class LoginInputViewState extends State<LoginInputView> {
               child: Icon(Icons.phone),
             ),
           ),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: 10), color: Colors.black12),
           _buildTextFiled(passController, TextInputType.text, '请输入登录密码', true,
             Container(
               margin: EdgeInsets.only(left: 5),
@@ -88,7 +94,7 @@ class LoginInputViewState extends State<LoginInputView> {
   }
 
   _onPressedForget() {
-    print('press forget');
+    Utils.navigateTo(NewPasswordPage());
   }
 
   alert (context, tips) {
@@ -124,6 +130,8 @@ class LoginInputViewState extends State<LoginInputView> {
 //      phoneController.clear();
       ResultData result = await LoginRequest.login(phoneController.text, passController.text);
       if(result.success){
+        print('login success');
+        await UserRequest.getUserInfo();
         Utils.navigatePopAll();
       }
     }

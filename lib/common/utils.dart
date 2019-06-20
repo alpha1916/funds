@@ -5,7 +5,6 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/account/login_page.dart';
-import 'package:funds/routes/trade/trade_confirm_dialog.dart';
 import 'package:funds/common/custom_dialog.dart';
 
 import 'package:funds/routes/recharge/recharge_page.dart';
@@ -53,7 +52,9 @@ class Utils {
     return FlatButton(
       child: const Text('我的交易'),
       onPressed: () {
-        print('press trade');
+        if(needLogin())
+          return;
+
         Utils.navigateTo(TradeView(true));
       },
     );
@@ -172,7 +173,7 @@ class Utils {
   static buildSplitLine({
     height,
     margin,
-    color = Colors.black26,
+    color = Colors.black12,
   }){
     if(height == null)
       height = a.px(0.5);
@@ -185,14 +186,33 @@ class Utils {
   }
 
   static showMoneyEnoughTips() async{
-    int result = await CustomDialog.show3('提示', '您的现金余额不足', '取消', '确定');
-    if(result == 2){
+    bool confirm = await showConfirmOptionsDialog(tips: '您的现金余额不足');
+    if(confirm)
       Utils.navigateTo(RechargePage());
-    }
   }
 
   static Future<bool> showConfirmOptionsDialog({title = '提示', tips, cancelTitle = '取消', confirmTitle = '确定'}) async {
     var selectIdx = await CustomDialog.show3(title, tips, cancelTitle, confirmTitle);
     return selectIdx == 2;
+  }
+
+  static isValidPhoneNumber(String str) {
+    return str.length == 11;
+//    return RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$').hasMatch(str);
+  }
+
+  static isValidPassword(String str) {
+    final exp = r'^[a-zA-Z0-9]{6,16}$';
+    return RegExp(exp).hasMatch(str);
+  }
+
+  static expanded(){
+    return Expanded(child: Container());
+  }
+
+  static convertPhoneNumber(String phone){
+    if(phone == '')
+      return '';
+    return phone.substring(0, 3) + ' **** ' + phone.substring(7);
   }
 }

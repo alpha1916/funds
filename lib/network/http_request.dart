@@ -132,6 +132,17 @@ class HttpRequest {
 //    return true;
 //  }
 
+  static getPhoneCaptcha(String api, String phone) async {
+    var data = {
+      'phone': phone,
+    };
+    var result = await HttpRequest.send(api: api, data: data, isPost: false);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true, result['data']['captcha']);
+  }
+
   static buildBusinessData(success, [data]){
     return {
       success: success,
@@ -189,16 +200,14 @@ class ResultData{
 }
 
 class LoginRequest {
-  static getPhoneCaptcha(String phone) async {
+  static getResisterCaptcha(String phone) async {
     final String api = '/api/v1/register/phone-captcha';
-    var data = {
-      'phone': phone,
-    };
-    var result = await HttpRequest.send(api: api, data: data, isPost: false);
-    if(result == null)
-      return ResultData(false);
+    return HttpRequest.getPhoneCaptcha(api, phone);
+  }
 
-    return ResultData(true, result['data']['captcha']);
+  static getForgetLoginCaptcha(String phone) async {
+    final String api = '/api/v1/forgot-password/phone-captcha';
+    return HttpRequest.getPhoneCaptcha(api, phone);
   }
 
   static register(String phone, String pwd, String captcha) async {
@@ -227,7 +236,21 @@ class LoginRequest {
 
     String token = result['data']['token'];
     //记录到本地
-    AccountData.getInstance().updateToken(token);
+    await AccountData.getInstance().updateToken(token);
+    return ResultData(true);
+  }
+
+  static setNewPassword(String phone, String pwd, String captcha) async {
+    final String api = '/api/v1/forgot-password';
+    var data = {
+      "phone": phone,
+      "captcha": captcha,
+      "password": pwd,
+    };
+    var result = await HttpRequest.send(api: api, data: data);
+    if(result == null)
+      return ResultData(false);
+
     return ResultData(true);
   }
 }
@@ -240,7 +263,7 @@ class UserRequest {
       return ResultData(false);
     }
 
-    AccountData.getInstance().init(result['data']);
+    AccountData.getInstance().update(result['data']);
     return ResultData(true);
   }
 }
