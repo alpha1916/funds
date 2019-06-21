@@ -244,7 +244,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
           padding: EdgeInsets.only(top: a.px20, bottom: a.px40),
           color: Colors.white,
           child: Center(
-            child: Text('当前没有数据', style: TextStyle(fontSize: 14, color: Colors.black38)),
+            child: Text('当前没有数据', style: TextStyle(fontSize: a.px14, color: Colors.black38)),
           )
         ),
       ],

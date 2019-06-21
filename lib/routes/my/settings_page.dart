@@ -3,7 +3,9 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/account_data.dart';
 import 'package:funds/network/http_request.dart';
-import 'package:funds/common/widgets/phone_captcha_button.dart';
+import 'modify_password_page.dart';
+import 'modify_bind_phone_verify_page.dart';
+import 'modify_address_page.dart';
 
 class SettingsPage extends StatelessWidget {
   final forwardIcon = Utils.buildForwardIcon();
@@ -20,14 +22,14 @@ class SettingsPage extends StatelessWidget {
             _buildItemView('联系地址', '', _onPressedModifyAddress),
             SizedBox(height: a.px10),
 
-            _buildItemView('实名认证', '名字', _onPressedModifyAddress),
+            _buildItemView('实名认证', '名字', _onPressedCertification),
             Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildItemView('绑定银行卡', '已设置', _onPressedModifyAddress),
+            _buildItemView('绑定银行卡', '已设置', _onPressedModifyBankCard),
             Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildItemView('绑定手机号', '139****7109', _onPressedModifyAddress),
+            _buildItemView('绑定手机号', Utils.convertPhoneNumber(AccountData.getInstance().phone), _onPressedBindPhone),
             SizedBox(height: a.px10),
 
-            _buildItemView('登录密码', '已设置', _onPressedModifyAddress),
+            _buildItemView('登录密码', '已设置', _onPressedModifyPassword),
             SizedBox(height: a.px10),
 
             _buildItemView('退出当前账号', '', _onPressedLogout),
@@ -59,16 +61,19 @@ class SettingsPage extends StatelessWidget {
 
   }
 
-  _onPressedModifyBankCard() {
+  _onPressedCertification(){
 
+  }
+
+  _onPressedModifyBankCard() {
   }
 
   _onPressedBindPhone() {
-
+    Utils.navigateTo(ModifyPhoneVerifyPage());
   }
 
-  _onPressedModifyPasswork() {
-
+  _onPressedModifyPassword() {
+    Utils.navigateTo(ModifyPasswordPage());
   }
 
   _onPressedLogout() async{

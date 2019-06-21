@@ -181,13 +181,13 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       padding: EdgeInsets.all(a.px16),
       child: RichText(
         text: TextSpan(
-          style: DefaultTextStyle.of(context).style,
+//          style: DefaultTextStyle.of(context).style,
           children: <TextSpan>[
-            TextSpan(text: '最长可延期', style: TextStyle(fontSize: fontSize)),
+            TextSpan(text: '最长可延期', style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: '5', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
-            TextSpan(text: '个交易日,管理费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize)),
+            TextSpan(text: '个交易日,管理费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: '限买状态', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
-            TextSpan(text: '且利益分配不变'),
+            TextSpan(text: '且利益分配不变', style: TextStyle(fontSize: fontSize, color: Colors.black)),
           ],
         ),
       ),

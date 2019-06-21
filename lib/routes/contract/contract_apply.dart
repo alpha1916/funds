@@ -225,7 +225,11 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
 
     int inputNum = 0;
     if(inputController.text.length > 0){
-      inputNum = int.parse(inputController.text);
+      try{
+        inputNum = int.parse(inputController.text);
+      }catch(e){
+        alert('请输入正确的数值');
+      }
       selectable = inputNum >= min;
 
       if(selectable){//满足最小值

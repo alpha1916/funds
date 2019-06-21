@@ -10,6 +10,15 @@ import 'package:funds/routes/account/login_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:funds/routes/recharge/recharge_page.dart';
+
+class CaptchaType {
+  static int forgotPassword = 1;
+  static int register = 2;
+  static int forgotWithdrawPassword = 3;
+  static int oldPhone = 4;
+  static int newPhone = 5;
+}
 
 class HttpRequest {
   static Future<bool> isNetworkAvailable() async {
@@ -18,7 +27,7 @@ class HttpRequest {
   }
 
 //  static List<int> businessErrorCodes = [500, 501, 502, 503, 512, 400];
-  static List<int> businessErrorCodes = [200, 401];
+  static List<int> noBusinessErrorCodes = [200, 401];
 
   static void handleUnauthorized(askLogin) {
     print('token Unauthorized');
@@ -69,8 +78,9 @@ class HttpRequest {
       if(response.statusCode == 200){
         var data = response.data;
         print(data.toString());
-        if(businessErrorCodes.indexOf(data['code']) == -1){
-          alert(data['desc']);
+        if(noBusinessErrorCodes.indexOf(data['code']) == -1){
+          handleBusinessCode(data['code'], data['desc']);
+//          alert(data['desc']);
           return null;
         }
 
@@ -94,6 +104,18 @@ class HttpRequest {
     }
   }
 
+  static handleBusinessCode(code, desc){
+    switch(code){
+      //资金不足
+      case 504:
+        Utils.showMoneyEnoughTips();
+        break;
+
+      default:
+        alert(desc);
+        break;
+    }
+  }
 
   static sendTokenPost({
     @required api,
@@ -122,18 +144,11 @@ class HttpRequest {
 
     return send(api: api, data: data, askLogin: askLogin, token: token, isPost: false);
   }
-//  static bool isResponseOK(data){
-//    int code = data['code'];
-//    if(code != 200){
-//      alert(data['desc']);
-//      return false;
-//    }
-//
-//    return true;
-//  }
 
-  static getPhoneCaptcha(String api, String phone) async {
+  static getPhoneCaptcha(int type, String phone) async {
+    String api = '/api/v1/getPhoneCaptcha';
     var data = {
+      'type': type,
       'phone': phone,
     };
     var result = await HttpRequest.send(api: api, data: data, isPost: false);
@@ -200,16 +215,6 @@ class ResultData{
 }
 
 class LoginRequest {
-  static getResisterCaptcha(String phone) async {
-    final String api = '/api/v1/register/phone-captcha';
-    return HttpRequest.getPhoneCaptcha(api, phone);
-  }
-
-  static getForgetLoginCaptcha(String phone) async {
-    final String api = '/api/v1/forgot-password/phone-captcha';
-    return HttpRequest.getPhoneCaptcha(api, phone);
-  }
-
   static register(String phone, String pwd, String captcha) async {
     final String api = '/api/v1/register';
     var data = {
@@ -253,17 +258,17 @@ class LoginRequest {
 
     return ResultData(true);
   }
-}
 
-class UserRequest {
-  static getUserInfo() async {
-    final String api = '/api/v1/user/getUserInfo';
-    var result = await HttpRequest.sendTokenPost(api: api, askLogin: false);
-    if(result == null){
+  static modifyPassword(String oldPwd, String newPwd) async {
+    final String api = '/api/v1/user/upLoginPassword';
+    var data = {
+      "oldPw":oldPwd,
+      "newPw": newPwd,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null)
       return ResultData(false);
-    }
 
-    AccountData.getInstance().update(result['data']);
     return ResultData(true);
   }
 }

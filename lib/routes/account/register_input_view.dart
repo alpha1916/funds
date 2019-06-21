@@ -1,11 +1,9 @@
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/widgets/phone_captcha_button.dart';
 import 'package:funds/network/http_request.dart';
-
 
 class RegisterInputView extends StatefulWidget {
   @override
@@ -114,7 +112,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10, left: 55),
+            margin: EdgeInsets.only(top: 10, left: 20),
             child: Row(
               children: <Widget>[
                 Text('登录密码由6-16位数字和字母组成'),
@@ -152,18 +150,11 @@ class RegisterInputViewState extends State<RegisterInputView> {
     } else {
       final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text);
       if(result.success){
-        _login();
+        Utils.login(phoneController.text, passController.text);
       }
     }
   }
   
-  _login() async {
-    final ResultData result = await LoginRequest.login(phoneController.text, passController.text);
-    if(result.success){
-      Utils.navigatePopAll();
-    }
-  }
-
   onTextClear() {
     setState(() {
       phoneController.clear();
@@ -178,7 +169,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
       return Future.value(false);
     }
 
-    final ResultData result = await LoginRequest.getResisterCaptcha(phoneController.text);
+    final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.register, phoneController.text);
     if(result.success){
       captchaController.text = result.data;
       alert('验证码已发送');

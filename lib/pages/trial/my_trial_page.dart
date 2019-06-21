@@ -33,6 +33,9 @@ class _MyTrialPageState extends State<MyTrialPage> {
 
   @override
   Widget build(BuildContext context) {
+    if(_dataList == null || _dataList.length == 0){
+      return _buildNoDataView();
+    }
     return Expanded(
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
@@ -51,6 +54,20 @@ class _MyTrialPageState extends State<MyTrialPage> {
         },
         itemCount: _dataList.length,
       ),
+    );
+  }
+
+  _buildNoDataView() {
+    return Column(
+      children: <Widget>[
+        Container(
+            padding: EdgeInsets.only(top: a.px20, bottom: a.px30),
+            color: Colors.white,
+            child: Center(
+              child: Text('当前没有数据', style: TextStyle(fontSize: a.px16, color: Colors.black54)),
+            )
+        ),
+      ],
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
-import 'new_password_page.dart';
+import 'forget_password_page.dart';
 
 class LoginInputView extends StatefulWidget {
   @override
@@ -94,7 +94,7 @@ class LoginInputViewState extends State<LoginInputView> {
   }
 
   _onPressedForget() {
-    Utils.navigateTo(NewPasswordPage());
+    Utils.navigateTo(ForgetPasswordPage());
   }
 
   alert (context, tips) {
@@ -126,14 +126,7 @@ class LoginInputViewState extends State<LoginInputView> {
     } else if (!_isValidPassword(passController.text)) {
       alert(context, '密码必须为6-16位字母和数字组成');
     } else {
-//      alert(context, '登录成功');
-//      phoneController.clear();
-      ResultData result = await LoginRequest.login(phoneController.text, passController.text);
-      if(result.success){
-        print('login success');
-        await UserRequest.getUserInfo();
-        Utils.navigatePopAll();
-      }
+      Utils.login(phoneController.text, passController.text);
     }
   }
 

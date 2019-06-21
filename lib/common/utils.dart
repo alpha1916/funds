@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/pages/trade.dart';
 import 'constants.dart';
 import 'package:funds/network/http_request.dart';
+import 'package:funds/network/user_request.dart';
 import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/account/login_page.dart';
@@ -149,7 +150,8 @@ class Utils {
   static login(phone, pwd) async {
     final result = await LoginRequest.login(phone, pwd);
     if(result.success){
-      AccountData.getInstance().updateToken(result.token);
+      await UserRequest.getUserInfo();
+      Utils.navigatePopAll();
     }
 
     return result.success;
@@ -214,5 +216,30 @@ class Utils {
     if(phone == '')
       return '';
     return phone.substring(0, 3) + ' **** ' + phone.substring(7);
+  }
+
+  static getObscurePhoneNumber(){
+    return convertPhoneNumber(AccountData.getInstance().phone);
+  }
+
+  static buildRaisedButton({width, height, title, onPressed}) {
+    if(width == null)
+      width = a.px(200);
+    if(height == null)
+      height = a.px48;
+    return Container(
+      margin: EdgeInsets.only(top: a.px20, bottom: a.px10),
+      width: width,
+      height: height,
+      child: RaisedButton(
+        child: Text(
+          title,
+          style: TextStyle(color: Colors.white, fontSize: a.px18),
+        ),
+        onPressed: onPressed,
+        color: Colors.black,
+        shape: StadiumBorder(),
+      ),
+    );
   }
 }

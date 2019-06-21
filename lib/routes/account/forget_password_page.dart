@@ -5,7 +5,7 @@ import 'package:funds/network/http_request.dart';
 import 'dart:async';
 import 'package:funds/common/widgets/phone_captcha_button.dart';
 
-class NewPasswordPage extends StatelessWidget {
+class ForgetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
@@ -156,7 +156,7 @@ class NewPasswordPage extends StatelessWidget {
       return Future.value(false);
     }
 
-    final ResultData result = await LoginRequest.getForgetLoginCaptcha(phoneController.text);
+    final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.forgotPassword, phoneController.text);
     if(result.success){
       captchaController.text = result.data;
       alert('验证码已发送');
