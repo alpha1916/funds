@@ -7,12 +7,16 @@ import 'package:funds/model/contract_data.dart';
 import 'package:funds/routes/contract/current_contract_detail.dart';
 
 class MyTrialPage extends StatefulWidget {
+  final onPressedPromote;
+  MyTrialPage(this.onPressedPromote);
   @override
-  _MyTrialPageState createState() => _MyTrialPageState();
+  _MyTrialPageState createState() => _MyTrialPageState(onPressedPromote);
 }
 
 class _MyTrialPageState extends State<MyTrialPage> {
   List<ContractData> _dataList = [];
+  final onPressedPromote;
+  _MyTrialPageState(this.onPressedPromote);
 
   @override
   void initState() {
@@ -34,7 +38,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
   @override
   Widget build(BuildContext context) {
     if(_dataList == null || _dataList.length == 0){
-      return _buildNoDataView();
+      return _buildPromoteView();
     }
     return Expanded(
       child: ListView.builder(
@@ -57,17 +61,29 @@ class _MyTrialPageState extends State<MyTrialPage> {
     );
   }
 
-  _buildNoDataView() {
-    return Column(
-      children: <Widget>[
-        Container(
-            padding: EdgeInsets.only(top: a.px20, bottom: a.px30),
-            color: Colors.white,
-            child: Center(
-              child: Text('当前没有数据', style: TextStyle(fontSize: a.px16, color: Colors.black54)),
-            )
+  _buildPromoteView() {
+    return Container(
+        padding: EdgeInsets.only(top: a.px20),
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text('当前没有操盘中的合约', style: TextStyle(fontSize: a.px14, color: Colors.black26)),
+              FlatButton(
+                child: Text(
+                  '申请合约享受盈利翻倍',
+                  style: TextStyle(
+                    fontSize: a.px16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                onPressed: onPressedPromote,
+              ),
+            ],
+          ),
         ),
-      ],
     );
   }
 }

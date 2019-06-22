@@ -12,13 +12,17 @@ class RegisterInputView extends StatefulWidget {
 
 class RegisterInputViewState extends State<RegisterInputView> {
   //手机号的控制器
-  TextEditingController phoneController = TextEditingController();
+//  TextEditingController phoneController = TextEditingController();
+//
+//  //密码的控制器
+//  TextEditingController passController = TextEditingController();
+//
+//  //验证码的控制器
+//  TextEditingController captchaController = TextEditingController();
 
-  //密码的控制器
-  TextEditingController passController = TextEditingController();
-
-  //验证码的控制器
-  TextEditingController captchaController = TextEditingController();
+  final CustomTextEditingController phoneController = CustomTextEditingController.buildPhoneEditingController();
+  final CustomTextEditingController captchaController = CustomTextEditingController.buildCaptchaEditingController();
+  final CustomTextEditingController passController = CustomTextEditingController.buildPasswordEditingController();
 
   _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
     return Container(
@@ -141,18 +145,29 @@ class RegisterInputViewState extends State<RegisterInputView> {
 
   _onPressedRegister() async {
     print({'phone': phoneController.text, 'password': passController.text});
-    if(captchaController.text.length == 0){
-      alert('请输入验证码');
-    }else if (!Utils.isValidPhoneNumber(phoneController.text)) {
-      alert('请输入正确的手机号码');
-    } else if (!Utils.isValidPassword(passController.text)) {
-      alert('密码必须为6-16位字母和数字组成');
-    } else {
+    if( captchaController.approved() &&
+        phoneController.approved() &&
+        passController.approved()
+    ){
       final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text);
       if(result.success){
         Utils.login(phoneController.text, passController.text);
       }
     }
+
+
+//    if(captchaController.text.length == 0){
+//      alert('请输入验证码');
+//    }else if (!Utils.isValidPhoneNumber(phoneController.text)) {
+//      alert('请输入正确的手机号码');
+//    } else if (!Utils.isValidPassword(passController.text)) {
+//      alert('密码必须为6-16位字母和数字组成');
+//    } else {
+//      final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text);
+//      if(result.success){
+//        Utils.login(phoneController.text, passController.text);
+//      }
+//    }
   }
   
   onTextClear() {
@@ -164,7 +179,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
   }
 
   _onPressedGetCaptcha() async {
-    if (!Utils.isValidPhoneNumber(phoneController.text)) {
+    if (!phoneController.approved()) {
       alert('请输入正确的手机号码');
       return Future.value(false);
     }

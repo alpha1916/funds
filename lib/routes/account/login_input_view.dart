@@ -12,10 +12,13 @@ class LoginInputView extends StatefulWidget {
 
 class LoginInputViewState extends State<LoginInputView> {
   //手机号的控制器
-  TextEditingController phoneController = TextEditingController();
+//  TextEditingController phoneController = TextEditingController();
 
   //密码的控制器
-  TextEditingController passController = TextEditingController();
+//  TextEditingController passController = TextEditingController();
+
+  final CustomTextEditingController phoneController = CustomTextEditingController.buildPhoneEditingController();
+  final CustomTextEditingController passController = CustomTextEditingController.buildPasswordEditingController();
 
   _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
     return Container(
@@ -97,17 +100,6 @@ class LoginInputViewState extends State<LoginInputView> {
     Utils.navigateTo(ForgetPasswordPage());
   }
 
-  alert (context, tips) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Center(child: Text(tips, textAlign: TextAlign.center,)),
-          titleTextStyle:TextStyle(fontSize: 16, color: Colors.white),
-          backgroundColor: Colors.black87,
-        )
-    );
-  }
-
   _isValidPhoneNumber(String str) {
     return str.length == 11;
 //    return RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$').hasMatch(str);
@@ -122,9 +114,9 @@ class LoginInputViewState extends State<LoginInputView> {
   void _onPressedLogin() async {
     print({'phone': phoneController.text, 'password': passController.text});
     if (!_isValidPhoneNumber(phoneController.text)) {
-      alert(context, '请输入正确的手机号码');
+      alert('请输入正确的手机号码');
     } else if (!_isValidPassword(passController.text)) {
-      alert(context, '密码必须为6-16位字母和数字组成');
+      alert('密码必须为6-16位字母和数字组成');
     } else {
       Utils.login(phoneController.text, passController.text);
     }

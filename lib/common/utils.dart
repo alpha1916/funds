@@ -197,16 +197,16 @@ class Utils {
     var selectIdx = await CustomDialog.show3(title, tips, cancelTitle, confirmTitle);
     return selectIdx == 2;
   }
+//
+//  static isValidPhoneNumber(String str) {
+//    return str.length == 11;
+////    return RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$').hasMatch(str);
+//  }
 
-  static isValidPhoneNumber(String str) {
-    return str.length == 11;
-//    return RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$').hasMatch(str);
-  }
-
-  static isValidPassword(String str) {
-    final exp = r'^[a-zA-Z0-9]{6,16}$';
-    return RegExp(exp).hasMatch(str);
-  }
+//  static isValidPassword(String str) {
+//    final exp = r'^[a-zA-Z0-9]{6,16}$';
+//    return RegExp(exp).hasMatch(str);
+//  }
 
   static expanded(){
     return Expanded(child: Container());
@@ -240,6 +240,55 @@ class Utils {
         color: Colors.black,
         shape: StadiumBorder(),
       ),
+    );
+  }
+
+
+}
+
+class CustomTextEditingController extends TextEditingController{
+  final bool Function(String) validator;
+  final String invalidTips;
+  final String regExp;
+  CustomTextEditingController({this.validator, this.regExp, this.invalidTips});
+
+  bool approved(){
+    bool result = true;
+    if(regExp != null){
+      result = RegExp(regExp).hasMatch(this.text);
+    }else if(validator == null)
+      result = validator(this.text);
+
+    if(!result)
+      alert(invalidTips);
+
+    return result;
+  }
+
+  static CustomTextEditingController buildIDEditingController(){
+    final String exp = r'^[1-9][0-7]\d{4}((19\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(19\d{2}(0[13578]|1[02])31)|(19\d{2}02(0[1-9]|1\d|2[0-8]))|(19([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$';
+    return CustomTextEditingController(invalidTips: '请输入正确的身份证号码', regExp: exp);
+  }
+
+  static CustomTextEditingController buildPasswordEditingController(){
+    final exp = r'^[a-zA-Z0-9]{6,16}$';
+    return CustomTextEditingController(invalidTips: '密码必须为6-16位字母和数字组成', regExp: exp);
+  }
+
+  static CustomTextEditingController buildCaptchaEditingController(){
+//    final exp = r'^\d{6}$';
+    return CustomTextEditingController(invalidTips: '请输入验证码', validator: (str) => str.length > 0 );
+  }
+
+  static CustomTextEditingController buildPhoneEditingController(){
+    final exp = r'^\d{11}$';
+    return CustomTextEditingController(
+//      final exp = r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$';
+      regExp: exp,
+      invalidTips: '请输入正确的手机号码',
+//      validator: (str) {
+//        return str.length == 11;
+//      }
     );
   }
 }

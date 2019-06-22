@@ -59,11 +59,9 @@ class ModifyPasswordPage extends StatelessWidget {
     );
   }
 
-  final TextEditingController oldController = TextEditingController();
-  //密码的控制器1
-  final TextEditingController passController1 = TextEditingController();
-  //密码的控制器2
-  final TextEditingController passController2 = TextEditingController();
+  final CustomTextEditingController oldController = CustomTextEditingController.buildPasswordEditingController();
+  final CustomTextEditingController passController1 = CustomTextEditingController.buildPasswordEditingController();
+  final CustomTextEditingController passController2 = CustomTextEditingController.buildPasswordEditingController();
 
   _buildTextFiled(title, controller, hintText) {
     return Container(
@@ -97,9 +95,7 @@ class ModifyPasswordPage extends StatelessWidget {
   _onPressedOK() async{
     if(passController1.text != passController2.text){
       alert('两次输入的新密码不一致');
-    } else if (!Utils.isValidPassword(passController1.text)) {
-      alert('新密码必须为6-16位字母和数字组成');
-    }else{
+    } else if (passController1.approved()) {
       final ResultData result = await LoginRequest.modifyPassword(oldController.text, passController1.text);
       if(result.success){
         await alert('新密码设置成功');

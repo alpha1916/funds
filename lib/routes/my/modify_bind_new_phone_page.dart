@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/widgets/phone_captcha_button.dart';
-import 'package:funds/model/account_data.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/network/user_request.dart';
 
@@ -55,8 +54,8 @@ class BindNewPhonePage extends StatelessWidget {
     );
   }
 
-  final TextEditingController captchaController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final CustomTextEditingController phoneController = CustomTextEditingController.buildPhoneEditingController();
+  final CustomTextEditingController captchaController = CustomTextEditingController.buildCaptchaEditingController();
   _buildCaptchaView(){
     return Container(
       padding: EdgeInsets.only(left: a.px20, top: a.px3, bottom: a.px3),
@@ -85,8 +84,7 @@ class BindNewPhonePage extends StatelessWidget {
   }
 
   _onPressedGetCaptcha() async {
-    if (!Utils.isValidPhoneNumber(phoneController.text)) {
-      alert('请输入正确的手机号码');
+    if (!phoneController.approved()) {
       return Future.value(false);
     }
 
@@ -100,11 +98,7 @@ class BindNewPhonePage extends StatelessWidget {
   }
 
   _onPressedNext() async {
-    if (!Utils.isValidPhoneNumber(phoneController.text)) {
-      alert('请输入正确的手机号码');
-    }else if(captchaController.text.length == 0){
-      alert('请输入验证码');
-    }else {
+    if (phoneController.approved() && captchaController.approved()) {
       ResultData result = await UserRequest.modifyBindPhone(phoneController.text, captchaController.text);
       if(result.success){
         await alert('绑定新手机成功');

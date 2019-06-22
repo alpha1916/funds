@@ -6,49 +6,68 @@ import 'package:funds/network/http_request.dart';
 import 'modify_password_page.dart';
 import 'modify_bind_phone_verify_page.dart';
 import 'modify_address_page.dart';
+import 'certification_page.dart';
 
 class SettingsPage extends StatelessWidget {
   final forwardIcon = Utils.buildForwardIcon();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:Text('个人设置'),
-      ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildItemView('联系地址', '', _onPressedModifyAddress),
-            SizedBox(height: a.px10),
+    return StreamBuilder<AccountData>(
+        stream: AccountData.getInstance().dataStream,
+        initialData: AccountData.getInstance(),
+        builder: (BuildContext context, AsyncSnapshot<AccountData> snapshot){
+          AccountData data = snapshot.data;
+          return Scaffold(
+            appBar: AppBar(
+              title:Text('个人设置'),
+            ),
+            body: Container(
+              color: CustomColors.background1,
+              child: Column(
+                children: <Widget>[
+                  _buildSettableItem('联系地址', data.address != '', _onPressedModifyAddress),
+                  SizedBox(height: a.px10),
+                  _buildNameView(data.name),
+                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                  _buildSettableItem('绑定银行卡', data.bankcard != '', _onPressedModifyBankCard),
+                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                  _buildSettableItem('绑定手机号', true, _onPressedBindPhone, Utils.convertPhoneNumber(AccountData.getInstance().phone)),
+                  SizedBox(height: a.px10),
 
-            _buildItemView('实名认证', '名字', _onPressedCertification),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildItemView('绑定银行卡', '已设置', _onPressedModifyBankCard),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildItemView('绑定手机号', Utils.convertPhoneNumber(AccountData.getInstance().phone), _onPressedBindPhone),
-            SizedBox(height: a.px10),
+                  _buildSettableItem('登录密码', true, _onPressedModifyPassword),
+                  SizedBox(height: a.px10),
 
-            _buildItemView('登录密码', '已设置', _onPressedModifyPassword),
-            SizedBox(height: a.px10),
-
-            _buildItemView('退出当前账号', '', _onPressedLogout),
-          ],
-        ),
-      ),
+                  _buildSettableItem('退出当前账号', true, _onPressedLogout, ' '),
+                ],
+              ),
+            ),
+          );
+        }
     );
   }
 
-  _buildItemView(leftText, rightText, onPressed){
+  _buildSettableItem(title, setup, onPressed, [rightText = '']){
+    String setupText;
+    Color setupTextColor;
+    if(setup){
+      setupText = '已设置';
+      setupTextColor = Colors.black;
+    }else{
+      setupText = '未设置';
+      setupTextColor = CustomColors.red;
+    }
+    if(rightText != '')
+      setupText = rightText;
+
     return GestureDetector(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
         color: Colors.white,
         child: Row(
           children: <Widget>[
-            Text(leftText, style: TextStyle(fontSize: a.px16),),
+            Text(title, style: TextStyle(fontSize: a.px16),),
             Utils.expanded(),
-            Text(rightText, style: TextStyle(fontSize: a.px16),),
+            Text(setupText, style: TextStyle(fontSize: a.px16, color: setupTextColor),),
             forwardIcon,
           ],
         ),
@@ -57,12 +76,30 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  _onPressedModifyAddress() {
+  _buildNameView(name){
+    if(name == '')
+      return _buildSettableItem('实名认证', false, _onPressedCertification);
+    else{
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text('实名认证', style: TextStyle(fontSize: a.px16),),
+            Text(name, style: TextStyle(fontSize: a.px16),),
+          ],
+        )
+      );
+    }
 
   }
 
-  _onPressedCertification(){
+  _onPressedModifyAddress() {
+  }
 
+  _onPressedCertification(){
+    Utils.navigateTo(CertificationPage());
   }
 
   _onPressedModifyBankCard() {

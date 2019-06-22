@@ -78,7 +78,11 @@ class _ContentViewState extends State<_ContentView>
         child: Column(
           children: <Widget>[
             _tabBar(),
-            _currentIndex == 0 ? TakeTrialPage() : MyTrialPage(),
+            _currentIndex == 0 ? TakeTrialPage() : MyTrialPage(() {
+              setState(() {
+                _tabController.index = _currentIndex = 0;
+              });
+            }),
           ],
         ),
       ),
@@ -94,11 +98,11 @@ class _ContentViewState extends State<_ContentView>
       vsync: this,
     );
     _tabController.addListener(() {
-        if(_currentIndex != _tabController.index){
-          setState(() {
-            _currentIndex = _tabController.index;
-          });
-        }
+      if(_currentIndex != _tabController.index){
+        setState(() {
+          _currentIndex = _tabController.index;
+        });
+      }
     });
     _tabController.index = _currentIndex;
   }

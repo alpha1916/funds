@@ -15,6 +15,9 @@ class AccountData {
   String cash = '0.00';
   String total = '0.00';
   String phone = '';
+  String name = '';
+  String address = '';
+  String bankcard = '';
   String token;
   List<int> experiences = [];
   
@@ -30,6 +33,9 @@ class AccountData {
     cash = Utils.convertDoubleString(data['cashWealth']);
     total = Utils.convertDoubleString(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
+    name = data['name'];
+    address = data['address'] ?? '';
+    bankcard = data['bankcard'] ?? '';
 
     String strExperiences = data['experierceList'];
     if(strExperiences != null && strExperiences != ''){

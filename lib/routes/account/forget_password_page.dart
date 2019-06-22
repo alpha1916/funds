@@ -88,13 +88,10 @@ class ForgetPasswordPage extends StatelessWidget {
     );
   }
 
-  final TextEditingController phoneController = TextEditingController();
-  //验证码的控制器
-  final TextEditingController captchaController = TextEditingController();
-  //密码的控制器1
-  final TextEditingController passController1 = TextEditingController();
-  //密码的控制器2
-  final TextEditingController passController2 = TextEditingController();
+  final CustomTextEditingController phoneController = CustomTextEditingController.buildPhoneEditingController();
+  final CustomTextEditingController captchaController = CustomTextEditingController.buildCaptchaEditingController();
+  final CustomTextEditingController passController1 = CustomTextEditingController.buildPasswordEditingController();
+  final CustomTextEditingController passController2 = CustomTextEditingController.buildPasswordEditingController();
 
   _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
     return Container(
@@ -150,10 +147,13 @@ class ForgetPasswordPage extends StatelessWidget {
       ),
     );
   }
+
   _onPressedGetCaptcha() async {
-    if (!Utils.isValidPhoneNumber(phoneController.text)) {
-      alert('请输入正确的手机号码');
+    if(!phoneController.approved()){
       return Future.value(false);
+//    if (!Utils.isValidPhoneNumber(phoneController.text)) {
+//      alert('请输入正确的手机号码');
+//      return Future.value(false);
     }
 
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.forgotPassword, phoneController.text);
@@ -165,20 +165,37 @@ class ForgetPasswordPage extends StatelessWidget {
   }
 
   _onPressedOK() async{
-    if(captchaController.text.length == 0){
-      alert('请输入验证码');
-    } else if(passController1.text != passController2.text){
-      alert('两次输入的密码不一致');
-    } else if (!Utils.isValidPhoneNumber(phoneController.text)) {
-      alert('请输入正确的手机号码');
-    } else if (!Utils.isValidPassword(passController1.text)) {
-      alert('密码必须为6-16位字母和数字组成');
-    }else{
+    if( captchaController.approved() &&
+        phoneController.approved() &&
+        passController1.approved()
+    ){
+      if(passController1.text != passController2.text){
+        alert('两次输入的密码不一致');
+        return;
+      }
+
       final ResultData result = await LoginRequest.setNewPassword(phoneController.text, passController1.text, captchaController.text);
       if(result.success){
         await alert('新密码设置成功');
         Utils.navigatePop();
       }
     }
+
+//    if(passController1.approved())
+//      return;
+//
+//    if(captchaController.text.length == 0){
+//      alert('请输入验证码');
+//    } else  else if (!Utils.isValidPhoneNumber(phoneController.text)) {
+//      alert('请输入正确的手机号码');
+//    } else if (!Utils.isValidPassword(passController1.text)) {
+//      alert('密码必须为6-16位字母和数字组成');
+//    }else{
+//      final ResultData result = await LoginRequest.setNewPassword(phoneController.text, passController1.text, captchaController.text);
+//      if(result.success){
+//        await alert('新密码设置成功');
+//        Utils.navigatePop();
+//      }
+//    }
   }
 }

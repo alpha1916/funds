@@ -3,7 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/my/settings_page.dart';
 
 class MyView extends StatefulWidget {
@@ -15,42 +15,13 @@ class _MyViewState extends State<MyView> {
   String mail = CustomIcons.mail0;
   AccountData _data;
 
-//  @override
-//  void initState() {
-//    // TODO: implement initState
-//    super.initState();
-//
-//    _updateInfo();
-//    _refresh();
-//  }
-//
-//  _refresh() async{
-//    if(!AccountData.getInstance().isLogin())
-//      return;
-//
-//    await Future.delayed(Duration(milliseconds: 10));
-//    ResultData result = await UserRequest.getUserInfo();
-//    if(!mounted)
-//      return;
-//
-//    if(result.success){
-//      _updateInfo();
-//    }
-//    setState(() {
-//    });
-//  }
-
-//  _updateInfo() {
-//    _data = AccountData.getInstance();
-//  }
-
   Widget build(BuildContext context) {
+    UserRequest.getUserInfo();
     final Widget iconMail = Image.asset(mail, width: a.px22, height: a.px22);
     return StreamBuilder<AccountData>(
       stream: AccountData.getInstance().dataStream,
       initialData: AccountData.getInstance(),
       builder: (BuildContext context, AsyncSnapshot<AccountData> snapshot){
-        print('my builder');
         _data = snapshot.data;
         return Scaffold(
           appBar: AppBar(
@@ -77,31 +48,6 @@ class _MyViewState extends State<MyView> {
         );
       }
     );
-
-
-//     return Scaffold(
-//      appBar: AppBar(
-//        title:Text('我的'),
-//        leading: Utils.buildServiceIconButton(context),
-//        actions: [
-//          IconButton(
-//              icon: iconMail,
-//              onPressed: (){
-//                print('press mail');
-//              }
-//          ),
-//        ],
-//      ),
-//      body: Container(
-//        color: CustomColors.background1,
-//        child: Column(
-//          children: <Widget>[
-//            AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
-//            _buildBottomView(),
-//          ],
-//        ),
-//      ),
-//    );
   }
 
   //---------------------------------上部分-------------------------------------/
@@ -307,7 +253,7 @@ class _MyViewState extends State<MyView> {
               SizedBox(height: a.px10),
 
               _buildBottomItem(CustomIcons.myAsset, '资金明细', true, '现金、积分、金币', _onPressFund),
-              _buildBottomItem(CustomIcons.myCoupon, '优惠卡券', true, '兑换优惠券', _onPressCard),
+              _buildBottomItem(CustomIcons.myCoupon, '优惠卡券', true, '兑换优惠券', _onPressCoupons),
               SizedBox(height: a.px10),
               _buildBottomItem(CustomIcons.myService, '帮助与客服', true, '', _onPressService),
               Container(
@@ -332,8 +278,8 @@ class _MyViewState extends State<MyView> {
     print('press cash flow');
   }
 
-  _onPressCard () {
-    print('press card');
+  _onPressCoupons () {
+    print('press coupons');
   }
 
   _onPressService () {
