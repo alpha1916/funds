@@ -12,12 +12,17 @@ class MyView extends StatefulWidget {
 }
 
 class _MyViewState extends State<MyView> {
-  String mail = CustomIcons.mail0;
   AccountData _data;
 
-  Widget build(BuildContext context) {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
     UserRequest.getUserInfo();
-    final Widget iconMail = Image.asset(mail, width: a.px22, height: a.px22);
+  }
+
+  Widget build(BuildContext context) {
     return StreamBuilder<AccountData>(
       stream: AccountData.getInstance().dataStream,
       initialData: AccountData.getInstance(),
@@ -29,7 +34,7 @@ class _MyViewState extends State<MyView> {
             leading: Utils.buildServiceIconButton(context),
             actions: [
               IconButton(
-                  icon: iconMail,
+                  icon: Utils.buildMailIconButton(),
                   onPressed: (){
                     print('press mail');
                   }

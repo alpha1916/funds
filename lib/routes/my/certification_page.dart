@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/common/widgets/phone_captcha_button.dart';
-import 'package:funds/network/http_request.dart';
 import 'package:funds/network/user_request.dart';
 
 class CertificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    if(Global.debug){
+      nameController.text = '孙悟空';
+      idController.text = '140400199709307098';
+    }
     return Scaffold(
       appBar: AppBar(
         title:Text('实名认证'),
@@ -16,8 +18,10 @@ class CertificationPage extends StatelessWidget {
         color: CustomColors.background1,
         child: Column(
           children: <Widget>[
-            _buildItemView('真实姓名',  nameController),
+            _buildItemView('真实姓名', nameController, '请输入您的姓名'),
             Utils.buildSplitLine(),
+            _buildItemView('身份证号', idController, '18位身份证号'),
+            _buildTipsView(),
             SizedBox(height: a.px50),
             Utils.buildRaisedButton(title: '确认', onPressed: _onPressedOK),
           ],
@@ -26,8 +30,19 @@ class CertificationPage extends StatelessWidget {
     );
   }
 
-  final TextEditingController nameController = TextEditingController();
-  _buildItemView(title, controller){
+  _buildTipsView() {
+    return Container(
+        padding: EdgeInsets.only(left: a.px20, top: a.px12),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text('请填写与银行卡开户人一致的身份信息', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
+        )
+    );
+  }
+
+  final CustomTextEditingController nameController = CustomTextEditingController.buildNameEditingController();
+  final CustomTextEditingController idController = CustomTextEditingController.buildIDEditingController();
+  _buildItemView(title, controller, hintText){
     return Container(
       padding: EdgeInsets.only(left: a.px20, top: a.px3, bottom: a.px3),
       color: Colors.white,
@@ -35,14 +50,15 @@ class CertificationPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(title, style: TextStyle(fontSize: a.px16),),
+          SizedBox(width: a.px30),
           Expanded(
             child: TextField(
               controller: controller,
-              keyboardType: TextInputType.number,
+//              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: '验证码',
+                hintText: hintText,
                 labelStyle: TextStyle(fontSize: 20),
               ),
               autofocus: false,
@@ -53,7 +69,14 @@ class CertificationPage extends StatelessWidget {
     );
   }
 
-  _onPressedOK() {
-
+  _onPressedOK() async{
+    if(nameController.approved() && idController.approved()){
+      print('ok');
+      var result = await UserRequest.certificate(nameController.text, idController.text);
+      if(result.success){
+        await alert('实名认证成功');
+        Utils.navigatePop(true);
+      }
+    }
   }
 }

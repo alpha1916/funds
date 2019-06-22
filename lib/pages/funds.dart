@@ -20,7 +20,7 @@ class _FundsViewState extends State<FundsView> {
         title:Text('交易'),
         leading: Utils.buildServiceIconButton(context),
         actions: [
-          Utils.buildMyTradeButton(context),
+          Utils.buildMyTradeButton(),
         ],
       ),
       body: Column(

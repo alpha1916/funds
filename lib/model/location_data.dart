@@ -35,7 +35,8 @@ const Map<String, String> provinceData = {
   "820000": "澳门特别行政区"
 };
 
-const Map<String, dynamic> citiesData = {
+
+Map<String, dynamic> citiesData = {
   "110000": {
     "110100": {"name": "北京城区", "alpha": "b"}
   },
@@ -2826,8 +2827,7 @@ const Map<String, dynamic> citiesData = {
     "469030": {"name": "琼中黎族苗族自治县", "alpha": "q"}
   },
   "500000": {
-    "500100": {"name": "重庆城区", "alpha": "c"},
-    "500200": {"name": "重庆郊县", "alpha": "c"}
+    "500100": {"name": "重庆市", "alpha": "c"},
   },
   "500100": {
     "500101": {"name": "万州区", "alpha": "w"},

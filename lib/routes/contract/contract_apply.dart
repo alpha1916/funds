@@ -44,7 +44,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       appBar: AppBar(
         title: Text('申请合约'),
         actions: [
-          Utils.buildMyTradeButton(context),
+          Utils.buildMyTradeButton(),
         ],
       ),
       body: Column(

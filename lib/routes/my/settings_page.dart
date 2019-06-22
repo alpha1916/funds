@@ -6,7 +6,9 @@ import 'package:funds/network/http_request.dart';
 import 'modify_password_page.dart';
 import 'modify_bind_phone_verify_page.dart';
 import 'modify_address_page.dart';
+import 'package:funds/routes/my/bindcard/bind_bank_card_page.dart';
 import 'certification_page.dart';
+import 'package:funds/network/user_request.dart';
 
 class SettingsPage extends StatelessWidget {
   final forwardIcon = Utils.buildForwardIcon();
@@ -98,11 +100,25 @@ class SettingsPage extends StatelessWidget {
   _onPressedModifyAddress() {
   }
 
-  _onPressedCertification(){
-    Utils.navigateTo(CertificationPage());
+  _onPressedCertification() async {
+    var result = await Utils.navigateTo(CertificationPage());
+    if(result == true){
+      UserRequest.getUserInfo();
+    }
   }
 
-  _onPressedModifyBankCard() {
+  _onPressedModifyBankCard() async{
+    if(AccountData.getInstance().name == ''){
+      bool confirm = await Utils.showConfirmOptionsDialog(tips: '绑卡前，请先进行实名认证', confirmTitle: '前往认证');
+      if(confirm)
+        _onPressedCertification();
+      return;
+    }
+
+    var result = await Utils.navigateTo(BindBankCardPage());
+    if(result == true){
+      UserRequest.getUserInfo();
+    }
   }
 
   _onPressedBindPhone() {

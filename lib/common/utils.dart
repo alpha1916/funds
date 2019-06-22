@@ -49,7 +49,7 @@ class Utils {
     appMainTabSwitch(tabIndex);
   }
 
-  static buildMyTradeButton(BuildContext context) {
+  static buildMyTradeButton() {
     return FlatButton(
       child: const Text('我的交易'),
       onPressed: () {
@@ -59,6 +59,10 @@ class Utils {
         Utils.navigateTo(TradeView(true));
       },
     );
+  }
+
+  static buildMailIconButton() {
+    return Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22);
   }
 
   static buildForwardIcon([size, color]) {
@@ -280,15 +284,21 @@ class CustomTextEditingController extends TextEditingController{
     return CustomTextEditingController(invalidTips: '请输入验证码', validator: (str) => str.length > 0 );
   }
 
+  static CustomTextEditingController buildNameEditingController(){
+//    final exp = r'^\d{6}$';
+    return CustomTextEditingController(invalidTips: '请输入姓名', validator: (str) => str.length > 0 );
+  }
+
   static CustomTextEditingController buildPhoneEditingController(){
     final exp = r'^\d{11}$';
-    return CustomTextEditingController(
 //      final exp = r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$';
+    return CustomTextEditingController(
       regExp: exp,
       invalidTips: '请输入正确的手机号码',
-//      validator: (str) {
-//        return str.length == 11;
-//      }
     );
+  }
+
+  static CustomTextEditingController buildBankCardEditingController(){
+    return CustomTextEditingController(invalidTips: '请输入银行卡号', validator: (str) => str.length > 0);
   }
 }

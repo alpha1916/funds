@@ -28,7 +28,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       appBar: AppBar(
         title: Text(data.title),
         actions: [
-          Utils.buildMyTradeButton(context),
+          Utils.buildMyTradeButton(),
         ],
       ),
       body:Container(

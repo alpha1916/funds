@@ -40,4 +40,35 @@ class UserRequest {
 
     return ResultData(true);
   }
+
+  static certificate(name, id) async{
+    final String api = '/api/v1/user/authentication';
+    var data = {
+      'name': name,
+      'cardNo': id,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true);
+  }
+
+  static bindBankCard(bank, province, city, card, phone) async{
+    final String api = '/api/v1/user/authentication';
+    var data = {
+      'bank': bank,
+      'province': province,
+      'city': city,
+      'cardNo': card,
+      'phone': phone,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true);
+  }
 }

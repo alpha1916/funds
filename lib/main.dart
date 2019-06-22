@@ -96,7 +96,7 @@ class _AppState extends State<App> {
 
   tabSwitcher(int index) {
     //交易界面先判断是否登录状态,非登录状态要先登录
-    if(index == 3 && Utils.needLogin())
+    if(index == AppTabIndex.funds && Utils.needLogin())
       return;
 
     setState(() {

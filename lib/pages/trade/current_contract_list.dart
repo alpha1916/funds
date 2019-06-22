@@ -37,9 +37,10 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
     if(_dataList == null || _dataList.length == 0){
       return _buildPromoteView();
     }
+
     return Container(
       color: CustomColors.background1,
-        child: ListView.builder(
+      child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
           return Container(
@@ -54,42 +55,47 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
             alignment: Alignment.center,
           );
         },
-          itemCount: _dataList.length,
-        ),
+        itemCount: _dataList.length,
+      ),
     );
   }
 
   _buildPromoteView() {
     return Container(
       color: CustomColors.background1,
-      child: Container(
-        height: a.px50,
-        padding: EdgeInsets.symmetric(vertical: a.px20),
-        color: Colors.white,
+      child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('当前没有操盘中的合约', style: TextStyle(fontSize: a.px14, color: Colors.black26)),
-            FlatButton(
-              child: Text(
-                '申请合约享受盈利翻倍',
-                style: TextStyle(
-                  fontSize: a.px16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
+            Container(
+              padding: EdgeInsets.only(top: a.px20),
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Center(child: Text('当前没有操盘中的合约', style: TextStyle(fontSize: a.px14, color: Colors.black26)),),
+                  FlatButton(
+                    child: Text(
+                      '申请合约享受盈利翻倍',
+                      style: TextStyle(
+                        fontSize: a.px16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onPressed: () async{
+                      ResultData result = await ContractRequest.getConfigs();
+                      if(mounted && result.success){
+                        Utils.navigateTo(ContractApplyPage(result.data));
+                      }
+                    },
+                  ),
+                ],
               ),
-              onPressed: () async{
-                ResultData result = await ContractRequest.getConfigs();
-                if(mounted && result.success){
-                  Utils.navigateTo(ContractApplyPage(result.data));
-                }
-              },
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }
