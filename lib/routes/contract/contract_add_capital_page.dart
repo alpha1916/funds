@@ -67,6 +67,7 @@ class ContractAddCapitalPage extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -77,7 +78,6 @@ class ContractAddCapitalPage extends StatelessWidget {
       child: TextField(
         textAlign: TextAlign.right,
         controller: _inputController,
-        keyboardType: TextInputType.number,
         cursorColor: Colors.black12,
         decoration: InputDecoration(
           border: InputBorder.none,

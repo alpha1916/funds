@@ -43,6 +43,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     ctx = context;
     realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(data?.title ?? '当前合约详情'),
         actions: [

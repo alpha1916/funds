@@ -1,5 +1,6 @@
 import 'http_request.dart';
-import 'package:funds/model/account_data.dart';
+
+export 'http_request.dart';
 
 class UserRequest {
   static getUserInfo() async {
@@ -55,14 +56,16 @@ class UserRequest {
     return ResultData(true);
   }
 
-  static bindBankCard(bank, province, city, card, phone) async{
-    final String api = '/api/v1/user/authentication';
+  static bindBankCard(bank, province, city, location, card, phone) async{
+    final String api = '/api/v1/bank/addBank';
     var data = {
-      'bank': bank,
-      'province': province,
+      'bankName': bank,
+      'bankNo': card,
       'city': city,
-      'cardNo': card,
+      'name': AccountData.getInstance().name,
+      'openAddress': location,
       'phone': phone,
+      'province': province
     };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
@@ -70,5 +73,35 @@ class UserRequest {
     }
 
     return ResultData(true);
+  }
+
+  static getBankList() async {
+    final String api = '/api/v1/bank/profiles/bankNames';
+    var result = await HttpRequest.send(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
+  }
+
+  static getProvinceList() async {
+    final String api = '/api/v1/bank/profiles/provinces';
+    var result = await HttpRequest.send(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
+  }
+
+  static getCityList(pid) async {
+    final String api = '/api/v1/bank/profiles/provinces';
+    var result = await HttpRequest.send(api: api, data: {'pid': pid});
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
   }
 }

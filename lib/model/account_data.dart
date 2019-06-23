@@ -34,7 +34,7 @@ class AccountData {
     total = Utils.convertDoubleString(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
     name = data['name'];
-    address = data['address'] ?? '';
+    address = data['address'] ?? '哈哈是';
     bankcard = data['bankcard'] ?? '';
 
     String strExperiences = data['experierceList'];

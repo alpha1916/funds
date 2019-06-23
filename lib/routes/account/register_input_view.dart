@@ -64,7 +64,6 @@ class RegisterInputViewState extends State<RegisterInputView> {
           Expanded(
             child: TextField(
               controller: captchaController,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -83,7 +82,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
-      phoneController.text = '18612345671';
+      phoneController.text = '18612345699';
       passController.text = '123456';
     }
     return Container(
@@ -94,7 +93,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
           ),
           _buildTextFiled(
             phoneController,
-            TextInputType.number,
+            TextInputType.text,
             '11位手机号码',
             false,
             Container(

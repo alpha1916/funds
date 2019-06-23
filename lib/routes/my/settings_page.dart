@@ -6,9 +6,10 @@ import 'package:funds/network/http_request.dart';
 import 'modify_password_page.dart';
 import 'modify_bind_phone_verify_page.dart';
 import 'modify_address_page.dart';
-import 'package:funds/routes/my/bindcard/bind_bank_card_page.dart';
 import 'certification_page.dart';
 import 'package:funds/network/user_request.dart';
+import 'package:funds/routes/my/bindcard/bind_bank_card_page.dart';
+import 'package:funds/routes/my/bindcard/binded_card_info_page.dart';
 
 class SettingsPage extends StatelessWidget {
   final forwardIcon = Utils.buildForwardIcon();
@@ -98,6 +99,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   _onPressedModifyAddress() {
+    Utils.navigateTo(ModifyAddressPage());
   }
 
   _onPressedCertification() async {
@@ -114,6 +116,11 @@ class SettingsPage extends StatelessWidget {
         _onPressedCertification();
       return;
     }
+
+//    if(true){
+//      Utils.navigateTo(BindedBankCardInfoPage());
+//      return;
+//    }
 
     var result = await Utils.navigateTo(BindBankCardPage());
     if(result == true){

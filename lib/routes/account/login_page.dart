@@ -28,6 +28,7 @@ class LoginPage extends StatelessWidget{
           _InputView(isRegister),
         ],
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }

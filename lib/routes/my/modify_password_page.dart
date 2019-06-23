@@ -56,6 +56,7 @@ class ModifyPasswordPage extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 

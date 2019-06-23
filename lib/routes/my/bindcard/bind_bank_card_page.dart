@@ -64,6 +64,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -106,7 +107,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
       child: Row(
         children: <Widget>[
           Text('开户行所在地', style: TextStyle(fontSize: a.px16),),
-          SizedBox(width: 20),
+          SizedBox(width: a.px20),
           Expanded(
             child: TextField(
               controller: locationController,
@@ -115,7 +116,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '例：上海分行东方支行',
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: a.px20),
               ),
               autofocus: false,
             ),
@@ -138,12 +139,11 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
             child: TextField(
               controller: cardController,
               textAlign: TextAlign.end,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '请输入银行卡号',
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: a.px20),
               ),
               autofocus: false,
             ),
@@ -166,12 +166,11 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
             child: TextField(
               controller: phoneController,
               textAlign: TextAlign.end,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '请输入以后预留的手机号',
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: a.px20),
               ),
               autofocus: false,
             ),
@@ -247,7 +246,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
       return;
 
     print('aproved');
-    var result = await UserRequest.bindBankCard(bank, selectProvinceData.value, city, cardController.text, phoneController.text);
+    var result = await UserRequest.bindBankCard(bank, selectProvinceData.value, city, locationController.text, cardController.text, phoneController.text);
     if(result.success){
       await alert('绑定银行卡成功');
       Utils.navigatePop(true);

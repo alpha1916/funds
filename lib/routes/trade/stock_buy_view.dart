@@ -109,7 +109,6 @@ class StockTradeFrame extends StatelessWidget{
             child: TextField(
               textAlign: TextAlign.left,
               controller: codeInputController,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -175,7 +174,6 @@ class StockTradeFrame extends StatelessWidget{
               child: TextField(
                 textAlign: TextAlign.center,
                 controller: priceInputController,
-                keyboardType: TextInputType.number,
                 cursorColor: Colors.black12,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -295,7 +293,6 @@ class StockTradeFrame extends StatelessWidget{
                 child: TextField(
                   textAlign: TextAlign.left,
                   controller: countInputController,
-                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black12,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -405,7 +402,7 @@ class StockTradeFrame extends StatelessWidget{
   _buildBuyListView(dataList){
     List<Widget> list = [];
     for(int i = 0; i < 5; ++i){
-      String strPrice = '--';
+      String strPrice = '0.00';
       String strCount = '--';
       Color priceColor = Colors.black87;
 

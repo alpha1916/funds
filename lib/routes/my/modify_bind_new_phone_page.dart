@@ -25,6 +25,7 @@ class BindNewPhonePage extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -39,12 +40,11 @@ class BindNewPhonePage extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: phoneController,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '请输入新手机号码',
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: a.px20),
               ),
               autofocus: false,
             ),
@@ -67,12 +67,11 @@ class BindNewPhonePage extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: captchaController,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '验证码',
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: a.px20),
               ),
               autofocus: false,
             ),

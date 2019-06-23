@@ -27,6 +27,7 @@ class CertificationPage extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -54,7 +55,6 @@ class CertificationPage extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
-//              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,

@@ -9,9 +9,9 @@ class ForgetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
-      passController1.text = '12345678';
-      passController2.text = '12345678';
-      phoneController.text = '18612345671';
+      passController1.text = '123456';
+      passController2.text = '123456';
+      phoneController.text = '18612345699';
     }
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +24,7 @@ class ForgetPasswordPage extends StatelessWidget {
             SizedBox(height: a.px20),
             _buildTextFiled(
               phoneController,
-              TextInputType.number,
+              TextInputType.text,
               '11位手机号码',
               false,
               Container(
@@ -132,7 +132,6 @@ class ForgetPasswordPage extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: captchaController,
-              keyboardType: TextInputType.number,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,

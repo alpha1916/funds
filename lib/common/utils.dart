@@ -9,6 +9,7 @@ import 'package:funds/routes/account/login_page.dart';
 import 'package:funds/common/custom_dialog.dart';
 
 import 'package:funds/routes/recharge/recharge_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   static BuildContext context;
@@ -139,6 +140,16 @@ class Utils {
     return sign + strIntPart + '.' + tmp[1];
 
   }
+
+  static final RegExp intRegExp = RegExp(r'^\+?[1-9][0-9]*$');
+  static int parseInt(String str) {
+    if(!intRegExp.hasMatch(str)){
+      print('parse int error');
+      return null;
+    }
+
+    return int.parse(str);
+  }
   
   static getTrisectionInt(String strValue){
     List<String> intPartList = [];
@@ -226,7 +237,12 @@ class Utils {
     return convertPhoneNumber(AccountData.getInstance().phone);
   }
 
-  static buildRaisedButton({width, height, title, onPressed}) {
+  static buildRaisedButton({
+    @required title,
+    @required onPressed,
+    width,
+    height,
+  }) {
     if(width == null)
       width = a.px(200);
     if(height == null)
@@ -247,7 +263,29 @@ class Utils {
     );
   }
 
+  static buildUnderlineTextButton(title, fontSize, onPressed) {
+    return FlatButton(
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+      onPressed: onPressed,
+    );
+  }
 
+  static dial(phoneNumber) async {
+    String url = 'tel:$phoneNumber';
+    if(await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('不能访问');
+    }
+  }
 }
 
 class CustomTextEditingController extends TextEditingController{

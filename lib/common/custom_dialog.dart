@@ -44,13 +44,15 @@ class CustomDialog {
         });
   }
 
-  static Future<int> show3(
-      String title, String tips, String btnTitle1, String btnTitle2) {
+  static Future<int> show3(String title, String tips, String btnTitle1, String btnTitle2) {
+    Text titleText;
+    if(title != null)
+      titleText = Text(title);
     return showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
           return new CupertinoAlertDialog(
-            title: new Text(title),
+            title: titleText,
             content: new Text(tips),
             actions: <Widget>[
               _buildButton(btnTitle1, Colors.blueAccent, 1),

@@ -18,6 +18,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   final List<ContractApplyItemData> dataList;
   int _currentTypeIdx = 0;
   int _currentTimesIdx = 0;
+  int _inputLoadAmount;
 
   _ContractApplyPageState(this.dataList, type) {
     ContractApplyItemData currentData;
@@ -28,12 +29,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       currentData = dataList.firstWhere((data) => data.type == type);
       _currentTypeIdx = dataList.indexOf(currentData);
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -51,19 +46,19 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(
-            height: 20,
+            height: a.px20,
           ),
           _chipsView(realWidth * 0.2),
           SizedBox(
-            height: 20,
+            height: a.px20,
           ),
           Container(
             color: Colors.black26,
             height: 1,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: a.px10),
           _inputView(realWidth * 0.25),
-          SizedBox(height: 10),
+          SizedBox(height: a.px10),
           Container(
             width: realWidth,
             height: a.px50,
@@ -88,44 +83,39 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       return;
     }
 
-    final loanAmount = int.parse(inputController.text);
+    if(_inputLoadAmount == null){
+      alert('请输入正确的数值');
+      return;
+    }
     final data = dataList[_currentTypeIdx];
     final min = data.min;
-    if(loanAmount < min){
+    if(_inputLoadAmount < min){
       alert('额度不能小于$min');
       return;
     }
 
-    if(loanAmount % 1000 != 0){
+    if(_inputLoadAmount % 1000 != 0){
       alert('请输入千的整数倍');
       return;
     }
 
     ContractApplyItemData selectedData = dataList[_currentTypeIdx];
     final times = selectedData.timesList[_currentTimesIdx];
-    final ResultData result =  await ContractRequest.preApplyContract(selectedData.type, times, loanAmount);
+    final ResultData result =  await ContractRequest.preApplyContract(selectedData.type, times, _inputLoadAmount);
     if(result.success){
       ContractApplyDetailData data = result.data;
       data.title = selectedData.title;
-      data.capital = (loanAmount / times).round();
-      data.total = data.capital + loanAmount;
+      data.capital = (_inputLoadAmount / times).round();
+      data.total = data.capital + _inputLoadAmount;
       data.period = '${selectedData.timeLimit}，到期不可续约';
 
       data.type = selectedData.type;
       data.times = times;
-      data.loadAmount = loanAmount;
+      data.loadAmount = _inputLoadAmount;
 
       Utils.navigateTo(ContractApplyDetailPage(data));
     }
   }
-
-//  _selectable() {
-//    if(inputController.text.length == 0)
-//      return false;
-//
-//    final num = int.parse(inputController.text);
-//    return num >= _dataList[_currentTypeIdx]['min'];
-//  }
 
   Widget _buildChip(idx, title, size) {
     Color titleColor;
@@ -146,8 +136,8 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       child: Container(
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: borderColor, width: 1), // 边色与边宽度
+          borderRadius: BorderRadius.all(Radius.circular(a.px5)),
+          border: Border.all(color: borderColor, width: a.px1), // 边色与边宽度
         ),
         width: size,
         height: size * 0.6,
@@ -187,27 +177,35 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   Widget _buildTextFiled(hintText) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(left: 30, right: 30),
+      margin: EdgeInsets.only(left: a.px30, right: a.px30),
       child: Container(
         child: TextField(
           textAlign: TextAlign.center,
           controller: inputController,
-          keyboardType: TextInputType.number,
           cursorColor: Colors.black12,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintText,
-            labelStyle: TextStyle(fontSize: 30),
+            labelStyle: TextStyle(fontSize: a.px30),
           ),
           autofocus: false,
-          onChanged: (text) => setState((){}),
+          onChanged: _onInputChanged,
         ),
         decoration: BoxDecoration(
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: Colors.grey, width: 0.5), // 边色与边宽度
+          border: Border.all(color: Colors.grey, width: a.px(0.5)), // 边色与边宽度
         ),
       )
     );
+  }
+  
+  _onInputChanged(text){
+    int amount = Utils.parseInt(text);
+    if(_inputLoadAmount != amount){
+      setState(() {
+        _inputLoadAmount = amount;
+      });
+    }
   }
 
   _getHintText(min, max) {
@@ -223,14 +221,8 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     String title = '杠杆本金';
     bool selectable = false;
 
-    int inputNum = 0;
-    if(inputController.text.length > 0){
-      try{
-        inputNum = int.parse(inputController.text);
-      }catch(e){
-        alert('请输入正确的数值');
-      }
-      selectable = inputNum >= min;
+    if(_inputLoadAmount != null){
+      selectable = _inputLoadAmount >= min;
 
       if(selectable){//满足最小值
         if(_currentTimesIdx == idx){
@@ -250,7 +242,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       }
 
 
-      title = '${(inputNum / times).round()}元';
+      title = '${(_inputLoadAmount / times).round()}元';
     }else{
       titleColor = Colors.white;
       borderColor = Colors.grey;
@@ -261,8 +253,8 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       child: Container(
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: borderColor, width: 1), // 边色与边宽度
+          borderRadius: BorderRadius.all(Radius.circular(a.px5)),
+          border: Border.all(color: borderColor, width: a.px1), // 边色与边宽度
         ),
         width: size,
         height: size * 0.8,
@@ -328,15 +320,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       child: Center(
         child: Column(
           children: <Widget>[
-            Text(
-              '请输入申请资金',
-              style: TextStyle(fontSize: a.px16),
-            ),
-            SizedBox(height: 10),
+            Text('请输入申请资金', style: TextStyle(fontSize: a.px16)),
+            SizedBox(height: a.px10),
             _buildTextFiled(_getHintText(min, max)),
-            SizedBox(height: 10),
-            Text('请选择杠杠本金', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 10),
+            SizedBox(height: a.px10),
+            Text('请选择杠杠本金', style: TextStyle(fontSize: a.px16)),
+            SizedBox(height: a.px10),
             _timesItemsView(itemSize, min, timesList),
           ],
         ),

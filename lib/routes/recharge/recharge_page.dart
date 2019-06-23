@@ -59,7 +59,6 @@ class _RechargePageState extends State<RechargePage> {
                   child: TextField(
                     textAlign: TextAlign.right,
                     controller: inputController,
-                    keyboardType: TextInputType.number,
                     cursorColor: Colors.black12,
                     decoration: InputDecoration(
                       border: InputBorder.none,

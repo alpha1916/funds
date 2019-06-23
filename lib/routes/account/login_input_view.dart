@@ -59,7 +59,7 @@ class LoginInputViewState extends State<LoginInputView> {
       child: Column(
         children: <Widget>[
           SizedBox(height: 10,),
-          _buildTextFiled(phoneController, TextInputType.number, '11位手机号码', false,
+          _buildTextFiled(phoneController, TextInputType.text, '11位手机号码', false,
             Container(
               margin: EdgeInsets.only(left: 5),
               child: Icon(Icons.phone),

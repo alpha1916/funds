@@ -42,6 +42,7 @@ class CustomColors {
 
   static const Color trialContentBackground = Color(0xFFFEE3B9);
   static const Color trialBackground = Color(0xFFC51623);
+
 }
 
 class AppTabIndex{
@@ -211,5 +212,6 @@ class a{
 
 class Global{
   static BuildContext buildContext;
+//  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
 }
