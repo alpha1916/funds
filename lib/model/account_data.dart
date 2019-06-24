@@ -11,9 +11,9 @@ class AccountData {
     return ins;
   }
 
-  String stock = '0.00';
-  String cash = '0.00';
-  String total = '0.00';
+  double stock = 0.00;
+  double cash = 0.00;
+  double total = 0.00;
   String phone = '';
   String name = '';
   String address = '';
@@ -29,9 +29,9 @@ class AccountData {
   }
 
   update(data){
-    stock = Utils.convertDoubleString(data['bondWealth']);
-    cash = Utils.convertDoubleString(data['cashWealth']);
-    total = Utils.convertDoubleString(data['cashWealth'] + data['bondWealth']);
+    cash = Utils.convertDouble(data['cashWealth']);
+    stock = Utils.convertDouble(data['bondWealth']);
+    total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
     name = data['name'];
     address = data['address'] ?? '哈哈是';
@@ -58,8 +58,9 @@ class AccountData {
   }
 
   clear() async {
-    stock = '0.00';
-    cash = '0.00';
+    stock = 0.00;
+    cash = 0.00;
+    total = 0.00;
     phone = '';
     token = null;
     experiences = [];

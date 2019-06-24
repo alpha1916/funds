@@ -436,6 +436,9 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _buildDelaySellTips() {
+    if(!data.canDelay || data.leftDays > 1){
+      return Container();
+    }
     double fontSize = a.px15;
     return Container(
       padding: EdgeInsets.only(left: a.px16),

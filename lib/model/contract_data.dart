@@ -135,6 +135,7 @@ class ContractData {
 
   final String title;//标题
   final int days;//使用天数
+  final int leftDays;//使用天数
   final int cordon;//警戒线
   final int cut;//止损线
   final bool ongoing;//操盘中
@@ -168,6 +169,7 @@ class ContractData {
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
         days = data['useDay'],
+        leftDays = data['canUseDay'],
         ongoing = data['stat'] == 1
   ;
 

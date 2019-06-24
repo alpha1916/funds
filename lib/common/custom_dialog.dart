@@ -49,17 +49,18 @@ class CustomDialog {
     if(title != null)
       titleText = Text(title);
     return showCupertinoDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return new CupertinoAlertDialog(
-            title: titleText,
-            content: new Text(tips),
-            actions: <Widget>[
-              _buildButton(btnTitle1, Colors.blueAccent, 1),
-              _buildButton(btnTitle2, Colors.blueAccent, 2),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return new CupertinoAlertDialog(
+          title: titleText,
+          content: new Text(tips),
+          actions: <Widget>[
+            _buildButton(btnTitle1, Colors.blueAccent, 1),
+            _buildButton(btnTitle2, Colors.blueAccent, 2),
+          ],
+        );
+      }
+    );
   }
 
   static _buildButton(title, [color, value]) {

@@ -5,6 +5,7 @@ import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/my/settings_page.dart';
+import 'package:funds/routes/my/withdraw_page.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -181,8 +182,8 @@ class _MyViewState extends State<MyView> {
             children: <TableRow>[
               TableRow(
                 children: <Widget>[
-                  _buildTableRow('证券净值', _data.stock, true, _onPressContract),
-                  _buildTableRow('现金金额', _data.cash, false, _onPressCashFlow),
+                  _buildTableRow('证券净值', _data.stock.toStringAsFixed(2), true, _onPressContract),
+                  _buildTableRow('现金金额', _data.cash.toStringAsFixed(2), false, _onPressCashFlow),
                 ],
               ),
             ],
@@ -204,7 +205,7 @@ class _MyViewState extends State<MyView> {
                 children: <Widget>[
                   Text('资产总计', style: TextStyle(color: Colors.white, fontSize: a.px15),),
                   SizedBox(height: a.px3),
-                  Text(_data.total, style: TextStyle(color: Color(0xFFFDC336), fontSize: a.px20),),
+                  Text(_data.total.toStringAsFixed(2), style: TextStyle(color: Color(0xFFFDC336), fontSize: a.px20),),
                 ],
               ),
               Expanded(child: Container()),
@@ -303,6 +304,7 @@ class _MyViewState extends State<MyView> {
 
   _onPressWithdraw() {
     print('press withdraw');
+    Utils.navigateTo(WithdrawPage());
   }
   
   _onPressContract() {

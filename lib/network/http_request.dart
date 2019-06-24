@@ -449,4 +449,18 @@ class RechargeRequest{
 
     return ResultData(true);
   }
+
+  static withdraw(double money, String password) async{
+    final String api = '/api/v1/capital/cash';
+    var data = {
+      'money': money,
+      'password': password,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true);
+  }
 }

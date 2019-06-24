@@ -101,7 +101,7 @@ class ContractAddCapitalPage extends StatelessWidget {
       return;
     }
 
-    if(inputNum > double.parse(AccountData.getInstance().cash)){
+    if(inputNum > AccountData.getInstance().cash){
       Utils.showMoneyEnoughTips();
       return;
     }
