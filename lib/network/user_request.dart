@@ -1,5 +1,4 @@
 import 'http_request.dart';
-
 export 'http_request.dart';
 
 class UserRequest {
@@ -103,5 +102,18 @@ class UserRequest {
     }
 
     return ResultData(true, result['data']);
+  }
+
+  static getCashFlow() async {
+    final String api = '/api/v1/capital/getCapitalRecord';
+    var result = await HttpRequest.sendTokenPost(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<CashFlowData> dataList = oDataList.map((data) => CashFlowData(data)).toList();
+
+    return ResultData(true, dataList);
   }
 }

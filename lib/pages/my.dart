@@ -6,6 +6,7 @@ import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/my/settings_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
+import 'package:funds/routes/my/cash_flow_page.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -280,8 +281,9 @@ class _MyViewState extends State<MyView> {
     print('press share');
   }
 
-  _onPressCashFlow () {
+  _onPressCashFlow () async{
     print('press cash flow');
+    Utils.navigateTo(CashFlowPage());
   }
 
   _onPressCoupons () {
@@ -303,7 +305,6 @@ class _MyViewState extends State<MyView> {
   }
 
   _onPressWithdraw() {
-    print('press withdraw');
     Utils.navigateTo(WithdrawPage());
   }
   

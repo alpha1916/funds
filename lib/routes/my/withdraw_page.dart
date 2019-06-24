@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:funds/common/common.dart';
 import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/account/forget_password_page.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/user_request.dart';
 
 class WithdrawPage extends StatelessWidget {
   @override
@@ -26,6 +26,7 @@ class WithdrawPage extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -41,18 +42,18 @@ class WithdrawPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: a.px20),
+          SizedBox(height: a.px30),
           Row(
             children: <Widget>[
               SizedBox(width: a.px30),
               Image.network(url, height: a.px30,),
               SizedBox(width: a.px20),
-              Text(name, style: TextStyle(fontSize: a.px20, color: Colors.white),),
+              Text(name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
             ],
           ),
-          SizedBox(height: a.px40),
-          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px24, color: Colors.white),),
-          SizedBox(height: a.px40),
+          SizedBox(height: a.px50),
+          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px30, color: Colors.white),),
+          SizedBox(height: a.px50),
         ],
       ),
     );
@@ -82,16 +83,14 @@ class WithdrawPage extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: inputController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              textInputAction: TextInputAction.done,
+//              keyboardType: TextInputType.numberWithOptions(decimal: true),
+//              textInputAction: TextInputAction.done,
               cursorColor: Colors.black12,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '请输入提现金额',
                 labelStyle: TextStyle(fontSize: a.px20),
               ),
-              autofocus: false,
-
             ),
           ),
         ],
@@ -143,7 +142,9 @@ class WithdrawPage extends StatelessWidget {
     if(password != null){
       var result = await RechargeRequest.withdraw(inputNumber, password);
       if(result.success){
-        alert('提现成功');
+        await alert('提现申请已提交');
+        await UserRequest.getUserInfo();
+        Utils.navigatePop();
       }
     }
   }

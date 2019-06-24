@@ -74,3 +74,17 @@ class AccountData {
     return experiences.indexOf(id) != -1;
   }
 }
+
+class CashFlowData{
+  final int type;
+  final String date;
+  final double remainingSum;
+  final double value;
+  CashFlowData(data):
+        type = data['type'],
+        date = data['recordTime'],
+        value = Utils.convertDouble(data['money']),
+        remainingSum = Utils.convertDouble(data['beginMoney'] + data['money']);
+}
+
+const cashFlowType2Text = ['', '提款取出', '充值存入', '利润提取', '退保证金', '操盘支出', '资产解冻', '资产冻结'];

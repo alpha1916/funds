@@ -111,6 +111,8 @@ class HttpRequest {
         break;
 
       default:
+        if(desc == 'FAIL')
+          desc = '请求数据错误，请联系客服';
         alert(desc);
         break;
     }

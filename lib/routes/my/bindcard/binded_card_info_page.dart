@@ -33,18 +33,18 @@ class BindedBankCardInfoPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: a.px20),
+          SizedBox(height: a.px30),
           Row(
             children: <Widget>[
               SizedBox(width: a.px30),
               Image.network(url, height: a.px30,),
               SizedBox(width: a.px20),
-              Text(name, style: TextStyle(fontSize: a.px20, color: Colors.white),),
+              Text(name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
             ],
           ),
-          SizedBox(height: a.px40),
-          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px24, color: Colors.white),),
-          SizedBox(height: a.px40),
+          SizedBox(height: a.px50),
+          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px30, color: Colors.white),),
+          SizedBox(height: a.px50),
         ],
       ),
     );
