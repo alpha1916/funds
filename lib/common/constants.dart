@@ -7,6 +7,7 @@ class CustomIcons {
   static const mail1 = 'assets/common/mail1.png';
   static const divider = 'assets/common/divider.png';
   static const iconText = 'assets/common/logo_with_text.png';
+  static const iconWithdraw = 'assets/common/ic_drawing_psw.png';
 
   static const couponBG1 = 'assets/common/bg_coupon_blue.png';
   static const couponBG2 = 'assets/common/bg_coupon_orange.png';

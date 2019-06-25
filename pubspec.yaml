@@ -67,6 +67,7 @@ flutter:
     - assets/common/service.png
     - assets/common/divider.png
     - assets/common/logo_with_text.png
+    - assets/common/ic_drawing_psw.png
 
     - assets/common/bg_coupon_red.png
     - assets/common/bg_coupon_orange.png

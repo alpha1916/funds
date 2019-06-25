@@ -53,8 +53,9 @@ class ContractItemView extends StatelessWidget {
       child: Text(
         data.title,
         style: TextStyle(
-          fontSize: a.px16,
+          fontSize: a.px18,
           color: Colors.black,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

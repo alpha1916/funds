@@ -63,7 +63,7 @@ class WithdrawPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('提现遇到问题？', style: TextStyle(fontSize: 16),),
+        Text('提现遇到问题？', style: TextStyle(fontSize: a.px16),),
         Utils.buildUnderlineTextButton('联系客服', a.px16, () {
           Utils.dial(phoneNumber);
         })
@@ -78,7 +78,7 @@ class WithdrawPage extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          Image.asset('assets/navigation_bar/ic_deal_checked.png', width: a.px18,),
+          Image.asset(CustomIcons.iconWithdraw, width: a.px18),
           SizedBox(width: a.px10),
           Expanded(
             child: TextField(
