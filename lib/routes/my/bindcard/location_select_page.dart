@@ -22,7 +22,7 @@ class LocationSelectPage extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, int index) {
     var data = dataList[index];
-    String name = data.value is String ? data.value : data.value['name'];
+    String name = data['name'];
 
     return GestureDetector(
       child: Container(

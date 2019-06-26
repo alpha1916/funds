@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
-import 'package:funds/routes/trade/stock_trade_main.dart';
+import 'package:funds/network/contract_request.dart';
 import 'package:funds/model/account_data.dart';
 
 class ContractAddCapitalPage extends StatelessWidget {

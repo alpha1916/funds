@@ -76,14 +76,14 @@ class _ContractFlowPageState extends State<ContractFlowPage>
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: a.px14),
+            style: TextStyle(fontSize: a.px16),
           ),
           SizedBox(
             width: a.px8,
           ),
           Text(
             value,
-            style: TextStyle(fontSize: a.px14),
+            style: TextStyle(fontSize: a.px16),
           ),
         ],
       ),
@@ -185,11 +185,11 @@ class _ContractFlowPageState extends State<ContractFlowPage>
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(data['title'], style: TextStyle(fontSize: a.px14)),
+              Text(data['title'], style: TextStyle(fontSize: a.px16)),
               SizedBox(width: a.px5),
-              Text(data['value'].toString(), style: TextStyle(fontSize: a.px14, color: CustomColors.red)),
+              Text(data['value'].toString(), style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
               Expanded(child: Container()),
-              Text(data['date'], style: TextStyle(fontSize: a.px12)),
+              Text(data['date'], style: TextStyle(fontSize: a.px14)),
               SizedBox(width: a.px16),
             ],
           ),
@@ -260,15 +260,15 @@ class _ContractFlowPageState extends State<ContractFlowPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('管理费用', style: TextStyle(fontSize: a.px14, fontWeight: FontWeight.w500)),
-              Text(data['value'].toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: Colors.green)),
+              Text('管理费用', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
+              Text(data['value'].toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: Colors.green)),
             ],
           ),
           SizedBox(height: a.px10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('余额:${data['balance'].toStringAsFixed(2)}', style: TextStyle(fontSize: a.px14)),
+              Text('余额:${data['balance'].toStringAsFixed(2)}', style: TextStyle(fontSize: a.px16)),
               Text(data['date'], style: TextStyle(fontSize: a.px14)),
             ],
           ),

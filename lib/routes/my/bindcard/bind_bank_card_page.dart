@@ -6,8 +6,6 @@ import 'package:funds/network/user_request.dart';
 import 'bank_select_page.dart';
 import 'location_select_page.dart';
 
-import 'package:funds/model/location_data.dart';
-
 class BindBankCardPage extends StatefulWidget {
   @override
   _BindBankCardPageState createState() => _BindBankCardPageState();
@@ -19,12 +17,16 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
 
   String bank;
   String city;
-  MapEntry<String, String> selectProvinceData;
+  Map<String, dynamic> selectProvinceData;
 
-//  provinceDataList = provinceData.map((key, value) => {key: value}).toList();
   @override
   Widget build(BuildContext context) {
-    print('buid');
+    if(Global.debug){
+      cardController.text = '12234556781223455678';
+      phoneController.text = '18123456789';
+    }
+    String provinceName = selectProvinceData == null ? null : selectProvinceData['name'];
+    
     var fontSize = a.px16;
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +51,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
             splitLine,
             _buildSettableItem('选择银行', bank, _onPressedBank),
             splitLine,
-            _buildSettableItem('开户行所在省', selectProvinceData?.value, _onPressedProvince),
+            _buildSettableItem('开户行所在省', provinceName, _onPressedProvince),
             splitLine,
             _buildSettableItem('开户行所在区', city, _onPressedCity),
             splitLine,
@@ -197,18 +199,24 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
   }
 
   _onPressedBank() async{
-    var dataList = [
-      {'url': 'http://www.cmbchina.com/cmb.ico', 'name': '招商银行'},
-      {'url': 'http://www.cmbchina.com/cmb.ico', 'name': '中国银行'},
-    ];
-    var select = await Utils.navigateTo(BankSelectPage(bank, dataList));
+    var result = await UserRequest.getBankList();
+    if(!result.success)
+      return;
+
+    var select = await Utils.navigateTo(BankSelectPage(bank, result.data));
     if(select != null)
       bank = select;
   }
   _onPressedProvince() async{
-    MapEntry<String, String> data = await Utils.navigateTo(LocationSelectPage('开户行所在省', provinceData.entries.toList()));
+    var result = await UserRequest.getProvinceList();
+    if(!result.success)
+      return;
+    
+    List<dynamic> list = result.data.map((data) => {'id': data['id'], 'name': data['provinceName']}).toList();
+
+    Map<String, dynamic> data = await Utils.navigateTo(LocationSelectPage('开户行所在省', list));
     if(data != null){
-      if(selectProvinceData?.value != data.value){
+      if(selectProvinceData == null || selectProvinceData['name']!= data['name']){
         selectProvinceData = data;
         city = null;
       }
@@ -219,15 +227,14 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
       alert('请先选择开户行省份');
       return;
     }
-    Map<String, dynamic> cityMapData = citiesData[selectProvinceData.key];
+    var result = await UserRequest.getCityList(selectProvinceData['id']);
+    if(!result.success)
+      return;
+    List<dynamic> list = result.data.map((data) => {'id': data['id'], 'name': data['city']}).toList();
 
-    List<MapEntry<String, dynamic>> cityDataList = cityMapData.entries.toList();
-    if(cityDataList.length == 1){
-      cityDataList[0].value['name'] = selectProvinceData.value;
-    }
-    var cityData = await Utils.navigateTo(LocationSelectPage('开户行所在区', cityDataList));
+    var cityData = await Utils.navigateTo(LocationSelectPage('开户行所在区', list));
     if(cityData != null){
-      city = cityData.value['name'];
+      city = cityData['name'];
     }
   }
 
@@ -246,7 +253,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
       return;
 
     print('aproved');
-    var result = await UserRequest.bindBankCard(bank, selectProvinceData.value, city, locationController.text, cardController.text, phoneController.text);
+    var result = await UserRequest.bindBankCard(bank, selectProvinceData['name'], city, locationController.text, cardController.text, phoneController.text);
     if(result.success){
       await alert('绑定银行卡成功');
       Utils.navigatePop(true);

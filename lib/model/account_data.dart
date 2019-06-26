@@ -17,7 +17,7 @@ class AccountData {
   String phone = '';
   String name = '';
   String address = '';
-  String bankcard = '';
+  bool bindBank;
   String token;
   List<int> experiences = [];
   
@@ -35,7 +35,7 @@ class AccountData {
     phone = data['phone'];
     name = data['name'];
     address = data['address'] ?? '哈哈是';
-    bankcard = data['bankcard'] ?? '';
+    bindBank = data['bindBank'];
 
     String strExperiences = data['experierceList'];
     if(strExperiences != null && strExperiences != ''){

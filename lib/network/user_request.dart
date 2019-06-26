@@ -76,7 +76,7 @@ class UserRequest {
 
   static getBankList() async {
     final String api = '/api/v1/bank/profiles/bankNames';
-    var result = await HttpRequest.send(api: api);
+    var result = await HttpRequest.send(api: api, isPost: false);
     if(result == null){
       return ResultData(false);
     }
@@ -86,7 +86,7 @@ class UserRequest {
 
   static getProvinceList() async {
     final String api = '/api/v1/bank/profiles/provinces';
-    var result = await HttpRequest.send(api: api);
+    var result = await HttpRequest.send(api: api, isPost: false);
     if(result == null){
       return ResultData(false);
     }
@@ -95,8 +95,8 @@ class UserRequest {
   }
 
   static getCityList(pid) async {
-    final String api = '/api/v1/bank/profiles/provinces';
-    var result = await HttpRequest.send(api: api, data: {'pid': pid});
+    final String api = '/api/v1/bank/profiles/cities';
+    var result = await HttpRequest.send(api: api, isPost: false, data: {'pid': pid});
     if(result == null){
       return ResultData(false);
     }

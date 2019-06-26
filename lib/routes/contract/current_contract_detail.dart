@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/custom_dialog.dart';
-import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/contract_request.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
 import 'contract_add_capital_page.dart';
 import 'contract_apply_delay_page.dart';
+import 'limit_stock_list_page.dart';
 
 var realWidth;
 var ctx;
@@ -214,8 +214,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     print('press cash flow');
   }
 
-  _onPressedLimited() {
+  _onPressedLimited() async{
     print('press limit');
+    var result = await ContractRequest.getLimitStockList();
+    if(result.success){
+      Utils.navigateTo(LimitStockListPage(result.data));
+    }
   }
 
   _onPressedWithdraw() {

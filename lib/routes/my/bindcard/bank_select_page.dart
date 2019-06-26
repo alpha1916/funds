@@ -23,10 +23,12 @@ class BankSelectPage extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, int index) {
     var data = dataList[index];
-    String name = data['name'];
+    String name = data['bankName'];
+    String iconUrl = data['imageUrl'];
+    iconUrl = 'http://www.cmbchina.com/cmb.ico';
 
     List<Widget> children = [
-      Image.network(data['url'], height: a.px26,),
+      Image.network(iconUrl, height: a.px26,),
       SizedBox(width: a.px10,),
       Text(name, style: TextStyle(fontWeight: FontWeight.w500, fontSize: a.px16),),
     ];

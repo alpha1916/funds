@@ -183,7 +183,7 @@ class _CashFlowPageState extends State<CashFlowPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('$index.现金余额: ${data.remainingSum.toStringAsFixed(2)}', style: TextStyle(fontSize: fontSize, color: Colors.black87)),
+                    Text('现金余额: ${data.remainingSum.toStringAsFixed(2)}', style: TextStyle(fontSize: fontSize, color: Colors.black87)),
                     Text(data.date, style: TextStyle(fontSize: fontSize, color: Colors.black87)),
                   ],
                 ),

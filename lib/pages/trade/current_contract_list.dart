@@ -4,7 +4,7 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/routes/contract/current_contract_detail.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/contract_request.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 
 class CurrentContractListPage extends StatefulWidget {

@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:funds/model/stock_trade_data.dart';
-import 'package:funds/network/http_request.dart';
 import 'package:funds/network/stock_trade_request.dart';
-import 'package:funds/model/account_data.dart';
-import 'package:funds/model/contract_data.dart';
+import 'package:funds/network/contract_request.dart';
 
 class TradeBloc {
   String contractNumber;

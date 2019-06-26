@@ -91,3 +91,12 @@ class TradingStockData{
 
   }
 }
+
+class LimitStockData{
+  final String code;
+  final String name;
+  LimitStockData(data):
+      code = data['secCode'],
+      name = data['secShortname']
+  ;
+}

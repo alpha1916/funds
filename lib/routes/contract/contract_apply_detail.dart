@@ -3,7 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/custom_dialog.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/contract_request.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
@@ -341,7 +341,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       }
       await UserRequest.getUserInfo();
       await alert('合约申请成功');
-      Utils.navigatePopAll();
+      Utils.navigatePopAll(AppTabIndex.trade);
     }else{
 //      if(result.code)
     }

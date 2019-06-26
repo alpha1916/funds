@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
-import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/contract_request.dart';
 
 var ctx;
 class ContractApplyPage extends StatefulWidget {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
+import 'package:funds/network/contract_request.dart';
 import 'contract_flow_page.dart';
 import 'trade_flow_page.dart';
 
@@ -38,11 +37,13 @@ class HistoryContractDetail extends StatelessWidget {
                   _buildCostItem('资产总值', data.totalMoney),
                   _splitLine,
                   _buildCostItem('累计盈亏', data.profit, Utils.getProfitColor(data.profit)),
+                  _splitLine,
                   _buildSettlementView(),
                   _splitLine,
                   _buildCostItem('实收管理费', data.realCost),
                   SizedBox(height: a.px10,),
                   _buildClickableItem('查看合约流水', _onPressFlow),
+                  _splitLine,
                   _buildClickableItem('查看历史交易', _onPressTradeHistory),
                 ],
               ),
