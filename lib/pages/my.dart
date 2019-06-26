@@ -35,12 +35,7 @@ class _MyViewState extends State<MyView> {
             title:Text('我的'),
             leading: Utils.buildServiceIconButton(context),
             actions: [
-              IconButton(
-                  icon: Utils.buildMailIconButton(),
-                  onPressed: (){
-                    print('press mail');
-                  }
-              ),
+              Utils.buildMailIconButton(),
             ],
           ),
           body: Container(

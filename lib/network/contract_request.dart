@@ -96,7 +96,7 @@ class ContractRequest {
     final String api = '/api/v1/contract/addPrincipal';
     var data = {'contractNumber': contractNumber, 'principal': capital};
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
-    return ResultData(result == null);
+    return ResultData(result != null);
   }
 
   static Future<ResultData> applySettlement(contractNumber) async {
@@ -121,51 +121,18 @@ class ContractRequest {
     }
 
     List<dynamic> oDataList = result['data'];
-    oDataList = [
-      {'secCode' : '666666', 'secShortname': 'st生物'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-      {'secCode' : '555555', 'secShortname': 'st哈哈哈'},
-    ];
+//    oDataList = [
+//      {'secCode' : '666666', 'secShortname': 'st生物'},
+//    ];
     final List<LimitStockData> dataList = oDataList.map((data) => LimitStockData(data)).toList();
 
     return ResultData(true, dataList);
+  }
+
+  static Future<ResultData> withdraw(String contractNumber, double money) async {
+    final String api = '/api/v1/contract/cashContract';
+    var data = {'contractNumber': contractNumber, 'money': money};
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    return ResultData(result != null);
   }
 }

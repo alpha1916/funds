@@ -10,6 +10,7 @@ import 'package:funds/common/custom_dialog.dart';
 
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:funds/routes/mail/mail_page.dart';
 
 class Utils {
   static BuildContext context;
@@ -63,7 +64,12 @@ class Utils {
   }
 
   static buildMailIconButton() {
-    return Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22);
+    return IconButton(
+        icon: Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22),
+        onPressed: (){
+          Utils.navigateTo(MailPage());
+        }
+    );
   }
 
   static buildForwardIcon([size, color]) {

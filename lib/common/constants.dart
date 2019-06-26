@@ -32,6 +32,7 @@ class CustomIcons {
 
   static const meter = 'assets/contract/meter.png';
   static const meterArrow = 'assets/contract/meter_arrow.png';
+  static const expire = 'assets/contract/expire.png';
 }
 
 class CustomColors {

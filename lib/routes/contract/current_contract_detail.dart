@@ -4,10 +4,12 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/network/contract_request.dart';
+import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
 import 'contract_add_capital_page.dart';
 import 'contract_apply_delay_page.dart';
 import 'limit_stock_list_page.dart';
+import 'current_contract_withdraw_page.dart';
 
 var realWidth;
 var ctx;
@@ -222,8 +224,13 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     }
   }
 
-  _onPressedWithdraw() {
+  _onPressedWithdraw() async{
     print('press withdraw');
+    var done = await Utils.navigateTo(CurrentContractWithdrawPage(data.contractNumber, data.cash));
+    if(done == true){
+      await UserRequest.getUserInfo();
+      _refresh();
+    }
   }
 
   _onPressedTrade() {

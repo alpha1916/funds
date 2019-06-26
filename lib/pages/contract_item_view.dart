@@ -185,39 +185,57 @@ class ContractItemView extends StatelessWidget {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(top: a.px10, bottom: a.px10),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          Row(
+          Column(
             children: <Widget>[
-              _titleView(),
-              _stateView(),
-              Expanded(child: Container(),),
-              _dateView(),
-            ],
-          ),
-          Container(
-            height: a.px1,
-            margin: EdgeInsets.only(left: a.px10, top: a.px10, bottom: a.px10),
-            color: CustomColors.background1,
-          ),
-          Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: <TableRow>[
-              TableRow(
+              Row(
                 children: <Widget>[
-                  _buildRow1(),
-                  _buildRow2(),
+                  _titleView(),
+                  _stateView(),
+                  Expanded(child: Container(),),
+                  _dateView(),
                 ],
               ),
+              Container(
+                height: a.px1,
+                margin: EdgeInsets.only(left: a.px10, top: a.px10, bottom: a.px10),
+                color: CustomColors.background1,
+              ),
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: <TableRow>[
+                  TableRow(
+                    children: <Widget>[
+                      _buildRow1(),
+                      _buildRow2(),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: a.px6),
+              _buildRow3()
             ],
           ),
-          SizedBox(height: a.px6),
-          _buildRow3()
+          _buildExpireView(),
         ],
       ),
     );
   }
 
+  _buildExpireView(){
+    if(data.leftDays > 1)
+      return Container();
+
+    return Positioned(
+      bottom: 0,
+      right: a.px10,
+      child: Image.asset(
+        CustomIcons.expire,
+        width: a.px50,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
