@@ -116,4 +116,18 @@ class UserRequest {
 
     return ResultData(true, dataList);
   }
+
+  static getMailData(type) async {
+    final String api = '/api/v1/mail/getMailList';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+//    List<dynamic> oDataList = result['data'];
+//    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
+    var dataList = MailData.getTestData(type);
+
+    return ResultData(true, dataList);
+  }
 }

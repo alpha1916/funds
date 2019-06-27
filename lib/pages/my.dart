@@ -7,6 +7,7 @@ import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/my/settings_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
 import 'package:funds/routes/my/cash_flow_page.dart';
+import 'package:funds/routes/my/funds_detail_page.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -138,7 +139,7 @@ class _MyViewState extends State<MyView> {
   _buildTopView() {
     return Container(
       height: a.px(200),
-      color: Color(0xFF201F46),
+      color: CustomColors.backgroundBlue,
       child: Column(
         children: <Widget>[
           //用户名，个人设置
@@ -201,7 +202,7 @@ class _MyViewState extends State<MyView> {
                 children: <Widget>[
                   Text('资产总计', style: TextStyle(color: Colors.white, fontSize: a.px15),),
                   SizedBox(height: a.px3),
-                  Text(_data.total.toStringAsFixed(2), style: TextStyle(color: Color(0xFFFDC336), fontSize: a.px20),),
+                  Text(_data.total.toStringAsFixed(2), style: TextStyle(color: CustomColors.textGold, fontSize: a.px20),),
                 ],
               ),
               Expanded(child: Container()),
@@ -309,7 +310,7 @@ class _MyViewState extends State<MyView> {
   }
 
   _onPressFund() {
-    print('press fund');
+    Utils.navigateTo(FundsDetailPage());
   }
 }
 

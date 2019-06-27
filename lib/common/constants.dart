@@ -29,6 +29,8 @@ class CustomIcons {
   static const myCoupon = 'assets/my/ic_coupon.png';
   static const myAsset = 'assets/my/ic_asset.png';
   static const myAbout = 'assets/my/ic_about.png';
+  static const gold = 'assets/my/ic_gold.png';
+  static const integral = 'assets/my/ic_integral.png';
 
   static const meter = 'assets/contract/meter.png';
   static const meterArrow = 'assets/contract/meter_arrow.png';
@@ -39,6 +41,9 @@ class CustomColors {
   static const Color red = Color(0xFFCC2E31);
   static const Color background1 = Color(0xFFE7E7F8);
   static const Color background2 = Color(0xFFEDECF2);
+
+  static const Color backgroundBlue = Color(0xFF201F46);
+  static const Color textGold = Color(0xFFFDC336);
 
   static const Color splitLineColor1 = Color(0x5A000000);
 

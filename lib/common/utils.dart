@@ -66,13 +66,15 @@ class Utils {
   static buildMailIconButton() {
     return IconButton(
         icon: Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22),
-        onPressed: (){
-          Utils.navigateTo(MailPage());
+        onPressed: () async{
+          var result = await UserRequest.getMailData(0);
+          if(result.success)
+            Utils.navigateTo(MailPage('公告消息', result.data));
         }
     );
   }
 
-  static buildForwardIcon([size, color]) {
+  static buildForwardIcon({size, color}) {
     return Icon(Icons.arrow_forward_ios, size: size ?? a.px16, color: color ?? Colors.black26,);
   }
 

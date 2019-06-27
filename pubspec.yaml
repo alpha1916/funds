@@ -94,10 +94,16 @@ flutter:
     - assets/my/ic_asset.png
     - assets/my/ic_about.png
     - assets/my/ic_share.png
+    - assets/my/ic_gold.png
+    - assets/my/ic_integral.png
 
     - assets/contract/meter.png
     - assets/contract/meter_arrow.png
     - assets/contract/expire.png
+
+    - assets/mail/mail_type1.png
+    - assets/mail/mail_type2.png
+    - assets/mail/mail_type3.png
 
 
 

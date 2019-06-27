@@ -19,6 +19,7 @@ void main() {
       primaryColor:Colors.white
     ),
     home: App(),
+    debugShowCheckedModeBanner: false
   ));
 }
 
