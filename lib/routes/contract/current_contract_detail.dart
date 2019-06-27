@@ -10,6 +10,7 @@ import 'contract_add_capital_page.dart';
 import 'contract_apply_delay_page.dart';
 import 'limit_stock_list_page.dart';
 import 'current_contract_withdraw_page.dart';
+import 'package:funds/pages/trade/contract_flow_page.dart';
 
 var realWidth;
 var ctx;
@@ -213,7 +214,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedFlow() {
-    print('press cash flow');
+    Utils.navigateTo(ContractFlowPage());
   }
 
   _onPressedLimited() async{
@@ -317,7 +318,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.applySettlement:
-            int select = await CustomDialog.show3('提示', '确认结算当前合约', '取消', '确定');
+            int select = await CustomDialog.show3('提示', '提前终止不退还已收管理费，确认结算当前合约？', '取消', '确定');
             if(select == 2){
               ResultData result = await ContractRequest.applySettlement(data.contractNumber);
               if(result.success){

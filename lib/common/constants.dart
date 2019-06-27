@@ -31,6 +31,11 @@ class CustomIcons {
   static const myAbout = 'assets/my/ic_about.png';
   static const gold = 'assets/my/ic_gold.png';
   static const integral = 'assets/my/ic_integral.png';
+  static const task = 'assets/my/ic_task.png';
+
+  static const sign = 'assets/task/ic_sign.png';
+  static const signChecked = 'assets/task/ic_sign_in_check.png';
+  static const coupon = 'assets/task/ic_coupon.png';
 
   static const meter = 'assets/contract/meter.png';
   static const meterArrow = 'assets/contract/meter_arrow.png';

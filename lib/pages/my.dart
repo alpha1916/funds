@@ -9,6 +9,9 @@ import 'package:funds/routes/my/withdraw_page.dart';
 import 'package:funds/routes/my/cash_flow_page.dart';
 import 'package:funds/routes/my/funds_detail_page.dart';
 
+import 'package:funds/routes/my/task_page.dart';
+import 'package:funds/routes/my/coupons_page.dart';
+
 class MyView extends StatefulWidget {
   @override
   _MyViewState createState() => _MyViewState();
@@ -54,9 +57,6 @@ class _MyViewState extends State<MyView> {
   }
 
   //---------------------------------上部分-------------------------------------/
-  _buildArrayIcon(color) {
-    return Icon(Icons.arrow_forward_ios, color: color, size: a.px16);
-  }
 
   _buildTableRow(title, value, hasDivider, onPressed) {
     TextStyle ts = TextStyle(color: Colors.white, fontSize: a.px15);
@@ -69,7 +69,7 @@ class _MyViewState extends State<MyView> {
         ],
       ),
       Expanded(child: Container()),
-      _buildArrayIcon(Colors.white),
+      Utils.buildForwardIcon(color: Colors.white),
       SizedBox(width: a.px16),
     ];
     if(hasDivider)
@@ -167,8 +167,7 @@ class _MyViewState extends State<MyView> {
                   Utils.navigateTo(SettingsPage());
                 },
               ),
-              Icon(Icons.arrow_forward_ios, color: Colors.white, size: a.px16),
-
+              Utils.buildForwardIcon(color: Colors.white),
               SizedBox(width: a.px16),
             ],
           ),
@@ -221,7 +220,29 @@ class _MyViewState extends State<MyView> {
   //---------------------------------上部分 end-------------------------------------/
 
   //---------------------------------下部分-------------------------------------/
-  _buildBottomItem(iconPath, title, hot, tips, onPressed){
+  _buildHotView(hot){
+    if(!hot)
+      return Container();
+
+    return Container(
+      width: a.px36,
+      height: a.px16,
+      decoration: BoxDecoration(
+        color: CustomColors.red,
+        borderRadius: BorderRadius.all(Radius.circular(a.px10)),
+      ),
+      child: Center(
+        child: Text(
+          'HOT',
+          style: TextStyle(
+            fontSize: a.px12,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+  _buildBottomItem(iconPath, title, hot, tips, onPressed,){
     final titleStyle = TextStyle(color: Colors.black87, fontSize: a.px16);
     final tipsStyle = TextStyle(color: Colors.black54, fontSize: a.px16);
 
@@ -234,10 +255,12 @@ class _MyViewState extends State<MyView> {
               Image.asset(iconPath, width: a.px20,),
               SizedBox(width: a.px15,),
               Text(title, style: titleStyle,),
+              SizedBox(width: a.px15,),
+              _buildHotView(hot),
               Expanded(child: Container()),
               Text(tips, style: tipsStyle,),
               SizedBox(width: a.px10,),
-              _buildArrayIcon(Colors.black26),
+              Utils.buildForwardIcon(),
             ],
           )
       ),
@@ -252,19 +275,39 @@ class _MyViewState extends State<MyView> {
           margin: EdgeInsets.only(top: a.px10),
           child: Column(
             children: <Widget>[
-              _buildBottomItem(CustomIcons.myShare, '分享赚钱', true, '', _onPressShare),
-              SizedBox(height: a.px10),
-
-              _buildBottomItem(CustomIcons.myAsset, '资金明细', true, '现金、积分、金币', _onPressFund),
-              _buildBottomItem(CustomIcons.myCoupon, '优惠卡券', true, '兑换优惠券', _onPressCoupons),
-              SizedBox(height: a.px10),
-              _buildBottomItem(CustomIcons.myService, '帮助与客服', true, '', _onPressService),
               Container(
-                margin: EdgeInsets.only(left: a.px20),
-                height: a.px1,
-                color: Colors.black12,
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    _buildBottomItem(CustomIcons.task, '任务中心', true, '签到送积分', _onPressTask),
+                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    _buildBottomItem(CustomIcons.myShare, '分享赚钱', true, '', _onPressShare),
+                  ],
+                ),
               ),
-              _buildBottomItem(CustomIcons.myAbout, '关于xx', true, '', _onPressAbout),
+              SizedBox(height: a.px10),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    _buildBottomItem(CustomIcons.myAsset, '资金明细', false, '现金、积分', _onPressFund),
+                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    _buildBottomItem(CustomIcons.myCoupon, '优惠卡券', false, '兑换优惠券', _onPressCoupons),
+                  ],
+                ),
+              ),
+              SizedBox(height: a.px10),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+
+                    _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressService),
+                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    _buildBottomItem(CustomIcons.myAbout, '关于xx', false, '', _onPressAbout),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -272,9 +315,13 @@ class _MyViewState extends State<MyView> {
     );
   }
   //---------------------------------下部分 end-------------------------------------/
+  _onPressTask() {
+    Utils.navigateTo(TaskPage());
+  }
 
   _onPressShare () {
     print('press share');
+    alert('功能未实现');
   }
 
   _onPressCashFlow () async{
@@ -284,14 +331,17 @@ class _MyViewState extends State<MyView> {
 
   _onPressCoupons () {
     print('press coupons');
+    Utils.navigateTo(CouponsPage());
   }
 
   _onPressService () {
     print('press service');
+    alert('功能未实现');
   }
 
   _onPressAbout () {
     print('press about');
+    alert('功能未实现');
   }
 
   _onPressCharge() async {
