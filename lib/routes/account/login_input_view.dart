@@ -51,7 +51,7 @@ class LoginInputViewState extends State<LoginInputView> {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
-      phoneController.text = '18612345672';
+      phoneController.text = '18612345699';
       passController.text = '123456';
     }
 

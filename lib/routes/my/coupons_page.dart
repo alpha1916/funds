@@ -104,7 +104,7 @@ class _CouponsPageState extends State<CouponsPage> {
               children: <Widget>[
                 Text('卡券商城', style: TextStyle(fontSize: a.px17, fontWeight: FontWeight.w400)),
                 Utils.expanded(),
-                Text('我的积分:', style: TextStyle(fontSize: a.px17)),
+                Text('我的积分:', style: TextStyle(fontSize: a.px16, color: Colors.black54)),
                 Text(AccountData.getInstance().integral.toString(), style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
               ],
             ),
@@ -130,7 +130,7 @@ class _CouponsPageState extends State<CouponsPage> {
     if(coupons == null || coupons.length == 0){
       return Container();
     }
-//    final double vp = a.px10;
+
     final double itemHeight = a.px(70);
     final BorderSide borderSide = BorderSide(width: a.px(0.5), style: BorderStyle.solid, color: Colors.black26);
     Border border = Border(top: borderSide, bottom: borderSide, right: borderSide);
@@ -159,7 +159,7 @@ class _CouponsPageState extends State<CouponsPage> {
               ),
             ),
             Container(
-              width: a.px(230),
+              width: a.px(232),
               padding: EdgeInsets.only(left: a.px10, right: a.px20),
               decoration: BoxDecoration(
                 border: border,
