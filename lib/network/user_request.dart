@@ -1,5 +1,6 @@
 import 'http_request.dart';
 export 'http_request.dart';
+import 'package:funds/model/coupon_data.dart';
 
 class UserRequest {
   static getUserInfo() async {
@@ -127,6 +128,36 @@ class UserRequest {
 //    List<dynamic> oDataList = result['data'];
 //    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
     var dataList = MailData.getTestData(type);
+
+    return ResultData(true, dataList);
+  }
+
+  static getMyCouponsData() async {
+    final String api = '/api/v1/task/getMyTicket';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+    List<dynamic> oDataList = [
+      {'ticketValue': 50, 'expireDate': '2019-06-17'},
+      {'ticketValue': 200,  'expireDate': '2019-06-17'},
+      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
+    ];
+//    List<dynamic> oDataList = result['data'];
+    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  static getShopCouponsData() async {
+    final String api = '/api/v1/task/getTicketList';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
 
     return ResultData(true, dataList);
   }

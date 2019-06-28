@@ -232,7 +232,7 @@ class Utils {
 //  }
 
   static expanded(){
-    return Expanded(child: Container());
+    return Expanded(child: Container(color: Colors.transparent));
   }
 
   static convertPhoneNumber(String phone){

@@ -70,7 +70,7 @@ class CouponSelectPage extends StatelessWidget {
           children: <Widget>[
             Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
             SizedBox(height: a.px3,),
-            Text('有效期至：${data.date}', style: TextStyle(color: Colors.black54, fontSize: a.px14)),
+            Text('有效期至：${data.expireDate}', style: TextStyle(color: Colors.black54, fontSize: a.px14)),
           ],
         ),
       ),

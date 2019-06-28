@@ -14,6 +14,7 @@ class AccountData {
   double stock = 0.00;
   double cash = 0.00;
   double total = 0.00;
+  int integral = 0;
   String phone = '';
   String name = '';
   String address = '';
@@ -33,6 +34,7 @@ class AccountData {
     stock = Utils.convertDouble(data['bondWealth']);
     total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
     phone = data['phone'];
+    integral = data['score'];
     name = data['name'];
     address = data['address'] ?? '哈哈是';
     bindBank = data['bindBank'];

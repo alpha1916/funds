@@ -67,7 +67,7 @@ class CustomDialog {
     return Container(
       decoration: BoxDecoration(
           border: Border(
-        top: BorderSide(color: Colors.grey, width: 1.0),
+        top: BorderSide(color: Colors.grey, width: 0.5),
         right: BorderSide(color: Colors.grey, width: 0.5),
       )),
       child: FlatButton(
