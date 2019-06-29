@@ -18,16 +18,13 @@ class _CouponsPageState extends State<CouponsPage> {
       appBar: AppBar(
         title:Text('优惠卡券'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _buildMyListView(),
-              SizedBox(height: 16,),
-              _buildShopListView(),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _buildMyListView(),
+            SizedBox(height: a.px16,),
+            _buildShopListView(),
+          ],
         ),
       ),
     );

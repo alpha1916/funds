@@ -17,73 +17,70 @@ class ForgetPasswordPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('忘记密码'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: a.px20),
-            _buildTextFiled(
-              phoneController,
-              TextInputType.text,
-              '11位手机号码',
-              false,
-              Container(
-                margin: EdgeInsets.only(left: a.px5),
-                child: Icon(Icons.phone),
-              ),
-            ),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-            _buildCaptchaTextFiled(context),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-            _buildTextFiled(
-              passController1,
-              TextInputType.text,
-              '请设置新密码',
-              true,
-              Container(
-                margin: EdgeInsets.only(left: a.px5),
-                child: Icon(Icons.lock),
-              ),
-            ),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-
-            _buildTextFiled(
-              passController2,
-              TextInputType.text,
-              '请再次输入',
-              true,
-              Container(
-                margin: EdgeInsets.only(left: a.px5),
-                child: Icon(Icons.lock),
-              ),
-            ),
-
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: a.px20),
+          _buildTextFiled(
+            phoneController,
+            TextInputType.text,
+            '11位手机号码',
+            false,
             Container(
-              margin: EdgeInsets.only(top: 10, left: 55),
-              child: Row(
-                children: <Widget>[
-                  Text('登录密码由6-16位数字和字母组成'),
-                  Expanded(child: Container(),),
-                ],
-              ),
+              margin: EdgeInsets.only(left: a.px5),
+              child: Icon(Icons.phone),
             ),
-
+          ),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
+          _buildCaptchaTextFiled(context),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
+          _buildTextFiled(
+            passController1,
+            TextInputType.text,
+            '请设置新密码',
+            true,
             Container(
-              margin: EdgeInsets.only(top: a.px20, bottom: a.px10),
-              width: a.px(200),
-              height: a.px48,
-              child: RaisedButton(
-                child: Text(
-                  '确定',
-                  style: TextStyle(color: Colors.white, fontSize: a.px18),
-                ),
-                onPressed: _onPressedOK,
-                color: Colors.black,
-                shape: StadiumBorder(),
-              ),
+              margin: EdgeInsets.only(left: a.px5),
+              child: Icon(Icons.lock),
             ),
-          ],
-        ),
+          ),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
+
+          _buildTextFiled(
+            passController2,
+            TextInputType.text,
+            '请再次输入',
+            true,
+            Container(
+              margin: EdgeInsets.only(left: a.px5),
+              child: Icon(Icons.lock),
+            ),
+          ),
+
+          Container(
+            margin: EdgeInsets.only(top: 10, left: 55),
+            child: Row(
+              children: <Widget>[
+                Text('登录密码由6-16位数字和字母组成'),
+                Expanded(child: Container(),),
+              ],
+            ),
+          ),
+
+          Container(
+            margin: EdgeInsets.only(top: a.px20, bottom: a.px10),
+            width: a.px(200),
+            height: a.px48,
+            child: RaisedButton(
+              child: Text(
+                '确定',
+                style: TextStyle(color: Colors.white, fontSize: a.px18),
+              ),
+              onPressed: _onPressedOK,
+              color: Colors.black,
+              shape: StadiumBorder(),
+            ),
+          ),
+        ],
       ),
     );
   }

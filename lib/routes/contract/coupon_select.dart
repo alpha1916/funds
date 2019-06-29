@@ -14,7 +14,6 @@ class CouponSelectPage extends StatelessWidget {
     final margin = a.px16;
     final itemHeight = (realWidth - margin * 2) * 0.2;
     return Scaffold(
-      backgroundColor: CustomColors.background1,
       appBar: AppBar(
         title: Text('选用抵用券'),
       ),

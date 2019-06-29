@@ -143,7 +143,6 @@ class RegisterInputViewState extends State<RegisterInputView> {
   }
 
   _onPressedRegister() async {
-    print({'phone': phoneController.text, 'password': passController.text});
     if( captchaController.approved() &&
         phoneController.approved() &&
         passController.approved()

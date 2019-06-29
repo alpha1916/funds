@@ -112,7 +112,6 @@ class LoginInputViewState extends State<LoginInputView> {
   }
 
   void _onPressedLogin() async {
-    print({'phone': phoneController.text, 'password': passController.text});
     if (!_isValidPhoneNumber(phoneController.text)) {
       alert('请输入正确的手机号码');
     } else if (!_isValidPassword(passController.text)) {

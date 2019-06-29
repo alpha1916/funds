@@ -212,8 +212,6 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       ),
       onTap: () async{
         final int idx = await Utils.navigateTo(CouponSelectPage(data.coupons, _selectedCouponIdx));
-
-        print('select $idx');
         if(idx != null){
           setState(() {
             _selectedCouponIdx = _selectedCouponIdx == idx ? -1 : idx;

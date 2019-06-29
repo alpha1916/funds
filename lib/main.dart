@@ -16,7 +16,8 @@ void main() {
   runApp(MaterialApp(
     theme: ThemeData(
 //    primarySwatch: Colors.blue,
-      primaryColor:Colors.white
+      primaryColor: Colors.white,
+      scaffoldBackgroundColor: CustomColors.background1,
     ),
     home: App(),
     debugShowCheckedModeBanner: false

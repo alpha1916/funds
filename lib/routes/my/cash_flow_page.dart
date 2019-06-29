@@ -21,16 +21,15 @@ class _CashFlowPageState extends State<CashFlowPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title:Text('现金流水'),
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            _buildTabBar(),
+      body: Column(
+        children: <Widget>[
+          _buildTabBar(),
           _buildListView(),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -76,7 +75,6 @@ class _CashFlowPageState extends State<CashFlowPage>
     print('_getMoreData');
     await Future.delayed(Duration(milliseconds: 300));
     List<CashFlowData> list = _getMoreDataList();
-    print(list.length);
     _showDataList.addAll(list);
     if(list.length < 10){
       _pullStateStreamController.add(PullState.nothing);

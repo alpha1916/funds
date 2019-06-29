@@ -14,40 +14,18 @@ class _TaskPageState extends State<TaskPage> {
       appBar: AppBar(
         title:Text('任务中心'),
       ),
-//      body: SingleChildScrollView(
-//        child: Container(
-//          color: CustomColors.background1,
-//            child: Column(
-//            children: <Widget>[
-//              _buildSignView(),
-//              SizedBox(height: a.px12,),
-//              _buildRookieTask(),
-//              SizedBox(height: a.px12,),
-//              _buildOtherTask(),
-////              Container(height: a.px(120), color: CustomColors.background1,),
-//            ],
-//          ),
-//        ),
-//      )
-        body: Container(
-          color: CustomColors.background1,
-          child: Column(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    _buildSignView(),
-                    SizedBox(height: a.px12,),
-                    _buildRookieTask(),
-                    SizedBox(height: a.px12,),
-                    _buildOtherTask(),
-                    SizedBox(height: a.px12,),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _buildSignView(),
+            SizedBox(height: a.px12,),
+            _buildRookieTask(),
+            SizedBox(height: a.px12,),
+            _buildOtherTask(),
+            SizedBox(height: a.px12,),
+          ],
+        ),
+      ),
     );
   }
 
@@ -237,7 +215,6 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   _onPressedSign() {
-    print('sign');
     if(signed)
       return;
 

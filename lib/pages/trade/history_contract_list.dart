@@ -32,24 +32,19 @@ class _HistoryContractListPageState extends State<HistoryContractListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: CustomColors.background1,
-//      child: Expanded(
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          final data = _dataList[index];
-          return Container(
-            padding: EdgeInsets.only(bottom: 10),
-            child: ContractItemView(ContractType.history, data, () {
-              print('select $index');
-              Utils.navigateTo(HistoryContractDetail(data));
-            }),
-            alignment: Alignment.center,
-          );
-        },
-        itemCount: _dataList.length,
-      ),
-//      ),
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        final data = _dataList[index];
+        return Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: ContractItemView(ContractType.history, data, () {
+            print('select $index');
+            Utils.navigateTo(HistoryContractDetail(data));
+          }),
+          alignment: Alignment.center,
+        );
+      },
+      itemCount: _dataList.length,
     );
   }
 }

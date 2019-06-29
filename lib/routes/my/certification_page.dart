@@ -14,18 +14,15 @@ class CertificationPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('实名认证'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildItemView('真实姓名', nameController, '请输入您的姓名'),
-            Utils.buildSplitLine(),
-            _buildItemView('身份证号', idController, '18位身份证号'),
-            _buildTipsView(),
-            SizedBox(height: a.px50),
-            Utils.buildRaisedButton(title: '确认', onPressed: _onPressedOK),
-          ],
-        ),
+      body:Column(
+        children: <Widget>[
+          _buildItemView('真实姓名', nameController, '请输入您的姓名'),
+          Utils.buildSplitLine(),
+          _buildItemView('身份证号', idController, '18位身份证号'),
+          _buildTipsView(),
+          SizedBox(height: a.px50),
+          Utils.buildRaisedButton(title: '确认', onPressed: _onPressedOK),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );
@@ -71,7 +68,6 @@ class CertificationPage extends StatelessWidget {
 
   _onPressedOK() async{
     if(nameController.approved() && idController.approved()){
-      print('ok');
       var result = await UserRequest.certificate(nameController.text, idController.text);
       if(result.success){
         await alert('实名认证成功');

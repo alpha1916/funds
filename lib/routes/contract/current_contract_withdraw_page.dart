@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funds/common/common.dart';
-import 'package:funds/model/account_data.dart';
 import 'package:funds/network/contract_request.dart';
 
 class CurrentContractWithdrawPage extends StatelessWidget {
@@ -14,18 +13,15 @@ class CurrentContractWithdrawPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('提取现金'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildCashView(),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px20)),
-            _buildInputView(),
-            _buildTipsView(),
-            SizedBox(height: a.px30),
-            Utils.buildRaisedButton(title: '确认', onPressed: _onPressedOK),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildCashView(),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px20)),
+          _buildInputView(),
+          _buildTipsView(),
+          SizedBox(height: a.px30),
+          Utils.buildRaisedButton(title: '确认', onPressed: _onPressedOK),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );

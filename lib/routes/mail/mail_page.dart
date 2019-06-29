@@ -16,45 +16,42 @@ class MailPage extends StatelessWidget {
       appBar: AppBar(
         title:Text(title),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index){
-            MailData data = dataList[index];
-            int type = data.type;
-            String imgPath = 'assets/mail/mail_type$type.png';
-            return GestureDetector(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(a.px16, a.px16, 0, 0),
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Image.asset(imgPath, width: a.px20,),
-                        SizedBox(width: a.px8),
-                        Text(type2title[type], style: TextStyle(fontSize: a.px17)),
-                        Utils.expanded(),
-                        Text(data?.date ?? ' ', style: TextStyle(fontSize: a.px14, color: Colors.black54)),
-                        SizedBox(width: a.px16,)
-                      ],
-                    ),
-                    SizedBox(height: a.px12),
-                    Container(
-                      margin: EdgeInsets.only(left: a.px28),
-                      alignment: Alignment.centerLeft,
-                      child: Text(data?.title ?? ' ', style: TextStyle(fontSize: a.px16, color: Colors.black54),),
-                    ),
-                    SizedBox(height: a.px16),
-                    Utils.buildSplitLine(),
-                  ],
-                ),
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index){
+          MailData data = dataList[index];
+          int type = data.type;
+          String imgPath = 'assets/mail/mail_type$type.png';
+          return GestureDetector(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(a.px16, a.px16, 0, 0),
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Image.asset(imgPath, width: a.px20,),
+                      SizedBox(width: a.px8),
+                      Text(type2title[type], style: TextStyle(fontSize: a.px17)),
+                      Utils.expanded(),
+                      Text(data?.date ?? ' ', style: TextStyle(fontSize: a.px14, color: Colors.black54)),
+                      SizedBox(width: a.px16,)
+                    ],
+                  ),
+                  SizedBox(height: a.px12),
+                  Container(
+                    margin: EdgeInsets.only(left: a.px28),
+                    alignment: Alignment.centerLeft,
+                    child: Text(data?.title ?? ' ', style: TextStyle(fontSize: a.px16, color: Colors.black54),),
+                  ),
+                  SizedBox(height: a.px16),
+                  Utils.buildSplitLine(),
+                ],
               ),
-              onTap: () => onSelectItem(index),
-            );
-          },
-          itemCount: dataList.length,
-        ),
+            ),
+            onTap: () => onSelectItem(index),
+          );
+        },
+        itemCount: dataList.length,
       ),
     );
   }
@@ -88,6 +85,7 @@ class MailDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title:Text(type2title[data.type]),
       ),

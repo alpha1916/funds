@@ -38,64 +38,58 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
       return _buildPromoteView();
     }
 
-    return Container(
-      color: CustomColors.background1,
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          final data = _dataList[index];
-          return Container(
-            padding: EdgeInsets.only(bottom: a.px10),
-            child: ContractItemView(
-              ContractType.current,
-              data,
-              (){
-                Utils.navigateTo(CurrentContractDetail(data));
-              }
-            ),
-            alignment: Alignment.center,
-          );
-        },
-        itemCount: _dataList.length,
-      ),
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        final data = _dataList[index];
+        return Container(
+          padding: EdgeInsets.only(bottom: a.px10),
+          child: ContractItemView(
+            ContractType.current,
+            data,
+            (){
+              Utils.navigateTo(CurrentContractDetail(data));
+            }
+          ),
+          alignment: Alignment.center,
+        );
+      },
+      itemCount: _dataList.length,
     );
   }
 
   _buildPromoteView() {
-    return Container(
-      color: CustomColors.background1,
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: a.px20),
-              color: Colors.white,
-              child: Column(
-                children: <Widget>[
-                  Center(child: Text('当前没有操盘中的合约', style: TextStyle(fontSize: a.px14, color: Colors.black26)),),
-                  FlatButton(
-                    child: Text(
-                      '申请合约享受盈利翻倍',
-                      style: TextStyle(
-                        fontSize: a.px16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ),
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: a.px20),
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Center(child: Text('当前没有操盘中的合约', style: TextStyle(fontSize: a.px14, color: Colors.black26)),),
+                FlatButton(
+                  child: Text(
+                    '申请合约享受盈利翻倍',
+                    style: TextStyle(
+                      fontSize: a.px16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
-                    onPressed: () async{
-                      ResultData result = await ContractRequest.getConfigs();
-                      if(mounted && result.success){
-                        Utils.navigateTo(ContractApplyPage(result.data));
-                      }
-                    },
                   ),
-                ],
-              ),
+                  onPressed: () async{
+                    ResultData result = await ContractRequest.getConfigs();
+                    if(mounted && result.success){
+                      Utils.navigateTo(ContractApplyPage(result.data));
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      )
+          ),
+        ],
+      ),
     );
   }
 }

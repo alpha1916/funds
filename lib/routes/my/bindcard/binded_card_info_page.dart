@@ -13,14 +13,11 @@ class BindedBankCardInfoPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('我的银行卡'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildCardView(),
-            _buildTipsView(phoneNumber),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildCardView(),
+          _buildTipsView(phoneNumber),
+        ],
       ),
     );
   }

@@ -24,25 +24,22 @@ class SettingsPage extends StatelessWidget {
             appBar: AppBar(
               title:Text('个人设置'),
             ),
-            body: Container(
-              color: CustomColors.background1,
-              child: Column(
-                children: <Widget>[
-                  _buildSettableItem('联系地址', data.address != '', _onPressedModifyAddress),
-                  SizedBox(height: a.px10),
-                  _buildNameView(data.name),
-                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-                  _buildSettableItem('绑定银行卡', data.bindBank, _onPressedModifyBankCard),
-                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-                  _buildSettableItem('绑定手机号', true, _onPressedBindPhone, Utils.convertPhoneNumber(AccountData.getInstance().phone)),
-                  SizedBox(height: a.px10),
+            body: Column(
+              children: <Widget>[
+                _buildSettableItem('联系地址', data.address != '', _onPressedModifyAddress),
+                SizedBox(height: a.px10),
+                _buildNameView(data.name),
+                Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                _buildSettableItem('绑定银行卡', data.bindBank, _onPressedModifyBankCard),
+                Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                _buildSettableItem('绑定手机号', true, _onPressedBindPhone, Utils.convertPhoneNumber(AccountData.getInstance().phone)),
+                SizedBox(height: a.px10),
 
-                  _buildSettableItem('登录密码', true, _onPressedModifyPassword),
-                  SizedBox(height: a.px10),
+                _buildSettableItem('登录密码', true, _onPressedModifyPassword),
+                SizedBox(height: a.px10),
 
-                  _buildSettableItem('退出当前账号', true, _onPressedLogout, ' '),
-                ],
-              ),
+                _buildSettableItem('退出当前账号', true, _onPressedLogout, ' '),
+              ],
             ),
           );
         }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/common/widgets/phone_captcha_button.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/network/user_request.dart';
 
@@ -14,14 +13,11 @@ class ModifyAddressPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('修改地址'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildLocationView(),
-            Utils.buildRaisedButton(title: '确定', onPressed: _onPressedOK),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildLocationView(),
+          Utils.buildRaisedButton(title: '确定', onPressed: _onPressedOK),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );

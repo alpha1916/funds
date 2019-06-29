@@ -46,6 +46,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     ctx = context;
     realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(data?.title ?? '当前合约详情'),
@@ -220,7 +221,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedLimited() async{
-    print('press limit');
     var result = await ContractRequest.getLimitStockList();
     if(result.success){
       Utils.navigateTo(LimitStockListPage(result.data));
@@ -228,7 +228,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedWithdraw() async{
-    print('press withdraw');
     var done = await Utils.navigateTo(CurrentContractWithdrawPage(data.contractNumber, data.cash));
     if(done == true){
       await UserRequest.getUserInfo();
@@ -237,7 +236,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedTrade() {
-    print('press trade');
     Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
   }
 
@@ -310,7 +308,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       child: buttonView,
       itemBuilder: (builder) => menuItems,
       onSelected: (value) async{
-        print(value);
         switch(value){
           case ContractOperate.addMoney:
             double minAdd = (data.operateMoney * 0.01 * 100).round() / 100;

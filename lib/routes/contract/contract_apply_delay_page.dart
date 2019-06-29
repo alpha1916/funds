@@ -48,21 +48,18 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       appBar: AppBar(
         title:Text('延期卖出'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildInfoView(),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildDaySelectView(),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildEndDateView(),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            _buildCostView(),
-            _buildTipsView(),
-            _buildConfirmButton(),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildInfoView(),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          _buildDaySelectView(),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          _buildEndDateView(),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          _buildCostView(),
+          _buildTipsView(),
+          _buildConfirmButton(),
+        ],
       ),
     );
   }

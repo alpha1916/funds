@@ -78,7 +78,6 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     _tabController.addListener((){
       if(_tabController.index < 3 && _currentIndex != _tabController.index){
         _currentIndex = _tabController.index;
-        print('_tab refresh:${_tabController.index}');
         _refresh();
       }
     });

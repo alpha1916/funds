@@ -15,17 +15,14 @@ class ModifyPhoneVerifyPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('修改绑定手机'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildPhoneView(fontSize),
-            Utils.buildSplitLine(),
-            _buildCaptchaView(),
-            SizedBox(height: a.px50),
-            Utils.buildRaisedButton(title: '下一步', onPressed: _onPressedNext),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildPhoneView(fontSize),
+          Utils.buildSplitLine(),
+          _buildCaptchaView(),
+          SizedBox(height: a.px50),
+          Utils.buildRaisedButton(title: '下一步', onPressed: _onPressedNext),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );

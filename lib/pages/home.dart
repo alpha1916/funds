@@ -54,18 +54,14 @@ class _HomeViewState extends State<HomeView> {
           Utils.buildMailIconButton(),
         ],
       ),
-      body: Container(
-        color: CustomColors.background1,
-        //首页内容
-        child: Column(
-          children: [
-            banner1,
-            banner2,
-            SizedBox(height: a.px12),
-            _itemListView(),
-          ]
-        )
-      ),
+      body: Column(
+        children: [
+          banner1,
+          banner2,
+          SizedBox(height: a.px12),
+          _itemListView(),
+        ]
+      )
     );
 
   }
@@ -75,120 +71,65 @@ class _HomeViewState extends State<HomeView> {
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
-          return _ItemView(data, _onClickedItem);
+          return _buildItem(data);
         },
         itemCount: _dataList.length,
       ),
     );
   }
 
-  _onClickedItem(int type) async{
-    print('apply item:$type');
-    Utils.navigateTo(ContractApplyPage(_dataList, type));
-  }
-}
-
-class _ItemView extends StatelessWidget {
-  final ContractApplyItemData data;
-  final onPressed;
-  _ItemView(this.data, this.onPressed);
-
-  Widget getItemIcon(type) {
-    final String path = CustomIcons.homePeriodPrefix + type.toString() + '.png';
-    return Image.asset(path, width: a.px48, height: a.px48);
-  }
-
-  createView () {
-    TextStyle homeItemStyle1 = TextStyle(
+  _buildItem(ContractApplyItemData data){
+    TextStyle titleStyle = TextStyle(
       fontSize: a.px18,
       color: Colors.black,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
     );
 
-    TextStyle homeItemStyle2 = TextStyle(
+    TextStyle normalTextStyle = TextStyle(
       fontSize: a.px16,
       color: Colors.black87,
     );
 
-    TextStyle homeItemStyle3 = TextStyle(
+    TextStyle numberStyle = TextStyle(
       fontSize: a.px18,
-      color: Colors.red,
+      color: CustomColors.red,
       fontWeight: FontWeight.w500,
     );
-    
+
     final int minRate = data.timesList.first;
     final int maxRate = data.timesList.last;
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.only(left: a.px16, top:a.px10),
-//      child: getItemIcon(type),
       child: Column(
         children: <Widget>[
-          Row(
-            children: [
-              //周期图标
-              getItemIcon(data.type),
-              //文本内容
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(left: a.px10, right: a.px10, bottom: a.px5),
-                          child: Text(data.title, style: homeItemStyle1),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: a.px10, right: a.px10, bottom: a.px5),
-                          child: Text(data.interest, style: homeItemStyle2),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(left: a.px10, right: a.px3),
-                          child: Text('${data.min}元', style: homeItemStyle3),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(right: a.px8),
-                          child: Text('起', style: homeItemStyle2),
-                        ),
-
-                        Container(
-                          padding: EdgeInsets.only(left: a.px10, right: a.px3),
-                          child: Text('$minRate-$maxRate倍', style: homeItemStyle3),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(right: a.px10),
-                          child: Text('杠杆', style: homeItemStyle2),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              //右箭头
-              Icon(Icons.arrow_forward_ios, color: Colors.black26,),
-              SizedBox(width: a.px16),
-            ],
+          ListTile(
+            dense:true,
+            leading: Image.asset('${CustomIcons.homePeriodPrefix}${data.type}.png', height: a.px48),
+            title: Row(
+              children: <Widget>[
+                Text(data.title, style: titleStyle),
+                SizedBox(width: a.px20,),
+                Text(data.interest, style: normalTextStyle),
+              ],
+            ),
+            subtitle: Row(
+              children: <Widget>[
+                Text('${data.min}元', style: numberStyle),
+                Text(' 起', style: normalTextStyle),
+                SizedBox(width: a.px20,),
+                Text('$minRate-$maxRate倍', style: numberStyle),
+                Text(' 杠杆', style: normalTextStyle),
+              ],
+            ),
+            trailing: Utils.buildForwardIcon(),
+            contentPadding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px4),
+            onTap: (){
+              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
+            },
           ),
-          SizedBox(height: a.px10),
-          Utils.buildSplitLine(height: a.px1)
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
         ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: createView(),
-      onTap: () {
-        this.onPressed(data.type);
-      },
     );
   }
 }

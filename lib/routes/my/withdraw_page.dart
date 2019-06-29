@@ -15,18 +15,15 @@ class WithdrawPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('我的银行卡'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildCardView(),
-            _buildInputView(),
-            _buildTipsView(),
-            SizedBox(height: a.px30),
-            Utils.buildRaisedButton(title: '确认提现', onPressed: _onPressedOK),
-            _buildServiceView(phoneNumber),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildCardView(),
+          _buildInputView(),
+          _buildTipsView(),
+          SizedBox(height: a.px30),
+          Utils.buildRaisedButton(title: '确认提现', onPressed: _onPressedOK),
+          _buildServiceView(phoneNumber),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );
@@ -207,7 +204,6 @@ class WithdrawPage extends StatelessWidget {
         return;
       }
 
-      print('password:${passController.text}');
       Utils.navigatePop(passController.text);
     }
 

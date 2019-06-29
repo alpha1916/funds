@@ -4,8 +4,6 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/recharge/recharge_page.dart';
-//import 'package:funds/network/user_request.dart';
-import 'package:funds/routes/my/withdraw_page.dart';
 import 'cash_flow_page.dart';
 
 class FundsDetailPage extends StatelessWidget {
@@ -15,24 +13,21 @@ class FundsDetailPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('资金明细'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildTopView(),
-            SizedBox(height: a.px10,),
-            Container(
-              color: Colors.white,
-              child: Column(
-                children: <Widget>[
+      body: Column(
+        children: <Widget>[
+          _buildTopView(),
+          SizedBox(height: a.px10,),
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
 //                  _buildNumberItemView(CustomIcons.gold, '金币流水', 0, _onPressedGold),
 //                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px20)),
-                  _buildNumberItemView(CustomIcons.integral, '积分流水', 0, _onPressedIntegral),
-                ],
-              ),
-            )
-          ],
-        ),
+                _buildNumberItemView(CustomIcons.integral, '积分流水', 0, _onPressedIntegral),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

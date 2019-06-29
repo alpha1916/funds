@@ -23,33 +23,30 @@ class HistoryContractDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text('历史合约详情'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  _buildTitleView(),
-                  _splitLine,
-                  _buildInfoView(),
-                  _splitLine,
-                  _buildCostItem('资产总值', data.totalMoney),
-                  _splitLine,
-                  _buildCostItem('累计盈亏', data.profit, Utils.getProfitColor(data.profit)),
-                  _splitLine,
-                  _buildSettlementView(),
-                  _splitLine,
-                  _buildCostItem('实收管理费', data.realCost),
-                  SizedBox(height: a.px10,),
-                  _buildClickableItem('查看合约流水', _onPressFlow),
-                  _splitLine,
-                  _buildClickableItem('查看历史交易', _onPressTradeHistory),
-                ],
-              ),
+      body: Column(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                _buildTitleView(),
+                _splitLine,
+                _buildInfoView(),
+                _splitLine,
+                _buildCostItem('资产总值', data.totalMoney),
+                _splitLine,
+                _buildCostItem('累计盈亏', data.profit, Utils.getProfitColor(data.profit)),
+                _splitLine,
+                _buildSettlementView(),
+                _splitLine,
+                _buildCostItem('实收管理费', data.realCost),
+                SizedBox(height: a.px10,),
+                _buildClickableItem('查看合约流水', _onPressFlow),
+                _splitLine,
+                _buildClickableItem('查看历史交易', _onPressTradeHistory),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

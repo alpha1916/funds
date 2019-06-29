@@ -42,14 +42,11 @@ class _MyViewState extends State<MyView> {
               Utils.buildMailIconButton(),
             ],
           ),
-          body: Container(
-            color: CustomColors.background1,
-            child: Column(
-              children: <Widget>[
-                AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
-                _buildBottomView(),
-              ],
-            ),
+          body: Column(
+            children: <Widget>[
+              AccountData.getInstance().isLogin() ? _buildTopView() : _buildLoginView(),
+              _buildBottomView(),
+            ],
           ),
         );
       }

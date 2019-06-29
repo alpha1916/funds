@@ -4,7 +4,6 @@ import 'package:funds/network/http_request.dart';
 import 'stock_buy_view.dart';
 import 'stock_list_view.dart';
 import 'package:funds/network/stock_trade_request.dart';
-import 'package:funds/routes/trade/trade_confirm_dialog.dart';
 
 class StockSellView extends StockBuyView {
   @override

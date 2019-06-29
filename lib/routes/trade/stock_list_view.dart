@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/network/http_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
 import 'package:funds/routes/trade/bloc/trade_bloc.dart';
 

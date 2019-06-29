@@ -14,56 +14,53 @@ class ContractAddCapitalPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('追加本金'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('现金余额', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
-                  Text('${AccountData.getInstance().cash}元', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
-                ],
-              ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('现金余额', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
+                Text('${AccountData.getInstance().cash}元', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
+              ],
             ),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px2),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('追加本金', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
-                  _buildInputView(),
-                ],
-              ),
+          ),
+          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px2),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('追加本金', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
+                _buildInputView(),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px12),
-              child: Row(
-                children: <Widget>[
-                  Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: a.px13),),
-                  Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: CustomColors.red),),
-                  Text(' 元', style: TextStyle(fontSize: a.px13),),
-                ],
-              ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px12),
+            child: Row(
+              children: <Widget>[
+                Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: a.px13),),
+                Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: CustomColors.red),),
+                Text(' 元', style: TextStyle(fontSize: a.px13),),
+              ],
             ),
-            SizedBox(height: 40),
-            Container(
-              width: a.px(180),
-              height: a.px50,
-              child:RaisedButton(
-                child: Text('确认', style: TextStyle(color: Colors.white, fontSize: a.px15),),
-                  onPressed: _onPressedOK,
-                  color: Colors.black,
-                  shape: StadiumBorder(),
-              ),
+          ),
+          SizedBox(height: 40),
+          Container(
+            width: a.px(180),
+            height: a.px50,
+            child:RaisedButton(
+              child: Text('确认', style: TextStyle(color: Colors.white, fontSize: a.px15),),
+                onPressed: _onPressedOK,
+                color: Colors.black,
+                shape: StadiumBorder(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );

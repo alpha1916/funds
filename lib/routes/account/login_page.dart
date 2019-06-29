@@ -22,9 +22,12 @@ class LoginPage extends StatelessWidget{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10,),
-          Center(child: Image.asset(CustomIcons.iconText, width: realWidth * 0.4,)),
-          SizedBox(height: 10,),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: a.px10),
+            alignment: Alignment.center,
+            color: Colors.white,
+            child: Image.asset(CustomIcons.iconText, width: realWidth * 0.4,)
+          ),
           _InputView(isRegister),
         ],
       ),
@@ -78,6 +81,7 @@ with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Expanded(
       child:Container(
+        color: Colors.white,
         child: Column(
           children: <Widget>[
             _tabBar(),

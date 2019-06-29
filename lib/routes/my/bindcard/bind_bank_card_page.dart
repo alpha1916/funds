@@ -32,39 +32,36 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
       appBar: AppBar(
         title:Text('绑定银行卡'),
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 12,),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('开户人', style: TextStyle(fontSize: fontSize),),
-                  Text(AccountData.getInstance().name, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
-                ],
-              ),
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 12,),
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('开户人', style: TextStyle(fontSize: fontSize),),
+                Text(AccountData.getInstance().name, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+              ],
             ),
-            splitLine,
-            _buildSettableItem('选择银行', bank, _onPressedBank),
-            splitLine,
-            _buildSettableItem('开户行所在省', provinceName, _onPressedProvince),
-            splitLine,
-            _buildSettableItem('开户行所在区', city, _onPressedCity),
-            splitLine,
-            _buildLocationView(),
-            splitLine,
-            _buildCardView(),
-            SizedBox(height: 12,),
-            _buildPhoneView(),
-            _buildTipsView(),
-            Utils.expanded(),
-            _buildOKButton(),
-          ],
-        ),
+          ),
+          splitLine,
+          _buildSettableItem('选择银行', bank, _onPressedBank),
+          splitLine,
+          _buildSettableItem('开户行所在省', provinceName, _onPressedProvince),
+          splitLine,
+          _buildSettableItem('开户行所在区', city, _onPressedCity),
+          splitLine,
+          _buildLocationView(),
+          splitLine,
+          _buildCardView(),
+          SizedBox(height: 12,),
+          _buildPhoneView(),
+          _buildTipsView(),
+          Utils.expanded(),
+          _buildOKButton(),
+        ],
       ),
       resizeToAvoidBottomPadding: false,
     );

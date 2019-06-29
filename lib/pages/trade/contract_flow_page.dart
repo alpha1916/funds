@@ -17,16 +17,13 @@ class _ContractFlowPageState extends State<ContractFlowPage>
       appBar: AppBar(
         title: Text('合约流水')
       ),
-      body: Container(
-        color: CustomColors.background1,
-        child: Column(
-          children: <Widget>[
-            _buildInfoView(),
-            SizedBox(height: a.px12),
-            _buildTabBar(),
-            _buildListView(),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          _buildInfoView(),
+          SizedBox(height: a.px12),
+          _buildTabBar(),
+          _buildListView(),
+        ],
       ),
     );
   }

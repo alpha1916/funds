@@ -45,7 +45,6 @@ class Utils {
 
   static navigatePopAll([tabIndex = AppTabIndex.home]) {
     Navigator.of(context).popUntil((Route<dynamic> route) {
-//      print(route);
       return route.settings.name == '/';
     });
 
@@ -81,14 +80,6 @@ class Utils {
 
   static test() async {
     AccountData.getInstance().clear();
-//    var data = {
-//      'code': '666666',
-//      'title': '招商银行',
-//      'price': 6.66,
-//      'count': '200',
-//    };
-//    var confirm = await CustomAlert.showCustomDialog(TradeConfirmDialog(TradeType.buy, data));
-//    print(confirm);
   }
 
   static buildServiceIconButton(BuildContext context) {
@@ -96,7 +87,8 @@ class Utils {
         icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
         onPressed: (){
           print('press service');
-          test();
+          if(Global.debug)
+            test();
         }
     );
   }

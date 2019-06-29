@@ -14,28 +14,26 @@ class _RechargePageState extends State<RechargePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('充值'),
-        ),
-        body: Container(
-          color: CustomColors.background1,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      _buildAmountInputView(),
-                      _buildCommentView(),
-                      _buildProofView(),
-                    ],
-                  ),
-                ),
+      appBar: AppBar(
+        title: Text('充值'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  _buildAmountInputView(),
+                  _buildCommentView(),
+                  _buildProofView(),
+                ],
               ),
-              Utils.buildFullWidthButton('确认', _onPressOK),
-            ],
+            ),
           ),
-        ));
+          Utils.buildFullWidthButton('确认', _onPressOK),
+        ],
+      )
+    );
   }
 
   TextEditingController inputController = TextEditingController();
