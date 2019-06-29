@@ -121,19 +121,6 @@ class ContractRequest {
     }
 
     List<dynamic> oDataList = result['data'];
-    oDataList = [
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-      {'secCode' : '666666', 'secShortname': 'st天马'},
-    ];
     final List<LimitStockData> dataList = oDataList.map((data) => LimitStockData(data)).toList();
 
     return ResultData(true, dataList);
@@ -144,5 +131,16 @@ class ContractRequest {
     var data = {'contractNumber': contractNumber, 'money': money};
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     return ResultData(result != null);
+  }
+
+  static Future<ResultData> getFlow(String contractNumber) async {
+    final String api = '/api/v1/contract/getContractRecord';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, ContractFlowData(result['data']));
   }
 }

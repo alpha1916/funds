@@ -53,38 +53,40 @@ class StockEntrustData{
 class TradingStockData{
   final String title;
   final String code;
-  final double closingPrice;
-  final double upLimitPrice;
-  final double downLimitPrice;
+  final double preClosingPrice;
+  final double upLimitedPrice;
+  final double downLimitedPrice;
+  final double lastPrice;
   List<dynamic> buyList;
   List<dynamic> sellList;
   TradingStockData(data):
-        title = data['secShortname'],
-        code = data['secCode'],
-        closingPrice = data['yprice'],
-        upLimitPrice = data['riseStop'],
-        downLimitPrice = data['fallStop']{
+        title = data['stockName'],
+        code = data['stockCode'],
+        lastPrice = Utils.convertDouble(data['lastPrice']),
+        preClosingPrice = Utils.convertDouble(data['preClosePrice']),
+        upLimitedPrice = Utils.convertDouble(data['uplimitedPrice']),
+        downLimitedPrice = Utils.convertDouble(data['downlimitedPrice'])
+  {
     buyList = [];
     sellList = [];
-//    "bid": 买一价格
-//    "ask": 卖一价格,
-//    "bv": 买一数量
-//    "av": 卖一数量
-    for(var i = 0; i < 5; ++i){
-      String strIndex = i == 0 ? '' : '${i + 1}';
-      String bidKey = 'bid' + strIndex;
-      String bvKey = 'bv' + strIndex;
-      String ask = 'ask' + strIndex;
-      String av = 'av' + strIndex;
+//    "bidPrice1": 买一价格
+//    "askPrice1": 卖一价格,
+//    "bidVolume1": 买一数量
+//    "askVolume1": 卖一数量
+    for(var i = 1; i <= 5; ++i){
+      String bidKey = 'bidPrice$i';
+      String bvKey = 'bidVolume$i';
+      String askKey = 'askPrice$i';
+      String avKey = 'askVolume$i';
       if(data[bidKey] != null){
         double price = Utils.convertDouble(data[bidKey]);
         int count = data[bvKey];
         buyList.add([price, count]);
       }
 
-      if(data[ask] != null){
-        double price = Utils.convertDouble(data[ask]);
-        int count = data[av];
+      if(data[askKey] != null){
+        double price = Utils.convertDouble(data[askKey]);
+        int count = data[avKey];
         sellList.add([price, count]);
       }
     }

@@ -117,6 +117,7 @@ class ContractApplyItemData{
 }
 
 
+
 class ContractData {
   final double contractMoney;//合约金额
   final String contractNumber;//合约信息
@@ -199,16 +200,50 @@ class TradeFlowData{
       strTime = data['recordTime'].split(' ')[1];
 }
 
-//class ExperienceContractData {
-//  final int management;
-//  final int contractTimes;
-//  final int loanAmount;
-//  ExperienceContractData(data):
-//      management = data['management'],
-//      cut = data['stopLossLine'],
-//      cordon = data['warnLine']
-//  ;
-////  "management": 0,
-////  "stopLossLine": 0,
-////  "warnLine": 0
-//}
+final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约'];
+class ContractMoneyFlowData {
+  final String title;
+  final double value;//变化数值
+  final double capital;//杠杆本金
+  final double contractMoney;//合约金额
+  final double loan;//借款金额
+  final double operateMoney;//操盘金额
+  final String date;
+  ContractMoneyFlowData(data):
+        title = type2ContractMoneyFlowDataTitle[data['type']],
+        value = Utils.convertDouble(data['money']),
+        capital = Utils.convertDouble(data['principal']),
+        contractMoney = Utils.convertDouble(data['loanAmount'] + data['principal']),
+        loan = Utils.convertDouble(data['loanAmount']),
+        operateMoney = Utils.convertDouble(data['operateMoney']),
+        date = data['recordTime']
+  ;
+}
+
+class ContractCostFlowData {
+  final double value;
+  final double leftMoney;
+  final String date;
+  ContractCostFlowData(data):
+        value = Utils.convertDouble(data['money']),
+        leftMoney= Utils.convertDouble(data['nowMoney']),
+        date = data['recordTime']
+  ;
+}
+
+class ContractFlowData{
+  final double capital;//杠杆本金
+  final double contractMoney;//合约金额
+  final double loan;//借款金额
+  final double operateMoney;//操盘金额
+  final List<ContractMoneyFlowData> moneyFlowList;
+  final List<ContractCostFlowData> costFlowList;
+  ContractFlowData(data):
+      capital = Utils.convertDouble(data['principal']),
+        contractMoney = Utils.convertDouble(data['loanAmount'] + data['principal']),
+        loan = Utils.convertDouble(data['loanAmount']),
+        operateMoney = Utils.convertDouble(data['operateMoney']),
+        moneyFlowList = data['moneyRecord'].map<ContractMoneyFlowData>((record) => ContractMoneyFlowData(record)).toList(),
+        costFlowList = data['managementRecord'].map<ContractCostFlowData>((record) => ContractCostFlowData(record)).toList()
+  ;
+}

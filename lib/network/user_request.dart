@@ -56,7 +56,7 @@ class UserRequest {
     return ResultData(true);
   }
 
-  static bindBankCard(bank, province, city, location, card, phone) async{
+  static bindBankCard(String bank, String province, String city, String location, String card, String phone) async{
     final String api = '/api/v1/bank/addBank';
     var data = {
       'bankName': bank,
@@ -82,7 +82,10 @@ class UserRequest {
       return ResultData(false);
     }
 
-    return ResultData(true, result['data']);
+    List<dynamic> oDataList = result['data'];
+    List<BankCardData> dataList = oDataList.map((data) => BankCardData(data)).toList();
+
+    return ResultData(true, dataList);
   }
 
   static getProvinceList() async {
@@ -139,9 +142,9 @@ class UserRequest {
       return ResultData(false);
     }
     List<dynamic> oDataList = [
-      {'ticketValue': 50, 'expireDate': '2019-06-17'},
-      {'ticketValue': 200,  'expireDate': '2019-06-17'},
-      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
+//      {'ticketValue': 50, 'expireDate': '2019-06-17'},
+//      {'ticketValue': 200,  'expireDate': '2019-06-17'},
+//      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
     ];
 //    List<dynamic> oDataList = result['data'];
     List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
@@ -160,5 +163,24 @@ class UserRequest {
     List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
 
     return ResultData(true, dataList);
+  }
+
+  static exchangeCoupon(couponId) async {
+    final String api = '/api/v1/task/scoreChangeTicket';
+    final data = {
+      'ticketId': couponId,
+    };
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    return ResultData(result != null);
+  }
+
+  static getBankCardData() async {
+    final String api = '/api/v1/bank/getBank';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, BankCardData(result['data']));
   }
 }

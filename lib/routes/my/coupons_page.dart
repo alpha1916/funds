@@ -205,8 +205,17 @@ class _CouponsPageState extends State<CouponsPage> {
   }
 
   _onPressedExchange(CouponData data) async{
+    if(AccountData.getInstance().integral < data.integral){
+      alert('积分不足');
+      return;
+    }
     bool confirm = await Utils.showConfirmOptionsDialog(tips: '确认消耗${data.integral}积分进行兑换');
     if(confirm){
+      final result = await UserRequest.exchangeCoupon(data.id);
+      if(result.success){
+        await UserRequest.getUserInfo();
+        _refresh();
+      }
     }
   }
 }

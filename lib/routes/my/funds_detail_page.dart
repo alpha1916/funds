@@ -111,7 +111,7 @@ class FundsDetailPage extends StatelessWidget {
   }
 
   _onPressWithdraw() {
-    Utils.navigateTo(WithdrawPage());
+    Utils.bankCardWithdraw();
   }
 
   _onPressedGold() {

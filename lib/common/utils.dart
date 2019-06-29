@@ -11,6 +11,7 @@ import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:funds/routes/mail/mail_page.dart';
+import 'package:funds/routes/my/withdraw_page.dart';
 
 class Utils {
   static BuildContext context;
@@ -293,6 +294,14 @@ class Utils {
     } else {
       print('不能访问');
     }
+  }
+
+  static bankCardWithdraw() async{
+    var result = await UserRequest.getBankCardData();
+    if(!result.success)
+      return;
+    Utils.navigateTo(WithdrawPage(result.data));
+    return;
   }
 }
 

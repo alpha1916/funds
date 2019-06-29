@@ -6,6 +6,8 @@ import 'package:funds/routes/account/forget_password_page.dart';
 import 'package:funds/network/user_request.dart';
 
 class WithdrawPage extends StatelessWidget {
+  final BankCardData data;
+  WithdrawPage(this.data);
   @override
   Widget build(BuildContext context) {
     String phoneNumber = '18666612345';
@@ -31,8 +33,6 @@ class WithdrawPage extends StatelessWidget {
   }
 
   _buildCardView() {
-    String url = 'http://www.cmbchina.com/cmb.ico';
-    String name = '招商银行';
     return Container(
       margin: EdgeInsets.all(a.px20),
       decoration: BoxDecoration(
@@ -46,13 +46,13 @@ class WithdrawPage extends StatelessWidget {
           Row(
             children: <Widget>[
               SizedBox(width: a.px30),
-              Image.network(url, height: a.px30,),
+              Image.network(data.iconUrl, height: a.px30,),
               SizedBox(width: a.px20),
-              Text(name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
+              Text(data.name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
             ],
           ),
           SizedBox(height: a.px50),
-          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px30, color: Colors.white),),
+          Text('**** **** **** **** ${data.number.substring(data.number.length - 4)}', style: TextStyle(fontSize: a.px30, color: Colors.white),),
           SizedBox(height: a.px50),
         ],
       ),

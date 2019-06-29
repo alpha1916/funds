@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/model/account_data.dart';
 
 //http://www.cmbchina.com/cmb.ico?
 class BankSelectPage extends StatelessWidget {
   final String selectedBank;
-  final dataList;
+  final List<BankCardData>dataList;
 
   BankSelectPage(this.selectedBank, this.dataList);
   @override
@@ -23,12 +24,11 @@ class BankSelectPage extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, int index) {
     var data = dataList[index];
-    String name = data['bankName'];
-    String iconUrl = data['imageUrl'];
-    iconUrl = 'http://www.cmbchina.com/cmb.ico';
+    String name = data.name;
+    String iconUrl = data.iconUrl;
 
     List<Widget> children = [
-      Image.network(iconUrl, height: a.px26,),
+      Image.network(iconUrl, height: a.px26),
       SizedBox(width: a.px10,),
       Text(name, style: TextStyle(fontWeight: FontWeight.w500, fontSize: a.px16),),
     ];

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/common.dart';
+import 'package:funds/model/account_data.dart';
 
 class BindedBankCardInfoPage extends StatelessWidget {
+  final BankCardData data;
+  BindedBankCardInfoPage(this.data);
+
   @override
   Widget build(BuildContext context) {
     String phoneNumber = '18666612345';
@@ -22,8 +26,6 @@ class BindedBankCardInfoPage extends StatelessWidget {
   }
 
   _buildCardView() {
-    String url = 'http://www.cmbchina.com/cmb.ico';
-    String name = '招商银行';
     return Container(
       margin: EdgeInsets.all(a.px20),
       decoration: BoxDecoration(
@@ -37,13 +39,13 @@ class BindedBankCardInfoPage extends StatelessWidget {
           Row(
             children: <Widget>[
               SizedBox(width: a.px30),
-              Image.network(url, height: a.px30,),
+              Image.network(data.iconUrl, height: a.px30,),
               SizedBox(width: a.px20),
-              Text(name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
+              Text(data.name, style: TextStyle(fontSize: a.px26, color: Colors.white),),
             ],
           ),
           SizedBox(height: a.px50),
-          Text('**** **** **** **** 6789', style: TextStyle(fontSize: a.px30, color: Colors.white),),
+          Text('**** **** **** **** ${data.number.substring(data.number.length - 4)}', style: TextStyle(fontSize: a.px30, color: Colors.white),),
           SizedBox(height: a.px50),
         ],
       ),

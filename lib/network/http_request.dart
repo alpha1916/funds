@@ -63,11 +63,12 @@ class HttpRequest {
         print('token:$token');
       }
       if(isPost){
-        if(token != null) {
-          response = await dio.post(api, queryParameters: data, options: options);
-        }else{
-          response = await dio.post(api, data: data);
-        }
+//        if(token != null) {
+//          response = await dio.post(api, queryParameters: data, options: options);
+//        }else{
+//          response = await dio.post(api, data: data);
+//        }
+        response = await dio.post(api, data: data, queryParameters: data, options: options);
       }else{
         response = await dio.get(api, queryParameters: data, options: options);
       }

@@ -351,7 +351,7 @@ class _MyViewState extends State<MyView> {
   }
 
   _onPressWithdraw() {
-    Utils.navigateTo(WithdrawPage());
+    Utils.bankCardWithdraw();
   }
   
   _onPressContract() {

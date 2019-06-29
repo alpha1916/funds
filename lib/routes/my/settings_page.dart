@@ -117,10 +117,13 @@ class SettingsPage extends StatelessWidget {
       return;
     }
 
-//    if(true){
-//      Utils.navigateTo(BindedBankCardInfoPage());
-//      return;
-//    }
+    if(AccountData.getInstance().bindBank){
+      var result = await UserRequest.getBankCardData();
+      if(!result.success)
+        return;
+      Utils.navigateTo(BindedBankCardInfoPage(result.data));
+      return;
+    }
 
     var result = await Utils.navigateTo(BindBankCardPage());
     if(result == true){

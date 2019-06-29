@@ -44,15 +44,9 @@ class StockTradeFrame extends StatelessWidget{
 //        _updateStockInfo(snapshot.data);
         stockInfo = snapshot.data;
         if(stockInfo != null){
-          codeInputController.text = stockInfo.code.toString();
-          double price;
-          if(stockInfo.sellList.length > 0)
-            price = stockInfo.sellList[0][0];
-          else
-            price = stockInfo.buyList[0][0];
-          priceInputController.text = Utils.convertDoubleString(price);
-
-          updateUsableCount(price);
+          codeInputController.text = stockInfo.code;
+          priceInputController.text = Utils.convertDoubleString(stockInfo.lastPrice);
+          updateUsableCount(stockInfo.lastPrice);
         }else{
           updateUsableCount(0.0);
         }
@@ -126,13 +120,9 @@ class StockTradeFrame extends StatelessWidget{
   }
 
   _onCodeInputChange(text) {
-    if(text.length == 6){
-      int code = int.parse(text);
-      if(code > 99999){
-        print(code);
-        bloc.getStockInfo(code);
-        return;
-      }
+    if(text.length == 6 && RegExp(r'^\d{6}$').hasMatch(text)){
+      bloc.getStockInfo(text);
+      return;
     }
     bloc.clearStockInfo();
   }
@@ -238,8 +228,8 @@ class StockTradeFrame extends StatelessWidget{
       return Text(title, style: TextStyle(fontSize: a.px14, color: color),);
     }
 
-    double downLimitPrice = stockInfo?.downLimitPrice ?? 0.00;
-    double upLimitPrice = stockInfo?.downLimitPrice ?? 0.00;
+    double downLimitPrice = stockInfo?.downLimitedPrice ?? 0.00;
+    double upLimitPrice = stockInfo?.upLimitedPrice ?? 0.00;
     return Container(
       margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       child: Row(
@@ -412,7 +402,7 @@ class StockTradeFrame extends StatelessWidget{
           double price = order[0];
           strPrice = order[0].toStringAsFixed(2);
           strCount = order[1].toString();
-          priceColor = Utils.getProfitColor(price - stockInfo.closingPrice);
+          priceColor = Utils.getProfitColor(price - stockInfo.preClosingPrice);
         }
       }
 
@@ -461,7 +451,7 @@ class StockTradeFrame extends StatelessWidget{
           double price = order[0];
           strPrice = order[0].toStringAsFixed(2);
           strCount = order[1].toString();
-          priceColor = Utils.getProfitColor(price - stockInfo.closingPrice);
+          priceColor = Utils.getProfitColor(price - stockInfo.preClosingPrice);
         }
       }
 

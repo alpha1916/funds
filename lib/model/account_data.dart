@@ -36,7 +36,7 @@ class AccountData {
     phone = data['phone'];
     integral = data['score'];
     name = data['name'];
-    address = data['address'] ?? '哈哈是';
+    address = data['address'] ?? '';
     bindBank = data['bindBank'];
 
     String strExperiences = data['experierceList'];
@@ -137,4 +137,14 @@ class MailData{
 
 //    return type2List;
   }
+}
+
+class BankCardData{
+  final String number;
+  final String name;
+  final String iconUrl;
+  BankCardData(data):
+      number = data['bankNo'],
+      name = data['bankName'],
+      iconUrl = data['imageUrl'];
 }

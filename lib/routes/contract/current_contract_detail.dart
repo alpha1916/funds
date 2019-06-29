@@ -213,8 +213,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         ));
   }
 
-  _onPressedFlow() {
-    Utils.navigateTo(ContractFlowPage());
+  _onPressedFlow() async{
+    var result = await ContractRequest.getFlow(data.contractNumber);
+    if(result.success)
+      Utils.navigateTo(ContractFlowPage(result.data));
   }
 
   _onPressedLimited() async{

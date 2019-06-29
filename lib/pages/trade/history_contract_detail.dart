@@ -178,9 +178,11 @@ class HistoryContractDetail extends StatelessWidget {
     );
   }
 
-  _onPressFlow() {
+  _onPressFlow() async{
     print('flow');
-    Utils.navigateTo(ContractFlowPage());
+    var result = await ContractRequest.getFlow(data.contractNumber);
+    if(result.success)
+      Utils.navigateTo(ContractFlowPage(result.data));
   }
 
   _onPressTradeHistory() async{

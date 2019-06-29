@@ -12,12 +12,16 @@ class LimitStockListPage extends StatelessWidget {
       appBar: AppBar(
         title:Text('今日限买股'),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: CustomColors.background1,
-          child: Column(
-            children: _buildItemList(),
-          ),
+      body:Container(
+        color: CustomColors.background1,
+        child: Column(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Column(
+                children: _buildItemList(),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -28,7 +32,6 @@ class LimitStockListPage extends StatelessWidget {
     int count = (dataList.length / 2).ceil();
     print(dataList.length);
     for(var i = 0; i < count; ++i){
-      print(i);
       LimitStockData data1 = dataList[i * 2];
       LimitStockData data2;
       if((i * 2 + 1) < dataList.length)
