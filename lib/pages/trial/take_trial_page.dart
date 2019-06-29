@@ -182,16 +182,19 @@ class _TrialItem extends StatelessWidget {
 }
 
 class _SelectView extends StatefulWidget {
-  final List<ExperienceInfoData> _dataList;
-  _SelectView(this._dataList);
+  final List<ExperienceInfoData> dataList;
+  _SelectView(this.dataList);
   @override
-  __SelectViewState createState() => __SelectViewState(_dataList);
+  _SelectViewState createState() => _SelectViewState();
 }
 
-class __SelectViewState extends State<_SelectView> {
+class _SelectViewState extends State<_SelectView> {
   int _selectedIdx;
-  final List<ExperienceInfoData> _dataList;
-  __SelectViewState(this._dataList){
+  List<ExperienceInfoData> _dataList;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dataList = widget.dataList;
     for(int i = 0; i < _dataList.length; ++i){
       ExperienceInfoData data = _dataList[i];
       if(!AccountData.getInstance().isExperienceDone(data.id)){

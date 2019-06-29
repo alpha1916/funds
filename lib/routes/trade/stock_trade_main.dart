@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/custom_app_bar.dart';
 import 'package:funds/common/constants.dart';
-import 'package:funds/common/utils.dart';
-import 'package:funds/model/contract_data.dart';
-import 'package:funds/network/http_request.dart';
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
@@ -23,28 +20,26 @@ class StockTradeMainPage extends StatefulWidget {
     TradeBloc.getInstance().setContractNumber(contractNumber);
   }
   @override
-  _StockTradeMainPageState createState() => _StockTradeMainPageState(contractTitle);
+  _StockTradeMainPageState createState() => _StockTradeMainPageState();
 }
 
 class _StockTradeMainPageState extends State<StockTradeMainPage>
     with SingleTickerProviderStateMixin {
-  final String contractTitle;
   Timer refreshTimer;
   int _currentIndex = 0;
   double cash = 0;
 
-  _StockTradeMainPageState(this.contractTitle);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text('委托交易', style: TextStyle(fontSize: a.px20),),
+        title: Text('委托交易', style: TextStyle(fontSize: a.px20)),
         leading: FlatButton(
           child: Container(
             child:Row(
               children: <Widget>[
                 Icon(Icons.arrow_back_ios, color: Colors.blueAccent, size: a.px18,),
-                Text(contractTitle, style: TextStyle(fontSize: a.px16, color: Colors.blueAccent),),
+                Text(widget.contractTitle, style: TextStyle(fontSize: a.px16, color: Colors.blueAccent),),
               ],
             ),
           ),
@@ -111,7 +106,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
       child: Column(
         children: <Widget>[
           _buildCashView(),
-          SizedBox(height: 12),
+          SizedBox(height: a.px12),
           _buildTabBar(),
           _buildTabBarView(),
         ],

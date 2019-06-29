@@ -15,12 +15,17 @@ class ContractApplyDetailPage extends StatefulWidget {
   ContractApplyDetailPage(this.data);
 
   @override
-  _ContractApplyDetailPageState createState() => _ContractApplyDetailPageState(data);
+  _ContractApplyDetailPageState createState() => _ContractApplyDetailPageState();
 }
 
 class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
-  final ContractApplyDetailData data;
-  _ContractApplyDetailPageState(this.data);
+  ContractApplyDetailData data;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    data = widget.data;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -342,8 +347,6 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       await UserRequest.getUserInfo();
       await alert('合约申请成功');
       Utils.navigatePopAll(AppTabIndex.trade);
-    }else{
-//      if(result.code)
     }
   }
 }

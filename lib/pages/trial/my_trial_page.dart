@@ -10,13 +10,12 @@ class MyTrialPage extends StatefulWidget {
   final onPressedPromote;
   MyTrialPage(this.onPressedPromote);
   @override
-  _MyTrialPageState createState() => _MyTrialPageState(onPressedPromote);
+  _MyTrialPageState createState() => _MyTrialPageState();
 }
 
 class _MyTrialPageState extends State<MyTrialPage> {
   List<ContractData> _dataList = [];
-  final onPressedPromote;
-  _MyTrialPageState(this.onPressedPromote);
+  _MyTrialPageState();
 
   @override
   void initState() {
@@ -79,7 +78,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
                     decoration: TextDecoration.underline,
                   ),
                 ),
-                onPressed: onPressedPromote,
+                onPressed: widget.onPressedPromote,
               ),
             ],
           ),

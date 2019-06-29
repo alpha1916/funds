@@ -8,14 +8,13 @@ class TradeView extends StatefulWidget {
   final bool secondary;
   TradeView([this.secondary = false]);
   @override
-  _TradeViewState createState() => _TradeViewState(secondary);
+  _TradeViewState createState() => _TradeViewState();
 }
 
 class _TradeViewState extends State<TradeView>
     with SingleTickerProviderStateMixin{
 
-  final bool secondary;
-  _TradeViewState(this.secondary);
+  _TradeViewState();
 
 
   TabController _tabController;
@@ -43,7 +42,7 @@ class _TradeViewState extends State<TradeView>
     return Scaffold(
       appBar: AppBar(
         title:Text('我的交易'),
-        leading: secondary ? null : Utils.buildServiceIconButton(context),
+        leading: widget.secondary ? null : Utils.buildServiceIconButton(context),
         bottom: TabBar(
           tabs: <Widget>[
             Text('当前合约'),

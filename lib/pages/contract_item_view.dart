@@ -224,7 +224,7 @@ class ContractItemView extends StatelessWidget {
   }
 
   _buildExpireView(){
-    if(data.leftDays > 1)
+    if(data.leftDays != 1 || !data.ongoing)
       return Container();
 
     return Positioned(

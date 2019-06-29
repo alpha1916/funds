@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class PhoneCaptchaButton extends StatefulWidget {
-  final onPressed;
-  PhoneCaptchaButton(this.onPressed);
+  final onCallback;
+  PhoneCaptchaButton(this.onCallback);
   @override
-  _PhoneCaptchaButtonState createState() => _PhoneCaptchaButtonState(onPressed);
+  _PhoneCaptchaButtonState createState() => _PhoneCaptchaButtonState();
 }
 
 class _PhoneCaptchaButtonState extends State<PhoneCaptchaButton> {
-  final onCallback;
-  _PhoneCaptchaButtonState(this.onCallback);
   Timer _countdownTimer;
   final int cd = 60;
   String title = '短信验证';
@@ -21,7 +19,7 @@ class _PhoneCaptchaButtonState extends State<PhoneCaptchaButton> {
       _onPressed = null;
     });
 
-    bool success = await onCallback();
+    bool success = await widget.onCallback();
     if(!success){
       setState(() {
         _onPressed = countdown;

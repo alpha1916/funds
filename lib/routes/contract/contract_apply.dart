@@ -10,22 +10,26 @@ class ContractApplyPage extends StatefulWidget {
   final int type;
   ContractApplyPage(this.dataList, [this.type = 0]);
   @override
-  _ContractApplyPageState createState() => _ContractApplyPageState(dataList, type);
+  _ContractApplyPageState createState() => _ContractApplyPageState();
 }
 
 class _ContractApplyPageState extends State<ContractApplyPage> {
-  final List<ContractApplyItemData> dataList;
+  List<ContractApplyItemData> dataList;
   int _currentTypeIdx = 0;
   int _currentTimesIdx = 0;
   int _inputLoadAmount;
 
-  _ContractApplyPageState(this.dataList, type) {
+  @override
+  void initState() {
+    super.initState();
+
+    dataList = widget.dataList;
     ContractApplyItemData currentData;
-    if(type == 0){
+    if(widget.type == 0){
       currentData = dataList[0];
       _currentTypeIdx = 0;
     }else{
-      currentData = dataList.firstWhere((data) => data.type == type);
+      currentData = dataList.firstWhere((data) => data.type == widget.type);
       _currentTypeIdx = dataList.indexOf(currentData);
     }
   }

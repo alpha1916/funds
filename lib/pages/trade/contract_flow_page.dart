@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
-import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 
 class ContractFlowPage extends StatefulWidget {
   final ContractFlowData data;
   ContractFlowPage(this.data);
   @override
-  _ContractFlowPageState createState() => _ContractFlowPageState(data);
+  _ContractFlowPageState createState() => _ContractFlowPageState();
 }
 
 class _ContractFlowPageState extends State<ContractFlowPage>
     with SingleTickerProviderStateMixin{
-  final ContractFlowData data;
-  _ContractFlowPageState(this.data);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +31,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     );
   }
   _buildInfoView() {
+    ContractFlowData data = widget.data;
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: a.px16, top: a.px10),
@@ -139,6 +137,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
   }
 
   _buildListView() {
+    ContractFlowData data = widget.data;
 //  final dataList = [];
     return Expanded(
       child: TabBarView(

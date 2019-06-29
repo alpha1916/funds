@@ -19,11 +19,10 @@ class CurrentContractDetail extends StatefulWidget {
   final ContractData data;
   CurrentContractDetail(this.data);
   @override
-  _CurrentContractDetailState createState() => _CurrentContractDetailState(data);
+  _CurrentContractDetailState createState() => _CurrentContractDetailState();
 }
 
 class _CurrentContractDetailState extends State<CurrentContractDetail> {
-  _CurrentContractDetailState(this.data);
   ContractData data;
 
   _refresh() async {
@@ -39,6 +38,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    data = widget.data;
   }
 
   @override
