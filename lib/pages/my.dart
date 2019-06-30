@@ -71,7 +71,7 @@ class _MyViewState extends State<MyView> {
     if(hasDivider)
       children.add(Container(height: a.px30, width: 1,color: Colors.white30,));
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.transparent,
         padding: EdgeInsets.only(left: a.px20),
@@ -241,7 +241,7 @@ class _MyViewState extends State<MyView> {
     final titleStyle = TextStyle(color: Colors.black87, fontSize: a.px16);
     final tipsStyle = TextStyle(color: Colors.black54, fontSize: a.px16);
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
           color: Colors.white,
           padding: EdgeInsets.only(left: a.px15, right: a.px16, top: a.px10, bottom: a.px10),

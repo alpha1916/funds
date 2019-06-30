@@ -33,7 +33,7 @@ class FundsDetailPage extends StatelessWidget {
   }
 
   _buildTopView() {
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: CustomColors.backgroundBlue,
         padding: EdgeInsets.symmetric(vertical: a.px25),
@@ -80,7 +80,7 @@ class FundsDetailPage extends StatelessWidget {
   }
 
   _buildNumberItemView(icon, title, value, onPressed){
-    return GestureDetector(
+    return InkWell(
       child: Container(
         padding: EdgeInsets.all(a.px16),
         color: Colors.white,

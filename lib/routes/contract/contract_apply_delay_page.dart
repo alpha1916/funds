@@ -122,7 +122,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
   }
 
   _buildDaySelectView(){
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.white,
         padding: _itemPadding,

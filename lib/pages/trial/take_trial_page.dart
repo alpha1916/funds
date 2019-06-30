@@ -164,7 +164,7 @@ class _TrialItem extends StatelessWidget {
         ),
       ));
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         decoration: _decoration(),
         width: size,

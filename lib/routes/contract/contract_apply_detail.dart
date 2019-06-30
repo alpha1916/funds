@@ -150,7 +150,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       return view;
     }
 
-    return GestureDetector(
+    return InkWell(
       child: view,
       onTap: onPressed,
     );
@@ -202,7 +202,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       Icon(Icons.arrow_forward_ios, color: Colors.black26, size: a.px20),
     );
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.only(left: px12, right: px12, top: px12, bottom: px12),

@@ -184,7 +184,7 @@ class _StockCancelViewState extends State<StockCancelView> {
       ),
     );
 
-    return GestureDetector(
+    return InkWell(
       child: itemView,
       onTap: () {
         print('select item:$index');

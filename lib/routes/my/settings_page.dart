@@ -59,7 +59,7 @@ class SettingsPage extends StatelessWidget {
     if(rightText != '')
       setupText = rightText;
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
         color: Colors.white,

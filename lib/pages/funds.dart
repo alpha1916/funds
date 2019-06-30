@@ -85,7 +85,7 @@ class _ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       child: createView(),
       onTap: () {
         this.onPressed(data.type);

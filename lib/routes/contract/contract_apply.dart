@@ -136,7 +136,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       bgColor = Colors.white;
     }
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         decoration: BoxDecoration(
           color: bgColor,
@@ -253,7 +253,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       bgColor = Colors.grey;
     }
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         decoration: BoxDecoration(
           color: bgColor,

@@ -49,7 +49,7 @@ class _StockQueryViewState extends State<StockQueryView> {
       ),
     );
 
-    return GestureDetector(
+    return InkWell(
       child: view,
       onTap: onPressed,
     );

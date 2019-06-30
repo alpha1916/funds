@@ -359,12 +359,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           SizedBox(
             width: 5,
           ),
-          GestureDetector(
-            child: Icon(
-              Icons.help,
-              size: a.px24,
-            ),
-            onTap: onPressed,
+          IconButton(
+            icon: Icon(Icons.help),
+            iconSize: a.px24,
+            onPressed: onPressed,
           ),
         ],
       );

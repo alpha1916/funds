@@ -21,7 +21,7 @@ class MailPage extends StatelessWidget {
           MailData data = dataList[index];
           int type = data.type;
           String imgPath = 'assets/mail/mail_type$type.png';
-          return GestureDetector(
+          return InkWell(
             child: Container(
               padding: EdgeInsets.fromLTRB(a.px16, a.px16, 0, 0),
               color: Colors.white,

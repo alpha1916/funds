@@ -24,7 +24,7 @@ class LocationSelectPage extends StatelessWidget {
     var data = dataList[index];
     String name = data['name'];
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.transparent,
         padding: EdgeInsets.only(left: a.px24),

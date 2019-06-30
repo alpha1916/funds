@@ -68,7 +68,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
   }
 
   _buildSettableItem(title, value, onPressed){
-    return GestureDetector(
+    return InkWell(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px16),
         color: Colors.white,

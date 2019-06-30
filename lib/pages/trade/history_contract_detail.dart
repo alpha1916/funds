@@ -159,7 +159,7 @@ class HistoryContractDetail extends StatelessWidget {
   }
 
   _buildClickableItem(title , onPressed) {
-    return GestureDetector(
+    return InkWell(
       child: Container(
         padding: _itemPadding,
         color: Colors.white,

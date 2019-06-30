@@ -39,7 +39,7 @@ class BankSelectPage extends StatelessWidget {
       children.add(SizedBox(width: a.px24,));
     }
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.transparent,
         padding: EdgeInsets.only(left: a.px24),

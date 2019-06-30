@@ -81,7 +81,7 @@ class CouponSelectPage extends StatelessWidget {
       list.add(SizedBox(width: 5));
     }
 
-    return GestureDetector(
+    return InkWell(
       child: Container(
         height: itemHeight,
         margin: EdgeInsets.fromLTRB(margin, margin, margin, 0),

@@ -142,7 +142,7 @@ class StockTradeFrame extends StatelessWidget{
         )
       );
 
-      return GestureDetector(
+      return InkWell(
         child: view,
         onTap: onPressed,
       );

@@ -94,7 +94,7 @@ class _RechargePageState extends State<RechargePage> {
                   '转账备注',
                   style: TextStyle(fontSize: fontSize),
                 ),
-                GestureDetector(
+                InkWell(
                   child: Container(
                     color: Colors.transparent,
                     child: Row(
@@ -161,7 +161,7 @@ class _RechargePageState extends State<RechargePage> {
   }
 
   _buildProofView() {
-    return GestureDetector(
+    return InkWell(
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(vertical: a.px30),

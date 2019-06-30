@@ -187,7 +187,7 @@ class WithdrawPage extends StatelessWidget {
             Row(
               children: <Widget>[
                 Utils.expanded(),
-                GestureDetector(
+                InkWell(
                   child: Text('忘记提款密码？', style: TextStyle(fontSize: a.px16, color: Colors.blueAccent),),
                   onTap: () { Utils.navigateTo(ForgetPasswordPage()); },
                 ),

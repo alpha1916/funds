@@ -35,7 +35,7 @@ class StockListView extends StatelessWidget {
                 Expanded(
                   child:ListView.builder(
                     itemBuilder: (BuildContext context, int index){
-                      return GestureDetector(
+                      return InkWell(
                         child: _buildStockItem(index, sizeList, leftPadding, rightPadding),
                         onTap: (){
                           onItemSelected(dataList[index]);

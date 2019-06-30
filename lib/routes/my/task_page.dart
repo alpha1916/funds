@@ -53,7 +53,7 @@ class _TaskPageState extends State<TaskPage> {
   _buildSignButton() {
     String text = signed ? '今日已签' : '签到';
     Color backgroundColor = signed ? Colors.grey : CustomColors.red;
-    return GestureDetector(
+    return InkWell(
       child: CircleAvatar(
         backgroundColor: backgroundColor,
         radius: a.px44,

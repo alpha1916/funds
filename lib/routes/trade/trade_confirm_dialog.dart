@@ -57,7 +57,7 @@ class TradeConfirmDialog extends StatelessWidget {
   }
 
   _buildConfirmButton(btnTitle) {
-    return GestureDetector(
+    return InkWell(
       child:Container(
         margin: EdgeInsets.symmetric(vertical: a.px12),
         color: Colors.transparent,
