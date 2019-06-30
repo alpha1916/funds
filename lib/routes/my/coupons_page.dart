@@ -107,8 +107,9 @@ class _CouponsPageState extends State<CouponsPage> {
             ),
           ),
           Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          SizedBox(height: a.px8),
           _buildCouponsView(_shopCoupons, true),
-          SizedBox(height: a.px16),
+          SizedBox(height: a.px8),
         ],
       ),
     );
@@ -127,78 +128,77 @@ class _CouponsPageState extends State<CouponsPage> {
     if(coupons == null || coupons.length == 0){
       return Container();
     }
+    return Column(
+      children: coupons.map<Widget>((data) => _buildCouponItem(data, saleable)).toList(),
+    );
+  }
 
-    final double itemHeight = a.px(70);
+  _buildCouponItem(CouponData data, saleable) {
     final BorderSide borderSide = BorderSide(width: a.px(0.5), style: BorderStyle.solid, color: Colors.black26);
     Border border = Border(top: borderSide, bottom: borderSide, right: borderSide);
+    String tips = data.integral != null ? '${data.integral} 积分' : '有效期至：${data.expireDate}';
     return Container(
-      child: Column(
-        children: coupons.map((data) {
-          String tips = data.integral != null ? '${data.integral} 积分' : '有效期至：${data.expireDate}';
-          List<Widget> list = [
-            Container(
-              width: itemHeight * 282 / 134,
-              height: itemHeight,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(_getBGPath(data.cost)),
-                  fit: BoxFit.fitHeight,
+      decoration: BoxDecoration(
+        border: border,
+      ),
+      margin: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(_getBGPath(data.cost)),
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: a.px12),
+                    Text('￥\n', style: TextStyle(color: Colors.white, fontSize: a.px25, fontWeight: FontWeight.w500)),
+                    Expanded(child: Container(),),
+                    Text(data.cost.toString(), style: TextStyle(color: Colors.white, fontSize: a.px36)),
+                    SizedBox(width: a.px8),
+                  ],
                 ),
               ),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: a.px12,),
-                  Text('￥\n', style: TextStyle(color: Colors.white, fontSize: a.px25)),
-                  Expanded(child: Container(),),
-                  Text(data.cost.toString(), style: TextStyle(color: Colors.white, fontSize: a.px36)),
-                  SizedBox(width: a.px12,),
-                ],
-              ),
             ),
-            Container(
-              width: a.px(232),
-              padding: EdgeInsets.only(left: a.px10, right: a.px20),
-              decoration: BoxDecoration(
-                border: border,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
-                      SizedBox(height: a.px3,),
-                      Text(tips, style: TextStyle(color: Colors.black54, fontSize: a.px14)),
-                    ],
-                  ),
-                  saleable ? GestureDetector(
-                    child: CircleAvatar(
-                      radius: a.px14,
-                      backgroundColor: Colors.black,
-                      child: Text('兑', style: TextStyle(fontSize: a.px18, color: Colors.white),),
-                    ),
-                    onTap: (){
-                      _onPressedExchange(data);
-                    },
-                  ) : Container(),
-                ],
-              ),
-            ),
-          ];
 
-          return Container(
-            height: itemHeight,
-            margin: EdgeInsets.fromLTRB(a.px16, a.px16, a.px16, 0),
-            color: Colors.white,
-            child: Row(
-              children: list,
+            Expanded(
+              flex: 8,
+              child: Container(
+                padding: EdgeInsets.only(left: a.px10, right: a.px20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
+                        SizedBox(height: a.px3,),
+                        Text(tips, style: TextStyle(color: Colors.black54, fontSize: a.px14)),
+                      ],
+                    ),
+                    saleable ? InkWell(
+                      child: CircleAvatar(
+                        radius: a.px14,
+                        backgroundColor: Colors.black,
+                        child: Text('兑', style: TextStyle(fontSize: a.px18, color: Colors.white),),
+                      ),
+                      onTap: (){
+                        _onPressedExchange(data);
+                      },
+                    ) : Container(),
+                  ],
+                ),
+              ),
             ),
-          );
-        }).toList(),
-      )
-    );
+          ],
+        ),
+      );
   }
 
   _onPressedExchange(CouponData data) async{

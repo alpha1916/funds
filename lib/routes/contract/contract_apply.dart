@@ -39,6 +39,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     ctx = context;
     final realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('申请合约'),
         actions: [

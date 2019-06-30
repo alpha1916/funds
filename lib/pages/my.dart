@@ -5,7 +5,6 @@ import 'package:funds/model/account_data.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/my/settings_page.dart';
-import 'package:funds/routes/my/withdraw_page.dart';
 import 'package:funds/routes/my/cash_flow_page.dart';
 import 'package:funds/routes/my/funds_detail_page.dart';
 
@@ -120,7 +119,7 @@ class _MyViewState extends State<MyView> {
     }
 
     return Container(
-      height: a.px(200),
+      padding: EdgeInsets.symmetric(vertical: a.px(60)),
       color: Color(0xFF201F46),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -135,7 +134,6 @@ class _MyViewState extends State<MyView> {
   
   _buildTopView() {
     return Container(
-      height: a.px(200),
       color: CustomColors.backgroundBlue,
       child: Column(
         children: <Widget>[
@@ -323,11 +321,15 @@ class _MyViewState extends State<MyView> {
 
   _onPressCashFlow () async{
     print('press cash flow');
+    if(Utils.needLogin())
+      return;
+
     Utils.navigateTo(CashFlowPage());
   }
 
   _onPressCoupons () {
-    print('press coupons');
+    if(Utils.needLogin())
+      return;
     Utils.navigateTo(CouponsPage());
   }
 
@@ -353,13 +355,12 @@ class _MyViewState extends State<MyView> {
   
   _onPressContract() {
     print('press contract');
-    Utils.appMainTabSwitch(3);
+    Utils.appMainTabSwitch(AppTabIndex.trade);
   }
 
   _onPressFund() {
+    if(Utils.needLogin())
+      return;
     Utils.navigateTo(FundsDetailPage());
   }
 }
-
-//1、“首页”对比涨8去掉新手学堂、任务中心、分享赚钱。
-//2、“我的”去掉金币商城、任务中心、我的订单。积分卡券换成优惠卡券。

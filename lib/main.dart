@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'common/constants.dart';
 import 'common/utils.dart';
 import 'common/custom_dialog.dart';
-//import 'package:funds/network/http_request.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/model/account_data.dart';
 
@@ -116,7 +115,6 @@ class _AppState extends State<App> {
 
     AccountData.getInstance().getLocalToken();
 
-    //
     _navigationIconViews = viewDataList.map((list) {
       return NavigationIconView(
         title: list[0],
@@ -134,17 +132,6 @@ class _AppState extends State<App> {
       MyView(),
     ];
 
-//    _pages = [
-//      Container(color: Colors.blueAccent),
-//      Container(color: Colors.green),
-//      Container(color: Colors.black26),
-//      Container(color: Colors.pink),
-//      Container(color: Colors.purple),
-//    ];
-
     _initialized = true;
-
-//    if(Global.debug)
-//      _currentIndex = 3;
   }
 }
