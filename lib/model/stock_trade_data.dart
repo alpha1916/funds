@@ -1,4 +1,5 @@
 import 'package:funds/common/utils.dart';
+import 'package:funds/common/constants.dart';
 
 class StockHoldData{
   int id;
@@ -38,6 +39,7 @@ class StockEntrustData{
   final int type;
   final String strDay;
   final String strTime;
+  final String strState;
 
   StockEntrustData(data):
         id = data['id'],
@@ -46,6 +48,7 @@ class StockEntrustData{
         price = data['entrustPrice'],
         count = data['entrustNumber'],
         type = data['entrustType'],
+        strState = tradeFlowStatus[data['entrustType']] ?? '状态${data['entrustType']}',
         strDay = data['entrustTime'].split(' ')[0],
         strTime = data['entrustTime'].split(' ')[1];
 }

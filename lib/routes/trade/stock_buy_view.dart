@@ -12,12 +12,11 @@ import 'package:funds/common/custom_dialog.dart';
 class StockBuyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    realWidth = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         children: <Widget>[
           StockTradeFrame(),
-          SizedBox(height: a.px10,),
+          SizedBox(height: a.px10),
           Expanded(
             child: StockListView(onSelectStock),
           ),
@@ -52,10 +51,17 @@ class StockTradeFrame extends StatelessWidget{
         }
 
         return Container(
+          color: Colors.white,
           child: Row(
             children: <Widget>[
-              _buildInfoView(),
-              _buildListView(),
+              Expanded(
+                flex: 6,
+                child: _buildInfoView(),
+              ),
+              Expanded(
+                flex: 4,
+                child: _buildListView(),
+              )
             ],
           ),
         );
@@ -67,14 +73,15 @@ class StockTradeFrame extends StatelessWidget{
 
   _buildInfoView() {
     return Container(
-      color: Colors.white,
-      width: realWidth * 0.6,
-      height: realWidth * 0.7,
+      padding: EdgeInsets.symmetric(horizontal: a.px15, vertical: a.px15),
       child: Column(
         children: <Widget>[
           _buildTitleView(),
+          SizedBox(height: a.px10),
           _buildPriceView(),
+          SizedBox(height: a.px10),
           _buildLimitView(),
+          SizedBox(height: a.px10),
           buildCountView(),
           _buildButton(),
         ],
@@ -88,18 +95,14 @@ class StockTradeFrame extends StatelessWidget{
 
   _buildTitleView() {
     return Container(
-      margin: EdgeInsets.only(top:a.px20, left: a.px15, right: a.px15),
       padding: EdgeInsets.symmetric(horizontal: a.px10),
-//      width: a.px(220),
-      height: a.px50,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black26, width: a.px1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            width: a.px(100),
+          Expanded(
             child: TextField(
               textAlign: TextAlign.left,
               controller: codeInputController,
@@ -107,7 +110,8 @@ class StockTradeFrame extends StatelessWidget{
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '股票代码',
-                labelStyle: TextStyle(fontSize: a.px30),
+                hintStyle: TextStyle(fontSize: a.px16),
+                labelStyle: TextStyle(fontSize: a.px16),
               ),
               autofocus: false,
               onChanged: _onCodeInputChange,
@@ -149,7 +153,6 @@ class StockTradeFrame extends StatelessWidget{
     }
     return Container(
       height: a.px50,
-      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black26, width: a.px1),
       ),
@@ -231,7 +234,6 @@ class StockTradeFrame extends StatelessWidget{
     double downLimitPrice = stockInfo?.downLimitedPrice ?? 0.00;
     double upLimitPrice = stockInfo?.upLimitedPrice ?? 0.00;
     return Container(
-      margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -268,9 +270,7 @@ class StockTradeFrame extends StatelessWidget{
       builder: (BuildContext context, AsyncSnapshot<int> snapshot){
         String tips = tradeCountPrefix + '${snapshot.data}股';
         return Container(
-          margin: EdgeInsets.only(top:a.px10, left: a.px15, right: a.px15),
           padding: EdgeInsets.symmetric(horizontal: a.px10),
-//      width: a.px220),
           height: a.px50,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black26, width: a.px1),
@@ -309,27 +309,28 @@ class StockTradeFrame extends StatelessWidget{
       'count': count,
     };
 
-//    var confirm = await TradeConFirmDialog.show(type, data);
     var confirm = await CustomDialog.showCustomDialog(TradeConfirmDialog(type, data));
-    if(confirm == null)
-      return false;
-
-    return true;
+    return confirm != null;
   }
 
   onBtnTrade() async{
     if(stockInfo == null)
       return;
 
-    int count = int.parse(countInputController.text);
-    if(count > 0){
+    if(countInputController.text.isEmpty){
+      alert('请输入委买数量');
+      return;
+    }
+
+    int count = Utils.parseInt(countInputController.text);
+    if(count != null){
       if(count % 100 != 0){
         alert('委买数量必须是100的整数倍');
         return;
       }
-
     }else{
       alert('请输入正确的委买数量');
+      return;
     }
 
     double price = getInputPrice();
@@ -371,15 +372,12 @@ class StockTradeFrame extends StatelessWidget{
   /*------------------------------------------------列表 start---------------------------------------------------*/
   _buildListView() {
     return Container(
-      color: Colors.white,
-      width: realWidth * 0.4,
-      height: realWidth * 0.7,
       padding: EdgeInsets.symmetric(vertical: a.px16),
       child: Column(
         children: <Widget>[
           _buildSellListView(stockInfo?.sellList),
           Container(
-            margin: EdgeInsets.only(left: a.px4, right: a.px8, bottom: a.px16, top: a.px16),
+            margin: EdgeInsets.only(bottom: a.px12, top: a.px12),
             color: Colors.black12,
             height: a.px1,
           ),
@@ -406,29 +404,27 @@ class StockTradeFrame extends StatelessWidget{
         }
       }
 
-      double width = realWidth * 0.4;
       double fontSize = a.px14;
       list.add(Container(
-        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px2),
+        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px3),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              width: width * 0.2,
-              alignment: FractionalOffset.topLeft,
+            Expanded(
+              flex: 2,
               child: Text('买${i + 1}', style: TextStyle(fontSize: fontSize),),
             ),
-            Container(
-              width: width * 0.3,
-              alignment: FractionalOffset.center,
-              child: Text(strPrice, style: TextStyle(fontSize: fontSize, color: priceColor),),
+            Expanded(
+              flex: 3,
+              child: Center(child: Text(strPrice, style: TextStyle(fontSize: fontSize, color: priceColor),)),
             ),
-            Container(
-              width: width * 0.3,
-              alignment: FractionalOffset.topRight,
-              child: Text(strCount, style: TextStyle(fontSize: fontSize),),
+            Expanded(
+              flex: 3,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(strCount, style: TextStyle(fontSize: fontSize),),
+              )
             ),
-
           ],
         ),
       ));
@@ -455,27 +451,26 @@ class StockTradeFrame extends StatelessWidget{
         }
       }
 
-      double width = realWidth * 0.4;
       double fontSize = a.px14;
       list.add(Container(
-        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px2),
+        margin: EdgeInsets.only(left: a.px2, right: a.px14, top: a.px3),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              width: width * 0.2,
-              alignment: FractionalOffset.topLeft,
+            Expanded(
+              flex: 2,
               child: Text('卖${i + 1}', style: TextStyle(fontSize: fontSize),),
             ),
-            Container(
-              width: width * 0.3,
-              alignment: FractionalOffset.center,
-              child: Text(strPrice, style: TextStyle(fontSize: fontSize, color: priceColor),),
+            Expanded(
+              flex: 3,
+              child: Center(child: Text(strPrice, style: TextStyle(fontSize: fontSize, color: priceColor),)),
             ),
-            Container(
-              width: width * 0.3,
-              alignment: FractionalOffset.topRight,
-              child: Text(strCount, style: TextStyle(fontSize: fontSize),),
+            Expanded(
+                flex: 3,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(strCount, style: TextStyle(fontSize: fontSize),),
+                )
             ),
 
           ],

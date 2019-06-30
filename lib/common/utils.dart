@@ -348,4 +348,9 @@ class CustomTextEditingController extends TextEditingController{
   static CustomTextEditingController buildBankCardEditingController(){
     return CustomTextEditingController(invalidTips: '请输入银行卡号', validator: (str) => str.length > 0);
   }
+
+//  getNowTime(){
+//    DateTime now = DateTime.now();
+//    return now.toString().padRight(width)
+//  }
 }

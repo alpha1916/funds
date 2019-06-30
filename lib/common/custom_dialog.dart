@@ -85,6 +85,7 @@ class CustomDialog {
         builder: (context) {
           return Center(
             child: Material(
+              clipBehavior: Clip.hardEdge,
               borderRadius: BorderRadius.all(Radius.circular(a.px12)),
               child: dialog,
             )

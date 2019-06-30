@@ -97,6 +97,7 @@ flutter:
     - assets/my/ic_gold.png
     - assets/my/ic_integral.png
     - assets/my/ic_task.png
+    - assets/my/ic_version.png
 
     - assets/contract/meter.png
     - assets/contract/meter_arrow.png

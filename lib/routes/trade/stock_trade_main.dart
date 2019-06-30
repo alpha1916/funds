@@ -49,9 +49,9 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
         ),
       ),
       body: _buildPageBody(),
+      resizeToAvoidBottomPadding: false,
     );
   }
-
 
   final tabBarTitles = ['持仓', '买入', '卖出', '撤单', '查询',];
   List<Widget> tabBarViews = [];

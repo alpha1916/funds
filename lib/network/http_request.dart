@@ -50,7 +50,7 @@ class HttpRequest {
 
     try {
       Loading.show();
-      print('http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
+      print('[${DateTime.now().toString().substring(11)}]http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
       Response response;
       RequestOptions options;
       if(token != null) {
@@ -77,7 +77,7 @@ class HttpRequest {
       print('response.statusCode:${response.statusCode}');
       if(response.statusCode == 200){
         var data = response.data;
-        print(data.toString());
+        print('[${DateTime.now().toString().substring(11)}]response:${data.toString()}');
         if(noBusinessErrorCodes.indexOf(data['code']) == -1){
           handleBusinessCode(data['code'], data['desc']);
 //          alert(data['desc']);
@@ -334,6 +334,7 @@ class RechargeRequest{
     final String api = '/api/v1/capital/pay/payReq';
     var data = {
       'money': money,
+      'remarks': comment,
       'url': 'test',
     };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);

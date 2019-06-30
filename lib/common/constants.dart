@@ -29,6 +29,7 @@ class CustomIcons {
   static const myCoupon = 'assets/my/ic_coupon.png';
   static const myAsset = 'assets/my/ic_asset.png';
   static const myAbout = 'assets/my/ic_about.png';
+  static const version = 'assets/my/ic_version.png';
   static const gold = 'assets/my/ic_gold.png';
   static const integral = 'assets/my/ic_integral.png';
   static const task = 'assets/my/ic_task.png';
@@ -226,4 +227,20 @@ class Global{
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
+  static String version = '0.0.3';
 }
+
+final Map<int, String>tradeFlowStatus = {
+  -1: '委托失败',
+  0: '委托中',
+  1: '未报',
+  2: '未报',
+  3: '未报',
+  4: '已报',
+  5: '废单',
+  6: '部分成交',
+  7: '已成交',
+  8: '部分撤单',
+  9: '已撤单',
+  10: '待撤单',
+};

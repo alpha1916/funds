@@ -176,8 +176,6 @@ class ContractData {
 
 }
 
-final tradeFlowStatus = ['未知', '已成交'];
-
 class TradeFlowData{
   final String title;
   final String code;

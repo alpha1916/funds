@@ -65,7 +65,6 @@ class _StockCancelViewState extends State<StockCancelView> {
   final List<double> _sizeListRate = [0.1, 0.2, 0.2, 0.2, 0.3];
 
   _buildTitleList(sizeList, leftPadding, rightPadding) {
-//    return SizedBox(height: 10,);
     return Container(
       padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
       child:Row(
@@ -150,7 +149,7 @@ class _StockCancelViewState extends State<StockCancelView> {
                   children: <Widget>[
                     Align(
                       alignment: FractionalOffset.topLeft,
-                      child: Text('挂单', style: TextStyle(fontSize: fontSize),),
+                      child: Text(data.strState, style: TextStyle(fontSize: fontSize),),
                     ),
                     Align(
                       alignment: FractionalOffset.topLeft,
