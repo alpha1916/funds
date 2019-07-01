@@ -10,6 +10,7 @@ class LocationSelectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title:Text(title),
       ),
@@ -36,7 +37,7 @@ class LocationSelectPage extends StatelessWidget {
               child: Text(name, style: TextStyle(fontWeight: FontWeight.w500, fontSize: a.px16),),
             ),
             SizedBox(height: a.px16,),
-            Utils.buildSplitLine(),
+            Divider(height: 1),
           ],
         ),
       ),

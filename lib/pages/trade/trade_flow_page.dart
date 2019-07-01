@@ -3,6 +3,8 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 
+//import 'package:funds/common/widgets/custom_data_table.dart';
+
 class TradeFlowPage extends StatelessWidget {
   final List<TradeFlowData> dataList;
   final String title;
@@ -10,11 +12,6 @@ class TradeFlowPage extends StatelessWidget {
   TradeFlowPage(this.title, this.type, this.dataList);
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
-    double leftPadding = a.px10;
-    double rightPadding = 0;
-    double itemWidth = realWidth - leftPadding - rightPadding;
-    List<double> sizeList = _sizeListRate.map((rate) => itemWidth * rate).toList();
     return Scaffold(
       appBar: AppBar(
           title: Text(title)
@@ -23,24 +20,29 @@ class TradeFlowPage extends StatelessWidget {
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              _buildTitleList(sizeList, leftPadding, rightPadding),
-              Container(height: a.px1, color: Colors.black12),
-              Expanded(
-                child:ListView.builder(
-                  itemBuilder: (BuildContext context, int index){
-                    return _buildStockItem(index, sizeList, leftPadding, rightPadding);
-                  },
-                  itemCount: dataList.length,
-                ),
-              ),
+              _buildTitleColumn(),
+              Divider(height: a.px1),
+              _buildDataRows(),
             ],
           )
       ),
     );
   }
 
+  _buildDataRows(){
+    return Expanded(
+      child:ListView.builder(
+        itemBuilder: (BuildContext context, int index){
+          TradeFlowData data = dataList[index];
+          return _buildStockItem(data);
+        },
+        itemCount: dataList.length,
+      ),
+    );
+  }
+
   _getStateText() {
-    String text;
+    String text = '';
     if(type == StateType.deal)
       text = '成交';
     else if(type == StateType.noDeal)
@@ -49,119 +51,145 @@ class TradeFlowPage extends StatelessWidget {
     return text;
   }
 
-  final List<double> _sizeListRate = [0.25, 0.25, 0.25, 0.25];
+  final List<int> _rowFlex = [1, 1, 1, 1];
 
-  _buildTitleList(sizeList, leftPadding, rightPadding) {
+  _buildTitleColumn() {
     final _titles = ['名称/代码', '价格/数量', '状态/类型', '${_getStateText()}时间'];
-    buildText(title, alignment){
-      Widget text = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500));
-      text = Align(
-        alignment: alignment,
-        child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500)),
-      );
-      return text;
-    }
-
     return Container(
-      padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: a.px8, bottom: a.px8),
+      padding: EdgeInsets.symmetric(horizontal: a.px10, vertical: a.px8),
       child:Row(
         children: _titles.map((title){
           final int idx = _titles.indexOf(title);
-          return Container(
-            padding: EdgeInsets.only(right: leftPadding),
-            width: sizeList[idx],
-            child: buildText(title, idx < 3 ? FractionalOffset.topLeft : FractionalOffset.topRight),
+          TextAlign align = idx < 3 ? TextAlign.left : TextAlign.right;
+          return Expanded(
+              flex: _rowFlex[idx],
+              child: Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500), textAlign: align),
           );
         }).toList(),
       ),
     );
   }
 
-  _buildStockItem(index, sizeList, leftPadding, rightPadding) {
-    TradeFlowData data = dataList[index];
-    double fontSize = a.px15;
+  _buildRow({flex, text1, text2, alignment = FractionalOffset.centerLeft, color}){
+    return Expanded(
+      flex : flex,
+      child: Column(
+        children: <Widget>[
+          Align(
+            alignment: alignment,
+            child: Text(text1, style: TextStyle(fontSize: a.px15, fontWeight: FontWeight.w500),),
+          ),
+          SizedBox(height: a.px6,),
+          Align(
+            alignment: alignment,
+            child: Text(text2, style: TextStyle(fontSize: a.px15, color: color, fontWeight: FontWeight.w500),),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildStockItem(TradeFlowData data) {
     return Container(
       color: Colors.transparent,
-//      margin: EdgeInsets.only(right: rightPadding, top: a.px8, bottom: a.px8),
       child: Column(
         children: <Widget>[
           SizedBox(height: a.px10,),
           Row(
             children: <Widget>[
+              SizedBox(width: a.px10,),
               //名称/代码
-              Container(
-                padding: EdgeInsets.only(left: leftPadding),
-                width: sizeList[0],
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(data.title, style: TextStyle(fontSize: fontSize),),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(data.code.toString(), style: TextStyle(fontSize: fontSize),),
-                    ),
-                  ],
-                ),
-              ),
+              _buildRow(flex: _rowFlex[0], text1: data.title, text2: data.code),
               //价格/数量
-              Container(
-                padding: EdgeInsets.only(left: leftPadding),
-                width: sizeList[1],
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(data.price.toStringAsFixed(2), style: TextStyle(fontSize: fontSize),),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(Utils.getTrisectionInt(data.count.toString()), style: TextStyle(fontSize: fontSize)),
-                    ),
-                  ],
-                ),
-              ),
+              _buildRow(flex: _rowFlex[1], text1: Utils.getTrisection(data.price), text2: Utils.getTrisectionInt(data.count.toString()), color: Utils.getEntrustTypeColor(data.type)),
               //状态/类型
-              Container(
-                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
-                width: sizeList[2],
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(data.strState, style: TextStyle(fontSize: fontSize),),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(data.strType, style: TextStyle(fontSize: fontSize, color: Utils.getEntrustTypeColor(data.type))),
-                    ),
-                  ],
-                ),
-              ),
+              _buildRow(flex: _rowFlex[2], text1: data.strState, text2: data.strType),
               //成交时间
-              Container(
-                padding: EdgeInsets.only(left: leftPadding, right: a.px5),
-                width: sizeList[3],
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: FractionalOffset.topRight,
-                      child: Text(data.strDay, style: TextStyle(fontSize: fontSize),),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.topRight,
-                      child: Text(data.strTime, style: TextStyle(fontSize: fontSize)),
-                    ),
-                  ],
-                ),
-              ),
+              _buildRow(flex: _rowFlex[3], text1: data.strDay, text2: data.strTime, alignment: FractionalOffset.centerRight),
+              SizedBox(width: a.px10,),
             ],
           ),
           SizedBox(height: a.px10),
-          Container(height: a.px1, color: Colors.black12),
+          Divider(height: a.px1),
         ],
       ),
     );
   }
 }
+
+//class TradeFlowPage extends StatelessWidget {
+//  final List<TradeFlowData> dataList;
+//  final String title;
+//  final int type;
+//
+//  TradeFlowPage(this.title, this.type, this.dataList);
+//  _getStateText() {
+//    String text = '';
+//    if(type == StateType.deal)
+//      text = '成交';
+//    else if(type == StateType.noDeal)
+//      text = '委托';
+//
+//    return text;
+//  }
+//  @override
+//  Widget build(BuildContext context) {
+//    final _titles = ['名称/代码', '价格/数量', '状态/类型', '${_getStateText()}时间'];
+//    return Scaffold(
+//      appBar: AppBar(
+//          title: Text(title)
+//      ),
+//      body: Container(
+//        color: Colors.white,
+//        child: CustomDataTable(
+//          flexes: [1, 1, 1, 1],
+//          headerColumns: _titles.map<Widget>((title){
+//            final int idx = _titles.indexOf(title);
+//            TextAlign align = idx < 3 ? TextAlign.left : TextAlign.right;
+//            return Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500), textAlign: align);
+//          }).toList(),
+//          rowBuilder: (index){
+//            TradeFlowData data = dataList[index];
+//            var row;
+//            switch(index){
+//              case 0:
+//                row = _buildRow(text1: data.title, text2: data.code);
+//                break;
+//              case 1:
+//                //价格/数量
+//                row = _buildRow(text1: Utils.getTrisection(data.price), text2: Utils.getTrisectionInt(data.count.toString()), color: Utils.getEntrustTypeColor(data.type));
+//                break;
+//              case 2:
+//                //状态/类型
+//                row = _buildRow(text1: data.strState, text2: data.strType);
+//                break;
+//
+//              case 3:
+//                //成交时间
+//                row = _buildRow(text1: data.strDay, text2: data.strTime, alignment: FractionalOffset.centerRight);
+//                break;
+//            }
+//            return row;
+//          },
+//          dataList: dataList,
+//        ),
+//      ),
+//    );
+//  }
+//
+//  _buildRow({text1, text2, alignment = FractionalOffset.centerLeft, color}){
+//    return Column(
+//      children: <Widget>[
+//        Align(
+//          alignment: alignment,
+//          child: Text(text1, style: TextStyle(fontSize: a.px15, fontWeight: FontWeight.w500),),
+//        ),
+//        SizedBox(height: a.px6,),
+//        Align(
+//          alignment: alignment,
+//          child: Text(text2, style: TextStyle(fontSize: a.px15, color: color, fontWeight: FontWeight.w500),),
+//        ),
+//      ],
+//    );
+//  }
+//}

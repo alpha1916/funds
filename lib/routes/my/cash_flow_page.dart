@@ -186,7 +186,7 @@ class _CashFlowPageState extends State<CashFlowPage>
                   ],
                 ),
                 SizedBox(height: a.px10),
-                Utils.buildSplitLine(),
+                Divider(height: 1),
               ],
             ),
           );

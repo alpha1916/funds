@@ -44,7 +44,7 @@ class MailPage extends StatelessWidget {
                     child: Text(data?.title ?? ' ', style: TextStyle(fontSize: a.px16, color: Colors.black54),),
                   ),
                   SizedBox(height: a.px16),
-                  Utils.buildSplitLine(),
+                  Divider(height: 1),
                 ],
               ),
             ),

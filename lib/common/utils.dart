@@ -188,21 +188,6 @@ class Utils {
     );
   }
 
-  static buildSplitLine({
-    height,
-    margin,
-    color = Colors.black12,
-  }){
-    if(height == null)
-      height = a.px(0.5);
-
-    return Container(
-      margin: margin,
-      color: color,
-      height: height,
-    );
-  }
-
   static showMoneyEnoughTips() async{
     bool confirm = await showConfirmOptionsDialog(tips: '您的现金余额不足');
     if(confirm)
@@ -213,16 +198,6 @@ class Utils {
     var selectIdx = await CustomDialog.show3(title, tips, cancelTitle, confirmTitle);
     return selectIdx == 2;
   }
-//
-//  static isValidPhoneNumber(String str) {
-//    return str.length == 11;
-////    return RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$').hasMatch(str);
-//  }
-
-//  static isValidPassword(String str) {
-//    final exp = r'^[a-zA-Z0-9]{6,16}$';
-//    return RegExp(exp).hasMatch(str);
-//  }
 
   static expanded(){
     return Expanded(child: Container(color: Colors.transparent));

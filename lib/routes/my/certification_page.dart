@@ -17,7 +17,7 @@ class CertificationPage extends StatelessWidget {
       body:Column(
         children: <Widget>[
           _buildItemView('真实姓名', nameController, '请输入您的姓名'),
-          Utils.buildSplitLine(),
+          Divider(height: 1),
           _buildItemView('身份证号', idController, '18位身份证号'),
           _buildTipsView(),
           SizedBox(height: a.px50),

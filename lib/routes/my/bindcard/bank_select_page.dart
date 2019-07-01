@@ -12,6 +12,7 @@ class BankSelectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title:Text('选择银行'),
       ),
@@ -48,7 +49,7 @@ class BankSelectPage extends StatelessWidget {
             SizedBox(height: a.px20,),
             Row(children: children),
             SizedBox(height: a.px20,),
-            Utils.buildSplitLine(),
+            Divider(height: 1),
           ],
         ),
       ),

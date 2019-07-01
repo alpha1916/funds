@@ -18,7 +18,7 @@ class ModifyPhoneVerifyPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           _buildPhoneView(fontSize),
-          Utils.buildSplitLine(),
+          Divider(height: 1),
           _buildCaptchaView(),
           SizedBox(height: a.px50),
           Utils.buildRaisedButton(title: '下一步', onPressed: _onPressedNext),
