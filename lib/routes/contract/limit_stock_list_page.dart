@@ -30,7 +30,7 @@ class LimitStockListPage extends StatelessWidget {
         data2 = dataList[i * 2 + 1];
       list.add(_buildItem(data1, data2));
       if(i < (count - 1))
-        list.add(Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px25)));
+        list.add(Divider(height: a.px1, indent: a.px25));
     }
     list.add(Container(
       padding: EdgeInsets.fromLTRB(a.px16, a.px20, a.px16, a.px50),

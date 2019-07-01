@@ -51,11 +51,11 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       body: Column(
         children: <Widget>[
           _buildInfoView(),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           _buildDaySelectView(),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           _buildEndDateView(),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           _buildCostView(),
           _buildTipsView(),
           _buildConfirmButton(),

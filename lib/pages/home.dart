@@ -127,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
               Utils.navigateTo(ContractApplyPage(_dataList, data.type));
             },
           ),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
         ],
       ),
     );

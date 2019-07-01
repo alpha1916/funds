@@ -91,7 +91,7 @@ class _StockCancelViewState extends State<StockCancelView> {
   _buildStockItem(index, sizeList, leftPadding, rightPadding) {
     StockEntrustData data = _dataList[index];
     double fontSize = a.px15;
-    bool selected = _selectedIdxs.indexOf(index) != -1;
+    bool selected = _selectedIdxs.contains(index);
     IconData selectedIconData = selected ? Icons.brightness_1 : Icons.panorama_fish_eye;
     Widget itemView = Container(
 //      margin: EdgeInsets.only(right: rightPadding, top: a.px8, bottom: a.px8),

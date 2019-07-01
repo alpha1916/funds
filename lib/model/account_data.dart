@@ -73,7 +73,7 @@ class AccountData {
   }
   
   isExperienceDone(int id) {
-    return experiences.indexOf(id) != -1;
+    return experiences.contains(id);
   }
 }
 

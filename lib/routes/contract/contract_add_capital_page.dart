@@ -27,7 +27,7 @@ class ContractAddCapitalPage extends StatelessWidget {
               ],
             ),
           ),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           Container(
             padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px2),
             color: Colors.white,

@@ -155,7 +155,7 @@ class Utils {
   static getTrisectionInt(String strValue){
     List<String> intPartList = [];
     while(strValue.length > 3){
-      intPartList.add(strValue.substring(strValue.length - 4, strValue.length - 1));
+      intPartList.add(strValue.substring(strValue.length - 3, strValue.length));
       strValue = strValue.substring(0, strValue.length - 3);
     }
     intPartList.add(strValue);

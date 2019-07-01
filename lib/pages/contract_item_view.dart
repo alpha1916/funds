@@ -112,7 +112,7 @@ class ContractItemView extends StatelessWidget {
                   ],
                 ),
               ),
-              Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16), height: a.px1),
+              Divider(height: a.px1, indent: a.px16),
               Container(
                 padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px10, bottom: a.px10),
                 child: Column(

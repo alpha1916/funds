@@ -16,7 +16,7 @@ class CurrentContractWithdrawPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           _buildCashView(),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px20)),
+          Divider(height: a.px1, indent: a.px20),
           _buildInputView(),
           _buildTipsView(),
           SizedBox(height: a.px30),

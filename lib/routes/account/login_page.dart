@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'login_input_view.dart';
 import 'register_input_view.dart';
-
-//class LoginPage extends StatefulWidget {
-//  @override
-//  _LoginPageState createState() => _LoginPageState();
-//}
+import 'package:funds/common/widgets/phone_captcha_button.dart';
 
 class LoginPage extends StatelessWidget{
   final isRegister;
@@ -117,4 +113,40 @@ with SingleTickerProviderStateMixin{
       ),
     );
   }
+}
+
+Widget buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
+  return ListTile(
+    leading: icon,
+    title: TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      cursorColor: Colors.black12,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: labelText,
+        labelStyle: TextStyle(fontSize: a.px20),
+      ),
+      obscureText: obscureText,
+    ),
+    dense: true,
+  );
+}
+
+Widget buildCaptchaTextFiled(controller, onPressedGetCaptcha) {
+  return ListTile(
+    leading: Icon(Icons.perm_phone_msg),
+    title: TextField(
+      controller: controller,
+      cursorColor: Colors.black12,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: '手机验证码',
+        labelStyle: TextStyle(fontSize: a.px20),
+      ),
+    ),
+    trailing: PhoneCaptchaButton(onPressedGetCaptcha),
+    dense: true,
+    contentPadding: EdgeInsets.only(left: a.px16),
+  );
 }

@@ -13,7 +13,7 @@ class BindBankCardPage extends StatefulWidget {
 
 class _BindBankCardPageState extends State<BindBankCardPage> {
   final forwardIcon = Utils.buildForwardIcon();
-  final splitLine = Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16));
+  final splitLine = Divider(height: a.px1, indent: a.px16);
 
   String bank;
   String city;

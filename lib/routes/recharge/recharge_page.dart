@@ -3,6 +3,7 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RechargePage extends StatefulWidget {
   @override
@@ -179,7 +180,10 @@ class _RechargePageState extends State<RechargePage> {
         ),
       ),
       onTap: (){
-        alert('功能未实现');
+//        alert('功能未实现');
+        print('add');
+//        _openGallery();
+        _showAddImageOptions();
       },
     );
   }
@@ -211,5 +215,66 @@ class _RechargePageState extends State<RechargePage> {
         _comment = null;
       });
     }
+  }
+
+  _takePhoto() async {
+    Utils.navigatePop();
+//    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+//    print(image);
+//
+//    setState(() {
+//      _imgPath = image;
+//    });
+  }
+
+  /*相册*/
+  _openGallery() async {
+    Utils.navigatePop();
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+//    print(image);
+//    setState(() {
+//      _imgPath = image;
+//    });
+  }
+
+  _showAddImageOptions(){
+    TextStyle style = TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500);
+    buildButton(title, image, onPressed){
+      return Column(
+        children: <Widget>[
+          IconButton(
+            padding: EdgeInsets.all(0),
+            color: CustomColors.red,
+            icon: Image.asset(image),
+            iconSize: a.px(100),
+            onPressed: onPressed,
+          ),
+          SizedBox(height: a.px10),
+          Text(title, style: style,),
+        ],
+      );
+    }
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context){
+        return Container(
+          height: a.px(240),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: a.px10),
+              Text('选取照片', style: style,),
+              SizedBox(height: a.px20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  buildButton('相册选取',CustomIcons.photo, _openGallery),
+                  buildButton('相机拍照',CustomIcons.camera, _takePhoto),
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
 }

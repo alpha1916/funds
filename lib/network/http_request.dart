@@ -78,7 +78,7 @@ class HttpRequest {
       if(response.statusCode == 200){
         var data = response.data;
         print('[${DateTime.now().toString().substring(11)}]response:${data.toString()}');
-        if(noBusinessErrorCodes.indexOf(data['code']) == -1){
+        if(!noBusinessErrorCodes.contains(data['code'])){
           handleBusinessCode(data['code'], data['desc']);
 //          alert(data['desc']);
           return null;

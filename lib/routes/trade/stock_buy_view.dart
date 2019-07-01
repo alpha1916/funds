@@ -36,6 +36,13 @@ class StockTradeFrame extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    print(Utils.getTrisection(100));
+    print(Utils.getTrisection(1000));
+    print(Utils.getTrisection(3000.02));
+    print(Utils.getTrisection(30002.02));
+    print(Utils.getTrisection(34000.1));
+    print(Utils.getTrisection(133556.0));
+    print(Utils.getTrisection(2133556.0));
     return StreamBuilder<TradingStockData>(
       stream: bloc.stockStream,
       initialData: bloc.stockInfo,

@@ -29,9 +29,9 @@ class SettingsPage extends StatelessWidget {
                 _buildSettableItem('联系地址', data.address != '', _onPressedModifyAddress),
                 SizedBox(height: a.px10),
                 _buildNameView(data.name),
-                Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                Divider(height: a.px1, indent: a.px16),
                 _buildSettableItem('绑定银行卡', data.bindBank, _onPressedModifyBankCard),
-                Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                Divider(height: a.px1, indent: a.px16),
                 _buildSettableItem('绑定手机号', true, _onPressedBindPhone, Utils.convertPhoneNumber(AccountData.getInstance().phone)),
                 SizedBox(height: a.px10),
 

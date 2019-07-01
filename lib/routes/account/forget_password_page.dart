@@ -3,7 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'dart:async';
-import 'package:funds/common/widgets/phone_captcha_button.dart';
+import 'login_page.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   @override
@@ -20,66 +20,44 @@ class ForgetPasswordPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           SizedBox(height: a.px20),
-          _buildTextFiled(
-            phoneController,
-            TextInputType.text,
-            '11位手机号码',
-            false,
-            Container(
-              margin: EdgeInsets.only(left: a.px5),
-              child: Icon(Icons.phone),
-            ),
-          ),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-          _buildCaptchaTextFiled(context),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-          _buildTextFiled(
-            passController1,
-            TextInputType.text,
-            '请设置新密码',
-            true,
-            Container(
-              margin: EdgeInsets.only(left: a.px5),
-              child: Icon(Icons.lock),
-            ),
-          ),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
-
-          _buildTextFiled(
-            passController2,
-            TextInputType.text,
-            '请再次输入',
-            true,
-            Container(
-              margin: EdgeInsets.only(left: a.px5),
-              child: Icon(Icons.lock),
-            ),
-          ),
-
           Container(
-            margin: EdgeInsets.only(top: 10, left: 55),
-            child: Row(
+            color: Colors.white,
+            child: Column(
               children: <Widget>[
-                Text('登录密码由6-16位数字和字母组成'),
-                Expanded(child: Container(),),
+                buildTextFiled(
+                  phoneController,
+                  TextInputType.text,
+                  '11位手机号码',
+                  false,
+                  Icon(Icons.phone),
+                ),
+                Divider(height: a.px1, indent: a.px16),
+                buildCaptchaTextFiled(captchaController, _onPressedGetCaptcha),
+                Divider(height: a.px1, indent: a.px16),
+                buildTextFiled(
+                  passController1,
+                  TextInputType.text,
+                  '请设置新密码',
+                  true,
+                  Icon(Icons.lock),
+                ),
+                Divider(height: a.px1, indent: a.px16),
+                buildTextFiled(
+                  passController2,
+                  TextInputType.text,
+                  '请再次输入',
+                  true,
+                  Icon(Icons.lock),
+                ),
               ],
             ),
           ),
-
           Container(
-            margin: EdgeInsets.only(top: a.px20, bottom: a.px10),
-            width: a.px(200),
-            height: a.px48,
-            child: RaisedButton(
-              child: Text(
-                '确定',
-                style: TextStyle(color: Colors.white, fontSize: a.px18),
-              ),
-              onPressed: _onPressedOK,
-              color: Colors.black,
-              shape: StadiumBorder(),
-            ),
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(top: 10, left: 20),
+            child: Text('登录密码由6-16位数字和字母组成'),
           ),
+          Utils.buildRaisedButton(title: '确定', onPressed: _onPressedOK)
         ],
       ),
     );
@@ -90,66 +68,9 @@ class ForgetPasswordPage extends StatelessWidget {
   final CustomTextEditingController passController1 = CustomTextEditingController.buildPasswordEditingController();
   final CustomTextEditingController passController2 = CustomTextEditingController.buildPasswordEditingController();
 
-  _buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
-    return Container(
-      padding: EdgeInsets.only(left: a.px10, top: a.px1),
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          icon,
-          Container(
-            margin: EdgeInsets.only(left: a.px10),
-            width: a.px(300),
-            child:TextField(
-              controller: controller,
-              keyboardType: keyboardType,
-              cursorColor: Colors.black12,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: labelText,
-                labelStyle: TextStyle(fontSize: a.px20),
-              ),
-              autofocus: false,
-              obscureText: obscureText,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  _buildCaptchaTextFiled(context) {
-    return Container(
-      padding: EdgeInsets.only(left: a.px16, top: a.px1),
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.perm_phone_msg),
-          SizedBox(width: a.px10),
-          Expanded(
-            child: TextField(
-              controller: captchaController,
-              cursorColor: Colors.black12,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: '手机验证码',
-                labelStyle: TextStyle(fontSize: a.px20),
-              ),
-              autofocus: false,
-            ),
-          ),
-          PhoneCaptchaButton(_onPressedGetCaptcha),
-        ],
-      ),
-    );
-  }
-
   _onPressedGetCaptcha() async {
     if(!phoneController.approved()){
       return Future.value(false);
-//    if (!Utils.isValidPhoneNumber(phoneController.text)) {
-//      alert('请输入正确的手机号码');
-//      return Future.value(false);
     }
 
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.forgotPassword, phoneController.text);
@@ -176,22 +97,5 @@ class ForgetPasswordPage extends StatelessWidget {
         Utils.navigatePop();
       }
     }
-
-//    if(passController1.approved())
-//      return;
-//
-//    if(captchaController.text.length == 0){
-//      alert('请输入验证码');
-//    } else  else if (!Utils.isValidPhoneNumber(phoneController.text)) {
-//      alert('请输入正确的手机号码');
-//    } else if (!Utils.isValidPassword(passController1.text)) {
-//      alert('密码必须为6-16位字母和数字组成');
-//    }else{
-//      final ResultData result = await LoginRequest.setNewPassword(phoneController.text, passController1.text, captchaController.text);
-//      if(result.success){
-//        await alert('新密码设置成功');
-//        Utils.navigatePop();
-//      }
-//    }
   }
 }

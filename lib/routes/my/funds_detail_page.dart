@@ -22,7 +22,7 @@ class FundsDetailPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
 //                  _buildNumberItemView(CustomIcons.gold, '金币流水', 0, _onPressedGold),
-//                  Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px20)),
+//                  Divider(height: a.px1, indent: a.px20)),
                 _buildNumberItemView(CustomIcons.integral, '积分流水', 0, _onPressedIntegral),
               ],
             ),

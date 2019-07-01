@@ -93,7 +93,7 @@ class MailDetailPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildTitleView(),
-            Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+            Divider(height: a.px1, indent: a.px16),
             _buildContentView(),
           ],
         ),

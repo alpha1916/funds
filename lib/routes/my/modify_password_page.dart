@@ -20,9 +20,9 @@ class ModifyPasswordPage extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: a.px20),
           _buildTextFiled('原登录密码', oldController, '请输入旧密码'),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
+          Divider(height: a.px1, indent: a.px10),
           _buildTextFiled('新登录密码', passController1, '请设置新密码'),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px10)),
+          Divider(height: a.px1, indent: a.px10),
           _buildTextFiled('确认新密码', passController2, '请再次输入新密码'),
 
           Container(

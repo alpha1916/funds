@@ -275,7 +275,7 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
                     _buildBottomItem(CustomIcons.task, '任务中心', true, '签到送积分', _onPressTask),
-                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.myShare, '分享赚钱', true, '', _onPressShare),
                   ],
                 ),
@@ -286,7 +286,7 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
                     _buildBottomItem(CustomIcons.myAsset, '资金明细', false, '现金、积分', _onPressFund),
-                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.myCoupon, '优惠卡券', false, '兑换优惠券', _onPressCoupons),
                   ],
                 ),
@@ -298,8 +298,9 @@ class _MyViewState extends State<MyView> {
                   children: <Widget>[
 
                     _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressService),
-                    Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+                    Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.myAbout, '关于xx', false, '', _onPressAbout),
+                    Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.version, '当前版本', false, 'v${Global.version}', null),
                   ],
                 ),
@@ -321,7 +322,6 @@ class _MyViewState extends State<MyView> {
   }
 
   _onPressCashFlow () async{
-    print('press cash flow');
     if(Utils.needLogin())
       return;
 

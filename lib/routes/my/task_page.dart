@@ -181,7 +181,7 @@ class _TaskPageState extends State<TaskPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _buildTaskTitle('新手任务'),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           SizedBox(height: a.px10),
           _buildTaskItem('完成注册', '+200优惠券礼包', 1, true),
           _buildTaskItemSplitLine(),
@@ -203,7 +203,7 @@ class _TaskPageState extends State<TaskPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _buildTaskTitle('其他任务'),
-          Utils.buildSplitLine(margin: EdgeInsets.only(left: a.px16)),
+          Divider(height: a.px1, indent: a.px16),
           SizedBox(height: a.px10),
           _buildTaskItem('首次上传头像', '+300积分'),
           _buildTaskItemSplitLine(),
