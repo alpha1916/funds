@@ -36,10 +36,12 @@ class StockEntrustData{
   final String code;
   final double price;
   final int count;
-  final int type;
   final String strDay;
   final String strTime;
-  final String strState;
+  final int entrustType;
+  final int entrustStatus;
+  String get strState => tradeFlowStatus[entrustStatus] ?? '状态$entrustStatus';
+  String get strType => entrustType == TradeType.buy ? '买入' : '卖出';
 
   StockEntrustData(data):
         id = data['id'],
@@ -47,8 +49,8 @@ class StockEntrustData{
         code = data['secCode'],
         price = data['entrustPrice'],
         count = data['entrustNumber'],
-        type = data['entrustType'],
-        strState = tradeFlowStatus[data['entrustType']] ?? '状态${data['entrustType']}',
+        entrustType = data['entrustType'],
+        entrustStatus = data['entrustStatus'],
         strDay = data['entrustTime'].split(' ')[0],
         strTime = data['entrustTime'].split(' ')[1];
 }

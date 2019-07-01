@@ -5,7 +5,6 @@ class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
   static const mail1 = 'assets/common/mail1.png';
-  static const divider = 'assets/common/divider.png';
   static const iconText = 'assets/common/logo_with_text.png';
   static const iconWithdraw = 'assets/common/ic_drawing_psw.png';
 
@@ -35,6 +34,7 @@ class CustomIcons {
   static const task = 'assets/my/ic_task.png';
   static const camera = 'assets/my/camera.png';
   static const photo = 'assets/my/photo.png';
+  static const rechargeSample = 'assets/my/recharge_sample.png';
 
   static const sign = 'assets/task/ic_sign.png';
   static const signChecked = 'assets/task/ic_sign_in_check.png';

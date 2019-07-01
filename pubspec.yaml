@@ -28,8 +28,8 @@ dependencies:
   connectivity: ^0.4.3+2
   dio: ^2.1.7
   url_launcher: 5.0.3
-#  image_picker: ^0.6.0+10
   image_picker: ^0.6.0+10
+#  image_picker: ^0.4.12+1
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +67,6 @@ flutter:
     - assets/common/mail1.png
     - assets/common/mail0.png
     - assets/common/service.png
-    - assets/common/divider.png
     - assets/common/logo_with_text.png
     - assets/common/ic_drawing_psw.png
 
@@ -102,6 +101,7 @@ flutter:
     - assets/my/ic_version.png
     - assets/my/photo.png
     - assets/my/camera.png
+    - assets/my/recharge_sample.png
 
     - assets/contract/meter.png
     - assets/contract/meter_arrow.png

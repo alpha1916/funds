@@ -4,7 +4,6 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
 import 'package:funds/network/contract_request.dart';
 
-var ctx;
 class ContractApplyPage extends StatefulWidget {
   final List<ContractApplyItemData> dataList;
   final int type;
@@ -36,7 +35,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
 
   @override
   Widget build(BuildContext context) {
-    ctx = context;
     final realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -64,7 +62,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
           _inputView(realWidth * 0.25),
           SizedBox(height: a.px10),
           Container(
-            width: realWidth,
+            width: double.infinity,
             height: a.px50,
             child: RaisedButton(
                 child: Text(
@@ -196,7 +194,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
           onChanged: _onInputChanged,
         ),
         decoration: BoxDecoration(
-//          borderRadius: BorderRadius.all(Radius.circular(5)),
           border: Border.all(color: Colors.grey, width: a.px(0.5)), // 边色与边宽度
         ),
       )

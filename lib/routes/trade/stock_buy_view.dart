@@ -36,18 +36,10 @@ class StockTradeFrame extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print(Utils.getTrisection(100));
-    print(Utils.getTrisection(1000));
-    print(Utils.getTrisection(3000.02));
-    print(Utils.getTrisection(30002.02));
-    print(Utils.getTrisection(34000.1));
-    print(Utils.getTrisection(133556.0));
-    print(Utils.getTrisection(2133556.0));
     return StreamBuilder<TradingStockData>(
       stream: bloc.stockStream,
       initialData: bloc.stockInfo,
       builder: (BuildContext context, AsyncSnapshot<TradingStockData> snapshot){
-//        _updateStockInfo(snapshot.data);
         stockInfo = snapshot.data;
         if(stockInfo != null){
           codeInputController.text = stockInfo.code;
@@ -285,8 +277,8 @@ class StockTradeFrame extends StatelessWidget{
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                width: a.px(100),
+              Expanded(
+//                width: a.px(100),
                 child: TextField(
                   textAlign: TextAlign.left,
                   controller: countInputController,

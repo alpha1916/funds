@@ -279,7 +279,7 @@ class Utils {
     );
   }
 
-  static dial(phoneNumber) async {
+  static dial(String phoneNumber) async {
     String url = 'tel:$phoneNumber';
     if(await canLaunch(url)) {
       await launch(url);

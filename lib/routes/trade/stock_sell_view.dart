@@ -8,7 +8,6 @@ import 'package:funds/network/stock_trade_request.dart';
 class StockSellView extends StockBuyView {
   @override
   Widget build(BuildContext context) {
-    realWidth = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         children: <Widget>[

@@ -34,17 +34,13 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget banner1 = new Image.asset(
-      CustomIcons.homeBanner1,
-      fit: BoxFit.fitWidth,
-    );
-
-    Widget banner2 = new Image.asset(
-      CustomIcons.homeBanner2,
-      fit: BoxFit.cover,
-    );
-
 //    return ContractApplyDelayPage();
+    List<Widget> list = [
+      Image.asset(CustomIcons.homeBanner1, fit: BoxFit.cover),
+      Image.asset(CustomIcons.homeBanner2, fit: BoxFit.cover),
+      SizedBox(height: a.px12),
+    ];
+    list.addAll(_dataList.map<Widget>((data) => _buildItem(data)).toList());
 
     return Scaffold(
       appBar: AppBar(
@@ -54,29 +50,24 @@ class _HomeViewState extends State<HomeView> {
           Utils.buildMailIconButton(),
         ],
       ),
-      body: Column(
-        children: [
-          banner1,
-          banner2,
-          SizedBox(height: a.px12),
-          _itemListView(),
-        ]
+      body: SingleChildScrollView(
+        child: Column(
+          children: list,
+        ),
       )
     );
 
   }
 
-  _itemListView() {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          final data = _dataList[index];
-          return _buildItem(data);
-        },
-        itemCount: _dataList.length,
-      ),
-    );
-  }
+//  _itemListView() {
+//    return ListView.builder(
+//      itemBuilder: (BuildContext context, int index) {
+//        final data = _dataList[index];
+//        return _buildItem(data);
+//      },
+//      itemCount: _dataList.length,
+//    );
+//  }
 
   _buildItem(ContractApplyItemData data){
     TextStyle titleStyle = TextStyle(
