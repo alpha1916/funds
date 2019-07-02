@@ -3,10 +3,14 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'package:funds/network/stock_trade_request.dart';
+import 'package:funds/network/contract_request.dart';
 import 'package:funds/pages/trade/trade_flow_page.dart';
 import 'package:funds/routes/contract/current_contract_funds_flow_list.dart';
 
+
 class StockQueryView extends StatefulWidget {
+  final String contractNumber;
+  StockQueryView(this.contractNumber);
   @override
   _StockQueryViewState createState() => _StockQueryViewState();
 }
@@ -58,28 +62,30 @@ class _StockQueryViewState extends State<StockQueryView> {
   _onPressDayDeal() async {
     print('_onPressDayDeal');
 //    ResultData result await StockTradeRequest.getFlowList(contractNumber);
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 0);
     if(result.success){
       Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, result.data));
     }
   }
 
   _onPressDayDelegate() async{
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 0);
     if(result.success){
       Utils.navigateTo(TradeFlowPage('当日委托', StateType.noDeal, result.data));
     }
   }
 
   _onPressHistoryDeal() async{
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 1);
     if(result.success){
       Utils.navigateTo(TradeFlowPage('历史成交', StateType.deal, result.data));
     }
   }
 
   _onPressHistoryDelegate() async{
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 1);
     if(result.success){
       Utils.navigateTo(TradeFlowPage('历史委托', StateType.noDeal, result.data));
     }

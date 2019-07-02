@@ -164,7 +164,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             ),
             TableRow(
               children: [
-                _buildInfoItem('管理费用', '${data.cost.toStringAsFixed(2)}/月'),
+                _buildInfoItem('管理费用', data.strCost),
                 _buildInfoItem('使用天数', '${data.days}个交易日'),
               ],
             ),
@@ -359,11 +359,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           SizedBox(
             width: 5,
           ),
-          IconButton(
-            icon: Icon(Icons.help),
-            iconSize: a.px24,
-            onPressed: onPressed,
-          ),
+          InkWell(
+            child: Icon(Icons.help, size: a.px20,),
+            onTap: onPressed,
+          )
         ],
       );
     } else {

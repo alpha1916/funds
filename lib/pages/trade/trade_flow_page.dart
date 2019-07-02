@@ -103,7 +103,7 @@ class TradeFlowPage extends StatelessWidget {
               //价格/数量
               _buildRow(flex: _rowFlex[1], text1: Utils.getTrisection(data.price), text2: Utils.getTrisectionInt(data.count.toString()), color: Utils.getEntrustTypeColor(data.type)),
               //状态/类型
-              _buildRow(flex: _rowFlex[2], text1: data.strState, text2: data.strType),
+              _buildRow(flex: _rowFlex[2], text1: data.strState, text2: data.strType, color: Utils.getEntrustTypeColor(data.type)),
               //成交时间
               _buildRow(flex: _rowFlex[3], text1: data.strDay, text2: data.strTime, alignment: FractionalOffset.centerRight),
               SizedBox(width: a.px10,),

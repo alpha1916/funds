@@ -116,7 +116,11 @@ class ContractApplyItemData{
         timesList = data['lever'].split(',').map<int>((times) => int.parse(times)).toList();
 }
 
-
+final Map<int, String> type2manageCostPeriod = {
+  1: '天',
+  2: '周',
+  3: '月',
+};
 
 class ContractData {
   final double contractMoney;//合约金额
@@ -146,32 +150,42 @@ class ContractData {
 
   //合约详情操作专用
   final bool canDelay ;//是否可以延迟卖出
+  final int type;
+
+  String get strCost {
+    if(cost > 0){
+      return '${cost.toStringAsFixed(2)}/${type2manageCostPeriod[type]}';
+    }else{
+      return '0';
+    }
+  }
 
   ContractData(data):
-        contractNumber = data['contractNumber'],
-        contractMoney = Utils.convertDouble(data['contractMoney']),
-        profit = data['profit'],
-        realCost = Utils.convertDouble(data['realManagement']),
-        profitRate = data['profitRate'],
-        returnMoney = Utils.convertDouble(data['returnMoney']),
-        cash = Utils.convertDouble(data['cash']),
-        operateMoney = data['operateMoney'],
-        capital = Utils.convertDouble(data['principal']),
-        loan = Utils.convertDouble(data['loanAmount']),
-        cost = Utils.convertDouble(data['management']),
-        beginTime = data['beginTime'].split(' ')[0],
-        endTime = data['endTime'].split(' ')[0],
-        totalMoney = Utils.convertDouble(data['totalMoney']),
-        usableMoney = data['availableMoney'],
+      type = data['contractType'],
+      contractNumber = data['contractNumber'],
+      contractMoney = Utils.convertDouble(data['contractMoney']),
+      profit = data['profit'],
+      realCost = Utils.convertDouble(data['realManagement']),
+      profitRate = data['profitRate'],
+      returnMoney = Utils.convertDouble(data['returnMoney']),
+      cash = Utils.convertDouble(data['cash']),
+      operateMoney = data['operateMoney'],
+      capital = Utils.convertDouble(data['principal']),
+      loan = Utils.convertDouble(data['loanAmount']),
+      cost = Utils.convertDouble(data['management']),
+      beginTime = data['beginTime'].split(' ')[0],
+      endTime = data['endTime'].split(' ')[0],
+      totalMoney = Utils.convertDouble(data['totalMoney']),
+      usableMoney = data['availableMoney'],
 
-        canDelay = data['canDelay'],// ?? true,
+      canDelay = data['canDelay'],// ?? true,
 
-        title = data['title'],
-        cordon = data['warnLine'],
-        cut = data['stopLossLine'],
-        days = data['useDay'],
-        leftDays = data['canUseDay'],
-        ongoing = data['stat'] == 1
+      title = data['title'],
+      cordon = data['warnLine'],
+      cut = data['stopLossLine'],
+      days = data['useDay'],
+      leftDays = data['canUseDay'],
+      ongoing = data['stat'] == 1
   ;
 
 }
@@ -183,19 +197,40 @@ class TradeFlowData{
   final int count;
   final String strDay;
   final String strTime;
-  final String strType;
+//  final String strType;
   final int type;
   final String strState;
+
+  String get strType => type == TradeType.buy ? '买入' : '卖出';
   TradeFlowData(data):
       title = data['secShortname'],
       code = data['secCode'],
       count = data['count'],
       price = Utils.convertDouble(data['price']),
       type = data['type'],
-      strType = data['type'] == TradeType.buy ? '买入' : '卖出',
       strState = tradeFlowStatus[data['status']],
       strDay = data['recordTime'].split(' ')[0],
       strTime = data['recordTime'].split(' ')[1];
+
+  TradeFlowData.fromDealData(data):
+        title = data['secShortname'],
+        code = data['secCode'],
+        count = data['dealAmount'],
+        price = Utils.convertDouble(data['dealBalance']),
+        type = data['entrustDirection'],
+        strState = tradeFlowStatus[data['status']],
+        strDay = data['dealTime'].split(' ')[0],
+        strTime = data['dealTime'].split(' ')[1];
+
+  TradeFlowData.fromEntrustData(data):
+        title = data['secShortname'],
+        code = data['secCode'],
+        count = data['entrustNumber'],
+        price = Utils.convertDouble(data['entrustPrice']),
+        type = data['entrustType'],
+        strState = tradeFlowStatus[data['entrustStatus']],
+        strDay = data['entrustTime'].split(' ')[0],
+        strTime = data['entrustTime'].split(' ')[1];
 }
 
 final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约'];
@@ -245,3 +280,10 @@ class ContractFlowData{
         costFlowList = data['managementRecord'].map<ContractCostFlowData>((record) => ContractCostFlowData(record)).toList()
   ;
 }
+
+//class ContractDealData{
+//  final String name;
+//  final String code;
+//  final String ;
+//  ContractDealData();
+//}

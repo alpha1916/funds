@@ -127,9 +127,9 @@ class HttpRequest {
     String token = AccountData.getInstance().token;
 
     if(askLogin && token == null){
-      token = await Utils.navigateToLoginPage();
+      await Utils.navigateToLoginPage();
+      token = AccountData.getInstance().token;
     }
-
     return send(api: api, data: data, askLogin: askLogin, token: token);
   }
 
@@ -141,7 +141,8 @@ class HttpRequest {
     String token = AccountData.getInstance().token;
 
     if(askLogin && token == null){
-      token = await Utils.navigateToLoginPage();
+      await Utils.navigateToLoginPage();
+      token = AccountData.getInstance().token;
     }
 
     return send(api: api, data: data, askLogin: askLogin, token: token, isPost: false);

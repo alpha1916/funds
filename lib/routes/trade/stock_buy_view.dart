@@ -36,6 +36,12 @@ class StockTradeFrame extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    if(Global.debug){
+      countInputController.text = '100';
+      if(bloc.stockInfo == null)
+        bloc.getStockInfo('002656');
+    }
+
     return StreamBuilder<TradingStockData>(
       stream: bloc.stockStream,
       initialData: bloc.stockInfo,
@@ -91,35 +97,47 @@ class StockTradeFrame extends StatelessWidget{
   TextEditingController codeInputController = TextEditingController();
   TextEditingController priceInputController = TextEditingController();
   TextEditingController countInputController = TextEditingController();
-
+  FocusNode countInputFocusNode = FocusNode();
+  FocusNode codeInputFocusNode = FocusNode();
   _buildTitleView() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: a.px10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26, width: a.px1),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              textAlign: TextAlign.left,
-              controller: codeInputController,
-              cursorColor: Colors.black12,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: '股票代码',
-                hintStyle: TextStyle(fontSize: a.px16),
-                labelStyle: TextStyle(fontSize: a.px16),
-              ),
-              autofocus: false,
-              onChanged: _onCodeInputChange,
+    return Builder(
+      builder: (context){
+        return InkWell(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: a.px10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black26, width: a.px1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    focusNode: codeInputFocusNode,
+                    textAlign: TextAlign.left,
+                    controller: codeInputController,
+                    cursorColor: Colors.black12,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '股票代码',
+                      hintStyle: TextStyle(fontSize: a.px16),
+                      labelStyle: TextStyle(fontSize: a.px16),
+                    ),
+                    autofocus: false,
+                    onChanged: _onCodeInputChange,
+                  ),
+                ),
+                Text(stockInfo?.title ?? '', style: TextStyle(fontSize: a.px16)),
+              ],
             ),
           ),
-          Text(stockInfo?.title ?? '', style: TextStyle(fontSize: a.px16),)
-        ],
-      ),
+          onTap: (){
+            FocusScope.of(context).requestFocus(codeInputFocusNode);
+          },
+        );
+      },
     );
+
   }
 
   _onCodeInputChange(text) {
@@ -268,33 +286,38 @@ class StockTradeFrame extends StatelessWidget{
       initialData: initCount,
       builder: (BuildContext context, AsyncSnapshot<int> snapshot){
         String tips = tradeCountPrefix + '${snapshot.data}股';
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: a.px10),
-          height: a.px50,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black26, width: a.px1),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-//                width: a.px(100),
-                child: TextField(
-                  textAlign: TextAlign.left,
-                  controller: countInputController,
-                  cursorColor: Colors.black12,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: tradeCountHintText,
-                    hintStyle: TextStyle(fontSize: a.px16),
-                    labelStyle: TextStyle(fontSize: a.px15),
+        return InkWell(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: a.px10),
+            height: a.px50,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black26, width: a.px1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    focusNode: countInputFocusNode,
+                    textAlign: TextAlign.left,
+                    controller: countInputController,
+                    cursorColor: Colors.black12,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: tradeCountHintText,
+                      hintStyle: TextStyle(fontSize: a.px16),
+                      labelStyle: TextStyle(fontSize: a.px15),
+                    ),
+                    autofocus: false,
                   ),
-                  autofocus: false,
                 ),
-              ),
-              Text(tips, style: TextStyle(fontSize: a.px15),)
-            ],
+                Text(tips, style: TextStyle(fontSize: a.px15),)
+              ],
+            ),
           ),
+          onTap: () {
+            FocusScope.of(context).requestFocus(countInputFocusNode);
+          },
         );
       },
     );

@@ -72,7 +72,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
       StockBuyView(),
       StockSellView(),
       StockCancelView(),
-      StockQueryView(),
+      StockQueryView(TradeBloc.getInstance().contractNumber),
     ];
 
     _tabController.addListener((){

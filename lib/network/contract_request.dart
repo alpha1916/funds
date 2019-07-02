@@ -143,4 +143,41 @@ class ContractRequest {
 
     return ResultData(true, ContractFlowData(result['data']));
   }
+
+
+  //type 1为历史，0位当日
+  static Future<ResultData> getDealList(contractNumber, type) async {
+    final String api = '/api/v1/contract/getContractDealRecord';
+    final data = {
+      'contractNumber': contractNumber,
+      'isHistory': type,
+    };
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromDealData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  //type 1为历史，0位当日
+  static Future<ResultData> getEntrustList(contractNumber, type) async {
+    final String api = '/api/v1/contract/getContractEntrustRecord';
+    final data = {
+      'contractNumber': contractNumber,
+      'isHistory': type,
+    };
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromEntrustData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
 }
