@@ -14,16 +14,19 @@ class StockCancelView extends StatefulWidget {
 class _StockCancelViewState extends State<StockCancelView> {
   List<StockEntrustData> _dataList = [];
   List<int> _selectedIdxs = [];
+
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
 
-    _refresh();
+    if(mounted)
+      _refresh();
   }
 
   _refresh() async{
     ResultData result = await StockTradeRequest.getEntrustList(TradeBloc.getInstance().contractNumber);
+    print('--------------------------------------cancel refresh');
 
     if(result.success && mounted){
       setState(() {

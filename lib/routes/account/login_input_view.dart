@@ -15,6 +15,13 @@ class LoginInputViewState extends State<LoginInputView> {
   final CustomTextEditingController passController = CustomTextEditingController.buildPasswordEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+    phoneController.dispose();
+    passController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if(Global.debug){
       phoneController.text = '18612345699';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/custom_app_bar.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
@@ -76,9 +77,12 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     ];
 
     _tabController.addListener((){
-      if(_tabController.index < 3 && _currentIndex != _tabController.index){
-        _currentIndex = _tabController.index;
-        _refresh();
+      if(_currentIndex != _tabController.index){
+        setState(() {
+          _currentIndex = _tabController.index;
+          if(_tabController.index < 3)
+            _refresh();
+        });
       }
     });
     _refresh();
@@ -130,7 +134,7 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
             children: <Widget>[
               Text('可用现金', style: TextStyle(fontSize: fontSize)),
               Expanded(child: Container(),),
-              Text(snapshot.data.toStringAsFixed(2), style: TextStyle(fontSize: fontSize, color: CustomColors.red),),
+              Text(Utils.getTrisection(snapshot.data), style: TextStyle(fontSize: fontSize, color: CustomColors.red),),
               Text(' 元', style: TextStyle(fontSize: fontSize)),
             ],
           ),
@@ -163,9 +167,12 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
   }
 
   _buildTabBarView() {
-    return Expanded(child: TabBarView(
-      controller: _tabController,
-      children: tabBarViews,
-    ));
+//    return Expanded(child: TabBarView(
+//      controller: _tabController,
+//      children: tabBarViews,
+//    ));
+    return Expanded(
+      child: tabBarViews[_currentIndex],
+    );
   }
 }

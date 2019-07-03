@@ -32,12 +32,13 @@ class StockTradeRequest {
     return ResultData(true);
   }
 
-  static sell(holdId, price, count) async{
+  static sell(contractNumber, code, price, count) async{
     final String api = '/api/v1/trade/saleEntrust';
     var data = {
-      'holdId': holdId,
-      'price': price,
+      'contractNumber': contractNumber,
+      'secCode': code,
       'count': count,
+      'price': price,
     };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){

@@ -183,4 +183,33 @@ class UserRequest {
 
     return ResultData(true, BankCardData(result['data']));
   }
+
+  static getSignData() async {
+    final String api = '/api/v1/sign/getSignData';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, SignData(result['data']));
+  }
+
+  static sign() async {
+    final String api = '/api/v1/sign/sign';
+    var result = await HttpRequest.sendTokenGet(api: api, askLogin: true);
+    return ResultData(result != null);
+  }
+
+  static getTaskData() async {
+    final String api = '/api/v1/task/getTaskList';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<TaskData> dataList = oDataList.map((data) => TaskData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
 }

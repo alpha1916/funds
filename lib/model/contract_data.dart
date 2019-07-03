@@ -156,7 +156,7 @@ class ContractData {
     if(cost > 0){
       return '${cost.toStringAsFixed(2)}/${type2manageCostPeriod[type]}';
     }else{
-      return '0';
+      return '0.00';
     }
   }
 

@@ -148,3 +148,38 @@ class BankCardData{
       name = data['bankName'],
       iconUrl = data['imageUrl'];
 }
+
+class SignData {
+  final int signedDays;
+  final bool isSignedToday;
+  SignData(data):
+      signedDays = data['signDay'],
+      isSignedToday = data['todaySign']
+  ;
+}
+
+class TaskId{
+  static const int register = 1;
+  static const int certification = 2;
+  static const int bindCard = 3;
+  static const int applyContract = 4;
+}
+//taskStatus：1是未完成，2是已完成
+final rewardType2Name = ['', '优惠券礼包', '积分'];
+class TaskData {
+  final int id;
+  final String title;
+  final int rewardType;
+  final int rewardValue;
+  final bool done;
+  String get strReward => '+$rewardValue${rewardType2Name[rewardType]}';
+  
+  TaskData(data):
+        id = data['taskId'],
+        title = data['taskName'],
+        rewardType = data['rewardType'],
+        rewardValue = data['rewardValue'],
+        done = data['taskStatus'] == 2
+  ;
+
+}

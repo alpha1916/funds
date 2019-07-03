@@ -10,6 +10,8 @@ import 'package:funds/routes/my/funds_detail_page.dart';
 
 import 'package:funds/routes/my/task_page.dart';
 import 'package:funds/routes/my/coupons_page.dart';
+import 'package:funds/routes/my/about_page.dart';
+import 'package:funds/routes/my/help_page.dart';
 
 class MyView extends StatefulWidget {
   @override
@@ -297,7 +299,7 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
 
-                    _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressService),
+                    _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressHelp),
                     Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.myAbout, '关于xx', false, '', _onPressAbout),
                     Divider(height: a.px1, indent: a.px16),
@@ -334,14 +336,12 @@ class _MyViewState extends State<MyView> {
     Utils.navigateTo(CouponsPage());
   }
 
-  _onPressService () {
-    print('press service');
-    alert('功能未实现');
+  _onPressHelp () {
+    Utils.navigateTo(HelpPage());
   }
 
   _onPressAbout () {
-    print('press about');
-    alert('功能未实现');
+    Utils.navigateTo(AboutPage());
   }
 
   _onPressCharge() async {

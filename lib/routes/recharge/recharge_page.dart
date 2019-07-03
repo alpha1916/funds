@@ -290,13 +290,8 @@ class _RechargePageState extends State<RechargePage> {
 
     ResultData result = await RechargeRequest.recharge(num, _comment);
     if (result.success) {
-//      alert('充值请求已提交，请等待工作人员核实');
-      alert('提交成功，我们会尽快完成审核\n(测试无审核阶段，已充值成功)');
+      await alert('充值请求已提交，请等待工作人员核实');
       Utils.navigatePop(true);
-//      inputController.clear();
-//      setState(() {
-//        _comment = null;
-//      });
     }
   }
 

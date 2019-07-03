@@ -13,7 +13,7 @@ class CurrentContractListPage extends StatefulWidget {
 }
 
 class _CurrentContractListPageState extends State<CurrentContractListPage> {
-  List<ContractData> _dataList = [];
+  List<ContractData> _dataList;
 
   @override
   void initState(){
@@ -34,9 +34,12 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(_dataList == null || _dataList.length == 0){
+    if(_dataList == null){
+      return Container();
+    }else if(_dataList.length == 0){
       return _buildPromoteView();
     }
+
 
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {

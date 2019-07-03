@@ -172,8 +172,8 @@ class HttpRequest {
   static void init(BuildContext context){
     dio = Dio(); // 使用默认配置
     dio.options.baseUrl = 'http://119.29.142.63:8070';
-    dio.options.connectTimeout = 5000; //5s
-    dio.options.receiveTimeout = 3000;
+    dio.options.connectTimeout = 5000;
+    dio.options.receiveTimeout = 5000;
 
     Loading.init(context);
   }

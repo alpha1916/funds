@@ -97,9 +97,8 @@ class StockTradeFrame extends StatelessWidget{
   TextEditingController codeInputController = TextEditingController();
   TextEditingController priceInputController = TextEditingController();
   TextEditingController countInputController = TextEditingController();
-  FocusNode countInputFocusNode = FocusNode();
-  FocusNode codeInputFocusNode = FocusNode();
   _buildTitleView() {
+    FocusNode codeInputFocusNode = FocusNode();
     return Builder(
       builder: (context){
         return InkWell(
@@ -281,6 +280,7 @@ class StockTradeFrame extends StatelessWidget{
   }
 
   buildUsableCountView(Stream<int> steam, int initCount) {
+    FocusNode countInputFocusNode = FocusNode();
     return StreamBuilder<int>(
       stream: steam,
       initialData: initCount,

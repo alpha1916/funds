@@ -75,18 +75,24 @@ class _ContentViewState extends State<_ContentView>
           color: CustomColors.trialContentBackground,
           borderRadius: BorderRadius.all(Radius.circular(a.px12)),
         ),
-        child: Column(
-          children: <Widget>[
-            _tabBar(),
-            _currentIndex == 0 ? TakeTrialPage() : MyTrialPage(() {
-              setState(() {
-                _tabController.index = _currentIndex = 0;
-              });
-            }),
-          ],
+        child: ClipRRect(
+          borderRadius: new BorderRadius.all(Radius.circular(a.px12)),
+          child: Column(
+            children: <Widget>[
+              _tabBar(),
+              _buildContentView(),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _buildContentView(){
+    if(_currentIndex == 0)
+      return TakeTrialPage();
+
+    return MyTrialPage(() => setState(() => _tabController.index = _currentIndex = 0));
   }
 
   @override

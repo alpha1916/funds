@@ -14,7 +14,7 @@ class MyTrialPage extends StatefulWidget {
 }
 
 class _MyTrialPageState extends State<MyTrialPage> {
-  List<ContractData> _dataList = [];
+  List<ContractData> _dataList;
   _MyTrialPageState();
 
   @override
@@ -36,9 +36,12 @@ class _MyTrialPageState extends State<MyTrialPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(_dataList == null || _dataList.length == 0){
+    if(_dataList == null){
+      return Container();
+    }else if(_dataList.length == 0){
       return _buildPromoteView();
     }
+
     return Expanded(
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {

@@ -2,7 +2,6 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
 
 class StockHoldData{
-  int id;
   String title;
   String code;
   int hold;
@@ -14,18 +13,16 @@ class StockHoldData{
   double profit;
   String profitRate;
 
-  StockHoldData(data)
-  {
-    id = data['id'];
-    title = data['secShortname'];
-    code = data['secCode'];
-    hold = data['holdNo'];
-    usable = data['availableNo'];
+  StockHoldData(data) {
+    title = data['stockName'];
+    code = data['stockCode'];
+    hold = data['holdCount'];
+    usable = data['availableCount'];
     cost = data['inHoldMoney'];
-    price = data['nowPrice'];
+    price = data['lastPrice'];
 
-    value = price * hold;
-    profit = (price - cost) * hold;
+    value = data['marketValue'];
+    profit = data['profit'];
     profitRate = (profit / (value - profit) * 100).toStringAsFixed(2) + '%';
   }
 }
@@ -45,10 +42,10 @@ class StockEntrustData{
 
   StockEntrustData(data):
         id = data['id'],
-        title = data['secShortname'],
-        code = data['secCode'],
+        title = data['stockName'],
+        code = data['stockCode'],
         price = data['entrustPrice'],
-        count = data['entrustNumber'],
+        count = data['entrustCount'],
         entrustType = data['entrustType'],
         entrustStatus = data['entrustStatus'],
         strDay = data['entrustTime'].split(' ')[0],

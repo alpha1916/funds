@@ -68,7 +68,8 @@ class SellFrame extends StockTradeFrame {
       return;
 
     ResultData result = await StockTradeRequest.sell(
-      bloc.selectedHoldData.id,
+      bloc.contractNumber,
+      stockInfo.code,
       price,
       count,
     );
