@@ -136,7 +136,7 @@ class UserRequest {
   }
 
   static getMyCouponsData() async {
-    final String api = '/api/v1/task/getMyTicket';
+    final String api = '/api/v1/ticket/getMyTicket';
     var result = await HttpRequest.sendTokenGet(api: api);
     if(result == null){
       return ResultData(false);
@@ -147,13 +147,13 @@ class UserRequest {
 //      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
     ];
 //    List<dynamic> oDataList = result['data'];
-    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
+//    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
 
-    return ResultData(true, dataList);
+    return ResultData(true, result['data']);
   }
 
   static getShopCouponsData() async {
-    final String api = '/api/v1/task/getTicketList';
+    final String api = '/api/v1/ticket/getTicketList';
     var result = await HttpRequest.sendTokenGet(api: api);
     if(result == null){
       return ResultData(false);
@@ -166,7 +166,7 @@ class UserRequest {
   }
 
   static exchangeCoupon(couponId) async {
-    final String api = '/api/v1/task/scoreChangeTicket';
+    final String api = '/api/v1/ticket/scoreChangeTicket';
     final data = {
       'ticketId': couponId,
     };

@@ -165,7 +165,7 @@ class TaskId{
   static const int applyContract = 4;
 }
 //taskStatus：1是未完成，2是已完成
-final rewardType2Name = ['', '优惠券礼包', '积分'];
+final rewardType2Name = ['', '元优惠券礼包', '积分', '元优惠券x1'];
 class TaskData {
   final int id;
   final String title;

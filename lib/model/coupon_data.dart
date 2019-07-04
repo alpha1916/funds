@@ -10,6 +10,14 @@ class CouponData {
         cost = data['ticketValue'],
         integral = data['score'],
         expireDate = data['expireDate'];
+
+  CouponData.fromShopData(CouponData src, String date):
+      expireDate = date,
+      title = src.title,
+      cost = src.cost,
+      integral = null,//src.integral,
+      id = null//src.id
+  ;
 }
 
 //{'cost': 50, 'title': '管理费抵用券', 'date': '2019-06-29'},

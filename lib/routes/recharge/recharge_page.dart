@@ -42,6 +42,16 @@ class _RechargePageState extends State<RechargePage> {
     );
   }
 
+  @override
+  initState(){
+    super.initState();
+
+    if(Global.debug){
+      inputController.text = '2000000';
+      _comment = '追加本金';
+    }
+  }
+
   TextEditingController inputController = TextEditingController();
   _buildAmountInputView() {
     double fontSize = a.px18;

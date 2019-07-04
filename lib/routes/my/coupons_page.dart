@@ -12,6 +12,7 @@ class CouponsPage extends StatefulWidget {
 class _CouponsPageState extends State<CouponsPage> {
   List<CouponData> _myCoupons;
   List<CouponData> _shopCoupons;
+  Map<int, CouponData> _shopCouponsMap;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,15 +45,19 @@ class _CouponsPageState extends State<CouponsPage> {
       if (!result.success)
         return;
       _shopCoupons = result.data;
+      _shopCouponsMap = {};
+      _shopCoupons.forEach((data) => _shopCouponsMap[data.id] = data);
     }
 
     ResultData result = await UserRequest.getMyCouponsData();
     if (!result.success)
       return;
-    _myCoupons= result.data;
 
     setState(() {
-
+      List<dynamic> list = result.data;
+      print(list.length);
+      _myCoupons = list.map((data) => CouponData.fromShopData(_shopCouponsMap[data['ticketId']], data['time'])).toList();
+      print(_myCoupons.length);
     });
   }
 
@@ -82,8 +87,9 @@ class _CouponsPageState extends State<CouponsPage> {
             child: Text('我的卡券', style: TextStyle(fontSize: a.px17, fontWeight: FontWeight.w400)),
           ),
           Divider(height: a.px1, indent: a.px16),
+          SizedBox(height: a.px8),
           contentView,
-          SizedBox(height: a.px16),
+          SizedBox(height: a.px8),
         ],
       ),
     );
@@ -136,7 +142,7 @@ class _CouponsPageState extends State<CouponsPage> {
   _buildCouponItem(CouponData data, saleable) {
     final BorderSide borderSide = BorderSide(width: a.px(0.5), style: BorderStyle.solid, color: Colors.black26);
     Border border = Border(top: borderSide, bottom: borderSide, right: borderSide);
-    String tips = data.integral != null ? '${data.integral} 积分' : '有效期至：${data.expireDate}';
+    String tips = data.expireDate != null ? '有效期至：${data.expireDate}': '${data.integral} 积分';
     return Container(
       decoration: BoxDecoration(
         border: border,

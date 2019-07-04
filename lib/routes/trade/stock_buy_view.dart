@@ -167,6 +167,14 @@ class StockTradeFrame extends StatelessWidget{
         onTap: onPressed,
       );
     }
+
+    FocusNode focusNode = FocusNode();
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        _checkPriceInput();
+      }
+    });
+
     return Container(
       height: a.px50,
       decoration: BoxDecoration(
@@ -181,6 +189,7 @@ class StockTradeFrame extends StatelessWidget{
             width: a.px(80),
             child: Center(
               child: TextField(
+                focusNode: focusNode,
                 textAlign: TextAlign.center,
                 controller: priceInputController,
                 cursorColor: Colors.black12,
@@ -204,6 +213,18 @@ class StockTradeFrame extends StatelessWidget{
     updateUsableCount(getInputPrice());
   }
 
+  _checkPriceInput() {
+    if(stockInfo == null || priceInputController.text.isEmpty)
+      return;
+
+    double price = getInputPrice();
+    if(price < stockInfo.downLimitedPrice)
+      price = stockInfo.downLimitedPrice;
+    else if(price > stockInfo.upLimitedPrice)
+      price = stockInfo.upLimitedPrice;
+
+    priceInputController.text = price.toStringAsFixed(2);
+  }
 
   updateUsableCount(price){
     bloc.updateUsableCount(price);
