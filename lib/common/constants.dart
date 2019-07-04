@@ -29,7 +29,7 @@ class CustomIcons {
   static const myCoupon = 'assets/my/ic_coupon.png';
   static const myAsset = 'assets/my/ic_asset.png';
   static const myAbout = 'assets/my/ic_about.png';
-  static const version = 'assets/my/ic_version.png';
+//  static const version = 'assets/my/ic_version.png';
   static const gold = 'assets/my/ic_gold.png';
   static const integral = 'assets/my/ic_integral.png';
   static const task = 'assets/my/ic_task.png';
@@ -44,6 +44,24 @@ class CustomIcons {
   static const meter = 'assets/contract/meter.png';
   static const meterArrow = 'assets/contract/meter_arrow.png';
   static const expire = 'assets/contract/expire.png';
+
+//  - assets/about/ic_company_intro.png
+//  - assets/about/ic_media_report.png
+//  - assets/about/ic_concern_wx.png
+//  - assets/about/ic_share.png
+//  - assets/about/ic_suggest.png
+//  - assets/about/ic_items.png
+//  - assets/about/ic_version.png
+//  -
+//  - assets/about/ic_wx_qr_code.png
+  static const companyIntro = 'assets/about/ic_company_intro.png';
+  static const media = 'assets/about/ic_media_report.png';
+  static const concern = 'assets/about/ic_concern_wx.png';
+  static const share = 'assets/about/ic_share.png';
+  static const suggest = 'assets/about/ic_suggest.png';
+  static const serviceItems = 'assets/about/ic_items.png';
+  static const version = 'assets/about/ic_version.png';
+  static const wxQRCode = 'assets/about/ic_wx_qr_code.png';
 }
 
 class CustomColors {
@@ -230,7 +248,7 @@ class Global{
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
-  static String version = '0.0.3';
+  static String version = '0.0.4';
 }
 
 final Map<int, String>tradeFlowStatus = {

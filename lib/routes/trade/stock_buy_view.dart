@@ -246,6 +246,8 @@ class StockTradeFrame extends StatelessWidget{
 
     double price = getInputPrice();
     price += 0.01;
+    if(price > stockInfo.upLimitedPrice)
+      price = stockInfo.upLimitedPrice;
     priceInputController.text = price.toStringAsFixed(2);
     onPriceInputChange('');
   }
@@ -256,8 +258,8 @@ class StockTradeFrame extends StatelessWidget{
 
     double price = getInputPrice();
     price -= 0.01;
-    if(price < 0.0)
-      price = 0.0;
+    if(price < stockInfo.downLimitedPrice)
+      price = stockInfo.downLimitedPrice;
 
     priceInputController.text = price.toStringAsFixed(2);
     onPriceInputChange('');

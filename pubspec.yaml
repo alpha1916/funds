@@ -29,7 +29,7 @@ dependencies:
   dio: ^2.1.7
   url_launcher: 5.0.3
   image_picker: ^0.6.0+10
-#  image_picker: ^0.4.12+1
+  image_picker_saver: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -115,6 +115,15 @@ flutter:
     - assets/mail/mail_type1.png
     - assets/mail/mail_type2.png
     - assets/mail/mail_type3.png
+
+    - assets/about/ic_company_intro.png
+    - assets/about/ic_media_report.png
+    - assets/about/ic_concern_wx.png
+    - assets/about/ic_share.png
+    - assets/about/ic_suggest.png
+    - assets/about/ic_items.png
+    - assets/about/ic_version.png
+    - assets/about/ic_wx_qr_code.png
 
 
 

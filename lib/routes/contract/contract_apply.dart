@@ -31,6 +31,9 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       currentData = dataList.firstWhere((data) => data.type == widget.type);
       _currentTypeIdx = dataList.indexOf(currentData);
     }
+
+    if(Global.debug)
+      inputController.text = '10000';
   }
 
   @override

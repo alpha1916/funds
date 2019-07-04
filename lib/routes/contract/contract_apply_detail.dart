@@ -235,8 +235,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     list.add(_buildItemView('杠杆本金', '${data.capital} 元', CustomColors.red));
     list.add(_buildItemSplit());
 
-    final titleTips = data.cost > 0 ? '预存2日费用' : '免管理费';
-    list.add(_buildItemView('管理费', '${data.cost} 元/交易日', CustomColors.red, titleTips), );
+    list.add(_buildItemView('管理费', data.strCost, CustomColors.red, data.strCostTips));
     list.add(_buildItemSplit());
 
     list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, (){

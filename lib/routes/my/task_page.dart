@@ -278,6 +278,7 @@ class _TaskPageState extends State<TaskPage> {
       setState(() {
         _isSignedToday = true;
         _signedDays += 1;
+        UserRequest.getUserInfo();
       });
     }
   }

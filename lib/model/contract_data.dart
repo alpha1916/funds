@@ -30,6 +30,8 @@ class ExperienceInfoData {
 //  "riskName": "亏损全赔付"
 }
 
+
+final type2CostTips = ['', '预存2日费用', '5个交易日', '按月收取', '无管理费'];
 class ContractApplyDetailData {
   static int normalType = 0;
   static int experienceType = 1;
@@ -54,6 +56,29 @@ class ContractApplyDetailData {
   int type;
   int times;
   int loadAmount;
+  String get strCostTips => type2CostTips[type];
+  String get strCost {
+    String str;
+    switch(type){
+      case 1:
+        str = '$cost 元/每交易日';
+        break;
+
+      case 2:
+        str = '$cost 元';
+        break;
+
+      case 3:
+        str = '$cost 元';
+        break;
+
+      case 4:
+        str = '0 元/每交易日';
+        break;
+    }
+    return str;
+  }
+
   ContractApplyDetailData(data):
 //        title = data['title'],
 //        capital = data['capital'],

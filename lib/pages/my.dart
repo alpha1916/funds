@@ -10,7 +10,7 @@ import 'package:funds/routes/my/funds_detail_page.dart';
 
 import 'package:funds/routes/my/task_page.dart';
 import 'package:funds/routes/my/coupons_page.dart';
-import 'package:funds/routes/my/about_page.dart';
+import 'package:funds/routes/my/about/about_page.dart';
 import 'package:funds/routes/my/help_page.dart';
 
 class MyView extends StatefulWidget {

@@ -12,6 +12,7 @@ import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:funds/routes/mail/mail_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
+import 'package:flutter/cupertino.dart';
 
 class Utils {
   static BuildContext context;
@@ -269,6 +270,33 @@ class Utils {
       return;
     Utils.navigateTo(WithdrawPage(result.data));
     return;
+  }
+
+  static showBottomPopupOptions({titles, cancelTitle = '取消'}) async{
+    buildItem(BuildContext context, String comment) {
+      return CupertinoActionSheetAction(
+        child: Text(comment),
+        onPressed: () {
+          Navigator.pop(context, comment);
+        },
+      );
+    }
+
+    return await showCupertinoModalPopup<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: titles
+            .map<Widget>((comment) => buildItem(context, comment))
+            .toList(),
+        cancelButton: CupertinoActionSheetAction(
+          child: Text(cancelTitle),
+          isDefaultAction: true,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
   }
 }
 

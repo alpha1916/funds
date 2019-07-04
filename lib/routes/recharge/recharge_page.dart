@@ -136,31 +136,7 @@ class _RechargePageState extends State<RechargePage> {
 
   final List<String> _comments = ['申请合约', '追加本金', '交管理费', '普通充值'];
   _onPressSelectComment() async {
-    buildItem(BuildContext context, String comment) {
-      return CupertinoActionSheetAction(
-        child: Text(comment),
-        onPressed: () {
-          Navigator.pop(context, comment);
-        },
-      );
-    }
-
-    String result = await showCupertinoModalPopup<String>(
-      context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-            actions: _comments
-                .map((comment) => buildItem(context, comment))
-                .toList(),
-            cancelButton: CupertinoActionSheetAction(
-              child: const Text('取消'),
-              isDefaultAction: true,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-    );
-
+    String result = await Utils.showBottomPopupOptions(titles: _comments);
     if (result != null) {
       setState(() {
         _comment = result;

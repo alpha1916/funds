@@ -231,15 +231,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
   }
 
   _buildManagementItemView(ContractCostFlowData data){
-    double value;
-    Color valueColor;
-    if(data.value > 0){
-      value = -data.value;
-      valueColor = Colors.green;
-    }else{
-      value = data.value;
-      valueColor = CustomColors.red;
-    }
+    Color valueColor = data.value < 0 ? Colors.green : CustomColors.red;
     return Container(
       padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px8),
       color: Colors.white,
@@ -249,7 +241,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('管理费用', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
-              Text(value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: valueColor)),
+              Text(data.value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: valueColor)),
             ],
           ),
           SizedBox(height: a.px10,),
