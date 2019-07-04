@@ -195,7 +195,7 @@ class Utils {
       Utils.navigateTo(RechargePage());
   }
 
-  static Future<bool> showConfirmOptionsDialog({title = '提示', tips, cancelTitle = '取消', confirmTitle = '确定'}) async {
+  static Future<bool> showConfirmOptionsDialog({title = '提示', @required tips, cancelTitle = '取消', confirmTitle = '确定'}) async {
     var selectIdx = await CustomDialog.show3(title, tips, cancelTitle, confirmTitle);
     return selectIdx == 2;
   }
@@ -262,6 +262,14 @@ class Utils {
     } else {
       print('不能访问');
     }
+  }
+
+  static callService() {
+    dial(Global.servicePhoneNumber);
+  }
+
+  static openWx() {
+    launch('weixin://');
   }
 
   static bankCardWithdraw() async{

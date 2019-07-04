@@ -89,5 +89,7 @@ class AboutPage extends StatelessWidget {
     Utils.navigateTo(SuggestPage());
   }
   _showServiceItems() {}
-  _checkVersion() {}
+  _checkVersion() {
+    alert2('提示', '当前已是最新版本', '知道了');
+  }
 }

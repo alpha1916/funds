@@ -4,19 +4,20 @@ class CouponData {
   final int cost;//优惠值
   final String expireDate;//开始交易时间
   final int integral;//兑换需要积分
-  CouponData(data):
+  CouponData.fromShopData(data):
         id = data['id'],
-        title = data['title'] ?? '管理费抵用券',
+        title = data['name'],
         cost = data['ticketValue'],
         integral = data['score'],
-        expireDate = data['expireDate'];
+        expireDate = null
+  ;
 
-  CouponData.fromShopData(CouponData src, String date):
-      expireDate = date,
-      title = src.title,
-      cost = src.cost,
-      integral = null,//src.integral,
-      id = null//src.id
+  CouponData.fromSelfData(data):
+      id = data['id'],
+      expireDate = data['time'],
+      title = data['name'],
+      cost = data['value'],
+      integral = null
   ;
 }
 

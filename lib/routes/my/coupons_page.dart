@@ -12,7 +12,6 @@ class CouponsPage extends StatefulWidget {
 class _CouponsPageState extends State<CouponsPage> {
   List<CouponData> _myCoupons;
   List<CouponData> _shopCoupons;
-  Map<int, CouponData> _shopCouponsMap;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +44,8 @@ class _CouponsPageState extends State<CouponsPage> {
       if (!result.success)
         return;
       _shopCoupons = result.data;
-      _shopCouponsMap = {};
-      _shopCoupons.forEach((data) => _shopCouponsMap[data.id] = data);
+//      _shopCouponsMap = {};
+//      _shopCoupons.forEach((data) => _shopCouponsMap[data.id] = data);
     }
 
     ResultData result = await UserRequest.getMyCouponsData();
@@ -54,10 +53,7 @@ class _CouponsPageState extends State<CouponsPage> {
       return;
 
     setState(() {
-      List<dynamic> list = result.data;
-      print(list.length);
-      _myCoupons = list.map((data) => CouponData.fromShopData(_shopCouponsMap[data['ticketId']], data['time'])).toList();
-      print(_myCoupons.length);
+      _myCoupons = result.data;
     });
   }
 

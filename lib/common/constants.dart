@@ -249,6 +249,7 @@ class Global{
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
   static String version = '0.0.4';
+  static String servicePhoneNumber = '4001234567';
 }
 
 final Map<int, String>tradeFlowStatus = {

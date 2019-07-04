@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
-//import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:image_picker/image_picker.dart';
-
 import 'package:image_picker_saver/image_picker_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class ConcernWXPage extends StatelessWidget {
@@ -24,7 +23,7 @@ class ConcernWXPage extends StatelessWidget {
             InkWell(
               child: Image.asset(CustomIcons.wxQRCode, width: a.px(280), fit: BoxFit.fill,),
               onLongPress: _savedImage,
-              onTap: _savedImage,
+//              onTap: _savedImage,
             ),
             SizedBox(height: a.px50),
             Padding(
@@ -39,8 +38,17 @@ class ConcernWXPage extends StatelessWidget {
 
   _savedImage() async {
     ByteData bytes = await rootBundle.load(CustomIcons.wxQRCode);
-    var filePath = await ImagePickerSaver.saveFile(fileData: bytes.buffer.asUint8List());
-    print(filePath);
-//    final result = await ImageGallerySaver.save(bytes.buffer.asUint8List());
+    var result = await ImagePickerSaver.saveFile(fileData: bytes.buffer.asUint8List());
+    if(result == '1'){
+      await alert('保存图片失败');
+      if(await Utils.showConfirmOptionsDialog(tips: '请打开APP的相册访问权限', confirmTitle: '设置'))
+        await PermissionHandler().openAppSettings();
+      return;
+    }
+    await alert('保存图片成功');
+    bool confirm = await Utils.showConfirmOptionsDialog(tips: '去关注xx投资？', confirmTitle: '打开');
+    if(confirm){
+      Utils.openWx();
+    }
   }
 }

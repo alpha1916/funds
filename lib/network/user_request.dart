@@ -141,15 +141,15 @@ class UserRequest {
     if(result == null){
       return ResultData(false);
     }
-    List<dynamic> oDataList = [
-//      {'ticketValue': 50, 'expireDate': '2019-06-17'},
-//      {'ticketValue': 200,  'expireDate': '2019-06-17'},
-//      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
-    ];
-//    List<dynamic> oDataList = result['data'];
-//    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
+//    List<dynamic> oDataList = [
+////      {'ticketValue': 50, 'expireDate': '2019-06-17'},
+////      {'ticketValue': 200,  'expireDate': '2019-06-17'},
+////      {'ticketValue': 8000, 'expireDate': '2019-06-17'},
+//    ];
+    List<dynamic> oDataList = result['data'];
+    List<CouponData> dataList = oDataList.map((data) => CouponData.fromSelfData(data)).toList();
 
-    return ResultData(true, result['data']);
+    return ResultData(true, dataList);
   }
 
   static getShopCouponsData() async {
@@ -160,7 +160,7 @@ class UserRequest {
     }
 
     List<dynamic> oDataList = result['data'];
-    List<CouponData> dataList = oDataList.map((data) => CouponData(data)).toList();
+    List<CouponData> dataList = oDataList.map((data) => CouponData.fromShopData(data)).toList();
 
     return ResultData(true, dataList);
   }

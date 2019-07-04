@@ -96,13 +96,4 @@ class CouponSelectPage extends StatelessWidget {
       },
     );
   }
-
-  static getTestData() {
-    final testData = [
-      {'cost': 50, 'title': '管理费抵用券', 'date': '2019-06-29'},
-      {'cost': 200, 'title': '管理费抵用券', 'date': '2019-06-29'},
-      {'cost': 1000, 'title': '管理费抵用券', 'date': '2019-06-29'},
-    ];
-    return testData.map((data) => CouponData(data)).toList();
-  }
 }

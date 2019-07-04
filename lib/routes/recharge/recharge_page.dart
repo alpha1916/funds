@@ -216,6 +216,9 @@ class _RechargePageState extends State<RechargePage> {
 //    2、 请明确填写的充值金额与实际转账金额一致，转账凭证中包含
 //    付款人、收款人、金额三要素；图片示例
 //    3、如果遇到任何问题，请联系客服：400-603-0008
+    String phoneNumber = Global.servicePhoneNumber.substring(0, 3) + '-' +
+        Global.servicePhoneNumber.substring(3, 6) + '-' +
+        Global.servicePhoneNumber.substring(6);
     TextStyle style = TextStyle(fontSize: a.px13, color: Colors.black38);
     return Padding(
       padding: EdgeInsets.all(a.px16),
@@ -239,10 +242,10 @@ class _RechargePageState extends State<RechargePage> {
                 style: style
             ),
             TextSpan(
-                text: '400-603-0008',
+                text: phoneNumber,
                 style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
                 recognizer: TapGestureRecognizer()..onTap = () {
-                  Utils.dial('400-603-0008');
+                  Utils.callService();
                 }
             ),
           ],

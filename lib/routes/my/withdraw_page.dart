@@ -10,7 +10,6 @@ class WithdrawPage extends StatelessWidget {
   WithdrawPage(this.data);
   @override
   Widget build(BuildContext context) {
-    String phoneNumber = '18666612345';
     return Scaffold(
       appBar: AppBar(
         title:Text('我的银行卡'),
@@ -22,7 +21,7 @@ class WithdrawPage extends StatelessWidget {
           _buildTipsView(),
           SizedBox(height: a.px30),
           Utils.buildRaisedButton(title: '确认提现', onPressed: _onPressedOK),
-          _buildServiceView(phoneNumber),
+          _buildServiceView(),
         ],
       ),
       resizeToAvoidBottomPadding: false,
@@ -56,13 +55,13 @@ class WithdrawPage extends StatelessWidget {
     );
   }
 
-  _buildServiceView(phoneNumber) {
+  _buildServiceView() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text('提现遇到问题？', style: TextStyle(fontSize: a.px16),),
         Utils.buildUnderlineTextButton('联系客服', a.px16, () {
-          Utils.dial(phoneNumber);
+          Utils.callService();
         })
       ],
     );

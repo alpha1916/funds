@@ -8,7 +8,6 @@ class BindedBankCardInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String phoneNumber = '18666612345';
     return Scaffold(
       appBar: AppBar(
         title:Text('我的银行卡'),
@@ -16,7 +15,7 @@ class BindedBankCardInfoPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           _buildCardView(),
-          _buildTipsView(phoneNumber),
+          _buildTipsView(),
         ],
       ),
     );
@@ -49,13 +48,13 @@ class BindedBankCardInfoPage extends StatelessWidget {
     );
   }
 
-  _buildTipsView(phoneNumber) {
+  _buildTipsView() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text('如需解绑银行卡，', style: TextStyle(fontSize: 16),),
         Utils.buildUnderlineTextButton('联系客服', a.px16, () {
-          Utils.dial(phoneNumber);
+          Utils.callService();
         })
       ],
     );

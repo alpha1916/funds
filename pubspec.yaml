@@ -30,6 +30,7 @@ dependencies:
   url_launcher: 5.0.3
   image_picker: ^0.6.0+10
   image_picker_saver: ^0.3.0
+  permission_handler: 3.1.0
 
 dev_dependencies:
   flutter_test:
