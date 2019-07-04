@@ -35,7 +35,7 @@ class StockTradeRequest {
   static sell(contractNumber, code, price, count) async{
     final String api = '/api/v1/trade/saleEntrust';
     var data = {
-      'contractNumber': contractNumber,
+      'contractNum': contractNumber,
       'secCode': code,
       'count': count,
       'price': price,

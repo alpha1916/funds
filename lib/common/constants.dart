@@ -45,15 +45,6 @@ class CustomIcons {
   static const meterArrow = 'assets/contract/meter_arrow.png';
   static const expire = 'assets/contract/expire.png';
 
-//  - assets/about/ic_company_intro.png
-//  - assets/about/ic_media_report.png
-//  - assets/about/ic_concern_wx.png
-//  - assets/about/ic_share.png
-//  - assets/about/ic_suggest.png
-//  - assets/about/ic_items.png
-//  - assets/about/ic_version.png
-//  -
-//  - assets/about/ic_wx_qr_code.png
   static const companyIntro = 'assets/about/ic_company_intro.png';
   static const media = 'assets/about/ic_media_report.png';
   static const concern = 'assets/about/ic_concern_wx.png';
@@ -62,6 +53,12 @@ class CustomIcons {
   static const serviceItems = 'assets/about/ic_items.png';
   static const version = 'assets/about/ic_version.png';
   static const wxQRCode = 'assets/about/ic_wx_qr_code.png';
+
+  static const helpBasic = 'assets/help/ic_help_base_intro.png';
+  static const helpTrade = 'assets/help/ic_help_trade.png';
+  static const helpCash = 'assets/help/ic_help_cash.png';
+  static const phoneService = 'assets/help/ic_phone_service.png';
+  static const onlineService = 'assets/help/ic_online_service.png';
 }
 
 class CustomColors {

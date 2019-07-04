@@ -84,7 +84,8 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
                   onPressed: () async{
                     ResultData result = await ContractRequest.getConfigs();
                     if(mounted && result.success){
-                      Utils.navigateTo(ContractApplyPage(result.data));
+                      await Utils.navigateTo(ContractApplyPage(result.data));
+                      _refresh();
                     }
                   },
                 ),

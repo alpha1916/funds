@@ -298,12 +298,9 @@ class _MyViewState extends State<MyView> {
                 color: Colors.white,
                 child: Column(
                   children: <Widget>[
-
                     _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressHelp),
                     Divider(height: a.px1, indent: a.px16),
                     _buildBottomItem(CustomIcons.myAbout, '关于xx', false, '', _onPressAbout),
-                    Divider(height: a.px1, indent: a.px16),
-                    _buildBottomItem(CustomIcons.version, '当前版本', false, 'v${Global.version}', null),
                   ],
                 ),
               ),

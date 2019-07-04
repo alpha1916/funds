@@ -85,13 +85,17 @@ class Utils {
 
   static buildServiceIconButton(BuildContext context) {
     return IconButton(
-        icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
-        onPressed: (){
-          print('press service');
-          if(Global.debug)
-            test();
-        }
+      icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
+      onPressed: (){
+        openOnlineService();
+        if(Global.debug)
+          test();
+      }
     );
+  }
+
+  static openOnlineService() {
+
   }
   
   static getProfitColor(value) {

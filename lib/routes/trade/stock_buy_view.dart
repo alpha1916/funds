@@ -358,6 +358,17 @@ class StockTradeFrame extends StatelessWidget{
     return confirm != null;
   }
 
+  bool validPrice(price){
+    if(price > stockInfo.upLimitedPrice){
+      alert2('提示', '购买价格不能高于今日涨停价', '确定');
+      return false;
+    }else if(price < stockInfo.downLimitedPrice){
+      alert2('提示', '购买价格不能低于今日跌停价', '确定');
+      return false;
+    }
+    return true;
+  }
+
   onBtnTrade() async{
     if(stockInfo == null)
       return;
@@ -368,17 +379,11 @@ class StockTradeFrame extends StatelessWidget{
     }
 
     int count = Utils.parseInt(countInputController.text);
-    if(count != null){
-      if(count % 100 != 0){
-        alert('委买数量必须是100的整数倍');
-        return;
-      }
-    }else{
-      alert('请输入正确的委买数量');
-      return;
-    }
 
     double price = getInputPrice();
+    if(!validPrice(price))
+      return;
+
     bool confirm = await queryTradeConfirm(TradeType.buy, count, price);
     if(!confirm)
       return;

@@ -126,6 +126,11 @@ flutter:
     - assets/about/ic_version.png
     - assets/about/ic_wx_qr_code.png
 
+    - assets/help/ic_help_base_intro.png
+    - assets/help/ic_help_cash.png
+    - assets/help/ic_help_trade.png
+    - assets/help/ic_online_service.png
+    - assets/help/ic_phone_service.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
