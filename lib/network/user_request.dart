@@ -121,6 +121,21 @@ class UserRequest {
     return ResultData(true, dataList);
   }
 
+  static getIntegralFlow() async {
+    final String api = '/api/v1/capital/getScoreRecord';
+    var result = await HttpRequest.sendTokenPost(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<IntegralFlowData> dataList = oDataList.map((data) => IntegralFlowData(data)).toList();
+
+    return ResultData(true, dataList);
+
+//    return HttpRequest.requestListData(type:api: api, dataConverter: (data) => IntegralFlowData(data));
+  }
+
   static getMailData(type) async {
     final String api = '/api/v1/mail/getMailList';
     var result = await HttpRequest.sendTokenGet(api: api);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 
@@ -17,6 +18,12 @@ class CaptchaType {
   static int forgotWithdrawPassword = 3;
   static int oldPhone = 4;
   static int newPhone = 5;
+}
+
+enum RequestType{
+  get,
+  tokenGet,
+  tokenPost,
 }
 
 class HttpRequest {
@@ -160,6 +167,83 @@ class HttpRequest {
 
     return ResultData(true, result['data']['captcha']);
   }
+
+  static uploadImage(String path) async{
+    Loading.show();
+    final String api = '/api/v1/user/upLoadImage';
+    try{
+      var name = path.substring(path.lastIndexOf("/") + 1, path.length);
+      var suffix = name.substring(name.lastIndexOf(".") + 1, name.length);
+      FormData data = FormData.from({
+        'head': UploadFileInfo(
+          File(path),
+          name,
+          contentType: ContentType.parse("image/$suffix")
+        )
+      });
+
+      RequestOptions options = RequestOptions(
+        headers: {
+          "Accept": "*/*",
+          'token': AccountData.getInstance().token,
+        }
+      );
+      Response response = await dio.post(api, options: options, data: data);
+      Loading.hide();
+      if(response.statusCode == 200){
+        var data = response.data;
+        print('[${DateTime.now().toString().substring(11)}]response:${data.toString()}');
+        if(!noBusinessErrorCodes.contains(data['code'])){
+          handleBusinessCode(data['code'], data['desc']);
+          return null;
+        }
+
+        return data['data'];
+      }else if(response.statusCode == 401){
+        handleUnauthorized(true);
+        return null;
+      }else{
+        alert('上传图片错误');
+        return null;
+      }
+    }catch(e){
+      Loading.hide();
+      alert('上传图片错误');
+      return null;
+    }
+  }
+
+//  static requestListData({
+//    @required type,
+//    @required api,
+//    data,
+//    dataConverter,
+//    askLogin = true,
+//  }) async {
+//    var result;
+//    switch(type){
+//      case RequestType.get:
+//        result = await HttpRequest.send(api: api, data: data);
+//        break;
+//
+//      case RequestType.tokenGet:
+//        result = await HttpRequest.sendTokenPost(api: api, data: data);
+//        break;
+//
+//      case RequestType.tokenPost:
+//        result = await HttpRequest.sendTokenPost(api: api, data: data);
+//        break;
+//
+//    }
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    List<dynamic> oDataList = result['data'];
+//    List<dynamic> dataList = oDataList.map(dataConverter).toList();
+//
+//    return ResultData(true, dataList);
+//  }
 
   static buildBusinessData(success, [data]){
     return {
@@ -331,12 +415,16 @@ class ExperienceRequest {
 }
 
 class RechargeRequest{
-  static recharge(double money, String comment) async {
+  static recharge(double money, String comment, String imagePath) async {
+    String url = await HttpRequest.uploadImage(imagePath);
+    if(url == null)
+      return ResultData(false);
+
     final String api = '/api/v1/capital/pay/payReq';
     var data = {
       'money': money,
       'remarks': comment,
-      'url': 'test',
+      'url': url,
     };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){

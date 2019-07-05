@@ -49,6 +49,7 @@ class _RechargePageState extends State<RechargePage> {
     if(Global.debug){
       inputController.text = '2000000';
       _comment = '追加本金';
+      _imagePath = '/Users/alpha/Library/Developer/CoreSimulator/Devices/FBCF0237-61F7-4124-81C2-70C837851BBE/data/Containers/Data/Application/A98420B8-0507-4979-A79A-81ED1C4B4ADB/tmp/image_picker_66FB8F65-3F18-4420-AC29-18C8BEC5CFDC-7739-00001F9BFAF6A4D4.jpg';
     }
   }
 
@@ -277,7 +278,7 @@ class _RechargePageState extends State<RechargePage> {
       return;
     }
 
-    ResultData result = await RechargeRequest.recharge(num, _comment);
+    ResultData result = await RechargeRequest.recharge(num, _comment, _imagePath);
     if (result.success) {
       await alert('充值请求已提交，请等待工作人员核实');
       Utils.navigatePop(true);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:funds/pages/trade.dart';
 import 'constants.dart';
 import 'package:funds/network/http_request.dart';
@@ -12,7 +13,7 @@ import 'package:funds/routes/recharge/recharge_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:funds/routes/mail/mail_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:funds/routes/online_service_page.dart';
 
 class Utils {
   static BuildContext context;
@@ -87,15 +88,20 @@ class Utils {
     return IconButton(
       icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
       onPressed: (){
+//        if(Global.debug){
+//          test();
+//          return;
+//        }
         openOnlineService();
-        if(Global.debug)
-          test();
       }
     );
   }
 
   static openOnlineService() {
-
+    navigateTo(OnlineServicePage());
+//    final String url = 'https://master.71baomu.com/code/app/10013223/1?device=${Global.platformName}';
+//    debugPrint(url);
+//    launch(url, forceWebView: true);
   }
   
   static getProfitColor(value) {

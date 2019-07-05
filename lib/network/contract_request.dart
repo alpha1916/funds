@@ -33,12 +33,13 @@ class ContractRequest {
     return ResultData(true, resultData);
   }
 
-  static Future<ResultData> applyContract(int type, int times, int loanAmount) async {
+  static Future<ResultData> applyContract(int type, int times, int loanAmount, int couponId) async {
     final String api = '/api/v1/contract/applyContract';
     var data = {
       'type': type,
       'times': times,
       'loanAmount': loanAmount,
+      'ticketId': couponId ?? 0,
     };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
 

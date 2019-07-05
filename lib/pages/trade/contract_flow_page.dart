@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 
 class ContractFlowPage extends StatefulWidget {
@@ -238,9 +239,10 @@ class _ContractFlowPageState extends State<ContractFlowPage>
       child: Column(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('管理费用', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
+              data.tips == '' ? Container() : Text('（${data.tips}）', style: TextStyle(fontSize: a.px14)),
+              Utils.expanded(),
               Text(data.value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: valueColor)),
             ],
           ),

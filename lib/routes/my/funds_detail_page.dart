@@ -5,6 +5,7 @@ import 'package:funds/model/account_data.dart';
 
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'cash_flow_page.dart';
+import 'integral_flow_page.dart';
 
 class FundsDetailPage extends StatelessWidget {
   @override
@@ -21,9 +22,7 @@ class FundsDetailPage extends StatelessWidget {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-//                  _buildNumberItemView(CustomIcons.gold, '金币流水', 0, _onPressedGold),
-//                  Divider(height: a.px1, indent: a.px20)),
-                _buildNumberItemView(CustomIcons.integral, '积分流水', 0, _onPressedIntegral),
+                _buildNumberItemView(CustomIcons.integral, '积分流水', AccountData.getInstance().integral, _onPressedIntegral),
               ],
             ),
           )
@@ -109,11 +108,7 @@ class FundsDetailPage extends StatelessWidget {
     Utils.bankCardWithdraw();
   }
 
-  _onPressedGold() {
-
-  }
-
   _onPressedIntegral() {
-
+    Utils.navigateTo(IntegralFlowPage());
   }
 }

@@ -65,7 +65,7 @@ class SellFrame extends StockTradeFrame {
     double price = getInputPrice();
     if(!validPrice(price))
       return;
-    
+
     bool confirm = await queryTradeConfirm(TradeType.sell, count, price);
     if(!confirm)
       return;

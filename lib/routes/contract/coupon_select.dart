@@ -4,10 +4,10 @@ import 'package:funds/model/coupon_data.dart';
 
 double realWidth;
 class CouponSelectPage extends StatelessWidget {
-  CouponSelectPage(this.dataList, this.selectedIdx);
+  CouponSelectPage(this.dataList, this.selectedId);
 
   final List<CouponData> dataList;
-  final int selectedIdx;
+  final int selectedId;
   @override
   Widget build(BuildContext context) {
     realWidth = MediaQuery.of(context).size.width;
@@ -39,8 +39,6 @@ class CouponSelectPage extends StatelessWidget {
   }
 
   _buildItem(BuildContext context, CouponData data, itemHeight, margin){
-    final idx = dataList.indexOf(data);
-
     List<Widget> list = [
       Container(
         width: itemHeight * 282 / 134,
@@ -75,10 +73,10 @@ class CouponSelectPage extends StatelessWidget {
       ),
     ];
 
-    if(selectedIdx == idx){
+    if(selectedId == data.id){
       list.add(Expanded(child: Container()));
       list.add(Icon(Icons.check));
-      list.add(SizedBox(width: 5));
+      list.add(SizedBox(width: a.px5));
     }
 
     return InkWell(
@@ -91,8 +89,7 @@ class CouponSelectPage extends StatelessWidget {
         ),
       ),
       onTap: () {
-        final int idx = dataList.indexOf(data);
-        Navigator.of(context).pop(idx);
+        Navigator.of(context).pop(data);
       },
     );
   }

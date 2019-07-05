@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/model/coupon_data.dart';
@@ -20,11 +19,26 @@ class ContractApplyDetailPage extends StatefulWidget {
 
 class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   ContractApplyDetailData data;
+  List<CouponData> _coupons;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     data = widget.data;
+
+    _getCouponData();
+  }
+
+  _getCouponData() async{
+    if(data.contractType != ContractApplyDetailData.normalType || data.type == 4)
+      return;
+
+    var result = await UserRequest.getMyCouponsData();
+    if(result.success){
+      setState(() {
+        _coupons = result.data;
+      });
+    }
   }
 
   @override
@@ -101,7 +115,6 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   Widget _buildItemView(title, content, contentColor, [titleTips, titleIcon = false, onPressed]) {
-    final px12 = a.px12;
     List<Widget> list = [];
     //标题
     list.add(Text(
@@ -140,7 +153,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
     Widget view = Container(
       color: Colors.white,
-      padding: EdgeInsets.only(left: px12, right: px12, top: px12, bottom: px12),
+      padding: EdgeInsets.all(a.px16),
       child: Row(
         children: list,
       ),
@@ -156,17 +169,16 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     );
   }
 
-  int _selectedCouponIdx = -1;
+  CouponData _selectedCoupon;
   Widget _buildCouponItemView() {
     final px12 = a.px12;
     String content1;
     String content2;
-    if(_selectedCouponIdx != -1){
-      CouponData couponData = data.coupons[_selectedCouponIdx];
-      content1 = '${couponData.cost} 元';
+    if(_selectedCoupon != null){
+      content1 = '${_selectedCoupon.cost} 元';
       content2 = '优惠券';
     }else{
-      content1 = data.coupons.length.toString();
+      content1 = _coupons.length.toString();
       content2 = '张可用';
     }
     List<Widget> list = [];
@@ -211,57 +223,60 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
         ),
       ),
       onTap: () async{
-        final int idx = await Utils.navigateTo(CouponSelectPage(data.coupons, _selectedCouponIdx));
-        if(idx != null){
+        final CouponData data = await Utils.navigateTo(CouponSelectPage(_coupons, _selectedCoupon?.id));
+        if(data != null){
           setState(() {
-            _selectedCouponIdx = _selectedCouponIdx == idx ? -1 : idx;
+            if(data.id == _selectedCoupon?.id)
+              _selectedCoupon = null;
+            else
+              _selectedCoupon = data;
           });
         }
       },
     );
   }
 
-  Widget _buildItemSplit() {
-    return Container(
-        height: 1,
-        color: Colors.black12,
-        margin: EdgeInsets.only(left: a.px12),
-    );
-  }
+//  Widget divider {
+//    return Container(
+//        height: 1,
+//        color: Colors.black12,
+//        margin: EdgeInsets.only(left: a.px12),
+//    );
+//  }
 
   _buildItemList() {
     final Color blackColor = Colors.black87;
+    final divider = Divider(height: 0, indent: a.px16, color: Colors.black38,);
     List<Widget> list = [];
     list.add(_buildItemView('杠杆本金', '${data.capital} 元', CustomColors.red));
-    list.add(_buildItemSplit());
+    list.add(divider);
 
     list.add(_buildItemView('管理费', data.strCost, CustomColors.red, data.strCostTips));
-    list.add(_buildItemSplit());
+    list.add(divider);
 
     list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, (){
       alert2('警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了');
     }));
-    list.add(_buildItemSplit());
+    list.add(divider);
 
     list.add(_buildItemView('止损线', '${data.cut} 元', blackColor, null, true, (){
       alert2('止损线', '当触及止损线，即会被强制平仓', '知道了');
     }));
-    list.add(_buildItemSplit());
+    list.add(divider);
 
     if(data.holdTips != null){
       list.add(_buildItemView('单票持仓', data.holdTips, blackColor), );
-      list.add(_buildItemSplit());
+      list.add(divider);
     }
 
     list.add(_buildItemView('开始交易', data.date, blackColor), );
-    list.add(_buildItemSplit());
+    list.add(divider);
 
     list.add(_buildItemView('持仓时间', data.period, blackColor), );
-    list.add(_buildItemSplit());
 
-    if(data.coupons.length > 0) {
+    if(_coupons != null && _coupons.length > 0) {
+      list.add(divider);
       list.add(_buildCouponItemView());
-      list.add(_buildItemSplit());
     }
 
     return Column(
@@ -332,7 +347,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _applyContract() async {
-    ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount);
+    ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount, _selectedCoupon?.id);
     if(result.success){
       if(result.data['code'] == 504){
         bool confirm = await Utils.showConfirmOptionsDialog(title: '提示', tips: '您的现金余额不足', confirmTitle: '立即充值');

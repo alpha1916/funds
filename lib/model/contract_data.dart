@@ -41,7 +41,6 @@ class ContractApplyDetailData {
   int capital;//杠杆本金
   int total;//合约金额
   String period;//持仓时间
-  List<CouponData> coupons = [];
 
   final int profit;//盈利分配
   final double cost;//管理费
@@ -93,9 +92,6 @@ class ContractApplyDetailData {
 
 //        period = data['period'],
 //        total = data['total'],
-//        coupons = data['coupons'].map<CouponData>((couponData){
-//          return CouponData(couponData);
-//        }).toList()
   ;
 
 }
@@ -282,9 +278,11 @@ class ContractCostFlowData {
   final double value;
   final double leftMoney;
   final String date;
+  final String tips;
   ContractCostFlowData(data):
         value = Utils.convertDouble(data['money']),
         leftMoney= Utils.convertDouble(data['nowMoney']),
+        tips = data['tips'] ?? '',
         date = data['recordTime']
   ;
 }

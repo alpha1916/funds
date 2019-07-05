@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'custom_dialog.dart';
+import 'dart:io';
+
 class CustomIcons {
   static const service = 'assets/common/service.png';
   static const mail0 = 'assets/common/mail0.png';
@@ -247,6 +249,14 @@ class Global{
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
   static String version = '0.0.4';
   static String servicePhoneNumber = '4001234567';
+  static String get platformName {
+    if(Platform.isIOS){
+      return 'ios';
+    }else if(Platform.isAndroid){
+      return 'android';
+    }
+    return 'unknown';
+  }
 }
 
 final Map<int, String>tradeFlowStatus = {

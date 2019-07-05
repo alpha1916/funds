@@ -56,8 +56,8 @@ class _MyViewState extends State<MyView> {
 
   //---------------------------------上部分-------------------------------------/
 
-  _buildTableRow(title, value, hasDivider, onPressed) {
-    TextStyle ts = TextStyle(color: Colors.white, fontSize: a.px15);
+  _buildRow(title, value, hasDivider, onPressed) {
+    TextStyle ts = TextStyle(color: Colors.white, fontSize: a.px16);
     List<Widget> children = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,7 @@ class _MyViewState extends State<MyView> {
       child:RaisedButton(
         child: Text(
           title,
-          style: TextStyle(color: titleColor, fontSize: a.px15),
+          style: TextStyle(color: titleColor, fontSize: a.px16),
         ),
         onPressed: onPressed,
         color: color,
@@ -139,55 +139,51 @@ class _MyViewState extends State<MyView> {
       color: CustomColors.backgroundBlue,
       child: Column(
         children: <Widget>[
+          SizedBox(height: a.px12),
           //用户名，个人设置
-          Row(
-            children: <Widget>[
-              SizedBox(width: a.px20,),
-              Text(
-                '用户：${Utils.convertPhoneNumber(_data.phone)}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: a.px18
+          InkWell(
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: a.px20,),
+                Text(
+                  '用户：${Utils.convertPhoneNumber(_data.phone)}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: a.px18
+                  ),
                 ),
-              ),
-              Expanded(child:Container()),
-              FlatButton(
-                child: Text(
+                Expanded(child:Container()),
+                Text(
                   '个人设置',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: a.px16,
+                    fontSize: a.px17,
                   )
                 ),
-                onPressed: () {
-                  print('press setting');
-                  Utils.navigateTo(SettingsPage());
-                },
-              ),
-              Utils.buildForwardIcon(color: Colors.white),
-              SizedBox(width: a.px16),
-            ],
+                Utils.buildForwardIcon(color: Colors.white),
+                SizedBox(width: a.px16),
+              ],
+            ),
+
+            onTap: () {
+              print('press setting');
+              Utils.navigateTo(SettingsPage());
+            },
           ),
 
           // 证券、余额
-          Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.top,
-            children: <TableRow>[
-              TableRow(
-                children: <Widget>[
-                  _buildTableRow('证券净值', _data.stock.toStringAsFixed(2), true, _onPressContract),
-                  _buildTableRow('现金金额', _data.cash.toStringAsFixed(2), false, _onPressCashFlow),
-                ],
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: _buildRow('证券净值', _data.stock.toStringAsFixed(2), true, _onPressContract),
+              ),
+              Expanded(
+                child: _buildRow('现金金额', _data.cash.toStringAsFixed(2), false, _onPressCashFlow),
               ),
             ],
           ),
           SizedBox(height: a.px10),
-          Container(
-            margin: EdgeInsets.only(left: a.px20),
-            height: a.px1,
-            color: Colors.white30,
-          ),
-
+          Divider(height: 0, color: Colors.white30, indent: a.px20,),
           SizedBox(height: a.px25),
           //资产总计
           Row(
@@ -196,7 +192,7 @@ class _MyViewState extends State<MyView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('资产总计', style: TextStyle(color: Colors.white, fontSize: a.px15),),
+                  Text('资产总计', style: TextStyle(color: Colors.white, fontSize: a.px16),),
                   SizedBox(height: a.px3),
                   Text(_data.total.toStringAsFixed(2), style: TextStyle(color: CustomColors.textGold, fontSize: a.px20),),
                 ],
@@ -240,8 +236,8 @@ class _MyViewState extends State<MyView> {
     );
   }
   _buildBottomItem(iconPath, title, hot, tips, onPressed,){
-    final titleStyle = TextStyle(color: Colors.black87, fontSize: a.px16);
-    final tipsStyle = TextStyle(color: Colors.black54, fontSize: a.px16);
+    final titleStyle = TextStyle(color: Colors.black87, fontSize: a.px17);
+    final tipsStyle = TextStyle(color: Colors.black54, fontSize: a.px17);
 
     return InkWell(
       child: Container(
@@ -249,7 +245,7 @@ class _MyViewState extends State<MyView> {
           padding: EdgeInsets.only(left: a.px15, right: a.px16, top: a.px10, bottom: a.px10),
           child: Row(
             children: <Widget>[
-              Image.asset(iconPath, width: a.px20,),
+              Image.asset(iconPath, width: a.px16,),
               SizedBox(width: a.px15,),
               Text(title, style: titleStyle,),
               SizedBox(width: a.px15,),
