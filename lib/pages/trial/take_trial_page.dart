@@ -273,11 +273,13 @@ class _TipsView extends StatelessWidget {
   final List<ExperienceInfoData> _dataList;
   _TipsView(this._dataList);
   static final String p1 = '1、全民来配资，xx为你准备了如下体验合约：';
-  static final String p2 = '免费体验和免息体验可以同时申请，且只能体验一次';
-  static final String p3 = '2、 体验合约在合约结算后，盈亏部分+杠杆本金将返还至你的现金余额中(若免费体验合约产生亏损，杠杆本金全额返还)，可进行正常提现操作；';
-  static final String p4 = '3、 请于合约到期日14:00前确保合约空仓，否则系统会在14:00后执行自动卖出指令，不保证卖出价格；';
-  static final String p5 = '4、 体验合约不支持放大、缩小合约功能，如需体验xx亮点可直接前往股票交易申请普通合约。';
-  static final String p6 = 'xx对此活动拥有最终解释权';
+  static final p2 = [
+    '免费体验和免息体验可以同时申请，且只能体验一次',
+    '2、 体验合约在合约结算后，盈亏部分+杠杆本金将返还至你的现金余额中(若免费体验合约产生亏损，杠杆本金全额返还)，可进行正常提现操作；',
+    '3、 请于合约到期日14:00前确保合约空仓，否则系统会在14:00后执行自动卖出指令，不保证卖出价格；',
+    '4、 体验合约不支持放大、缩小合约功能，如需体验xx亮点可直接前往股票交易申请普通合约。',
+    'xx对此活动拥有最终解释权'
+  ];
 
   Widget _tipsContent(String text) {
     final double px18 = a.px18;
@@ -337,13 +339,13 @@ class _TipsView extends StatelessWidget {
   Widget _gridView() {
     List<TableRow> tableRowList = [
       TableRow(
-          children: <Widget> [
-            _gridTitle(''),
-            _gridTitle('杠杆本金'),
-            _gridTitle('赠送资金'),
-            _gridTitle('交易期限'),
-            _gridTitle('风险承担'),
-          ]
+        children: <Widget> [
+          _gridTitle(''),
+          _gridTitle('杠杆本金'),
+          _gridTitle('赠送资金'),
+          _gridTitle('交易期限'),
+          _gridTitle('风险承担'),
+        ]
       )
     ];
 
@@ -367,6 +369,13 @@ class _TipsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget line = Expanded(
+      child: Container(
+        margin: EdgeInsets.only(left: a.px18, right: a.px5),
+        height: a.px2,
+        color: Colors.black12,
+      ),
+    );
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -374,35 +383,16 @@ class _TipsView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: a.px18, right: a.px5),
-                  height: a.px2,
-                  color: Colors.black12,
-                ),
-              ),
-              Text(
-                '* 活动规则 *',
-                style: TextStyle(fontSize: a.px16),
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: a.px5, right: a.px18),
-                  height: a.px2,
-                  color: Colors.black12,
-                ),
-              ),
+              line,
+              Text('* 活动规则 *', style: TextStyle(fontSize: a.px16)),
+              line,
             ],
           ),
           SizedBox(height: a.px15),
           _tipsContent(p1),
           _gridView(),
           SizedBox(height: a.px15),
-          _tipsContent(p2),
-          _tipsContent(p3),
-          _tipsContent(p4),
-          _tipsContent(p5),
-          _tipsContent(p6),
+          _tipsContent(p2.join('\n\n')),
         ],
       ),
     );

@@ -33,7 +33,7 @@ class TradeConfirmDialog extends StatelessWidget {
           _buildColumnItem('股票名称', data['title']),
           Divider(height: 0, indent: a.px16),
           _buildColumnItem('委托价格', data['price'].toStringAsFixed(2), colorType),
-          _buildColumnItem('委托数量', '${data['count'] }股', colorType),
+          _buildColumnItem('委托数量', '${data['count']}股', colorType),
           Divider(height: 0,),
           _buildConfirmButton(btnTitle),
         ],

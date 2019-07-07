@@ -14,6 +14,7 @@ class CustomIcons {
   static const couponBG1 = 'assets/common/bg_coupon_blue.png';
   static const couponBG2 = 'assets/common/bg_coupon_orange.png';
   static const couponBG3 = 'assets/common/bg_coupon_red.png';
+  static const rewardTray = 'assets/common/bg_reward_dialog.png';
 
 
   static const homeBanner1 = 'assets/home/banner.jpg';

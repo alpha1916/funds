@@ -45,19 +45,18 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
       itemBuilder: (BuildContext context, int index) {
         final data = _dataList[index];
         return Container(
-          padding: EdgeInsets.only(bottom: a.px10),
-          child: ContractItemView(
-            ContractType.current,
-            data,
-            (){
-              Utils.navigateTo(CurrentContractDetail(data));
-            }
-          ),
           alignment: Alignment.center,
+          padding: EdgeInsets.only(bottom: a.px10),
+          child: ContractItemView(ContractType.current, data, () => _showContractDetail(data)),
         );
       },
       itemCount: _dataList.length,
     );
+  }
+
+  _showContractDetail(data) async{
+    await Utils.navigateTo(CurrentContractDetail(data));
+    _refresh();
   }
 
   _buildPromoteView() {

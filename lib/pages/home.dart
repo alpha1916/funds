@@ -6,6 +6,8 @@ import 'package:funds/routes/contract/contract_apply.dart';
 
 import 'package:funds/model/contract_data.dart';
 
+import 'package:funds/routes/reward_dialog.dart';
+
 class HomeView extends StatefulWidget {
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -59,16 +61,6 @@ class _HomeViewState extends State<HomeView> {
 
   }
 
-//  _itemListView() {
-//    return ListView.builder(
-//      itemBuilder: (BuildContext context, int index) {
-//        final data = _dataList[index];
-//        return _buildItem(data);
-//      },
-//      itemCount: _dataList.length,
-//    );
-//  }
-
   _buildItem(ContractApplyItemData data){
     TextStyle titleStyle = TextStyle(
       fontSize: a.px18,
@@ -115,7 +107,8 @@ class _HomeViewState extends State<HomeView> {
             trailing: Utils.buildForwardIcon(),
             contentPadding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px4),
             onTap: (){
-              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
+//              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
+              RewardDialog.show('+800积分');
             },
           ),
           Divider(height: a.px1, indent: a.px16),

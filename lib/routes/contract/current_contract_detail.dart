@@ -12,9 +12,6 @@ import 'limit_stock_list_page.dart';
 import 'current_contract_withdraw_page.dart';
 import 'package:funds/pages/trade/contract_flow_page.dart';
 
-var realWidth;
-var ctx;
-
 class CurrentContractDetail extends StatefulWidget {
   final ContractData data;
   CurrentContractDetail(this.data);
@@ -43,8 +40,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   @override
   Widget build(BuildContext context) {
-    ctx = context;
-    realWidth = MediaQuery.of(context).size.width;
+    Divider divider = Divider(height: a.px20, indent: a.px18);
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
@@ -54,7 +50,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           IconButton(
             icon: Icon(Icons.refresh,
                 size: a.px32, color: Colors.black87),
-            onPressed: onPressedRefresh,
+            onPressed: _refresh,
           )
         ],
       ),
@@ -64,65 +60,25 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
+                  //合约延期提示
                   _buildDelaySellTips(),
                   //资产栏
                   _buildFundsView(),
-                  _buildSplitLine(),
+                  divider,
                   //信息栏
                   _buildInfoView(),
-                  _buildSplitLine(),
+                  divider,
                   //图标栏
-                  Row(children: <Widget>[
-                    Expanded(
-                      child: Container(),
-                    ),
-                    _buildUnderlineTextButton('今日限买股', _onPressedLimited),
-                  ]),
-                  SizedBox(
-                    height: a.px10,
-                  ),
-                  _buildMeterView(realWidth),
-                  _buildSplitLine(),
-                  Container(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: a.px42),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          '警戒线：${data?.cordon ?? 0}',
-                          style: TextStyle(fontSize: a.px16),
-                        ),
-                        Expanded(
-                          child: Container(),
-                        ),
-                        Text(
-                          '止损线：${data?.cut ?? 0}',
-                          style: TextStyle(fontSize: a.px16),
-                        ),
-                      ],
-                    ),
-                  )
+                  Align(alignment: Alignment.centerRight, child: _buildUnderlineTextButton('今日限买股', _onPressedLimited)),
+                  SizedBox(height: a.px10),
+                  _buildMeterView(),
+                  divider,
+                  _buildWarnLineView(),
                 ],
               ),
             ),
           ),
-          Table(
-            children: <TableRow>[
-              TableRow(
-                children: <Widget>[
-                  _buildMoreButton(),
-                  _buildBottomButton(
-                      title: '提取现金', onPressed: _onPressedWithdraw),
-                  _buildBottomButton(
-                    title: '委托交易',
-                    titleColor: Colors.white,
-                    bgColor: Colors.black,
-                    onPressed: _onPressedTrade,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          _buildButtons(),
         ],
       ),
     );
@@ -132,68 +88,45 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     return Column(
       children: <Widget>[
         Row(children: <Widget>[
-          SizedBox(
-            width: a.px18,
-          ),
-          Text(
-            '合约信息',
-            style: TextStyle(fontSize: a.px16),
-          ),
-          Text(
-            '(${data.contractNumber})',
-            style: TextStyle(fontSize: a.px12),
-          ),
-          Expanded(
-            child: Container(),
-          ),
+          SizedBox(width: a.px18),
+          Text('合约信息', style: TextStyle(fontSize: a.px16),),
+          Text('(${data.contractNumber})', style: TextStyle(fontSize: a.px12)),
+          Utils.expanded(),
           _buildUnderlineTextButton('查看合约流水', _onPressedFlow),
         ]),
-        Table(
-          children: <TableRow>[
-            TableRow(
-              children: [
-                _buildInfoItem('杠杆本金', data.capital.toStringAsFixed(2)),
-                _buildInfoItem('借款金额', data.loan.toStringAsFixed(2)),
-              ],
-            ),
-            TableRow(
-              children: [
-                _buildInfoItem('合约金额', data.contractMoney.toStringAsFixed(2)),
-                _buildInfoItem('操盘金额', data.operateMoney.toStringAsFixed(2)),
-              ],
-            ),
-            TableRow(
-              children: [
-                _buildInfoItem('管理费用', data.strCost),
-                _buildInfoItem('使用天数', '${data.days}个交易日'),
-              ],
-            ),
-          ],
+        _buildInfoRow(
+          _buildInfoItem('杠杆本金', data.capital.toStringAsFixed(2)),
+          _buildInfoItem('借款金额', data.loan.toStringAsFixed(2)),
         ),
+        _buildInfoRow(
+          _buildInfoItem('合约金额', data.contractMoney.toStringAsFixed(2)),
+          _buildInfoItem('操盘金额', data.operateMoney.toStringAsFixed(2)),
+        ),
+        _buildInfoRow(
+          _buildInfoItem('管理费用', data.strCost),
+          _buildInfoItem('使用天数', '${data.days}个交易日'),
+        ),
+      ],
+    );
+  }
+
+  _buildInfoRow(item1, item2){
+    return Row(
+      children: <Widget>[
+        Expanded(child: item1),
+        Expanded(child: item2),
       ],
     );
   }
 
   _buildInfoItem(title, value) {
     return Container(
-      padding: EdgeInsets.only(
-        left: a.px18,
-        right: a.px18,
-        top: a.px5,
-      ),
+      padding: EdgeInsets.only(left: a.px18, right: a.px18, top: a.px5,),
       child: Row(
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontSize: a.px16),
-          ),
-          SizedBox(
-            width: a.px8,
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: a.px14),
-          ),
+          Text(title, style: TextStyle(fontSize: a.px16)),
+          SizedBox(width: a.px8),
+          Text(value, style: TextStyle(fontSize: a.px14)),
         ],
       ),
     );
@@ -317,11 +250,10 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.applySettlement:
-            int select = await CustomDialog.show3('提示', '提前终止不退还已收管理费，确认结算当前合约？', '取消', '确定');
-            if(select == 2){
+            if(await Utils.showConfirmOptionsDialog(tips: '提前终止不退还已收管理费，确认结算当前合约？')){
               ResultData result = await ContractRequest.applySettlement(data.contractNumber);
               if(result.success){
-                alert('申请结算成功');
+                await alert('申请结算成功');
                 Utils.navigatePop();
               }
             }
@@ -339,11 +271,17 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     );
   }
 
-  _buildSplitLine() {
+  _buildWarnLineView() {
     return Container(
-      height: a.px1,
-      margin: EdgeInsets.symmetric(vertical: a.px10),
-      color: Colors.black26,
+      padding:
+      EdgeInsets.symmetric(horizontal: a.px42),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('警戒线：${data?.cordon ?? 0}', style: TextStyle(fontSize: a.px16)),
+          Text('止损线：${data?.cut ?? 0}', style: TextStyle(fontSize: a.px16)),
+        ],
+      ),
     );
   }
 
@@ -353,12 +291,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     if (onPressed != null) {
       titleText = Row(
         children: <Widget>[
-          Text(title,
-              style: TextStyle(
-                  fontSize: a.px15, color: Colors.black87)),
-          SizedBox(
-            width: 5,
-          ),
+          Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black87)),
+          SizedBox(width: 5),
           InkWell(
             child: Icon(Icons.help, size: a.px20,),
             onTap: onPressed,
@@ -366,9 +300,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         ],
       );
     } else {
-      titleText = Text(title,
-          style:
-              TextStyle(fontSize: a.px15, color: Colors.black87));
+      titleText = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black87));
     }
     List<Widget> children = [
       Column(
@@ -381,7 +313,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             style: TextStyle(
                 fontSize: valueFontSize,
                 color: Utils.getProfitColor(value),
-                fontWeight: FontWeight.w700),
+                fontWeight: FontWeight.w700
+            ),
           ),
         ],
       ),
@@ -408,23 +341,21 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           left: a.px30, top: a.px20),
       child: Column(
         children: <Widget>[
-          Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.top,
-            children: <TableRow>[
-              TableRow(
-                children: <Widget>[
-                  _buildFundsItem('资产总值', data.totalMoney,
-                      a.px25),
-                  _buildFundsItem(
-                    '可提现金',
-                    data?.cash ?? 0,
-                    a.px25,
-                    null,
-                    () {
-                      alert2('可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
-                    },
-                  ),
-                ],
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: _buildFundsItem('资产总值', data.totalMoney, a.px25),
+              ),
+              Expanded(
+                child: _buildFundsItem(
+                  '可提现金',
+                  data?.cash ?? 0,
+                  a.px25,
+                  null,
+                      () {
+                    alert2('可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
+                  },
+                ),
               ),
             ],
           ),
@@ -447,6 +378,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     if(!data.canDelay || data.leftDays > 1){
       return Container();
     }
+
     double fontSize = a.px15;
     return Container(
       padding: EdgeInsets.only(left: a.px16),
@@ -455,7 +387,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         children: <Widget>[
           Icon(Icons.info, size: a.px22, color: CustomColors.red),
           SizedBox(width: a.px6,),
-          Text('当前合约于今日到期，', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+          Text('当前合约于今日到期，', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500)),
           FlatButton(
             child: Text(
               '点击申请延期卖出',
@@ -467,7 +399,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             ),
             onPressed: _onPressedApplyDelaySell,
           ),
-          Text('>>', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+          Text('>>', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -475,7 +407,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
 
   _getRotateAngle() {
     if (data == null) return 0.0;
-
     //根据图片pi*0.3角度为警戒线到止损线之间的角度差
     double unit = pi * 0.3 / (data.cordon - data.cut);
     double angle = (data.totalMoney - data.cordon) * unit;
@@ -487,7 +418,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     return angle;
   }
 
-  _buildMeterView(width) {
+  _buildMeterView() {
+    final double width = MediaQuery.of(context).size.width;
     return Stack(
       children: <Widget>[
         Image.asset(CustomIcons.meter, width: width),
@@ -507,12 +439,22 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     );
   }
 
-  onPressedRefresh() {
-    _refresh();
+  _buildButtons(){
+    List<Widget> buttons = [
+      Expanded(child: _buildMoreButton()),
+    ];
+
+    Widget btnTrade = _buildBottomButton(title: '委托交易', titleColor: Colors.white, bgColor: Colors.black,onPressed: _onPressedTrade);
+    if(data.cash > 0){
+      buttons.add(Expanded(child: _buildBottomButton(title: '提取现金', onPressed: _onPressedWithdraw),));
+      buttons.add(Expanded(child: btnTrade));
+    }else{
+      buttons.add(Expanded(flex: 2, child: btnTrade));
+    }
+    return Row(children: buttons);
   }
 
   _onPressedApplyDelaySell() async{
-//    CustomDialog.show3('提示', tips, btnTitle1, btnTitle2);
     var result = await Utils.navigateTo(ContractApplyDelayPage());
     if(result == true){
       await alert('延期成功');

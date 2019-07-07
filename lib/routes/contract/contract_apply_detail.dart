@@ -237,14 +237,6 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     );
   }
 
-//  Widget divider {
-//    return Container(
-//        height: 1,
-//        color: Colors.black12,
-//        margin: EdgeInsets.only(left: a.px12),
-//    );
-//  }
-
   _buildItemList() {
     final Color blackColor = Colors.black87;
     final divider = Divider(height: 0, indent: a.px16, color: Colors.black38,);

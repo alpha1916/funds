@@ -52,7 +52,7 @@ class _MyTrialPageState extends State<MyTrialPage> {
 //            padding: EdgeInsets.only(bottom: 10),
             child: ContractItemView(ContractType.trial, data, () {
               print('select $index, ongoing:${data.ongoing}');
-              if(!data.ongoing)
+              if(data.ongoing)
                 Utils.navigateTo(CurrentContractDetail(data));
               else
                 Utils.navigateTo(HistoryTrialDetail(data));

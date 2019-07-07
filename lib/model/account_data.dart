@@ -174,6 +174,10 @@ class SignData {
   ;
 }
 
+String getRewardText(type, value){
+  return '+$value${rewardType2Name[type]}';
+}
+
 class TaskId{
   static const int register = 1;
   static const int certification = 2;

@@ -173,9 +173,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       child: Wrap(
         spacing: chipSize * 0.2, //主轴上子控件的间距
         runSpacing: chipSize * 0.1, //交叉轴上子控件之间的间距
-        children: dataList.map((data) {
-          return _buildChip(dataList.indexOf(data), data.title, chipSize);
-        }).toList(), //要显示的子控件集合
+        children: dataList.map((data) => _buildChip(dataList.indexOf(data), data.title, chipSize)).toList(), //要显示的子控件集合
       ),
     );
   }
@@ -302,16 +300,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   Widget _timesItemsView(itemSize, min, timesList) {
     return Expanded(
       child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Wrap(
-              spacing: itemSize * 0.2, //主轴上子控件的间距
-              runSpacing: itemSize * 0.1, //交叉轴上子控件之间的间距
-              children: timesList.map<Widget>((times) {
-                return _buildTimesItem(timesList.indexOf(times), times, min, itemSize);
-              }).toList(), //要显示的子控件集合
-            ),
-          ],
+        child: Wrap(
+          spacing: itemSize * 0.2, //主轴上子控件的间距
+          runSpacing: itemSize * 0.1, //交叉轴上子控件之间的间距
+          children: timesList.map<Widget>((times) => _buildTimesItem(timesList.indexOf(times), times, min, itemSize)).toList(), //要显示的子控件集合
         ),
       ),
     );

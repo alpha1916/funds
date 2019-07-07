@@ -78,6 +78,7 @@ flutter:
     - assets/common/bg_coupon_red.png
     - assets/common/bg_coupon_orange.png
     - assets/common/bg_coupon_blue.png
+    - assets/common/bg_reward_dialog.png
 
     - assets/home/period1.png
     - assets/home/period2.png
