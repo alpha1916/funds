@@ -32,8 +32,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       _currentTypeIdx = dataList.indexOf(currentData);
     }
 
-    if(Global.debug)
+    if(Global.debug){
       inputController.text = '10000';
+      _onInputChanged('10000');
+    }
   }
 
   @override

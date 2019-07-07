@@ -42,17 +42,6 @@ class _RechargePageState extends State<RechargePage> {
     );
   }
 
-  @override
-  initState(){
-    super.initState();
-
-    if(Global.debug){
-      inputController.text = '2000000';
-      _comment = '追加本金';
-      _imagePath = '/Users/alpha/Library/Developer/CoreSimulator/Devices/FBCF0237-61F7-4124-81C2-70C837851BBE/data/Containers/Data/Application/A98420B8-0507-4979-A79A-81ED1C4B4ADB/tmp/image_picker_66FB8F65-3F18-4420-AC29-18C8BEC5CFDC-7739-00001F9BFAF6A4D4.jpg';
-    }
-  }
-
   TextEditingController inputController = TextEditingController();
   _buildAmountInputView() {
     double fontSize = a.px18;
@@ -256,6 +245,15 @@ class _RechargePageState extends State<RechargePage> {
   }
 
   _onPressOK() async {
+    if(Global.debug){
+      String path = _imagePath ?? '/Users/alpha/Library/Developer/CoreSimulator/Devices/FBCF0237-61F7-4124-81C2-70C837851BBE/data/Containers/Data/Application/150DB8C7-FE14-4CC1-BAC7-B38B5139AC3C/tmp/image_picker_25D74FFE-6C93-4774-A3B6-FBC589FF6467-42847-00000F594289DC08.jpg';
+      ResultData result = await RechargeRequest.recharge(20000, '追加本金', path);
+      if (result.success) {
+        await alert('充值请求已提交，请等待工作人员核实');
+        Utils.navigatePop(true);
+      }
+      return;
+    }
     if(inputController.text.length == 0){
       alert('请输入充值金额');
       return;

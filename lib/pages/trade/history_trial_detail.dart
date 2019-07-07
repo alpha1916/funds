@@ -26,9 +26,7 @@ class HistoryTrialDetail extends StatelessWidget {
               children: <Widget>[
                 _buildTitleView(),
                 _splitLine,
-                Container(height: a.px20, color: Colors.white,),
                 _buildProfitRateView(),
-                Container(height: a.px20, color: Colors.white,),
                 _splitLine,
                 _buildCostItem('累计盈亏', data.profit, Utils.getProfitColor(data.profit)),
                 _splitLine,
@@ -47,28 +45,53 @@ class HistoryTrialDetail extends StatelessWidget {
   }
 
   _buildProfitRateView() {
-//    final String profitRate = (data.profit / data.capital).toStringAsFixed(2) + '%';
-    final String profitRate = '16.91%';
+    double profitRate = data.profit / data.capital;
+//    profitRate = -0.9691;
+    final double width = a.px(220);
+    final double arcWidth = a.px(199);
+    final double arcOffset = (width - arcWidth) * 0.5;
+    final progress = profitRate / 2;//收益200%时满格
     return Container(
-      height: a.px(220),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(CustomIcons.profitRateTray),
-          fit: BoxFit.fitHeight,
-        ),
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      padding: EdgeInsets.symmetric(vertical: a.px20),
+      alignment: Alignment.center,
+      color: Colors.white,
+      child: Stack(
         children: <Widget>[
-          Text('盈亏比例', style: TextStyle(fontSize: a.px15, fontWeight: FontWeight.w700),),
-          SizedBox(height: a.px10,),
-          Text(profitRate, style: TextStyle(fontSize: a.px22, fontWeight: FontWeight.w500, color: Utils.getProfitColor(1)),),
-          SizedBox(height: a.px20,),
+          Container(
+            height: width,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(CustomIcons.profitRateTray),
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('盈亏比例', style: TextStyle(fontSize: a.px15, fontWeight: FontWeight.w700),),
+                SizedBox(height: a.px10,),
+                Text('${(profitRate * 100).toStringAsFixed(2)}%', style: TextStyle(fontSize: a.px22, fontWeight: FontWeight.w500, color: Utils.getProfitColor(profitRate)),),
+                SizedBox(height: a.px20,),
+
+              ],
+            ),
+          ),
+          Positioned(
+            left: arcOffset - a.px(2.3),//图片歪，需微调
+            top: arcOffset + a.px(0.5),
+            child: CustomPaint(
+              size: Size(arcWidth, arcWidth),
+              painter: ProgressPainter(
+                width: a.px4,
+                color: Colors.orange,
+                progress: progress,
+              ),
+            ),
+          ),
         ],
-      ),
+      )
     );
   }
 
@@ -117,24 +140,6 @@ class HistoryTrialDetail extends StatelessWidget {
       ),
     );
   }
-  num degToRad(num deg) => deg * (pi / 180.0);
-  num radToDeg(num rad) => rad * (180.0 / pi);
-
-  _buildRingProgressView(){
-    double progress = 0.15;
-    final angle = 360.0 * progress;
-    final Offset offsetCenter = Offset(150, 150);
-    final double radians = degToRad(angle);
-    final Rect arcRect = Rect.fromCircle(center: offsetCenter, radius: 150);
-    final progressPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 20;
-    canvas.drawArc(arcRect, 0.0, degToRad(angle), false, progressPaint);
-    return CustomPaint(
-      painter: progressPaint,
-    );
-  }
-
   _buildContractMoneyView(){
     return Container(
       color: Colors.white,
@@ -174,3 +179,48 @@ class HistoryTrialDetail extends StatelessWidget {
   }
 }
 
+class ProgressPainter extends CustomPainter {
+  final double width;
+  final Color color;
+  final double progress;
+
+  ProgressPainter({
+    @required this.width,
+    @required this.color,
+    @required this.progress,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double center = size.width * 0.5;
+    final Offset offsetCenter = Offset(center, center);
+    final double drawRadius = size.width * 0.5 - width;
+    final double radians = pi * 2 * progress;
+    final double radiusOffset = width * 0.4;
+    final double outerRadius = center - radiusOffset;
+    final double innerRadius = center - width * 2 + radiusOffset;
+
+    if (progress > 0.0) {
+      final progressWidth = outerRadius - innerRadius + radiusOffset;
+      final double offset = asin(progressWidth * 0.5 / drawRadius);
+      if (radians > offset) {
+        canvas.save();
+        canvas.translate(0.0, size.width);
+        canvas.rotate(-pi * 0.5);//degToRad(-90.0)
+        final Rect arcRect = Rect.fromCircle(center: offsetCenter, radius: drawRadius);
+        final progressPaint = Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = progressWidth
+          ..color = color;
+        canvas.drawArc(arcRect, offset, radians - offset, false, progressPaint);
+        canvas.restore();
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}

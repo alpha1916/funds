@@ -77,7 +77,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
             ],
           ),
           SizedBox(height: a.px10),
-          Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+          Divider(height: 0,),
           SizedBox(height: a.px10),
           Table(
             children: <TableRow>[

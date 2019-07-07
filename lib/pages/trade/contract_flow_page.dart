@@ -40,7 +40,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
             child: Text('初始合约信息', style: TextStyle(fontSize: a.px16)),
           ),
           SizedBox(height: a.px10),
-          Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+          Divider(height: 0,),
           SizedBox(height: a.px10),
           Table(
             children: <TableRow>[
@@ -195,7 +195,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
               ),
             ],
           ),
-          Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+          Divider(height: 0,),
         ],
       ),
     );
@@ -255,7 +255,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
             ],
           ),
           SizedBox(height: a.px8,),
-          Container(height: a.px(0.5), color: CustomColors.splitLineColor1),
+          Divider(height: 0,),
         ],
       ),
     );
