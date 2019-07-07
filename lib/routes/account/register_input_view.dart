@@ -18,8 +18,8 @@ class RegisterInputViewState extends State<RegisterInputView> {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
-      phoneController.text = '18612345699';
-      passController.text = '123456';
+      phoneController.text = Global.testPhoneNumber;
+      passController.text = Global.testPwd;
     }
     return Column(
       children: <Widget>[

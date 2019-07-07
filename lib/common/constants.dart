@@ -25,6 +25,7 @@ class CustomIcons {
   static const trialDone = 'assets/trial/done.png';
   static const trialTypeTray0 = 'assets/trial/type0.png';
   static const trialTypeTray1 = 'assets/trial/type1.png';
+  static const profitRateTray = 'assets/trial/profit_rate_tray.png';
 
   static const myShare = 'assets/my/ic_share.png';
   static const myService = 'assets/my/ic_service.png';
@@ -61,6 +62,10 @@ class CustomIcons {
   static const helpCash = 'assets/help/ic_help_cash.png';
   static const phoneService = 'assets/help/ic_phone_service.png';
   static const onlineService = 'assets/help/ic_online_service.png';
+}
+
+class TextAssets {
+  static const riskTips = 'assets/riskTips.txt';
 }
 
 class CustomColors {
@@ -122,6 +127,7 @@ class a{
 //  static double screenWidth;
   static double ratio;
   static double screenWidth;
+  static double screenHeight;
 
   static double px1;
   static double px2;
@@ -174,8 +180,9 @@ class a{
   static double px49;
   static double px50;
 
-  static init(double width){
+  static init(double width, double height){
     screenWidth = width;
+    screenHeight = height;
     ratio = screenWidth / 414;
 
     px1 = px(1);
@@ -247,7 +254,7 @@ class Global{
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
-  static String version = '0.0.4';
+  static String version = '0.0.5';
   static String servicePhoneNumber = '4001234567';
   static String get platformName {
     if(Platform.isIOS){
@@ -257,6 +264,9 @@ class Global{
     }
     return 'unknown';
   }
+
+  static String testPhoneNumber = '18612345699';
+  static String testPwd = '123456';
 }
 
 final Map<int, String>tradeFlowStatus = {

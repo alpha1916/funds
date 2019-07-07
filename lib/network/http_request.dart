@@ -9,6 +9,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/model/account_data.dart';
 import 'package:funds/common/utils.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 export 'package:funds/model/account_data.dart';
 
@@ -172,11 +173,23 @@ class HttpRequest {
     Loading.show();
     final String api = '/api/v1/user/upLoadImage';
     try{
+      File file = File(path);
+      List<int> bytes = await file.readAsBytes();
+      List<int> result = await FlutterImageCompress.compressWithList(
+        bytes,
+        minHeight: 960,
+        minWidth: 540,
+        quality: 80,
+      );
+
+      debugPrint('o len:${bytes.length}');
+      debugPrint('c len:${result.length}');
+
       var name = path.substring(path.lastIndexOf("/") + 1, path.length);
       var suffix = name.substring(name.lastIndexOf(".") + 1, name.length);
       FormData data = FormData.from({
-        'head': UploadFileInfo(
-          File(path),
+        'head': UploadFileInfo.fromBytes(
+          result,
           name,
           contentType: ContentType.parse("image/$suffix")
         )
@@ -203,6 +216,7 @@ class HttpRequest {
         handleUnauthorized(true);
         return null;
       }else{
+        print('');
         alert('上传图片错误');
         return null;
       }

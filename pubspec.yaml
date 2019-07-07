@@ -33,6 +33,7 @@ dependencies:
   permission_handler: 3.1.0
   webview_flutter: ^0.3.9+1
   flutter_webview_plugin: ^0.3.5
+  flutter_image_compress: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +94,7 @@ flutter:
     - assets/trial/type0.png
     - assets/trial/type1.png
     - assets/trial/done.png
+    - assets/trial/profit_rate_tray.png
 
     - assets/my/ic_service.png
     - assets/my/ic_coupon.png
@@ -133,6 +135,8 @@ flutter:
     - assets/help/ic_help_trade.png
     - assets/help/ic_online_service.png
     - assets/help/ic_phone_service.png
+
+    - assets/riskTips.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -32,6 +32,11 @@ class ExperienceInfoData {
 
 
 final type2CostTips = ['', '预存2日费用', '5个交易日', '按月收取', '无管理费'];
+final trialId2ConfirmTips = [
+  '',
+  '参与活动需支付100元杠杆本金\n亏损全赔付',
+  '参与活动需支付1000元杠杆本金\n免息一个月',
+];
 class ContractApplyDetailData {
   static int normalType = 0;
   static int experienceType = 1;
@@ -77,6 +82,8 @@ class ContractApplyDetailData {
     }
     return str;
   }
+
+  String get trialConfirmTips => trialId2ConfirmTips[id];
 
   ContractApplyDetailData(data):
 //        title = data['title'],

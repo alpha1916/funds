@@ -107,11 +107,13 @@ class _AppState extends State<App> {
 
   void appInit(context) {
     print('app init');
+
     Global.buildContext = context;
     Utils.init(context, tabSwitcher);
     HttpRequest.init(context);
     CustomDialog.init(context);
-    a.init(MediaQuery.of(context).size.width);
+    Size size = MediaQuery.of(context).size;
+    a.init(size.width, size.height);
 
     AccountData.getInstance().getLocalToken();
 

@@ -10,12 +10,7 @@ class HistoryContractDetail extends StatelessWidget {
   final ContractData data;
   HistoryContractDetail(this.data);
   final EdgeInsetsGeometry _itemPadding = EdgeInsets.symmetric(vertical: a.px16, horizontal: a.px16);
-  final Widget _splitLine = Container(
-    color: Colors.white,
-    child: Container(
-      height: a.px(0.5), color: CustomColors.splitLineColor1, margin: EdgeInsets.only(left: a.px16),
-    ),
-  );
+  final Widget _splitLine = Divider(height: 0, indent: a.px16);
 
   @override
   Widget build(BuildContext context) {
@@ -131,11 +126,11 @@ class HistoryContractDetail extends StatelessWidget {
       color: Colors.white,
       padding: _itemPadding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(title, style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
-          Text(cost.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: color, fontWeight: FontWeight.w500),
-          ),
+          Utils.expanded(),
+          Text(cost.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: color, fontWeight: FontWeight.w500)),
+          Text(' 元', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -150,9 +145,9 @@ class HistoryContractDetail extends StatelessWidget {
         children: <Widget>[
           Text('结算退还', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
           Text('(${data.profitRate}%盈利分配)', style: TextStyle(fontSize: a.px13, color: Colors.black)),
-          Expanded(child:Container()),
-          Text(data.returnMoney.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500, color: Utils.getProfitColor(data.returnMoney)),
-          ),
+          Utils.expanded(),
+          Text(data.returnMoney.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500, color: Utils.getProfitColor(data.returnMoney)),),
+          Text(' 元', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
         ],
       ),
     );

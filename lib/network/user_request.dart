@@ -227,4 +227,12 @@ class UserRequest {
 
     return ResultData(true, dataList);
   }
+
+  static agreeRisk() async {
+    return Future.value(ResultData(true));
+    final String api = '/api/v1/sign/getSignData';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    return ResultData(result != null);
+  }
+
 }

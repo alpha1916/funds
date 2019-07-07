@@ -5,6 +5,7 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/pages/contract_item_view.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/routes/contract/current_contract_detail.dart';
+import 'package:funds/pages/trade/history_trial_detail.dart';
 
 class MyTrialPage extends StatefulWidget {
   final onPressedPromote;
@@ -50,10 +51,11 @@ class _MyTrialPageState extends State<MyTrialPage> {
             margin: EdgeInsets.only(top: a.px10),
 //            padding: EdgeInsets.only(bottom: 10),
             child: ContractItemView(ContractType.trial, data, () {
-              print('select $index');
-              if(data.ongoing){
+              print('select $index, ongoing:${data.ongoing}');
+              if(!data.ongoing)
                 Utils.navigateTo(CurrentContractDetail(data));
-              }
+              else
+                Utils.navigateTo(HistoryTrialDetail(data));
             }),
             alignment: Alignment.center,
           );

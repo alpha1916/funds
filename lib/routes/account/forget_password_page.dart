@@ -9,9 +9,9 @@ class ForgetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(Global.debug){
-      passController1.text = '123456';
-      passController2.text = '123456';
-      phoneController.text = '18612345699';
+      passController1.text = Global.testPwd;
+      passController2.text = Global.testPwd;
+      phoneController.text = Global.testPhoneNumber;
     }
     return Scaffold(
       appBar: AppBar(

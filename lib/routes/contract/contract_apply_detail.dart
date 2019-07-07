@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/model/coupon_data.dart';
@@ -251,8 +252,10 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     list.add(_buildItemView('杠杆本金', '${data.capital} 元', CustomColors.red));
     list.add(divider);
 
-    list.add(_buildItemView('管理费', data.strCost, CustomColors.red, data.strCostTips));
-    list.add(divider);
+    if(data.contractType == ContractApplyDetailData.normalType){
+      list.add(_buildItemView('管理费', data.strCost, CustomColors.red, data.strCostTips));
+      list.add(divider);
+    }
 
     list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, (){
       alert2('警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了');
@@ -330,7 +333,10 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     );
   }
 
-  _onPressedNext(){
+  _onPressedNext() async{
+    if(!await askAgreeRisk())
+      return;
+
     if(data.contractType == ContractApplyDetailData.experienceType)
       _applyExperience();
     else
@@ -338,6 +344,9 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _applyExperience() async {
+    if(!await Utils.showConfirmOptionsDialog(tips: data.trialConfirmTips, confirmTitle: '立即申请'))
+      return;
+
     ResultData result = await ExperienceRequest.applyContract(data.id);
     if(result.success){
       await UserRequest.getUserInfo();
@@ -360,5 +369,44 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       await alert('合约申请成功');
       Utils.navigatePopAll(AppTabIndex.trade);
     }
+  }
+
+  Future<bool> askAgreeRisk() async{
+    if(AccountData.getInstance().agreedRisk)
+      return Future.value(true);
+
+    String text = await Utils.loadTextAsset(TextAssets.riskTips);
+    var agree = await CustomDialog.showCustomDialog(
+      Container(
+        padding: EdgeInsets.fromLTRB(a.px16, a.px16, a.px16, a.px10),
+        color: Colors.white,
+        width: a.screenWidth * 0.8,
+        height: a.screenHeight* 0.5,
+        child: Column(
+          children: <Widget>[
+            Text('风险揭示', style: TextStyle(fontSize: a.px19, fontWeight: FontWeight.w500)),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Text(text, style: TextStyle(fontSize: a.px16),),
+              ),
+            ),
+            Divider(height: 0),
+            SizedBox(height: a.px10,),
+            InkWell(
+              child: Text('已阅读且同意此协议', style: TextStyle(fontSize: a.px20, color: Colors.blue, fontWeight: FontWeight.w400),),
+              onTap: () => Utils.navigatePop(true),
+            )
+          ],
+        ),
+      )
+    );
+
+    if(agree != null){
+      ResultData result = await UserRequest.agreeRisk();
+      AccountData.getInstance().agreedRisk = result.success;
+      return result.success;
+    }
+
+    return false;
   }
 }

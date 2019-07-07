@@ -20,6 +20,7 @@ class AccountData {
   String address = '';
   bool bindBank;
   String token;
+  bool agreedRisk = false;
   List<int> experiences = [];
   
   Stream<AccountData> get dataStream => _streamController.stream;
@@ -38,6 +39,7 @@ class AccountData {
     name = data['name'];
     address = data['address'] ?? '';
     bindBank = data['bindBank'];
+//    agreedRisk = data[''];
 
     String strExperiences = data['experierceList'];
     if(strExperiences != null && strExperiences != ''){

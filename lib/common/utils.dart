@@ -88,10 +88,10 @@ class Utils {
     return IconButton(
       icon: Image.asset(CustomIcons.service, width: a.px22, height: a.px22),
       onPressed: (){
-//        if(Global.debug){
-//          test();
-//          return;
-//        }
+        if(Global.debug){
+          test();
+          return;
+        }
         openOnlineService();
       }
     );
@@ -315,6 +315,10 @@ class Utils {
         ),
       ),
     );
+  }
+
+  static loadTextAsset(path) async{
+    return DefaultAssetBundle.of(context).loadString(path);
   }
 }
 
