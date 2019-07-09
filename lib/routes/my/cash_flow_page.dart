@@ -173,7 +173,7 @@ class _CashFlowPageState extends State<CashFlowPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(cashFlowType2Text[data.type], style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
+                    Text(cashFlowType2Text[data.type] ?? '未知类型${data.type}', style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),),
                     Text(_getValueText(data.value), style: TextStyle(fontSize: fontSize, color: Utils.getProfitColor(data.value)),),
                   ],
                 ),

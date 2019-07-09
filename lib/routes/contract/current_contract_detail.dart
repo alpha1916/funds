@@ -169,8 +169,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedTrade() {
-    _onPressedApplyDelaySell();
-    return;
     Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
   }
 
@@ -266,6 +264,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.applySuspendedCycle:
+            _onApplySuspendedCycle();
             break;
 
         }
@@ -457,14 +456,24 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedApplyDelaySell() async{
-    var result = await ContractRequest.getDelayData(data.contractNumber);
-    if(!result.success)
-      return;
+    return;
+//    var result = await ContractRequest.getDelayData(data.contractNumber);
+//    if(!result.success)
+//      return;
 
-    var delay = await Utils.navigateTo(ContractApplyDelayPage(result.data));
+//    var delay = await Utils.navigateTo(ContractApplyDelayPage(result.data));
+    var delay = await Utils.navigateTo(ContractApplyDelayPage(data, ContractDelayData.fromTest(3.18, 5, '2019-07-08')));
     if(delay == true){
       await alert('延期成功');
       _refresh();
+    }
+  }
+
+  _onApplySuspendedCycle() async{
+    return;
+    var result = await ContractRequest.applySuspendedCycle(data.contractNumber);
+    if(result.success){
+      alert('申请成功');
     }
   }
 }

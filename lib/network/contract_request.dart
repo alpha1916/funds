@@ -115,7 +115,15 @@ class ContractRequest {
       return ResultData(false);
     }
 
-    return ResultData(true, ContractFlowData(result['data']));
+    return ResultData(true, ContractDelayData(result['data']));
+  }
+
+  static Future<ResultData> applySuspendedCycle(String contractNumber) async {
+    final String api = '/api/v1/contract/getContractDelayInfo';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    return ResultData(result != null);
+
   }
 
   static Future<ResultData> applyDelay(contractNumber, days) async {
@@ -153,7 +161,7 @@ class ContractRequest {
       return ResultData(false);
     }
 
-    return ResultData(true, ContractDelayData(result['data']));
+    return ResultData(true, ContractFlowData(result['data']));
   }
 
 

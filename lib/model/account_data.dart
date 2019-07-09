@@ -91,13 +91,21 @@ class CashFlowData{
         remainingSum = Utils.convertDouble(data['beginMoney'] + data['money']);
 }
 
-final integralType2Title = ['', '签到送积分', '积分兑换优惠券', '上传头像', '管理费奖励', '首次操盘', '绑定银行卡', '实名认证'];
+final Map<int, String> integralType2Title = {
+  1: '签到送积分',
+  2: '积分兑换优惠券',
+  3: '上传头像',
+  4: '管理费奖励',
+  5: '首次操盘',
+  6: '绑定银行卡',
+  7: '实名认证',
+};
 class IntegralFlowData{
   final int type;
   final String date;
   final int remainingSum;
   final int value;
-  String get title => integralType2Title[type] ?? '未知名目';
+  String get title => integralType2Title[type] ?? '未知名称$type';
   IntegralFlowData(data):
         type = data['scoreType'],
         date = data['recordTime'],
@@ -105,7 +113,16 @@ class IntegralFlowData{
         remainingSum = data['beginScore'] + data['score'];
 }
 
-const cashFlowType2Text = ['', '提款取出', '充值存入', '利润提取', '退保证金', '操盘支出', '资产解冻', '资产冻结'];
+const Map<int, String> cashFlowType2Text = {
+  1: '提款取出',
+  2: '充值存入',
+  3: '利润提取',
+  4: '退保证金',
+  5: '操盘支出',
+  6: '资产解冻',
+  7: '资产冻结',
+  8: '管理费用',
+};
 
 enum MailType{
   all,
@@ -195,7 +212,11 @@ class TaskId{
   static const int applyContract = 4;
 }
 //taskStatus：1是未完成，2是已完成
-final rewardType2Name = ['', '元优惠券礼包', '积分', '元优惠券x1'];
+final Map<int, String> rewardType2Name = {
+  1: '元优惠券礼包',
+  2: '积分',
+  3: '元优惠券x1',
+};
 class TaskData {
   final int id;
   final String title;
@@ -203,7 +224,7 @@ class TaskData {
   final int rewardValue;
   final bool done;
   final String tips;
-  String get strReward => '+$rewardValue${rewardType2Name[rewardType]}';
+  String get strReward => '+$rewardValue${rewardType2Name[rewardType] ?? '未知奖励类型$rewardType'}';
   
   TaskData(data):
         id = data['taskId'],

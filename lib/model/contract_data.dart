@@ -328,13 +328,14 @@ class ContractFlowData{
 }
 
 class ContractDelayData{
-  final String cost;
-  final String day;
+  final double cost;
+  final int maxDays;
   final String startDate;
   ContractDelayData(data):
     cost = data['management'],
-    day = data['day'],
+        maxDays = data['day'],
     startDate = data['dateTime']
   ;
 
+  ContractDelayData.fromTest(this.cost, this.maxDays, this.startDate);
 }

@@ -5,25 +5,15 @@ import 'package:funds/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 class ContractApplyDelayPage extends StatefulWidget {
-  final ContractDelayData data;
-  ContractApplyDelayPage(this.data);
+  final ContractDelayData delayData;
+  final ContractData contractData;
+  ContractApplyDelayPage(this.contractData, this.delayData);
   @override
   _ContractApplyDelayPageState createState() => _ContractApplyDelayPageState();
 }
 
 class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
   final EdgeInsetsGeometry _itemPadding = EdgeInsets.symmetric(vertical: a.px16, horizontal: a.px16);
-  final data = {
-    'capital': 100.00,
-    'loan': 2000.00,
-    'contractMoney': 2100.00,
-    'operateMoney': 2100.00,
-    'profitRate': 80,
-  };
-
-  String startDate = '2016-02-28';
-  double costPerDay = 2.34;
-
   int delayDays = 1;
   String endDate = '';
   double cost = 0.0;
@@ -38,10 +28,9 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
 
   _update(days){
     delayDays = days;
-//    endDate = startDate;
-    DateTime date = DateTime.parse(startDate).add(Duration(days: delayDays - 1));
+    DateTime date = DateTime.parse(widget.delayData.startDate).add(Duration(days: delayDays - 1));
     endDate = date.toString().split(' ')[0];
-    cost = costPerDay * delayDays;
+    cost = widget.delayData.cost * delayDays;
   }
 
   @override
@@ -53,11 +42,11 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       body: Column(
         children: <Widget>[
           _buildInfoView(),
-          Divider(height: a.px1, indent: a.px16),
+          Divider(height: 0, indent: a.px16),
           _buildDaySelectView(),
-          Divider(height: a.px1, indent: a.px16),
+          Divider(height: 0, indent: a.px16),
           _buildEndDateView(),
-          Divider(height: a.px1, indent: a.px16),
+          Divider(height: 0, indent: a.px16),
           _buildCostView(),
           _buildTipsView(),
           _buildConfirmButton(),
@@ -75,7 +64,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
           Row(
             children: <Widget>[
               Text('合约信息', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
-              Text(' (${data['profitRate']}%盈利分配)', style: TextStyle(fontSize: a.px13)),
+              Text(' (${widget.contractData.profitRate}%盈利分配)', style: TextStyle(fontSize: a.px13)),
             ],
           ),
           SizedBox(height: a.px10),
@@ -85,14 +74,14 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
             children: <TableRow>[
               TableRow(
                 children: [
-                  _buildInfoItem('杠杆本金', data['capital'].toStringAsFixed(2)),
-                  _buildInfoItem('借款金额', data['loan'].toStringAsFixed(2)),
+                  _buildInfoItem('杠杆本金', widget.contractData.capital.toStringAsFixed(2)),
+                  _buildInfoItem('借款金额', widget.contractData.loan.toStringAsFixed(2)),
                 ],
               ),
               TableRow(
                 children: [
-                  _buildInfoItem('合约金额', data['contractMoney'].toStringAsFixed(2)),
-                  _buildInfoItem('操盘金额', data['operateMoney'].toStringAsFixed(2)),
+                  _buildInfoItem('合约金额', widget.contractData.contractMoney.toStringAsFixed(2)),
+                  _buildInfoItem('操盘金额', widget.contractData.operateMoney.toStringAsFixed(2)),
                 ],
               ),
             ],
@@ -181,7 +170,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
 //          style: DefaultTextStyle.of(context).style,
           children: <TextSpan>[
             TextSpan(text: '最长可延期', style: TextStyle(fontSize: fontSize, color: Colors.black)),
-            TextSpan(text: '5', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
+            TextSpan(text: widget.delayData.maxDays.toString(), style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
             TextSpan(text: '个交易日,管理费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: '限买状态', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
             TextSpan(text: '且利益分配不变', style: TextStyle(fontSize: fontSize, color: Colors.black)),
@@ -218,7 +207,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
     int selectDays = 1;
 
     List<Widget> items = [];
-    for(int i = 1; i <= 5; ++i){
+    for(int i = 1; i <= widget.delayData.maxDays; ++i){
       items.add(Text(
         '$i个交易日',
         style: TextStyle(
