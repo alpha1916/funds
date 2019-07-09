@@ -52,8 +52,24 @@ class _FundsViewState extends State<FundsView> {
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           final data = _dataList[index];
+          final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + data.type.toString() + '.png';
           return Container(
-            child: _ItemView(data, _onClickedItem),
+            child: InkWell(
+              child: Stack(
+                children: <Widget>[
+                  Image.asset(trayImagePath,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: index.isOdd ? null : 0,
+                    right: index.isOdd ? 0: null,
+                    child: _buildItemTextView(data),
+                  )
+                ],
+              ),
+              onTap: () => _onClickedItem(data.type),
+            ),
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey))),
@@ -64,34 +80,60 @@ class _FundsViewState extends State<FundsView> {
     );
   }
 
-  _onClickedItem(int type) async{
-    print('apply item:$type');
-    Utils.navigateTo(ContractApplyPage(_dataList, type));
-  }
-}
+  _buildItemTextView(ContractApplyItemData data) {
+    TextStyle normalTextStyle = TextStyle(
+      fontSize: a.px16,
+      color: Colors.white,
+    );
 
-class _ItemView extends StatelessWidget {
-  final ContractApplyItemData data;
-  final onPressed;
+    TextStyle numberStyle = TextStyle(
+      fontSize: a.px16,
+      color: Color.fromARGB(255, 253, 200, 61),
+      fontWeight: FontWeight.w600,
+    );
 
-  createView() {
-    final String trayImagePath = CustomIcons.fundsPeriodTrayPrefix + data.type.toString() + '.png';
     return Container(
-      child: Image.asset(trayImagePath,
-          fit: BoxFit.fitWidth
+      padding: EdgeInsets.fromLTRB(a.px17, a.px48, a.px17, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(data.title, style: TextStyle(fontSize: a.px36, color: Colors.white, fontWeight: FontWeight.w500)),
+              SizedBox(width: a.px10),
+              Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    width: a.px15 * data.interest.length * 1.2,
+                    height: a.px22,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 253, 200, 61),
+                      borderRadius: BorderRadius.all(Radius.circular(a.px10)),
+                    ),
+                    child: Text(data.interest, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w700)),
+                  ),
+                  Text(' ', style: TextStyle(fontSize: a.px12)),
+                ],
+              )
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text('${data.min}元', style: numberStyle),
+              Text(' 起', style: normalTextStyle),
+              SizedBox(width: a.px12),
+              Text('${data.minRate}-${data.maxRate}倍', style: numberStyle),
+              Text(' 杠杆', style: normalTextStyle),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: createView(),
-      onTap: () {
-        this.onPressed(data.type);
-      },
-    );
+  _onClickedItem(int type) async{
+    print('apply item:$type');
+    Utils.navigateTo(ContractApplyPage(_dataList, type));
   }
-
-  _ItemView(this.data, this.onPressed);
 }

@@ -13,7 +13,7 @@ class StockCancelView extends StatefulWidget {
 
 class _StockCancelViewState extends State<StockCancelView> {
   List<StockEntrustData> _dataList = [];
-  List<int> _selectedIdxs = [];
+  List<int> _selectedIndexes = [];
 
   @override
   void initState(){
@@ -26,9 +26,7 @@ class _StockCancelViewState extends State<StockCancelView> {
 
   _refresh() async{
     ResultData result = await StockTradeRequest.getEntrustList(TradeBloc.getInstance().contractNumber);
-    print('--------------------------------------cancel refresh');
-
-    if(result.success && mounted){
+    if(result.success){
       setState(() {
         _dataList = result.data;
       });
@@ -100,9 +98,10 @@ class _StockCancelViewState extends State<StockCancelView> {
 
   _buildStockItem(index) {
     StockEntrustData data = _dataList[index];
-    bool selected = _selectedIdxs.contains(index);
+    bool selected = _selectedIndexes.contains(index);
     IconData selectedIconData = selected ? Icons.brightness_1 : Icons.panorama_fish_eye;
     Widget itemView = Container(
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           SizedBox(height: a.px10),
@@ -136,11 +135,11 @@ class _StockCancelViewState extends State<StockCancelView> {
         print('select item:$index');
         setState(() {
           if(selected)
-            _selectedIdxs.remove(index);
+            _selectedIndexes.remove(index);
           else
-            _selectedIdxs.add(index);
+            _selectedIndexes.add(index);
 
-          print(_selectedIdxs);
+          print(_selectedIndexes);
         });
       },
     );
@@ -162,21 +161,21 @@ class _StockCancelViewState extends State<StockCancelView> {
   }
 
   _onPressedCancel() async{
-    print('cancel');
-    if(_selectedIdxs.length == 0){
+    if(_selectedIndexes.length == 0){
       alert2('提示', '请选择需要撤单的委托', '确定');
       return;
     }
 
     List<int> ids = [];
-    for(int i = 0; i < _selectedIdxs.length; ++i){
-      StockEntrustData data = _dataList[_selectedIdxs[i]];
+    for(int i = 0; i < _selectedIndexes.length; ++i){
+      StockEntrustData data = _dataList[_selectedIndexes[i]];
       print('撤销id:' + data.id.toString());
       ids.add(data.id);
     }
     ResultData result = await StockTradeRequest.cancel(ids.join(','));
     if(result.success){
       alert('撤销已提交，请稍候刷新查看');
+      TradeBloc.getInstance().refresh();
     }
   }
 }

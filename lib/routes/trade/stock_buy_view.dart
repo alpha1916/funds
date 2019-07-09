@@ -397,6 +397,7 @@ class StockTradeFrame extends StatelessWidget{
 
     if(result.success){
       alert('委托成功');
+      bloc.refresh();
     }
   }
 

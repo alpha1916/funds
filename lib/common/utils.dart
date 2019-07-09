@@ -69,7 +69,7 @@ class Utils {
     return IconButton(
         icon: Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22),
         onPressed: () async{
-          var result = await UserRequest.getMailData(0);
+          var result = await UserRequest.getMailData(type: MailType.all.index);
           if(result.success)
             Utils.navigateTo(MailPage('公告消息', result.data));
         }

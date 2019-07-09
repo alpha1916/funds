@@ -6,8 +6,6 @@ import 'package:funds/routes/contract/contract_apply.dart';
 
 import 'package:funds/model/contract_data.dart';
 
-import 'package:funds/routes/reward_dialog.dart';
-
 class HomeView extends StatefulWidget {
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -79,8 +77,6 @@ class _HomeViewState extends State<HomeView> {
       fontWeight: FontWeight.w500,
     );
 
-    final int minRate = data.timesList.first;
-    final int maxRate = data.timesList.last;
     return Container(
       color: Colors.white,
       child: Column(
@@ -100,15 +96,14 @@ class _HomeViewState extends State<HomeView> {
                 Text('${data.min}元', style: numberStyle),
                 Text(' 起', style: normalTextStyle),
                 SizedBox(width: a.px20,),
-                Text('$minRate-$maxRate倍', style: numberStyle),
+                Text('${data.minRate}-${data.maxRate}倍', style: numberStyle),
                 Text(' 杠杆', style: normalTextStyle),
               ],
             ),
             trailing: Utils.buildForwardIcon(),
             contentPadding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px4),
             onTap: (){
-//              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
-              RewardDialog.show('+800积分');
+              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
             },
           ),
           Divider(height: a.px1, indent: a.px16),

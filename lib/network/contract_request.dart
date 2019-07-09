@@ -107,6 +107,17 @@ class ContractRequest {
     return ResultData(result != null);
   }
 
+  static Future<ResultData> getDelayData(String contractNumber) async {
+    final String api = '/api/v1/contract/getContractDelayInfo';
+    var data = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, ContractFlowData(result['data']));
+  }
+
   static Future<ResultData> applyDelay(contractNumber, days) async {
     final String api = '/api/v1/contract/delay';
     var data = {'contractNumber': contractNumber, 'days': days};
@@ -142,7 +153,7 @@ class ContractRequest {
       return ResultData(false);
     }
 
-    return ResultData(true, ContractFlowData(result['data']));
+    return ResultData(true, ContractDelayData(result['data']));
   }
 
 

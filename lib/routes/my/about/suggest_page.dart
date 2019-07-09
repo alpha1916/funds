@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/network/user_request.dart';
 
 class SuggestPage extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class _SuggestPageState extends State<SuggestPage> {
   TextEditingController contactController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    if(Global.debug){
+      contentController.text = '四六级咖喱十几个萨克管就爱看龙盛估计';
+      _strType = '交易问题';
+//      contactController.text = '';
+    }
     TextStyle titleStyle = TextStyle(fontSize: a.px17, color: Colors.black, fontWeight: FontWeight.w400);
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +112,7 @@ class _SuggestPageState extends State<SuggestPage> {
     contentController.dispose();
   }
 
-  _onPressedOK(){
+  _onPressedOK() async{
     if(_strType == null){
       alert('请选择类型');
       return;
@@ -122,7 +128,12 @@ class _SuggestPageState extends State<SuggestPage> {
       return;
     }
 
-    alert('输入无误，但提交接口未接上');
+    print(contactController.text);
+    var result = await UserRequest.suggest(_strType, contentController.text, contactController.text);
+    if(result.success){
+      await alert2('提示', '感谢您的反馈，我们会尽快给您答复', '知道了');
+      Utils.navigatePop();
+    }
   }
 
   final List<String> _strTypes = ['账号充值及提款问题', '交易问题', '我要投诉', '意见反馈', '其他问题'];

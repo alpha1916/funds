@@ -95,8 +95,11 @@ class SettingsPage extends StatelessWidget {
 
   }
 
-  _onPressedModifyAddress() {
-    Utils.navigateTo(ModifyAddressPage());
+  _onPressedModifyAddress() async{
+    var modified = await Utils.navigateTo(ModifyAddressPage());
+    if(modified == true){
+      UserRequest.getUserInfo();
+    }
   }
 
   _onPressedCertification() async {

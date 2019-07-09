@@ -266,7 +266,7 @@ class Global{
     return 'unknown';
   }
 
-  static String testPhoneNumber = '18612345645';
+  static String testPhoneNumber = '18612345658';
   static String testPwd = '123456';
 }
 

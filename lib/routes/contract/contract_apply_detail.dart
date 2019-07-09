@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/contract_data.dart';
 import 'package:funds/common/utils.dart';
@@ -8,6 +9,7 @@ import 'package:funds/network/user_request.dart';
 import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
+import 'apply_confirm_dialog.dart';
 
 
 class ContractApplyDetailPage extends StatefulWidget {
@@ -249,14 +251,10 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
       list.add(divider);
     }
 
-    list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, (){
-      alert2('警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了');
-    }));
+    list.add(_buildItemView('警戒线', '${data.cordon} 元', blackColor, null, true, () => alert2('警戒线', '触及警戒线会被限制买入，只能卖出。请密切关注并及时追加保证金至警戒线', '知道了')));
     list.add(divider);
 
-    list.add(_buildItemView('止损线', '${data.cut} 元', blackColor, null, true, (){
-      alert2('止损线', '当触及止损线，即会被强制平仓', '知道了');
-    }));
+    list.add(_buildItemView('止损线', '${data.cut} 元', blackColor, null, true, () => alert2('止损线', '当触及止损线，即会被强制平仓', '知道了')));
     list.add(divider);
 
     if(data.holdTips != null){
@@ -348,6 +346,9 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _applyContract() async {
+    if(!await ContractApplyConfirmDialog.show(data.payment, data.integral))
+      return;
+
     ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount, _selectedCoupon?.id);
     if(result.success){
       if(result.data['code'] == 504){
@@ -400,5 +401,9 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     }
 
     return false;
+  }
+
+  Future<bool> showConfirmDialog() async{
+    return ContractApplyConfirmDialog.show(3360.00, 100);
   }
 }

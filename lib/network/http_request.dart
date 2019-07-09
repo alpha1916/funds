@@ -10,6 +10,7 @@ import 'package:funds/model/account_data.dart';
 import 'package:funds/common/utils.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:funds/routes/reward_dialog.dart';
 
 export 'package:funds/model/account_data.dart';
 
@@ -92,6 +93,8 @@ class HttpRequest {
           return null;
         }
 
+        await handleRewardData(data);
+
         return data;
       }else if(response.statusCode == 401){
         handleUnauthorized(askLogin);
@@ -109,6 +112,15 @@ class HttpRequest {
       print(e);
 //      alert(e.toString());
       alert('请求数据错误，请联系客服');
+    }
+  }
+
+  static handleRewardData(data) async{
+    int rewardType = data['rewardType'] ?? 0;
+    int rewardValue = data['rewardValue'] ?? 0;
+    if(rewardType > 0 && rewardValue > 0){
+      String tips = '+$rewardValue${rewardType2Name[rewardType]}';
+      await RewardDialog.show(tips);
     }
   }
 

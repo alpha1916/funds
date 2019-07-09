@@ -61,8 +61,17 @@ class ModifyAddressPage extends StatelessWidget {
     );
   }
 
-  _onPressedOK() {
-    alert('功能未实现');
+  _onPressedOK() async{
+    if(addressController.text.isEmpty){
+      alert('请输入联系地址');
+      return;
+    }
+
+    var result = await UserRequest.modifyAddress(addressController.text);
+    if(result.success){
+      await alert('设置联系地址成功');
+      Utils.navigatePop(true);
+    }
   }
 }
 

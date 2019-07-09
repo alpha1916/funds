@@ -92,15 +92,15 @@ class _StockQueryViewState extends State<StockQueryView> {
   }
 
   _onPressDayCashFlow() async{
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-    if(result.success)
-      Utils.navigateTo(CurrentContractFundsFlowList('当日资金流水', [1, 2]));
+//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+//    if(result.success)
+//      Utils.navigateTo(CurrentContractFundsFlowList('当日资金流水', [1, 2]));
   }
 
   _onPressHistoryCashFlow() async{
-    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-    if(result.success)
-      Utils.navigateTo(CurrentContractFundsFlowList('历史资金流水', [1, 2]));
+//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
+//    if(result.success)
+//      Utils.navigateTo(CurrentContractFundsFlowList('历史资金流水', [1, 2]));
   }
 
 }

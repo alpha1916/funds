@@ -117,8 +117,7 @@ class HistoryTrialDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(data.title, style: TextStyle(fontSize: a.px16, color: Colors.black)),
-          Text(strDate, style: TextStyle(fontSize: a.px13, color: Colors.black54),
-          ),
+          Text(strDate, style: TextStyle(fontSize: a.px13, color: Colors.black54)),
         ],
       ),
     );

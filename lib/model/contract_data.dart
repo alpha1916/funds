@@ -54,12 +54,23 @@ class ContractApplyDetailData {
   final String date;//开始交易时间
   final String holdTips;//单票持仓
 
+  double get payment {
+    double value = 0;
+    if(type == 1)
+      value = capital + cost * 2;
+    else
+      value = capital + cost;
+
+    return value;
+  }
+
   //体验合约专用
   int id;
   //普通合约专用
   int type;
   int times;
   int loadAmount;
+  int integral;//可获取的积分
   String get strCostTips => type2CostTips[type];
   String get strCost {
     String str;
@@ -94,6 +105,8 @@ class ContractApplyDetailData {
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
         date = data['tradeStartTime'],
+
+        integral = data['score'],
 
         holdTips = data['holdTips']
 
@@ -134,6 +147,9 @@ class ContractApplyItemData{
   final int min;
   final int max;
   final List<int> timesList;
+
+  int get minRate => timesList.first;
+  int get maxRate => timesList.last;
   ContractApplyItemData(data):
         type = data['type'],
         title = data['name'],
@@ -311,9 +327,14 @@ class ContractFlowData{
   ;
 }
 
-//class ContractDealData{
-//  final String name;
-//  final String code;
-//  final String ;
-//  ContractDealData();
-//}
+class ContractDelayData{
+  final String cost;
+  final String day;
+  final String startDate;
+  ContractDelayData(data):
+    cost = data['management'],
+    day = data['day'],
+    startDate = data['dateTime']
+  ;
+
+}

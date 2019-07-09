@@ -39,7 +39,7 @@ class AccountData {
     name = data['name'];
     address = data['address'] ?? '';
     bindBank = data['bindBank'];
-//    agreedRisk = data[''];
+    agreedRisk = data['agreeProto'] ?? false;
 
     String strExperiences = data['experierceList'];
     if(strExperiences != null && strExperiences != ''){
@@ -107,6 +107,13 @@ class IntegralFlowData{
 
 const cashFlowType2Text = ['', '提款取出', '充值存入', '利润提取', '退保证金', '操盘支出', '资产解冻', '资产冻结'];
 
+enum MailType{
+  all,
+  notice,
+  activity,
+  system,
+}
+
 class MailData{
   final int type;
   final String title;
@@ -120,6 +127,9 @@ class MailData{
   ;
 
   static getTestData(type){
+    if(1 == MailType.notice.index){
+
+    }
     var list =  [
       {
         'mailType': 1,
@@ -192,6 +202,7 @@ class TaskData {
   final int rewardType;
   final int rewardValue;
   final bool done;
+  final String tips;
   String get strReward => '+$rewardValue${rewardType2Name[rewardType]}';
   
   TaskData(data):
@@ -199,6 +210,7 @@ class TaskData {
         title = data['taskName'],
         rewardType = data['rewardType'],
         rewardValue = data['rewardValue'],
+        tips = data['remarks'] ?? '',
         done = data['taskStatus'] == 2
   ;
 

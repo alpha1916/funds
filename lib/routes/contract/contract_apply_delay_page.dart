@@ -5,6 +5,8 @@ import 'package:funds/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 class ContractApplyDelayPage extends StatefulWidget {
+  final ContractDelayData data;
+  ContractApplyDelayPage(this.data);
   @override
   _ContractApplyDelayPageState createState() => _ContractApplyDelayPageState();
 }

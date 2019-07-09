@@ -42,6 +42,19 @@ class UserRequest {
     return ResultData(true);
   }
 
+  static modifyAddress(String address) async{
+    final String api = '/api/v1/user/setAddress';
+    var data = {
+      'address': address,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true);
+  }
+
   static certificate(name, id) async{
     final String api = '/api/v1/user/authentication';
     var data = {
@@ -136,20 +149,6 @@ class UserRequest {
 //    return HttpRequest.requestListData(type:api: api, dataConverter: (data) => IntegralFlowData(data));
   }
 
-  static getMailData(type) async {
-    final String api = '/api/v1/mail/getMailList';
-    var result = await HttpRequest.sendTokenGet(api: api);
-    if(result == null){
-      return ResultData(false);
-    }
-
-//    List<dynamic> oDataList = result['data'];
-//    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
-    var dataList = MailData.getTestData(type);
-
-    return ResultData(true, dataList);
-  }
-
   static getMyCouponsData() async {
     final String api = '/api/v1/ticket/getMyTicket';
     var result = await HttpRequest.sendTokenGet(api: api);
@@ -229,10 +228,58 @@ class UserRequest {
   }
 
   static agreeRisk() async {
-    return Future.value(ResultData(true));
-    final String api = '/api/v1/sign/getSignData';
-    var result = await HttpRequest.sendTokenGet(api: api);
+    final String api = '/api/v1/user/agreeUserProto';
+    var result = await HttpRequest.sendTokenPost(api: api);
     return ResultData(result != null);
   }
 
+  static suggest(String type, String content, String contact) async{
+    final String api = '/api/v1/about/complaint';
+    var data = {
+      'type': type,
+      'content': content,
+      'phone': contact,
+    };
+    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    return ResultData(result != null);
+  }
+
+  static getMailData({type, startIndex, count}) async {
+    final String api = '/api/v1/mail/getMailList';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
+//    var dataList = MailData.getTestData(type);
+
+    getFirstData(type){
+      List<MailData> list = dataList.where((data) => data.type == type).toList();
+      return list.length > 0 ? list.first : null;
+    }
+    if(type == MailType.all.index){
+      dataList = [
+        getFirstData(1),
+        getFirstData(2),
+        getFirstData(3),
+      ];
+    }else{
+      dataList = dataList.where((data) => data.type == type).toList();
+    }
+
+    return ResultData(true, dataList);
+  }
+}
+
+getDataList(List<dynamic> totalList, startIndex, count){
+  if(startIndex >= totalList.length)
+    return [];
+
+  int end = startIndex + count;
+  if(end > (totalList.length))
+    end = totalList.length;
+
+  return totalList.sublist(startIndex, end);
 }

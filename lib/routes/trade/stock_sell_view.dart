@@ -4,6 +4,7 @@ import 'package:funds/network/http_request.dart';
 import 'stock_buy_view.dart';
 import 'stock_list_view.dart';
 import 'package:funds/network/stock_trade_request.dart';
+import 'bloc/trade_bloc.dart';
 
 class StockSellView extends StockBuyView {
   @override
@@ -79,6 +80,7 @@ class SellFrame extends StockTradeFrame {
 
     if(result.success){
       alert('委托成功');
+      bloc.refresh();
     }
   }
 }

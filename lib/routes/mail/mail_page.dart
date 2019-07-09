@@ -18,47 +18,63 @@ class MailPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index){
-          MailData data = dataList[index];
-          int type = data.type;
-          String imgPath = 'assets/mail/mail_type$type.png';
-          return InkWell(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(a.px16, a.px16, 0, 0),
-              color: Colors.white,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Image.asset(imgPath, width: a.px20,),
-                      SizedBox(width: a.px8),
-                      Text(type2title[type], style: TextStyle(fontSize: a.px17)),
-                      Utils.expanded(),
-                      Text(data?.date ?? ' ', style: TextStyle(fontSize: a.px14, color: Colors.black54)),
-                      SizedBox(width: a.px16,)
-                    ],
-                  ),
-                  SizedBox(height: a.px12),
-                  Container(
-                    margin: EdgeInsets.only(left: a.px28),
-                    alignment: Alignment.centerLeft,
-                    child: Text(data?.title ?? ' ', style: TextStyle(fontSize: a.px16, color: Colors.black54),),
-                  ),
-                  SizedBox(height: a.px16),
-                  Divider(height: 1),
-                ],
-              ),
-            ),
-            onTap: () => onSelectItem(index),
-          );
+//          print(dataList.length);
+          int type = index + 1;
+          print(dataList[index]?.type);
+          MailData data;
+          try {
+            data = dataList.firstWhere((testData) => testData?.type == type);
+          }catch(e) {
+
+          }
+          return _buildItem(index, data, type);
         },
         itemCount: dataList.length,
       ),
     );
   }
 
+  _buildItem(index, data, type) {
+    String imgPath = 'assets/mail/mail_type$type.png';
+    return InkWell(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(a.px16, a.px16, 0, 0),
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Image.asset(imgPath, width: a.px20,),
+                SizedBox(width: a.px8),
+                Text(type2title[type], style: TextStyle(fontSize: a.px17)),
+                Utils.expanded(),
+                Text(data?.date ?? ' ', style: TextStyle(fontSize: a.px14, color: Colors.black54)),
+                SizedBox(width: a.px16,)
+              ],
+            ),
+            SizedBox(height: a.px12),
+            Container(
+              margin: EdgeInsets.only(left: a.px28),
+              alignment: Alignment.centerLeft,
+              child: Text(data?.title ?? '暂无此类邮件', style: TextStyle(fontSize: a.px16, color: Colors.black54),),
+            ),
+            SizedBox(height: a.px16),
+            Divider(height: 1),
+          ],
+        ),
+      ),
+      onTap: () => onSelectItem(index),
+    );
+  }
+
   onSelectItem(index) async{
     var data = dataList[index];
-    var result = await UserRequest.getMailData(data.type);
+    if(data == null){
+      alert('暂无此类邮件');
+      return;
+    }
+
+    var result = await UserRequest.getMailData(type: data.type);
     if(result.success){
       Utils.navigateTo(MailListPage(type2title[data.type], result.data));
     }
@@ -67,13 +83,29 @@ class MailPage extends StatelessWidget {
 
 class MailListPage extends MailPage{
   MailListPage(title, dataList):super(title, dataList);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:Text(title),
+      ),
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index){
+          MailData data = dataList[index];
+          return _buildItem(index, data, data.type);
+        },
+        itemCount: dataList.length,
+      ),
+    );
+  }
 
   @override
-  onSelectItem(index) {
+  onSelectItem(index) async{
     MailData data = dataList[index];
-    if(data.type != 3)
+    if(data.type != MailType.system.index)
       Utils.navigateTo(MailDetailPage(data));
     else{
+      await UserRequest.getUserInfo();
       Utils.navigateTo(FundsDetailPage());
     }
   }
@@ -127,4 +159,3 @@ class MailDetailPage extends StatelessWidget {
     );
   }
 }
-

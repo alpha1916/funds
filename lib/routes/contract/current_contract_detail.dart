@@ -169,6 +169,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedTrade() {
+    _onPressedApplyDelaySell();
+    return;
     Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
   }
 
@@ -455,8 +457,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedApplyDelaySell() async{
-    var result = await Utils.navigateTo(ContractApplyDelayPage());
-    if(result == true){
+    var result = await ContractRequest.getDelayData(data.contractNumber);
+    if(!result.success)
+      return;
+
+    var delay = await Utils.navigateTo(ContractApplyDelayPage(result.data));
+    if(delay == true){
       await alert('延期成功');
       _refresh();
     }

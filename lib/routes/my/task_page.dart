@@ -178,6 +178,12 @@ class _TaskPageState extends State<TaskPage> {
 
   _buildTaskItem(TaskData data){
     Color doneColor = data.done ? Colors.green : CustomColors.background1;
+    Widget tips;
+    if(data.tips == '')
+      tips = Container();
+    else{
+      tips = Text('(${data.tips})', style: TextStyle(fontSize: a.px13, color: Colors.grey),);
+    }
     return InkWell(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px3),
@@ -186,6 +192,7 @@ class _TaskPageState extends State<TaskPage> {
             _buildCheckIcon(doneColor, a.px10, a.px14),
             SizedBox(width: a.px10,),
             Text(data.title, style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500),),
+            tips,
             Utils.expanded(),
             Text(data.strReward, style: TextStyle(fontSize: a.px16, color: CustomColors.red),),
             SizedBox(width: a.px10,),

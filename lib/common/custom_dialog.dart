@@ -29,19 +29,20 @@ class CustomDialog {
   }
 
   static show2(String title, String tips, String btnTitle) {
-    showCupertinoDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return new CupertinoAlertDialog(
-            title: new Text(
-              title,
-            ),
-            content: new Text(tips),
-            actions: <Widget>[
-              _buildButton(btnTitle, Colors.blueAccent),
-            ],
-          );
-        });
+    return showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return new CupertinoAlertDialog(
+          title: new Text(
+            title,
+          ),
+          content: new Text(tips),
+          actions: <Widget>[
+            _buildButton(btnTitle, Colors.blueAccent),
+          ],
+        );
+      },
+    );
   }
 
   static Future<int> show3(String title, String tips, String btnTitle1, String btnTitle2) {
