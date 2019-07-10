@@ -402,8 +402,4 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
 
     return false;
   }
-
-  Future<bool> showConfirmDialog() async{
-    return ContractApplyConfirmDialog.show(3360.00, 100);
-  }
 }

@@ -456,13 +456,13 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedApplyDelaySell() async{
-    return;
-//    var result = await ContractRequest.getDelayData(data.contractNumber);
-//    if(!result.success)
-//      return;
+//    return;
+    var result = await ContractRequest.getDelayData(data.contractNumber);
+    if(!result.success)
+      return;
 
-//    var delay = await Utils.navigateTo(ContractApplyDelayPage(result.data));
-    var delay = await Utils.navigateTo(ContractApplyDelayPage(data, ContractDelayData.fromTest(3.18, 5, '2019-07-08')));
+    var delay = await Utils.navigateTo(ContractApplyDelayPage(data, result.data));
+//    var delay = await Utils.navigateTo(ContractApplyDelayPage(data, ContractDelayData.fromTest(3.18, 5, '2019-07-08')));
     if(delay == true){
       await alert('延期成功');
       _refresh();
@@ -470,10 +470,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onApplySuspendedCycle() async{
-    return;
+    if(!await Utils.showConfirmOptionsDialog(tips: '是否确定申请停牌回收？'))
+      return;
+
     var result = await ContractRequest.applySuspendedCycle(data.contractNumber);
     if(result.success){
-      alert('申请成功');
+      alert('申请成功，请等待审核');
     }
   }
 }

@@ -5,32 +5,28 @@ import 'package:funds/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 class ContractApplyDelayPage extends StatefulWidget {
-  final ContractDelayData delayData;
+  final List<ContractDelayData> delayDataList;
   final ContractData contractData;
-  ContractApplyDelayPage(this.contractData, this.delayData);
+  ContractApplyDelayPage(this.contractData, this.delayDataList);
   @override
   _ContractApplyDelayPageState createState() => _ContractApplyDelayPageState();
 }
 
 class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
   final EdgeInsetsGeometry _itemPadding = EdgeInsets.symmetric(vertical: a.px16, horizontal: a.px16);
-  int delayDays = 1;
-  String endDate = '';
-  double cost = 0.0;
-  String contractNumber = '';
+  ContractDelayData _selectData;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _update(1);
+    _update(0);
   }
 
-  _update(days){
-    delayDays = days;
-    DateTime date = DateTime.parse(widget.delayData.startDate).add(Duration(days: delayDays - 1));
-    endDate = date.toString().split(' ')[0];
-    cost = widget.delayData.cost * delayDays;
+  _update(index){
+    _selectedIndex = index;
+    _selectData = widget.delayDataList[index];
   }
 
   @override
@@ -122,7 +118,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
           children: <Widget>[
             Text('延期期限', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
             Expanded(child: Container()),
-            Text('$delayDays个交易日', style: TextStyle(fontSize: a.px16, color: Colors.black, fontWeight: FontWeight.w500)),
+            Text('${_selectData.days}个交易日', style: TextStyle(fontSize: a.px16, color: Colors.black, fontWeight: FontWeight.w500)),
             Utils.buildForwardIcon(),
           ],
         ),
@@ -139,7 +135,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text('延期费用', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
-          Text('$cost元', style: TextStyle(fontSize: a.px16, color: Colors.black, fontWeight: FontWeight.w500)),
+          Text('${_selectData.cost}元', style: TextStyle(fontSize: a.px16, color: Colors.black, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -155,7 +151,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
           Text('合约到期', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
           Text('(延期后)', style: TextStyle(fontSize: a.px13, color: Colors.black)),
           Expanded(child:Container()),
-          Text(endDate, style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
+          Text(_selectData.date, style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -170,7 +166,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
 //          style: DefaultTextStyle.of(context).style,
           children: <TextSpan>[
             TextSpan(text: '最长可延期', style: TextStyle(fontSize: fontSize, color: Colors.black)),
-            TextSpan(text: widget.delayData.maxDays.toString(), style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
+            TextSpan(text: widget.delayDataList.length.toString(), style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
             TextSpan(text: '个交易日,管理费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: '限买状态', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
             TextSpan(text: '且利益分配不变', style: TextStyle(fontSize: fontSize, color: Colors.black)),
@@ -187,11 +183,12 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       child:RaisedButton(
         child: Text('确认', style: TextStyle(color: Colors.white, fontSize: a.px15)),
         onPressed: () async{
-          String tips = '共计$cost，可得xx积分';
+//          return ContractApplyConfirmDialog.show(_selectData.cost, _selectData.integral);
+          String tips = '共计${_selectData.cost}，可得${_selectData.integral}积分';
           bool confirm = await Utils.showConfirmOptionsDialog(tips: tips, confirmTitle: '立即申请');
           print(confirm);
           if(confirm){
-            ResultData result = await ContractRequest.applyDelay(contractNumber, delayDays);
+            ResultData result = await ContractRequest.applyDelay(widget.contractData.contractNumber, _selectData.days);
             if(result.success){
               Utils.navigatePop(true);
             }
@@ -204,10 +201,10 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
   }
 
   _onPressedSelectDay() async{
-    int selectDays = 1;
+    int selectedIndex = 0;
 
     List<Widget> items = [];
-    for(int i = 1; i <= widget.delayData.maxDays; ++i){
+    for(int i = 1; i <= widget.delayDataList.length; ++i){
       items.add(Text(
         '$i个交易日',
         style: TextStyle(
@@ -217,9 +214,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
     }
     final picker  = CupertinoPicker(
       itemExtent: a.px36,
-      onSelectedItemChanged: (index){
-        selectDays = index + 1;
-      },
+      onSelectedItemChanged: (index) => selectedIndex = index,
       children: items,
     );
 
@@ -235,11 +230,10 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       }
     );
 
-    if(selectDays == delayDays)
-      return;
-
-    setState(() {
-      _update(selectDays);
-    });
+    if(_selectedIndex != selectedIndex){
+      setState(() {
+        _update(selectedIndex);
+      });
+    }
   }
 }

@@ -110,25 +110,31 @@ class ContractRequest {
   static Future<ResultData> getDelayData(String contractNumber) async {
     final String api = '/api/v1/contract/getContractDelayInfo';
     var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
       return ResultData(false);
     }
 
-    return ResultData(true, ContractDelayData(result['data']));
+    List<dynamic> oDataList = result['data'];
+    final List<ContractDelayData> dataList = oDataList.map((data) => ContractDelayData(data)).toList();
+
+    return ResultData(true, dataList);
   }
 
   static Future<ResultData> applySuspendedCycle(String contractNumber) async {
-    final String api = '/api/v1/contract/getContractDelayInfo';
+    final String api = '/api/v1/contract/contractStop';
     var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
     return ResultData(result != null);
 
   }
 
   static Future<ResultData> applyDelay(contractNumber, days) async {
-    final String api = '/api/v1/contract/delay';
-    var data = {'contractNumber': contractNumber, 'days': days};
+    final String api = '/api/v1/contract/contractDelay';
+    var data = {
+      'contractNumber': contractNumber,
+      'day': days
+    };
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     return ResultData(result != null);
   }

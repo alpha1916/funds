@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/contract_request.dart';
+import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 
 import 'package:funds/model/contract_data.dart';
@@ -25,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
 
   _refresh() async{
     ResultData result = await ContractRequest.getConfigs();
-    if(mounted && result.success){
+    if(result.success){
       setState(() {
         _dataList = result.data;
       });
@@ -36,8 +37,14 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
 //    return ContractApplyDelayPage();
     List<Widget> list = [
-      Image.asset(CustomIcons.homeBanner1, fit: BoxFit.cover),
-      Image.asset(CustomIcons.homeBanner2, fit: BoxFit.cover),
+      InkWell(
+        child: Image.asset(CustomIcons.homeBanner1, fit: BoxFit.cover),
+        onTap: () {},
+      ),
+      InkWell(
+        child: Image.asset(CustomIcons.homeBanner2, fit: BoxFit.cover),
+        onTap: () => Utils.appMainTabSwitch(AppTabIndex.experience),
+      ),
       SizedBox(height: a.px12),
     ];
     list.addAll(_dataList.map<Widget>((data) => _buildItem(data)).toList());
