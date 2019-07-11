@@ -23,7 +23,7 @@ class _TrialViewState extends State<TrialView> {
             child: Column(
               children: <Widget>[
                 _createCenterText(
-                    '全民来配资，XX新体验',
+                    '全民来配资，${Global.appName}新体验',
                     TextStyle(fontSize: a.px26, color: Color(0xFFFEFDAC)),
                     EdgeInsets.only(top: a.px40)),
                 _createCenterText(

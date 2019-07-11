@@ -3,6 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/common/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'delay_apply_confirm_dialog.dart';
 
 class ContractApplyDelayPage extends StatefulWidget {
   final List<ContractDelayData> delayDataList;
@@ -183,13 +184,14 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
       child:RaisedButton(
         child: Text('确认', style: TextStyle(color: Colors.white, fontSize: a.px15)),
         onPressed: () async{
-//          return ContractApplyConfirmDialog.show(_selectData.cost, _selectData.integral);
-          String tips = '共计${_selectData.cost}，可得${_selectData.integral}积分';
-          bool confirm = await Utils.showConfirmOptionsDialog(tips: tips, confirmTitle: '立即申请');
+          bool confirm = await ContractDelayApplyConfirmDialog.show(_selectData.cost, _selectData.integral);
+//          String tips = '共计${_selectData.cost}，可得${_selectData.integral}积分';
+//          bool confirm = await Utils.showConfirmOptionsDialog(tips: tips, confirmTitle: '立即申请');
           print(confirm);
           if(confirm){
             ResultData result = await ContractRequest.applyDelay(widget.contractData.contractNumber, _selectData.days);
             if(result.success){
+              await alert('延期成功');
               Utils.navigatePop(true);
             }
           }

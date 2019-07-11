@@ -95,4 +95,26 @@ class CustomDialog {
         barrierDismissible: true
     );
   }
+
+  static Future<T> showBottomToCenter<T>(Widget dialog) async{
+    return showGeneralDialog<T>(
+      context: Utils.context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
+        return dialog;
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(Utils.context).modalBarrierDismissLabel,
+      barrierColor: Colors.black38,
+      transitionDuration: const Duration(milliseconds: 150),
+      transitionBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+        return SlideTransition(
+          child: child,
+          position: Tween(
+            begin: Offset(0, 1),
+            end: Offset(0, 0),
+          ).animate(animation),
+        );
+      },
+    );
+  }
 }

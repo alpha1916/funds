@@ -272,13 +272,13 @@ class _SelectViewState extends State<_SelectView> {
 class _TipsView extends StatelessWidget {
   final List<ExperienceInfoData> _dataList;
   _TipsView(this._dataList);
-  static final String p1 = '1、全民来配资，xx为你准备了如下体验合约：';
+  static final String p1 = '1、全民来配资，${Global.appName}你准备了如下体验合约：';
   static final p2 = [
     '免费体验和免息体验可以同时申请，且只能体验一次',
     '2、 体验合约在合约结算后，盈亏部分+杠杆本金将返还至你的现金余额中(若免费体验合约产生亏损，杠杆本金全额返还)，可进行正常提现操作；',
     '3、 请于合约到期日14:00前确保合约空仓，否则系统会在14:00后执行自动卖出指令，不保证卖出价格；',
-    '4、 体验合约不支持放大、缩小合约功能，如需体验xx亮点可直接前往股票交易申请普通合约。',
-    'xx对此活动拥有最终解释权'
+    '4、 体验合约不支持放大、缩小合约功能，如需体验${Global.appName}亮点可直接前往股票交易申请普通合约。',
+    '${Global.appName}对此活动拥有最终解释权'
   ];
 
   Widget _tipsContent(String text) {

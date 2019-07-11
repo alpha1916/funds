@@ -3,10 +3,10 @@ import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/custom_dialog.dart';
 
-class ContractApplyConfirmDialog extends Dialog{
+class ContractDelayApplyConfirmDialog extends Dialog{
   final double money;
   final int integral;
-  ContractApplyConfirmDialog(this.money, this.integral);
+  ContractDelayApplyConfirmDialog(this.money, this.integral);
   @override
   Widget build(BuildContext context) {
     TextStyle blackTextStyle = TextStyle(fontSize: a.px14, color: Colors.black);
@@ -21,7 +21,7 @@ class ContractApplyConfirmDialog extends Dialog{
             borderRadius: BorderRadius.all(Radius.circular(a.px6)),
           ),
           width: a.px(320),
-          height: a.px(165),
+          height: a.px(140),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -39,8 +39,6 @@ class ContractApplyConfirmDialog extends Dialog{
                   ],
                 )
               ),
-              SizedBox(height: a.px2),
-              Text('支付金额 = 杠杆本金 + 预存管理费', style: TextStyle(fontSize: a.px13, color: Colors.grey)),
               Utils.expanded(),
               Divider(height: 0),
               SizedBox(height: a.px15),
@@ -78,6 +76,6 @@ class ContractApplyConfirmDialog extends Dialog{
   }
 
   static Future<bool> show(money, integral) async{
-    return CustomDialog.showBottomToCenter(ContractApplyConfirmDialog(money, integral));
+    return CustomDialog.showBottomToCenter(ContractDelayApplyConfirmDialog(money, integral));
   }
 }

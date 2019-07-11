@@ -5,7 +5,7 @@ PODS:
   - Flutter (1.0.0)
   - flutter_image_compress (0.0.1):
     - Flutter
-    - SYPictureMetadata (~> 1.4)
+    - Mantle
   - flutter_webview_plugin (0.0.1):
     - Flutter
   - image_picker (0.0.1):
@@ -20,8 +20,6 @@ PODS:
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
-  - SYPictureMetadata (1.4.1):
-    - Mantle
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -43,7 +41,6 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Mantle
     - Reachability
-    - SYPictureMetadata
 
 EXTERNAL SOURCES:
   connectivity:
@@ -68,20 +65,19 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
-  connectivity: d5992e3758d68b1c4b12d6e012fe0813f1aa1645
-  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  flutter_image_compress: 80a82dbb3e88d6e8a007a0cd34dd7174f8695bf7
-  flutter_webview_plugin: 116575b48572029304775b768e9f15ebfc316274
-  image_picker: 86b84c4fe89267356a1f17297a45b5d317ebd2e7
-  image_picker_saver: c674305b2e535d97afabfdff4e036f5da73e0167
+  connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
+  flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
+  image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
+  image_picker_saver: 4f28bd70e1efdca68ad88beab0f11d22cffe04f6
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
-  permission_handler: a1b8c0f8c83b4e7201f9c04b9aef09979cc97f60
+  permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
-  SYPictureMetadata: 40e148a01d1b2ec784eea6836bab37a44aa86b71
-  url_launcher: 92b89c1029a0373879933c21642958c874539095
-  webview_flutter: 9bd234c07e99632356cba112df56fd1d47d6b6e3
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
+  webview_flutter: 1aa7604e6cdb451a9b7ed2c37d5454c0b440246b
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

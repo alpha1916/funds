@@ -48,8 +48,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         title: Text(data?.title ?? '当前合约详情'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh,
-                size: a.px32, color: Colors.black87),
+            icon: Icon(Icons.refresh, size: a.px32, color: Colors.black87),
             onPressed: _refresh,
           )
         ],
@@ -464,7 +463,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     var delay = await Utils.navigateTo(ContractApplyDelayPage(data, result.data));
 //    var delay = await Utils.navigateTo(ContractApplyDelayPage(data, ContractDelayData.fromTest(3.18, 5, '2019-07-08')));
     if(delay == true){
-      await alert('延期成功');
       _refresh();
     }
   }

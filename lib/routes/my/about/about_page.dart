@@ -37,7 +37,7 @@ class AboutPage extends StatelessWidget {
                   itemDivider,
                   _buildItem(icon: CustomIcons.concern, title: '关注微信', onPressed: _showConcernWx),
                   itemDivider,
-                  _buildItem(icon: CustomIcons.share, title: '分享xx', onPressed: _share),
+                  _buildItem(icon: CustomIcons.share, title: '分享${Global.appName}', onPressed: _share),
                 ],
               ),
             ),

@@ -255,7 +255,7 @@ class Global{
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
-  static String version = '0.0.5';
+  static String version = '0.0.6';
   static String servicePhoneNumber = '4001234567';
   static String get platformName {
     if(Platform.isIOS){
@@ -268,6 +268,8 @@ class Global{
 
   static String testPhoneNumber = '18612345658';
   static String testPwd = '123456';
+  static String appName = '德盈';
+  static String wxName = '德盈投资';
 }
 
 final Map<int, String>tradeFlowStatus = {

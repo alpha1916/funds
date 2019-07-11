@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 class ConcernWXPage extends StatelessWidget {
-  final tips = '关注方式：\n\n1. 长按二维码保存本地后，打开微信扫描读取二维码图片即可关注"xx投资〃官方微信公众号。\n\n2. 登录微信，搜索"xx投资〃微信公众号并关注。';
+  final tips = '关注方式：\n\n1. 长按二维码保存本地后，打开微信扫描读取二维码图片即可关注"${Global.wxName}〃官方微信公众号。\n\n2. 登录微信，搜索"${Global.wxName}〃微信公众号并关注。';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class ConcernWXPage extends StatelessWidget {
       return;
     }
     await alert('保存图片成功');
-    bool confirm = await Utils.showConfirmOptionsDialog(tips: '去关注xx投资？', confirmTitle: '打开');
+    bool confirm = await Utils.showConfirmOptionsDialog(tips: '去关注${Global.wxName}？', confirmTitle: '打开');
     if(confirm){
       Utils.openWx();
     }
