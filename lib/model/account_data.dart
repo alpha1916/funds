@@ -99,6 +99,8 @@ final Map<int, String> integralType2Title = {
   5: '首次操盘',
   6: '绑定银行卡',
   7: '实名认证',
+  8: '开合约',
+  9: '续合约',
 };
 class IntegralFlowData{
   final int type;

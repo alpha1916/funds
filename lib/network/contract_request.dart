@@ -21,8 +21,8 @@ class ContractRequest {
 
   static Future<ResultData> preApplyContract(type, times, loanAmount) async {
     final String api = '/api/v1/contract/preApplyContract';
-    var data = {'type': type, 'times': times, 'loanAmount': loanAmount};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'type': type, 'times': times, 'loanAmount': loanAmount};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
       return ResultData(false);
@@ -35,13 +35,13 @@ class ContractRequest {
 
   static Future<ResultData> applyContract(int type, int times, int loanAmount, int couponId) async {
     final String api = '/api/v1/contract/applyContract';
-    var data = {
+    var queryParameters = {
       'type': type,
       'times': times,
       'loanAmount': loanAmount,
       'ticketId': couponId ?? 0,
     };
-    var result = await HttpRequest.send(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
       return ResultData(false);
@@ -53,8 +53,8 @@ class ContractRequest {
   //type 0为当前合约，1为历史合约
   static Future<ResultData> getContractList(type) async {
     final String api = '/api/v1/contract/getContract';
-    var data = {'isHistory': type};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'isHistory': type};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -67,8 +67,8 @@ class ContractRequest {
 
   static Future<ResultData> getContractDetail(contractNumber) async {
     final String api = '/api/v1/contract/getContractByNo';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
       return ResultData(false);
@@ -95,22 +95,25 @@ class ContractRequest {
 
   static Future<ResultData> addCapital(contractNumber, capital) async {
     final String api = '/api/v1/contract/addPrincipal';
-    var data = {'contractNumber': contractNumber, 'principal': capital};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {
+      'contractNumber': contractNumber,
+      'principal': capital
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     return ResultData(result != null);
   }
 
   static Future<ResultData> applySettlement(contractNumber) async {
     final String api = '/api/v1/contract/settlementContract';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     return ResultData(result != null);
   }
 
   static Future<ResultData> getDelayData(String contractNumber) async {
     final String api = '/api/v1/contract/getContractDelayInfo';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -123,19 +126,19 @@ class ContractRequest {
 
   static Future<ResultData> applySuspendedCycle(String contractNumber) async {
     final String api = '/api/v1/contract/contractStop';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'contractNumber': contractNumber};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     return ResultData(result != null);
 
   }
 
   static Future<ResultData> applyDelay(contractNumber, days) async {
     final String api = '/api/v1/contract/contractDelay';
-    var data = {
+    var queryParameters = {
       'contractNumber': contractNumber,
       'day': days
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     return ResultData(result != null);
   }
 
@@ -154,8 +157,8 @@ class ContractRequest {
 
   static Future<ResultData> withdraw(String contractNumber, double money) async {
     final String api = '/api/v1/contract/cashContract';
-    var data = {'contractNumber': contractNumber, 'money': money};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'contractNumber': contractNumber, 'money': money};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     return ResultData(result != null);
   }
 

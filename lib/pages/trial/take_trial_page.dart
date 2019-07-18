@@ -263,8 +263,8 @@ class _SelectViewState extends State<_SelectView> {
       data.period = '${selectedData.timeLimit}，到期不可续约';
 
       await Utils.navigateTo(ContractApplyDetailPage(data));
-//      setState(() {
-//      });
+      setState(() {
+      });
     }
   }
 }

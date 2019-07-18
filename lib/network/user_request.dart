@@ -30,11 +30,11 @@ class UserRequest {
 
   static modifyBindPhone(String phone, String captcha) async{
     final String api = '/api/v1/user/upBindPhone';
-    var data = {
+    var queryParameters = {
       'phone': phone,
       'captcha': captcha,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -44,10 +44,10 @@ class UserRequest {
 
   static modifyAddress(String address) async{
     final String api = '/api/v1/user/setAddress';
-    var data = {
+    var queryParameters = {
       'address': address,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -57,11 +57,11 @@ class UserRequest {
 
   static certificate(name, id) async{
     final String api = '/api/v1/user/authentication';
-    var data = {
+    var queryParameters = {
       'name': name,
       'cardNo': id,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -71,7 +71,7 @@ class UserRequest {
 
   static bindBankCard(String bank, String province, String city, String location, String card, String phone) async{
     final String api = '/api/v1/bank/addBank';
-    var data = {
+    var queryParameters = {
       'bankName': bank,
       'bankNo': card,
       'city': city,
@@ -80,7 +80,7 @@ class UserRequest {
       'phone': phone,
       'province': province
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -121,27 +121,38 @@ class UserRequest {
     return ResultData(true, result['data']);
   }
 
-  static getCashFlow() async {
+  static getCashFlow(type, pageIndex, pageCount) async {
     final String api = '/api/v1/capital/getCapitalRecord';
-    var result = await HttpRequest.sendTokenPost(api: api);
+    var queryParameters = {
+      'type': type,
+    };
+    var data = {
+      'currentPage': pageIndex,
+      'pageSize': pageCount,
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters, data: data);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
+    List<dynamic> oDataList = result['data']['result'];
     List<CashFlowData> dataList = oDataList.map((data) => CashFlowData(data)).toList();
 
     return ResultData(true, dataList);
   }
 
-  static getIntegralFlow() async {
+  static getIntegralFlow(pageIndex, pageCount) async {
     final String api = '/api/v1/capital/getScoreRecord';
-    var result = await HttpRequest.sendTokenPost(api: api);
+    var data = {
+      'currentPage': pageIndex,
+      'pageSize': pageCount
+    };
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
+    List<dynamic> oDataList = result['data']['result'];
     List<IntegralFlowData> dataList = oDataList.map((data) => IntegralFlowData(data)).toList();
 
     return ResultData(true, dataList);
@@ -244,14 +255,23 @@ class UserRequest {
     return ResultData(result != null);
   }
 
-  static getMailData({type, startIndex, count}) async {
+  static getMailData(type, pageIndex, pageCount) async {
     final String api = '/api/v1/mail/getMailList';
-    var result = await HttpRequest.sendTokenGet(api: api);
+    var data = {
+      'currentPage': pageIndex,
+      'pageSize': pageCount,
+    };
+
+    var queryParameters = {
+      'type': type,
+    };
+
+    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
+    List<dynamic> oDataList = result['data']['result'];
     List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
 //    var dataList = MailData.getTestData(type);
 

@@ -68,7 +68,7 @@ class _CashFlowPageState extends State<CashFlowPage>
       }
     });
 
-    _getData();
+    _getData(0, 0, 10);
   }
 
   _getMoreData() async{
@@ -97,8 +97,8 @@ class _CashFlowPageState extends State<CashFlowPage>
     _scrollController.dispose();
   }
 
-  _getData() async{
-    var result = await UserRequest.getCashFlow();
+  _getData(type, pageIndex, pageCount) async{
+    var result = await UserRequest.getCashFlow(type, pageIndex, pageCount);
     if(result.success){
       _totalDataList = result.data;
       _update();
@@ -285,7 +285,7 @@ class _CashFlowPageState extends State<CashFlowPage>
       endIdx = list.length;
 
     var result = list.sublist(startIdx, endIdx);
-    print('$startIdx, $endIdx,${result.length}');
+//    print('$startIdx, $endIdx,${result.length}');
     return result;
   }
 }

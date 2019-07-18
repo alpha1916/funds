@@ -69,9 +69,9 @@ class Utils {
     return IconButton(
         icon: Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22),
         onPressed: () async{
-          var result = await UserRequest.getMailData(type: MailType.all.index);
+          var result = await UserRequest.getMailData(MailType.notice.index, 0, 10);
           if(result.success)
-            Utils.navigateTo(MailPage('公告消息', result.data));
+            Utils.navigateTo(MailPage('消息中心', result.data));
         }
     );
   }
@@ -283,6 +283,10 @@ class Utils {
   }
 
   static bankCardWithdraw() async{
+    if(!AccountData.getInstance().bindBank){
+      alert('请先绑定银行卡');
+      return;
+    }
     var result = await UserRequest.getBankCardData();
     if(!result.success)
       return;

@@ -74,7 +74,7 @@ class MailPage extends StatelessWidget {
       return;
     }
 
-    var result = await UserRequest.getMailData(type: data.type);
+    var result = await UserRequest.getMailData(data.type, 0, 10);
     if(result.success){
       Utils.navigateTo(MailListPage(type2title[data.type], result.data));
     }

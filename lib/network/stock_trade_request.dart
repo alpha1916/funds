@@ -18,13 +18,13 @@ class StockTradeRequest {
 
   static buy(contractNumber, code, price, count) async{
     final String api = '/api/v1/trade/buyEntrust';
-    var data = {
+    var queryParameters = {
       'contractNumber': contractNumber,
       'secCode': code,
       'price': price,
       'count': count,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -34,13 +34,13 @@ class StockTradeRequest {
 
   static sell(contractNumber, code, price, count) async{
     final String api = '/api/v1/trade/saleEntrust';
-    var data = {
+    var queryParameters = {
       'contractNum': contractNumber,
       'secCode': code,
       'count': count,
       'price': price,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -50,10 +50,10 @@ class StockTradeRequest {
 
   static cancel(entrustId) async{
     final String api = '/api/v1/trade/cancel';
-    var data = {
+    var queryParameters = {
       'entrustId': entrustId,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -63,10 +63,10 @@ class StockTradeRequest {
 
   static getEntrustList(contractNumber) async {
     final String api = '/api/v1/trade/getEntrusts';
-    var data = {
+    var queryParameters = {
       'contractNumber': contractNumber,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }

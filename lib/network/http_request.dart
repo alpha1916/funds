@@ -13,6 +13,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:funds/routes/reward_dialog.dart';
 
 export 'package:funds/model/account_data.dart';
+export 'package:dio/dio.dart';
 
 class CaptchaType {
   static int forgotPassword = 1;
@@ -27,6 +28,10 @@ enum RequestType{
   tokenGet,
   tokenPost,
 }
+
+//class ListPageData{
+//
+//}
 
 class HttpRequest {
   static Future<bool> isNetworkAvailable() async {
@@ -47,6 +52,7 @@ class HttpRequest {
   static send({
     @required api,
     data,
+    queryParameters,
     token,
     isPost = true,
     askLogin = true
@@ -59,7 +65,7 @@ class HttpRequest {
 
     try {
       Loading.show();
-      print('[${DateTime.now().toString().substring(11)}]http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}');
+      print('[${DateTime.now().toString().substring(11)}]http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}, queryParameters:${queryParameters.toString()}');
       Response response;
       RequestOptions options;
       if(token != null) {
@@ -77,7 +83,7 @@ class HttpRequest {
 //        }else{
 //          response = await dio.post(api, data: data);
 //        }
-        response = await dio.post(api, data: data, queryParameters: data, options: options);
+        response = await dio.post(api, data: data, queryParameters: queryParameters, options: options);
       }else{
         response = await dio.get(api, queryParameters: data, options: options);
       }
@@ -142,6 +148,7 @@ class HttpRequest {
   static sendTokenPost({
     @required api,
     data,
+    queryParameters,
     askLogin = true
   }) async {
     String token = AccountData.getInstance().token;
@@ -150,12 +157,13 @@ class HttpRequest {
       await Utils.navigateToLoginPage();
       token = AccountData.getInstance().token;
     }
-    return send(api: api, data: data, askLogin: askLogin, token: token);
+    return send(api: api, data: data, askLogin: askLogin, token: token, queryParameters: queryParameters);
   }
 
   static sendTokenGet({
     @required api,
     data,
+    queryParameters,
     askLogin = true
   }) async {
     String token = AccountData.getInstance().token;
@@ -165,7 +173,14 @@ class HttpRequest {
       token = AccountData.getInstance().token;
     }
 
-    return send(api: api, data: data, askLogin: askLogin, token: token, isPost: false);
+    return send(
+      api: api,
+      data: data,
+      queryParameters: queryParameters,
+      askLogin: askLogin,
+      token: token,
+      isPost: false
+    );
   }
 
   static getPhoneCaptcha(int type, String phone) async {
@@ -374,11 +389,11 @@ class LoginRequest {
 
   static modifyPassword(String oldPwd, String newPwd) async {
     final String api = '/api/v1/user/upLoginPassword';
-    var data = {
+    var queryParameters = {
       "oldPw":oldPwd,
       "newPw": newPwd,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null)
       return ResultData(false);
 
@@ -403,8 +418,8 @@ class ExperienceRequest {
 
   static Future<ResultData> preApplyContract(id) async {
     final String api = '/api/v1/experience/preApplyContract';
-    var data = {'id': id};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var queryParameters = {'id': id};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
       return ResultData(false);
@@ -417,8 +432,8 @@ class ExperienceRequest {
 
   static Future<ResultData> applyContract(id) async {
     final String api = '/api/v1/experience/applyContract';
-    var data = {'id': id};
-    var result = await HttpRequest.send(api: api, data: data);
+    var queryParameters = {'id': id};
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
       return ResultData(false);
@@ -447,12 +462,12 @@ class RechargeRequest{
       return ResultData(false);
 
     final String api = '/api/v1/capital/pay/payReq';
-    var data = {
+    var queryParameters = {
       'money': money,
       'remarks': comment,
       'url': url,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
@@ -462,11 +477,11 @@ class RechargeRequest{
 
   static withdraw(double money, String password) async{
     final String api = '/api/v1/capital/cash';
-    var data = {
+    var queryParameters = {
       'money': money,
       'password': password,
     };
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }

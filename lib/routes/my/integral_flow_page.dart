@@ -20,7 +20,7 @@ class _IntegralFlowPageState extends State<IntegralFlowPage> {
   }
 
   _refresh() async {
-    var result = await UserRequest.getIntegralFlow();
+    var result = await UserRequest.getIntegralFlow(0, 100);
     if(result.success){
       setState(() {
         _dataList = result.data;
