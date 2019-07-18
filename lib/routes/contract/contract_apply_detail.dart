@@ -75,12 +75,8 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _buildProfitTips() {
-    //少于100才显示盈利分配
-    if(data.profit == 100){
-      return Container();
-    }
     return Container(
-      width: a.px(150),
+      width: a.px(138),
       height: a.px25,
       decoration: BoxDecoration(
         color: CustomColors.red,

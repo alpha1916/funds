@@ -41,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
         child: Image.asset(CustomIcons.homeBanner1, fit: BoxFit.cover),
         onTap: () {},
       ),
+      SizedBox(height: a.px12),
       InkWell(
         child: Image.asset(CustomIcons.homeBanner2, fit: BoxFit.cover),
         onTap: () => Utils.appMainTabSwitch(AppTabIndex.experience),

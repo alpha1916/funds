@@ -418,7 +418,7 @@ class ExperienceRequest {
   static Future<ResultData> applyContract(id) async {
     final String api = '/api/v1/experience/applyContract';
     var data = {'id': id};
-    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    var result = await HttpRequest.send(api: api, data: data);
 
     if(result == null){
       return ResultData(false);

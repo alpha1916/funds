@@ -5,7 +5,7 @@ PODS:
   - Flutter (1.0.0)
   - flutter_image_compress (0.0.1):
     - Flutter
-    - Mantle
+    - SYPictureMetadata (~> 1.4)
   - flutter_webview_plugin (0.0.1):
     - Flutter
   - image_picker (0.0.1):
@@ -20,6 +20,8 @@ PODS:
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
+  - SYPictureMetadata (1.4.3):
+    - Mantle
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -41,6 +43,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Mantle
     - Reachability
+    - SYPictureMetadata
 
 EXTERNAL SOURCES:
   connectivity:
@@ -67,7 +70,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
-  flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
+  flutter_image_compress: edee970f2ab59ceac69d5d6f552df91d6d0294e5
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
   image_picker_saver: 4f28bd70e1efdca68ad88beab0f11d22cffe04f6
@@ -75,6 +78,7 @@ SPEC CHECKSUMS:
   permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  SYPictureMetadata: fa35cbfdd9089241dfe5c798a11504546c5255e9
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
   webview_flutter: 1aa7604e6cdb451a9b7ed2c37d5454c0b440246b
 

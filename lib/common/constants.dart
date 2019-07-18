@@ -9,7 +9,7 @@ class CustomIcons {
   static const mail1 = 'assets/common/mail1.png';
   static const iconText = 'assets/common/logo_with_text.png';
   static const iconWithdraw = 'assets/common/ic_drawing_psw.png';
-  static const logo = 'assets/common/ic_logo.png';
+  static const logo = 'assets/common/ic_launcher.png';
 
   static const couponBG1 = 'assets/common/bg_coupon_blue.png';
   static const couponBG2 = 'assets/common/bg_coupon_orange.png';
@@ -17,8 +17,8 @@ class CustomIcons {
   static const rewardTray = 'assets/common/bg_reward_dialog.png';
 
 
-  static const homeBanner1 = 'assets/home/banner.jpg';
-  static const homeBanner2 = 'assets/home/banner2.jpg';
+  static const homeBanner1 = 'assets/home/banner1.png';
+  static const homeBanner2 = 'assets/home/banner2.png';
   static const homePeriodPrefix = 'assets/home/period';
 
   static const fundsPeriodTrayPrefix = 'assets/funds/tray';
@@ -268,8 +268,8 @@ class Global{
 
   static String testPhoneNumber = '18612345658';
   static String testPwd = '123456';
-  static String appName = '德盈';
-  static String wxName = '德盈投资';
+  static String appName = '基石';
+  static String wxName = '基石投资';
 }
 
 final Map<int, String>tradeFlowStatus = {

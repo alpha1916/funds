@@ -57,22 +57,20 @@ class _FundsViewState extends State<FundsView> {
             child: InkWell(
               child: Stack(
                 children: <Widget>[
-                  Image.asset(trayImagePath,
+                  Image.asset(
+                    trayImagePath,
                     fit: BoxFit.fitWidth,
                   ),
                   Positioned(
                     top: 0,
                     left: index.isOdd ? null : 0,
-                    right: index.isOdd ? 0: null,
+                    right: index.isOdd ? a.px6: null,
                     child: _buildItemTextView(data),
                   )
                 ],
               ),
               onTap: () => _onClickedItem(data.type),
             ),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey))),
           );
         },
         itemCount: _dataList.length,
@@ -105,15 +103,15 @@ class _FundsViewState extends State<FundsView> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    width: a.px15 * data.interest.length * 1.2,
-                    height: a.px22,
+                    width: a.px15 * data.interest.length * 1.1,
+                    height: a.px24,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 253, 200, 61),
-                      borderRadius: BorderRadius.all(Radius.circular(a.px10)),
+                      color: Color.fromARGB(255, 240, 63, 132),
+                      borderRadius: BorderRadius.all(Radius.circular(a.px4)),
                     ),
-                    child: Text(data.interest, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w700)),
+                    child: Text(data.interest, style: TextStyle(fontSize: a.px15, color: Colors.white, fontWeight: FontWeight.w500)),
                   ),
-                  Text(' ', style: TextStyle(fontSize: a.px12)),
+                  Text(' ', style: TextStyle(fontSize: a.px7)),
                 ],
               )
             ],
