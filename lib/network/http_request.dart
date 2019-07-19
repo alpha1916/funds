@@ -286,11 +286,12 @@ class HttpRequest {
 //    return ResultData(true, dataList);
 //  }
 
-  static buildBusinessData(success, [data]){
+  static buildPageData(pageIndex, pageCount){
     return {
-      success: success,
-      data: data,
+      'currentPage': pageIndex,
+      'pageSize': pageCount,
     };
+
   }
 
   static Dio dio;

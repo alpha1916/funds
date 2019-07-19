@@ -126,27 +126,21 @@ class UserRequest {
     var queryParameters = {
       'type': type,
     };
-    var data = {
-      'currentPage': pageIndex,
-      'pageSize': pageCount,
-    };
+    var data = HttpRequest.buildPageData(pageIndex, pageCount);
     var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters, data: data);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data']['result'];
-    List<CashFlowData> dataList = oDataList.map((data) => CashFlowData(data)).toList();
+//    List<dynamic> oDataList = result['data']['result'];
+//    List<CashFlowData> dataList = oDataList.map((data) => CashFlowData(data)).toList();
 
-    return ResultData(true, dataList);
+    return ResultData(true, result['data']);
   }
 
   static getIntegralFlow(pageIndex, pageCount) async {
     final String api = '/api/v1/capital/getScoreRecord';
-    var data = {
-      'currentPage': pageIndex,
-      'pageSize': pageCount
-    };
+    var data = HttpRequest.buildPageData(pageIndex, pageCount);
     var result = await HttpRequest.sendTokenPost(api: api, data: data);
     if(result == null){
       return ResultData(false);
@@ -257,11 +251,7 @@ class UserRequest {
 
   static getMailData(type, pageIndex, pageCount) async {
     final String api = '/api/v1/mail/getMailList';
-    var data = {
-      'currentPage': pageIndex,
-      'pageSize': pageCount,
-    };
-
+    var data = HttpRequest.buildPageData(pageIndex, pageCount);
     var queryParameters = {
       'type': type,
     };
@@ -290,6 +280,24 @@ class UserRequest {
     }
 
     return ResultData(true, dataList);
+  }
+
+  static getMailUnreadState() async{
+    final String api = '/api/v1/mail/haveUnReadMail';
+    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true, result['data']);
+  }
+
+  static readMails() async{
+    final String api = '/api/v1/mail/readMail';
+    var result = await HttpRequest.sendTokenGet(api: api);
+    if(result == null)
+      return ResultData(false);
+
+    return ResultData(true, result['data']);
   }
 }
 

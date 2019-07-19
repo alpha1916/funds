@@ -51,18 +51,23 @@ class ContractRequest {
   }
 
   //type 0为当前合约，1为历史合约
-  static Future<ResultData> getContractList(type) async {
+  static Future<ResultData> getContractList(type, pageIndex, pageCount) async {
     final String api = '/api/v1/contract/getContract';
     var queryParameters = {'isHistory': type};
-    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
+    var result = await HttpRequest.sendTokenPost(
+        api: api,
+        queryParameters: queryParameters,
+        data: HttpRequest.buildPageData(pageIndex, pageCount)
+    );
+
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
-    final List<ContractData> dataList = oDataList.map((data) => ContractData(data)).toList();
+//    List<dynamic> oDataList = result['data']['result'];
+//    final List<ContractData> dataList = oDataList.map((data) => ContractData(data)).toList();
 
-    return ResultData(true, dataList);
+    return ResultData(true, result['data']);
   }
 
   static Future<ResultData> getContractDetail(contractNumber) async {
@@ -175,18 +180,20 @@ class ContractRequest {
 
 
   //type 1为历史，0位当日
-  static Future<ResultData> getDealList(contractNumber, type) async {
+  static Future<ResultData> getDealList(contractNumber, type, [pageIndex = 0, pageCount = 100]) async {
     final String api = '/api/v1/contract/getContractDealRecord';
-    final data = {
+    final queryParameters = {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+
+    final data = HttpRequest.buildPageData(0, 100);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
+    List<dynamic> oDataList = result['data']['result'];
     final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromDealData(data)).toList();
 
     return ResultData(true, dataList);
@@ -195,16 +202,17 @@ class ContractRequest {
   //type 1为历史，0位当日
   static Future<ResultData> getEntrustList(contractNumber, type) async {
     final String api = '/api/v1/contract/getContractEntrustRecord';
-    final data = {
+    final queryParameters = {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    final data = HttpRequest.buildPageData(0, 100);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data'];
+    List<dynamic> oDataList = result['data']['result'];
     final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromEntrustData(data)).toList();
 
     return ResultData(true, dataList);

@@ -7,56 +7,51 @@ import 'package:funds/routes/contract/current_contract_detail.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/routes/contract/contract_apply.dart';
 
+import 'package:funds/common/widgets/custom_refresh_list_view.dart';
+import 'package:funds/model/list_page_data.dart';
+
 class CurrentContractListPage extends StatefulWidget {
   @override
   _CurrentContractListPageState createState() => _CurrentContractListPageState();
 }
 
 class _CurrentContractListPageState extends State<CurrentContractListPage> {
-  List<ContractData> _dataList;
+  ListPageDataHandler listPageDataHandler;
+  GlobalKey<CustomRefreshListViewState> _listViewKey = GlobalKey<CustomRefreshListViewState>();
 
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
 
-    _refresh();
-  }
-
-  _refresh() async{
-    ResultData result = await ContractRequest.getContractList(0);
-    if(mounted && result.success) {
-      setState(() {
-        _dataList = result.data;
-      });
-    }
+    listPageDataHandler = ListPageDataHandler(
+//        pageCount: 10,
+        itemConverter: (data) => ContractData(data),
+        requestDataHandler: (pageIndex, pageCount) async{
+          var result = await ContractRequest.getContractList(0, pageIndex, pageCount);
+          return result.data;
+        }
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if(_dataList == null){
-      return Container();
-    }else if(_dataList.length == 0){
-      return _buildPromoteView();
-    }
-
-
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        final data = _dataList[index];
-        return Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(bottom: a.px10),
-          child: ContractItemView(ContractType.current, data, () => _showContractDetail(data)),
-        );
-      },
-      itemCount: _dataList.length,
+    return CustomRefreshListView(
+      key: _listViewKey,
+      indexedWidgetBuilder: _itemBuilder,
+      refreshHandler: listPageDataHandler.refresh,
+      loadMoreHandler: listPageDataHandler.loadMore,
+      noDataViewBuilder: _buildPromoteView,
     );
   }
 
   _showContractDetail(data) async{
     await Utils.navigateTo(CurrentContractDetail(data));
     _refresh();
+  }
+
+  _refresh(){
+    _listViewKey.currentState.refresh();
   }
 
   _buildPromoteView() {
@@ -93,6 +88,14 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _itemBuilder(BuildContext context, int index, dynamic data){
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(bottom: a.px10),
+      child: ContractItemView(ContractType.current, data, () => _showContractDetail(data)),
     );
   }
 }

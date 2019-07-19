@@ -25,6 +25,11 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _refresh() async{
+//    if(Global.hasUnreadMail == null){
+//      ResultData result = await UserRequest.getMailUnreadState();
+//      if(result.success)
+//        Global.hasUnreadMail = true;//result.data;
+//    }
     ResultData result = await ContractRequest.getConfigs();
     if(result.success){
       setState(() {

@@ -252,10 +252,11 @@ class a{
 }
 
 class Global{
+  static String host = 'http://119.29.142.63:8070/';
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
-  static String version = '0.0.6';
+  static String version = '0.0.7';
   static String servicePhoneNumber = '4001234567';
   static String get platformName {
     if(Platform.isIOS){

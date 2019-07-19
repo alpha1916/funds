@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
-import 'package:funds/network/stock_trade_request.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/pages/trade/trade_flow_page.dart';
-import 'package:funds/routes/contract/current_contract_funds_flow_list.dart';
 
 
 class StockQueryView extends StatefulWidget {
@@ -30,10 +28,10 @@ class _StockQueryViewState extends State<StockQueryView> {
           _buildItem(width, '历史成交', _onPressHistoryDeal),
           Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
           _buildItem(width, '历史委托', _onPressHistoryDelegate),
-          SizedBox(height: a.px14,),
-          _buildItem(width, '当日资金流水', _onPressDayCashFlow),
-          Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
-          _buildItem(width, '历史资金流水', _onPressHistoryCashFlow),
+//          SizedBox(height: a.px14,),
+//          _buildItem(width, '当日资金流水', _onPressDayCashFlow),
+//          Container(height: a.px1, margin: EdgeInsets.only(left: a.px16), color: Colors.black12),
+//          _buildItem(width, '历史资金流水', _onPressHistoryCashFlow),
         ],
       )
     );

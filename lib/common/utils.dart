@@ -15,6 +15,8 @@ import 'package:funds/routes/mail/mail_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
 import 'package:funds/routes/online_service_page.dart';
 
+import 'package:funds/model/list_page_data.dart';
+
 class Utils {
   static BuildContext context;
   static var appMainTabSwitch;
@@ -66,20 +68,44 @@ class Utils {
   }
 
   static buildMailIconButton() {
-    return IconButton(
-        icon: Image.asset(CustomIcons.mail0, width: a.px22, height: a.px22),
-        onPressed: () async{
-          var result = await UserRequest.getMailData(MailType.notice.index, 0, 10);
-          if(result.success)
-            Utils.navigateTo(MailPage('消息中心', result.data));
+//    String image = Global.hasUnreadMail == true ? CustomIcons.mail1 : CustomIcons.mail0;
+//    return IconButton(
+//        icon: Image.asset(image , width: a.px22, height: a.px22),
+//        onPressed: () async{
+//          if(Global.hasUnreadMail){
+//            UserRequest.readMails();
+//          }
+//
+//          var result = await UserRequest.getMailData(MailType.notice.index, 0, 10);
+//          if(result.success)
+//            Utils.navigateTo(MailPage('消息中心', result.data));
+//        }
+//    );
+
+    return StreamBuilder<bool>(
+        stream: AccountData.getInstance().unreadMailStream,
+        initialData: AccountData.getInstance().hasUnreadMail,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot){
+          String image = snapshot.data ? CustomIcons.mail1 : CustomIcons.mail0;
+          return IconButton(
+              icon: Image.asset(image , width: a.px22, height: a.px22),
+              onPressed: () async{
+                AccountData.getInstance().readMails();
+
+                var result = await UserRequest.getMailData(MailType.notice.index, 0, 10);
+                if(result.success)
+                  Utils.navigateTo(MailPage('消息中心', result.data));
+              }
+          );
         }
     );
   }
 
   static buildForwardIcon({size, color}) {
-    return Icon(Icons.arrow_forward_ios, size: size ?? a.px16, color: color ?? Colors.black26,);
+    return Icon(Icons.arrow_forward_ios, size: size ?? a.px16, color: color ?? Colors.black26);
   }
 
+  static ListPageDataHandler<CashFlowData> handler;
   static test() async {
     AccountData.getInstance().clear();
   }
@@ -99,9 +125,6 @@ class Utils {
 
   static openOnlineService() {
     navigateTo(OnlineServicePage());
-//    final String url = 'https://master.71baomu.com/code/app/10013223/1?device=${Global.platformName}';
-//    debugPrint(url);
-//    launch(url, forceWebView: true);
   }
   
   static getProfitColor(value) {

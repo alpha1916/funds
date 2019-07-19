@@ -10,6 +10,7 @@ import 'package:funds/model/coupon_data.dart';
 import 'package:funds/routes/contract/coupon_select.dart';
 import 'package:funds/routes/recharge/recharge_page.dart';
 import 'apply_confirm_dialog.dart';
+import 'package:funds/routes/webview_page.dart';
 
 
 class ContractApplyDetailPage extends StatefulWidget {
@@ -296,7 +297,12 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
               ),
             ),
             onPressed: (){
-              alert('协议界面未做');
+              final String url = '${Global.host}api/v1/protocol?times=${data.times}&loanAmount=${data.loadAmount}&type=${data.type}';
+              final Map<String, String> headers = {
+                "Accept": "*/*",
+                'token': AccountData.getInstance().token,
+              };
+              Utils.navigateTo(WebViewPage(title: '操盘协议', url: url, headers: headers));
             },
           )
         ],

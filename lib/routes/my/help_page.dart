@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/routes/webview_page.dart';
 
 class HelpPage extends StatelessWidget {
   @override
@@ -71,23 +72,20 @@ class HelpPage extends StatelessWidget {
     );
   }
 
-  _showBasicIntro(){
+  _openHelpPage(type, title) {
+    String url = Global.host + 'api/v1/help?type=$type';
+    Utils.navigateTo(WebViewPage(title: title, url: url));
+  }
 
+  _showBasicIntro(){
+    _openHelpPage(1, '基础介绍');
   }
 
   _showTrade() {
-
+    _openHelpPage(2, '股票交易');
   }
 
   _showCash() {
-
-  }
-
-  _onPressedOnlineService() {
-
-  }
-
-  _onPressedPhoneService() {
-    Utils.callService();
+    _openHelpPage(3, '充值提现');
   }
 }

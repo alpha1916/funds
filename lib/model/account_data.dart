@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:funds/common/utils.dart';
+import 'package:funds/network/user_request.dart';
 import 'dart:async';
 
 class AccountData {
@@ -21,16 +22,20 @@ class AccountData {
   bool bindBank;
   String token;
   bool agreedRisk = false;
+  bool hasUnreadMail = false;
   List<int> experiences = [];
   
   Stream<AccountData> get dataStream => _streamController.stream;
   StreamController<AccountData> _streamController = StreamController<AccountData>.broadcast();
 
+  Stream<bool> get unreadMailStream => _unreadMailStreamController.stream;
+  StreamController<bool> _unreadMailStreamController = StreamController<bool>.broadcast();
+
   bool isLogin() {
     return token != null;
   }
 
-  update(data){
+  update(data) async{
     cash = Utils.convertDouble(data['cashWealth']);
     stock = Utils.convertDouble(data['bondWealth']);
     total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
@@ -53,12 +58,16 @@ class AccountData {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.get('token');
     print('token:$token');
+
+    checkUnreadMail();
   }
 
   updateToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
     this.token = token;
+
+    checkUnreadMail();
   }
 
   clear() async {
@@ -68,6 +77,7 @@ class AccountData {
     phone = '';
     token = null;
     experiences = [];
+    hasUnreadMail = false;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
@@ -76,6 +86,25 @@ class AccountData {
   
   isExperienceDone(int id) {
     return experiences.contains(id);
+  }
+
+  checkUnreadMail() async{
+    ResultData result = await UserRequest.getMailUnreadState();
+    if(result.success && result.data){
+      hasUnreadMail = true;
+      _unreadMailStreamController.add(hasUnreadMail);
+    }
+  }
+
+  readMails() async{
+    if(!hasUnreadMail)
+      return;
+
+    var result = await UserRequest.readMails();
+    if(result.success){
+      hasUnreadMail = false;
+      _unreadMailStreamController.add(hasUnreadMail);
+    }
   }
 }
 
