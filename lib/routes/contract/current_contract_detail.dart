@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/common/custom_dialog.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/routes/trade/stock_trade_main.dart';
@@ -147,9 +146,13 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedFlow() async{
-    var result = await ContractRequest.getFlow(data.contractNumber);
-    if(result.success)
-      Utils.navigateTo(ContractFlowPage(result.data));
+    ContractFlowData data = ContractFlowData.fromContractData(
+      loan: 1000,
+      contractMoney: 1000,
+      operateMoney: 1000,
+      capital: 1000,
+    );
+    Utils.navigateTo(ContractFlowPage(data));
   }
 
   _onPressedLimited() async{

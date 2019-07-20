@@ -64,9 +64,6 @@ class ContractRequest {
       return ResultData(false);
     }
 
-//    List<dynamic> oDataList = result['data']['result'];
-//    final List<ContractData> dataList = oDataList.map((data) => ContractData(data)).toList();
-
     return ResultData(true, result['data']);
   }
 
@@ -180,41 +177,81 @@ class ContractRequest {
 
 
   //type 1为历史，0位当日
-  static Future<ResultData> getDealList(contractNumber, type, [pageIndex = 0, pageCount = 100]) async {
+  static Future<ResultData> getDealList(contractNumber, type, pageIndex, pageCount) async {
+//    final String api = '/api/v1/contract/getContractDealRecord';
+//    final queryParameters = {
+//      'contractNumber': contractNumber,
+//      'isHistory': type,
+//    };
+//
+//    final data = HttpRequest.buildPageData(pageIndex, pageCount);
+//    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    return ResultData(true, result['data']);
     final String api = '/api/v1/contract/getContractDealRecord';
     final queryParameters = {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-
-    final data = HttpRequest.buildPageData(0, 100);
-    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
-    if(result == null){
-      return ResultData(false);
-    }
-
-    List<dynamic> oDataList = result['data']['result'];
-    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromDealData(data)).toList();
-
-    return ResultData(true, dataList);
+    return getListData(api: api, queryParameters:queryParameters, pageIndex: pageIndex, pageCount:pageCount);
   }
 
   //type 1为历史，0位当日
-  static Future<ResultData> getEntrustList(contractNumber, type) async {
+  static Future<ResultData> getEntrustList(contractNumber, type, pageIndex, pageCount) async {
+//    final String api = '/api/v1/contract/getContractEntrustRecord';
+//    final queryParameters = {
+//      'contractNumber': contractNumber,
+//      'isHistory': type,
+//    };
+//    final data = HttpRequest.buildPageData(pageIndex, pageCount);
+//    var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    return ResultData(true, result['data']);
+
     final String api = '/api/v1/contract/getContractEntrustRecord';
     final queryParameters = {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-    final data = HttpRequest.buildPageData(0, 100);
+    return getListData(api: api, queryParameters:queryParameters, pageIndex: pageIndex, pageCount:pageCount);
+  }
+
+  static Future<ResultData> getFlowCashList(contractNumber, pageIndex, pageCount) async {
+    final String api = '/api/v1/contract/getContractMoneyRecord';
+    return getListData(api: api, contractNumber:contractNumber, pageIndex: pageIndex, pageCount:pageCount);
+  }
+
+  static Future<ResultData> getFlowManageCostList(contractNumber, pageIndex, pageCount) async {
+    final String api = '/api/v1/contract/getContractManagementRecord';
+    return getListData(api: api, contractNumber:contractNumber, pageIndex: pageIndex, pageCount:pageCount);
+  }
+
+  static Future<ResultData> getListData ({
+    api,
+    contractNumber,
+    type,
+    queryParameters,
+    pageIndex,
+    pageCount
+  })async{
+    if(queryParameters == null){
+      queryParameters = {
+        'contractNumber': contractNumber,
+        'type': type,
+      };
+    }
+    final data = HttpRequest.buildPageData(pageIndex, pageCount);
     var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
     if(result == null){
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data']['result'];
-    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData.fromEntrustData(data)).toList();
-
-    return ResultData(true, dataList);
+    return ResultData(true, result['data']);
   }
 }

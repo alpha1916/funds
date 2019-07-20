@@ -132,9 +132,6 @@ class UserRequest {
       return ResultData(false);
     }
 
-//    List<dynamic> oDataList = result['data']['result'];
-//    List<CashFlowData> dataList = oDataList.map((data) => CashFlowData(data)).toList();
-
     return ResultData(true, result['data']);
   }
 
@@ -146,12 +143,7 @@ class UserRequest {
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data']['result'];
-    List<IntegralFlowData> dataList = oDataList.map((data) => IntegralFlowData(data)).toList();
-
-    return ResultData(true, dataList);
-
-//    return HttpRequest.requestListData(type:api: api, dataConverter: (data) => IntegralFlowData(data));
+    return ResultData(true, result['data']);
   }
 
   static getMyCouponsData() async {
@@ -249,7 +241,7 @@ class UserRequest {
     return ResultData(result != null);
   }
 
-  static getMailData(type, pageIndex, pageCount) async {
+  static getMailList(type, pageIndex, pageCount) async {
     final String api = '/api/v1/mail/getMailList';
     var data = HttpRequest.buildPageData(pageIndex, pageCount);
     var queryParameters = {
@@ -261,25 +253,50 @@ class UserRequest {
       return ResultData(false);
     }
 
-    List<dynamic> oDataList = result['data']['result'];
-    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
-//    var dataList = MailData.getTestData(type);
+//    List<dynamic> oDataList = result['data']['result'];
+//    List<MailData> dataList = oDataList.map((data) => MailData(data)).toList();
+////    var dataList = MailData.getTestData(type);
+//
+//    getFirstData(type){
+//      List<MailData> list = dataList.where((data) => data.type == type).toList();
+//      return list.length > 0 ? list.first : null;
+//    }
+//    if(type == MailType.all.index){
+//      dataList = [
+//        getFirstData(1),
+//        getFirstData(2),
+//        getFirstData(3),
+//      ];
+//    }else{
+//      dataList = dataList.where((data) => data.type == type).toList();
+//    }
 
-    getFirstData(type){
-      List<MailData> list = dataList.where((data) => data.type == type).toList();
-      return list.length > 0 ? list.first : null;
-    }
-    if(type == MailType.all.index){
-      dataList = [
-        getFirstData(1),
-        getFirstData(2),
-        getFirstData(3),
-      ];
-    }else{
-      dataList = dataList.where((data) => data.type == type).toList();
-    }
+    return ResultData(true, result['data']);
+  }
 
-    return ResultData(true, dataList);
+  static getMailPeekData()async{
+    final String api = '/api/v1/mail/getMailList';
+    List<MailData> list = [];
+    for(int type = 1; type <= 3; ++type){
+      var data = HttpRequest.buildPageData(0, 1);
+      var queryParameters = {'type': type};
+
+      var result = await HttpRequest.sendTokenPost(api: api, data: data, queryParameters: queryParameters);
+      if(result == null){
+        return ResultData(false);
+      }
+
+      var oDataList = result['data']['result'];
+      if(oDataList.length > 0){
+        MailData mailData = MailData(oDataList[0]);
+        if(mailData.type == type){
+          list.add(mailData);
+          continue;
+        }
+      }
+      list.add(null);
+    }
+    return ResultData(true, list);
   }
 
   static getMailUnreadState() async{

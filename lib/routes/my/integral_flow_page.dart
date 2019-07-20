@@ -3,6 +3,8 @@ import 'package:funds/model/account_data.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/user_request.dart';
+import 'package:funds/common/widgets/custom_refresh_list_view.dart';
+import 'package:funds/model/list_page_data.dart';
 
 class IntegralFlowPage extends StatefulWidget {
   @override
@@ -10,22 +12,22 @@ class IntegralFlowPage extends StatefulWidget {
 }
 
 class _IntegralFlowPageState extends State<IntegralFlowPage> {
-  List<IntegralFlowData> _dataList = [];
+  ListPageDataHandler listPageDataHandler;
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _refresh();
-  }
 
-  _refresh() async {
-    var result = await UserRequest.getIntegralFlow(0, 100);
-    if(result.success){
-      setState(() {
-        _dataList = result.data;
-      });
-    }
+    listPageDataHandler = ListPageDataHandler(
+        pageCount: 12,
+        itemConverter: (data) => IntegralFlowData(data),
+        requestDataHandler: (pageIndex, pageCount) async{
+          var result = await UserRequest.getIntegralFlow(pageIndex, pageCount);
+          return result.data;
+        }
+    );
   }
 
   @override
@@ -35,40 +37,42 @@ class _IntegralFlowPageState extends State<IntegralFlowPage> {
       appBar: AppBar(
         title:Text('积分流水'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index){
-          IntegralFlowData data = _dataList[index];
-          String strValue = data.value > 0 ? '+${data.value}' : data.value.toString();
-          return Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(a.px16),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(data.title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500),),
-                        Text(strValue, style: TextStyle(fontSize: a.px15, color: Utils.getProfitColor(data.value), fontWeight: FontWeight.w500),),
-                      ],
-                    ),
-                    SizedBox(height: a.px6,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('积分余额：${data.remainingSum}', style: TextStyle(fontSize: a.px15)),
-                        Text(data.date, style: TextStyle(fontSize: a.px15)),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Divider(height: 0, indent: a.px16,),
-            ],
-          );
-        },
-        itemCount: _dataList.length,
+      body: CustomRefreshListView(
+        indexedWidgetBuilder: _itemBuilder,
+        refreshHandler: listPageDataHandler.refresh,
+        loadMoreHandler: listPageDataHandler.loadMore,
       ),
+    );
+  }
+
+  Widget _itemBuilder(BuildContext context, int index, dynamic data){
+    String strValue = data.value > 0 ? '+${data.value}' : data.value.toString();
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(a.px16),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(data.title, style: TextStyle(fontSize: a.px15, color: Colors.black, fontWeight: FontWeight.w500),),
+                  Text(strValue, style: TextStyle(fontSize: a.px15, color: Utils.getProfitColor(data.value), fontWeight: FontWeight.w500),),
+                ],
+              ),
+              SizedBox(height: a.px6,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('积分余额：${data.remainingSum}', style: TextStyle(fontSize: a.px15)),
+                  Text(data.date, style: TextStyle(fontSize: a.px15)),
+                ],
+              )
+            ],
+          ),
+        ),
+        Divider(height: 0, indent: a.px16),
+      ],
     );
   }
 }

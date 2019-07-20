@@ -325,6 +325,14 @@ class ContractFlowData{
         moneyFlowList = data['moneyRecord'].map<ContractMoneyFlowData>((record) => ContractMoneyFlowData(record)).toList(),
         costFlowList = data['managementRecord'].map<ContractCostFlowData>((record) => ContractCostFlowData(record)).toList()
   ;
+  ContractFlowData.fromContractData({
+    this.loan,
+    this.capital,
+    this.contractMoney,
+    this.operateMoney,
+    this.costFlowList,
+    this.moneyFlowList
+  });
 }
 
 class ContractDelayData{

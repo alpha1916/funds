@@ -29,7 +29,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     );
   }
   _buildInfoView() {
-    ContractFlowData data = widget.data;
+    final ContractFlowData data = widget.data;
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: a.px16, top: a.px10),

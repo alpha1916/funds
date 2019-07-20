@@ -92,7 +92,7 @@ class Utils {
               onPressed: () async{
                 AccountData.getInstance().readMails();
 
-                var result = await UserRequest.getMailData(MailType.notice.index, 0, 10);
+                var result = await UserRequest.getMailPeekData();
                 if(result.success)
                   Utils.navigateTo(MailPage('消息中心', result.data));
               }

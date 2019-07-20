@@ -167,11 +167,15 @@ class MailData{
   final String title;
   final String content;
   final String date;
+  final int subtype;
+  final String extra;
   MailData(data):
       type = data['mailType'],
       date = data['mailTime'],
       title = data['mailTitle'],
-      content = data['mailContent']
+      content = data['mailContent'],
+      subtype = data['gotoId'],
+      extra = data['gotoParam']
   ;
 
   static getTestData(type){

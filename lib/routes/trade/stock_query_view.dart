@@ -5,6 +5,7 @@ import 'package:funds/network/http_request.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/pages/trade/trade_flow_page.dart';
 
+import 'package:funds/model/list_page_data.dart';
 
 class StockQueryView extends StatefulWidget {
   final String contractNumber;
@@ -61,32 +62,67 @@ class _StockQueryViewState extends State<StockQueryView> {
     print('_onPressDayDeal');
 //    ResultData result await StockTradeRequest.getFlowList(contractNumber);
 //    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 0);
-    if(result.success){
-      Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, result.data));
-    }
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+//        pageCount: 10,
+      itemConverter: (data) => TradeFlowData.fromDealData(data),
+      requestDataHandler: (pageIndex, pageCount) async{
+        var result = await ContractRequest.getDealList(widget.contractNumber, 0, pageIndex, pageCount);
+        return result.data;
+      }
+    );
+    Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, listPageDataHandler));
+
+//    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 0);
+//    if(result.success){
+//      Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, listPageDataHandler));
+//    }
   }
 
   _onPressDayDelegate() async{
-    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 0);
-    if(result.success){
-      Utils.navigateTo(TradeFlowPage('当日委托', StateType.noDeal, result.data));
-    }
+//    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 0, pageIndex, pageCount);
+//    if(result.success){
+//      Utils.navigateTo(TradeFlowPage('当日委托', StateType.noDeal, result.data));
+//    }
+
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+      itemConverter: (data) => TradeFlowData.fromEntrustData(data),
+      requestDataHandler: (pageIndex, pageCount) async{
+        var result = await ContractRequest.getEntrustList(widget.contractNumber, 0, pageIndex, pageCount);
+        return result.data;
+      }
+    );
+    Utils.navigateTo(TradeFlowPage('当日委托', StateType.noDeal, listPageDataHandler));
   }
 
   _onPressHistoryDeal() async{
-//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 1);
-    if(result.success){
-      Utils.navigateTo(TradeFlowPage('历史成交', StateType.deal, result.data));
-    }
+//    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 1);
+//    if(result.success){
+//      Utils.navigateTo(TradeFlowPage('历史成交', StateType.deal, result.data));
+//    }
+
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+      itemConverter: (data) => TradeFlowData.fromDealData(data),
+      requestDataHandler: (pageIndex, pageCount) async{
+        var result = await ContractRequest.getDealList(widget.contractNumber, 1, pageIndex, pageCount);
+        return result.data;
+      }
+    );
+    Utils.navigateTo(TradeFlowPage('历史成交', StateType.deal, listPageDataHandler));
   }
 
   _onPressHistoryDelegate() async{
-    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 1);
-    if(result.success){
-      Utils.navigateTo(TradeFlowPage('历史委托', StateType.noDeal, result.data));
-    }
+//    ResultData result = await ContractRequest.getEntrustList(widget.contractNumber, 1);
+//    if(result.success){
+//      Utils.navigateTo(TradeFlowPage('历史委托', StateType.noDeal, result.data));
+//    }
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+      itemConverter: (data) => TradeFlowData.fromEntrustData(data),
+      requestDataHandler: (pageIndex, pageCount) async{
+        var result = await ContractRequest.getEntrustList(widget.contractNumber, 1, pageIndex, pageCount);
+        return result.data;
+      }
+    );
+    Utils.navigateTo(TradeFlowPage('历史委托', StateType.noDeal, listPageDataHandler));
   }
 
   _onPressDayCashFlow() async{
