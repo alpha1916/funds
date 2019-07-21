@@ -25,7 +25,6 @@ class _CurrentContractListPageState extends State<CurrentContractListPage> {
     super.initState();
 
     listPageDataHandler = ListPageDataHandler(
-//        pageCount: 10,
         itemConverter: (data) => ContractData(data),
         requestDataHandler: (pageIndex, pageCount) async{
           var result = await ContractRequest.getContractList(0, pageIndex, pageCount);

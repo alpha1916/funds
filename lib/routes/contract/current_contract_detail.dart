@@ -146,13 +146,14 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedFlow() async{
-    ContractFlowData data = ContractFlowData.fromContractData(
-      loan: 1000,
-      contractMoney: 1000,
-      operateMoney: 1000,
-      capital: 1000,
-    );
-    Utils.navigateTo(ContractFlowPage(data));
+//    ContractFlowData data = ContractFlowData.fromContractData(
+//      contractNumber: widget.data.contractNumber,
+//      loan: 1000,
+//      contractMoney: 1000,
+//      operateMoney: 1000,
+//      capital: 1000,
+//    );
+    Utils.navigateTo(ContractFlowPage(widget.data));
   }
 
   _onPressedLimited() async{

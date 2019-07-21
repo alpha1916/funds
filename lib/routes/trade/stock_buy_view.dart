@@ -450,7 +450,7 @@ class StockTradeFrame extends StatelessWidget{
         if(order != null){
           double price = order[0];
           strPrice = order[0].toStringAsFixed(2);
-          strCount = order[1].toString();
+          strCount = _getCountStr(order[1]);
           priceColor = Utils.getProfitColor(price - stockInfo.preClosingPrice);
         }
       }
@@ -497,7 +497,7 @@ class StockTradeFrame extends StatelessWidget{
         if(order != null){
           double price = order[0];
           strPrice = order[0].toStringAsFixed(2);
-          strCount = order[1].toString();
+          strCount = _getCountStr(order[1]);
           priceColor = Utils.getProfitColor(price - stockInfo.preClosingPrice);
         }
       }
@@ -517,13 +517,12 @@ class StockTradeFrame extends StatelessWidget{
               child: Center(child: Text(strPrice, style: TextStyle(fontSize: fontSize, color: priceColor),)),
             ),
             Expanded(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(strCount, style: TextStyle(fontSize: fontSize),),
-                )
+              flex: 3,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(strCount, style: TextStyle(fontSize: fontSize),),
+              )
             ),
-
           ],
         ),
       ));
@@ -531,6 +530,18 @@ class StockTradeFrame extends StatelessWidget{
     return Column(
       children: list,
     );
+  }
+
+  String _getCountStr(int value){
+    String str;
+    if(value < 1000)
+      str = value.toString();
+    else if(value > 1000000)
+      str = '${(value / 1000000).toStringAsFixed(2)}m';
+    else if(value > 1000)
+      str = '${(value / 1000).toStringAsFixed(2)}k';
+
+    return str;
   }
 }
 

@@ -81,18 +81,21 @@ class ContractRequest {
     return ResultData(true, resultData);
   }
 
-  static Future<ResultData> getTradeFlowList(contractNumber) async {
+  static Future<ResultData> getTradeFlowList(contractNumber, pageIndex, pageCount) async {
+//    final String api = '/api/v1/trade/getContractTradeRecord';
+//    var data = {'contractNumber': contractNumber};
+//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    List<dynamic> oDataList = result['data'];
+//    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData(data)).toList();
+//
+//    return ResultData(true, dataList);
+
     final String api = '/api/v1/trade/getContractTradeRecord';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
-    if(result == null){
-      return ResultData(false);
-    }
-
-    List<dynamic> oDataList = result['data'];
-    final List<TradeFlowData> dataList = oDataList.map((data) => TradeFlowData(data)).toList();
-
-    return ResultData(true, dataList);
+    return getListData(api: api, contractNumber: contractNumber, pageIndex: pageIndex, pageCount: pageCount);
   }
 
   static Future<ResultData> addCapital(contractNumber, capital) async {
@@ -164,16 +167,16 @@ class ContractRequest {
     return ResultData(result != null);
   }
 
-  static Future<ResultData> getFlow(String contractNumber) async {
-    final String api = '/api/v1/contract/getContractRecord';
-    var data = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
-    if(result == null){
-      return ResultData(false);
-    }
-
-    return ResultData(true, ContractFlowData(result['data']));
-  }
+//  static Future<ResultData> getFlow(String contractNumber) async {
+//    final String api = '/api/v1/contract/getContractRecord';
+//    var data = {'contractNumber': contractNumber};
+//    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+//    if(result == null){
+//      return ResultData(false);
+//    }
+//
+//    return ResultData(true, ContractFlowData(result['data']));
+//  }
 
 
   //type 1为历史，0位当日
@@ -196,7 +199,7 @@ class ContractRequest {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-    return getListData(api: api, queryParameters:queryParameters, pageIndex: pageIndex, pageCount:pageCount);
+    return getListData(api: api, queryParameters: queryParameters, pageIndex: pageIndex, pageCount: pageCount);
   }
 
   //type 1为历史，0位当日
@@ -219,17 +222,17 @@ class ContractRequest {
       'contractNumber': contractNumber,
       'isHistory': type,
     };
-    return getListData(api: api, queryParameters:queryParameters, pageIndex: pageIndex, pageCount:pageCount);
+    return getListData(api: api, queryParameters: queryParameters, pageIndex: pageIndex, pageCount: pageCount);
   }
 
   static Future<ResultData> getFlowCashList(contractNumber, pageIndex, pageCount) async {
     final String api = '/api/v1/contract/getContractMoneyRecord';
-    return getListData(api: api, contractNumber:contractNumber, pageIndex: pageIndex, pageCount:pageCount);
+    return getListData(api: api, contractNumber: contractNumber, pageIndex: pageIndex, pageCount: pageCount);
   }
 
   static Future<ResultData> getFlowManageCostList(contractNumber, pageIndex, pageCount) async {
     final String api = '/api/v1/contract/getContractManagementRecord';
-    return getListData(api: api, contractNumber:contractNumber, pageIndex: pageIndex, pageCount:pageCount);
+    return getListData(api: api, contractNumber: contractNumber, pageIndex: pageIndex, pageCount: pageCount);
   }
 
   static Future<ResultData> getListData ({

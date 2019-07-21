@@ -39,8 +39,7 @@ class ListPageDataHandler<T>{
   }
 
   Future<List<T>> loadMore() async{
-    if(totalPage == currentPageIndex){
-      print('no more data');
+    if(totalPage == 0 || totalPage == currentPageIndex){
       return null;
     }
 

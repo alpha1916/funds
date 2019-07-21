@@ -255,7 +255,7 @@ class _SelectViewState extends State<_SelectView> {
 
     if(mounted && result.success){
       ContractApplyDetailData data = result.data;
-      data.id = selectedData.id;
+      data.experienceId = selectedData.id;
       data.contractType = ContractApplyDetailData.experienceType;
       data.title = selectedData.title;
       data.capital = selectedData.capital;

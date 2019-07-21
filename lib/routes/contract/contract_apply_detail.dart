@@ -297,7 +297,14 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
               ),
             ),
             onPressed: (){
-              final String url = '${Global.host}api/v1/protocol?times=${data.times}&loanAmount=${data.loadAmount}&type=${data.type}';
+              String url;
+              if(data.contractType == ContractApplyDetailData.experienceType){
+                url = '${Global.host}api/v1/eprotocol?id=${data.experienceId}';
+              }
+              else{
+                url = '${Global.host}api/v1/protocol?times=${data.times}&loanAmount=${data.loadAmount}&type=${data.type}';
+              }
+
               final Map<String, String> headers = {
                 "Accept": "*/*",
                 'token': AccountData.getInstance().token,
@@ -339,7 +346,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     if(!await Utils.showConfirmOptionsDialog(tips: data.trialConfirmTips, confirmTitle: '立即申请'))
       return;
 
-    ResultData result = await ExperienceRequest.applyContract(data.id);
+    ResultData result = await ExperienceRequest.applyContract(data.experienceId);
     if(result.success){
       await UserRequest.getUserInfo();
       await alert('体验申请成功');

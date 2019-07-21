@@ -5,6 +5,8 @@ import 'package:funds/network/contract_request.dart';
 import 'trade_flow_page.dart';
 import 'dart:ui';
 import 'dart:math';
+import 'package:funds/pages/trade/trade_flow_page.dart';
+import 'package:funds/model/list_page_data.dart';
 
 
 class HistoryTrialDetail extends StatelessWidget {
@@ -171,10 +173,15 @@ class HistoryTrialDetail extends StatelessWidget {
     );
   }
 
-  _onPressTradeHistory() async{
-    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
-    if(result.success)
-      Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, result.data));
+  _onPressTradeHistory() async {
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+        itemConverter: (data) => TradeFlowData(data),
+        requestDataHandler: (pageIndex, pageCount) async{
+          var result = await ContractRequest.getTradeFlowList(data.contractNumber, pageIndex, pageCount);
+          return result.data;
+        }
+    );
+    Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, listPageDataHandler));
   }
 }
 

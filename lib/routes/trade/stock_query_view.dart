@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
-import 'package:funds/network/http_request.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/pages/trade/trade_flow_page.dart';
 
@@ -60,10 +59,7 @@ class _StockQueryViewState extends State<StockQueryView> {
 
   _onPressDayDeal() async {
     print('_onPressDayDeal');
-//    ResultData result await StockTradeRequest.getFlowList(contractNumber);
-//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
     ListPageDataHandler listPageDataHandler = ListPageDataHandler(
-//        pageCount: 10,
       itemConverter: (data) => TradeFlowData.fromDealData(data),
       requestDataHandler: (pageIndex, pageCount) async{
         var result = await ContractRequest.getDealList(widget.contractNumber, 0, pageIndex, pageCount);
@@ -71,11 +67,6 @@ class _StockQueryViewState extends State<StockQueryView> {
       }
     );
     Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, listPageDataHandler));
-
-//    ResultData result = await ContractRequest.getDealList(widget.contractNumber, 0);
-//    if(result.success){
-//      Utils.navigateTo(TradeFlowPage('当日成交', StateType.deal, listPageDataHandler));
-//    }
   }
 
   _onPressDayDelegate() async{
@@ -126,15 +117,9 @@ class _StockQueryViewState extends State<StockQueryView> {
   }
 
   _onPressDayCashFlow() async{
-//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-//    if(result.success)
-//      Utils.navigateTo(CurrentContractFundsFlowList('当日资金流水', [1, 2]));
   }
 
   _onPressHistoryCashFlow() async{
-//    ResultData result = await StockTradeRequest.getFlowList('00120515000261');
-//    if(result.success)
-//      Utils.navigateTo(CurrentContractFundsFlowList('历史资金流水', [1, 2]));
   }
 
 }

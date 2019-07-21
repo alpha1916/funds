@@ -5,6 +5,8 @@ import 'common/custom_dialog.dart';
 import 'package:funds/network/user_request.dart';
 import 'package:funds/model/account_data.dart';
 
+import 'package:package_info/package_info.dart';
+
 import 'pages/home.dart';
 import 'pages/my.dart';
 import 'pages/trade.dart';
@@ -107,6 +109,13 @@ class _AppState extends State<App> {
 
   void appInit(context) {
     print('app init');
+
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+//      String appName = packageInfo.appName;
+//      String packageName = packageInfo.packageName;
+//      String version = packageInfo.version;
+      Global.version = packageInfo.version;
+    });
 
     Global.buildContext = context;
     Utils.init(context, tabSwitcher);

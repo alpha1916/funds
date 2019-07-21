@@ -3,8 +3,12 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/model/contract_data.dart';
 
+import 'package:funds/network/contract_request.dart';
+import 'package:funds/common/widgets/custom_refresh_list_view.dart';
+import 'package:funds/model/list_page_data.dart';
+
 class ContractFlowPage extends StatefulWidget {
-  final ContractFlowData data;
+  final ContractData data;
   ContractFlowPage(this.data);
   @override
   _ContractFlowPageState createState() => _ContractFlowPageState();
@@ -29,7 +33,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     );
   }
   _buildInfoView() {
-    final ContractFlowData data = widget.data;
+    final ContractData data = widget.data;
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: a.px16, top: a.px10),
@@ -53,7 +57,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
               TableRow(
                 children: [
                   _buildInfoItem('合约金额', data.contractMoney.toStringAsFixed(2)),
-                  _buildInfoItem('操盘金额', data.operateMoney.toStringAsFixed(2)),
+                  _buildInfoItem('操盘金额', data.startOperateMoney.toStringAsFixed(2)),
                 ],
               ),
             ],
@@ -135,34 +139,37 @@ class _ContractFlowPageState extends State<ContractFlowPage>
   }
 
   _buildListView() {
-    ContractFlowData data = widget.data;
-//  final dataList = [];
     return Expanded(
       child: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          _buildCashListView(data.moneyFlowList),
-          _buildManagementListView(data.costFlowList),
+          _buildCashListView(),
+          _buildManagementListView(),
         ],
       )
     );
   }
 
-  _buildCashListView(List<ContractMoneyFlowData> dataList){
-    if(dataList == null || dataList.length == 0){
-      return _buildNoDataView();
-    }
+  _buildCashListView(){
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+      itemConverter: (data) => ContractMoneyFlowData(data),
+      requestDataHandler: (pageIndex, pageCount) async{
+        var result = await ContractRequest.getFlowCashList(widget.data.contractNumber, pageIndex, pageCount);
+        return result.data;
+      }
+    );
 
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        final data = dataList[index];
-        return _buildCashItemView(data);
-      },
-      itemCount: dataList.length,
+
+    return CustomRefreshListView(
+      indexedWidgetBuilder: _buildCashItemView,
+      refreshHandler: listPageDataHandler.refresh,
+      loadMoreHandler: listPageDataHandler.loadMore,
+      noDataViewBuilder: _buildNoDataView,
     );
   }
 
-  _buildCashItemView(ContractMoneyFlowData data) {
+  Widget _buildCashItemView(context, index, srcData) {
+    ContractMoneyFlowData data = srcData;
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: a.px16, top: a.px10),
@@ -201,19 +208,20 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     );
   }
 
-  _buildManagementListView(List<ContractCostFlowData> dataList){
-    if(dataList == null || dataList.length == 0){
-      return _buildNoDataView();
-    }
+  _buildManagementListView(){
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+        itemConverter: (data) => ContractCostFlowData(data),
+        requestDataHandler: (pageIndex, pageCount) async{
+          var result = await ContractRequest.getFlowManageCostList(widget.data.contractNumber, pageIndex, pageCount);
+          return result.data;
+        }
+    );
 
-    return ListView.builder(itemBuilder: (BuildContext context, int index) {
-      final data = dataList[index];
-      return Container(
-        child: _buildManagementItemView(data),
-        alignment: Alignment.center,
-      );
-    },
-      itemCount: dataList.length,
+    return CustomRefreshListView(
+      indexedWidgetBuilder: _buildManagementItemView,
+      refreshHandler: listPageDataHandler.refresh,
+      loadMoreHandler: listPageDataHandler.loadMore,
+      noDataViewBuilder: _buildNoDataView,
     );
   }
 
@@ -231,7 +239,8 @@ class _ContractFlowPageState extends State<ContractFlowPage>
     );
   }
 
-  _buildManagementItemView(ContractCostFlowData data){
+  Widget _buildManagementItemView(context, index, srcData) {
+    ContractCostFlowData data = srcData;
     Color valueColor = data.value < 0 ? Colors.green : CustomColors.red;
     return Container(
       padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px8),

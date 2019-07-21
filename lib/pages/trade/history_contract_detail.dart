@@ -5,6 +5,8 @@ import 'package:funds/network/contract_request.dart';
 import 'contract_flow_page.dart';
 import 'trade_flow_page.dart';
 
+import 'package:funds/pages/trade/trade_flow_page.dart';
+import 'package:funds/model/list_page_data.dart';
 
 class HistoryContractDetail extends StatelessWidget {
   final ContractData data;
@@ -171,18 +173,23 @@ class HistoryContractDetail extends StatelessWidget {
   }
 
   _onPressFlow() async{
-    print('flow');
-    var result = await ContractRequest.getFlow(data.contractNumber);
-    if(result.success)
-      Utils.navigateTo(ContractFlowPage(result.data));
+    Utils.navigateTo(ContractFlowPage(data));
   }
 
   _onPressTradeHistory() async{
     print('history');
-    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
-//    ResultData result = await ContractRequest.getTradeFlowList('00120515000261');
-    if(result.success)
-      Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, result.data));
+//    ResultData result = await ContractRequest.getTradeFlowList(data.contractNumber);
+////    ResultData result = await ContractRequest.getTradeFlowList('00120515000261');
+//    if(result.success)
+//      Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, result.data));
+    ListPageDataHandler listPageDataHandler = ListPageDataHandler(
+        itemConverter: (data) => TradeFlowData(data),
+        requestDataHandler: (pageIndex, pageCount) async{
+          var result = await ContractRequest.getTradeFlowList(data.contractNumber, pageIndex, pageCount);
+          return result.data;
+        }
+    );
+    Utils.navigateTo(TradeFlowPage('交易流水', StateType.deal, listPageDataHandler));
   }
 }
 

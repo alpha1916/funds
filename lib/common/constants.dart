@@ -256,7 +256,7 @@ class Global{
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
-  static String version = '0.0.7';
+  static String version = '0.0.1';
   static String servicePhoneNumber = '4001234567';
   static String get platformName {
     if(Platform.isIOS){

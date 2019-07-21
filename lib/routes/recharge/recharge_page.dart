@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/network/http_request.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'image_viewer_page.dart';
-import 'dart:io';
+import 'recharge_list_page.dart';
 
 class RechargePage extends StatefulWidget {
   @override
@@ -21,6 +22,14 @@ class _RechargePageState extends State<RechargePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('充值'),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('明细'),
+            onPressed: () {
+              Utils.navigateTo(RechargeDetailListPage());
+            },
+          )
+        ],
       ),
       body: Column(
         children: <Widget>[

@@ -40,7 +40,6 @@ class _CashFlowPageState extends State<CashFlowPage>
   initState(){
     super.initState();
     listPageDataHandler = ListPageDataHandler(
-//        pageCount: 10,
       itemConverter: (data) => CashFlowData(data),
       requestDataHandler: (pageIndex, pageCount) async{
         int type = _currentIndex;

@@ -65,7 +65,8 @@ class ContractApplyDetailData {
   }
 
   //体验合约专用
-  int id;
+  int experienceId;
+
   //普通合约专用
   int type;
   int times;
@@ -94,7 +95,7 @@ class ContractApplyDetailData {
     return str;
   }
 
-  String get trialConfirmTips => trialId2ConfirmTips[id];
+  String get trialConfirmTips => trialId2ConfirmTips[experienceId];
 
   ContractApplyDetailData(data):
 //        title = data['title'],
@@ -196,6 +197,9 @@ class ContractData {
   final bool canDelay ;//是否可以延迟卖出
   final int type;
 
+  //合约流水专用
+  final double startOperateMoney;//初始操盘金额
+
   String get strCost {
     if(cost > 0){
       return '${cost.toStringAsFixed(2)}/${type2manageCostPeriod[type]}';
@@ -222,6 +226,8 @@ class ContractData {
       totalMoney = Utils.convertDouble(data['totalMoney']),
       usableMoney = data['availableMoney'],
 
+      startOperateMoney = Utils.convertDouble(data['startOperateMoney']),
+
       canDelay = data['canDelay'],// ?? true,
 
       title = data['title'],
@@ -230,6 +236,7 @@ class ContractData {
       days = data['useDay'],
       leftDays = data['canUseDay'],
       ongoing = data['stat'] == 1
+
   ;
 
 }
@@ -311,21 +318,23 @@ class ContractCostFlowData {
 }
 
 class ContractFlowData{
+  final String contractNumber;
   final double capital;//杠杆本金
   final double contractMoney;//合约金额
   final double loan;//借款金额
   final double operateMoney;//操盘金额
   final List<ContractMoneyFlowData> moneyFlowList;
   final List<ContractCostFlowData> costFlowList;
-  ContractFlowData(data):
-      capital = Utils.convertDouble(data['principal']),
-        contractMoney = Utils.convertDouble(data['loanAmount'] + data['principal']),
-        loan = Utils.convertDouble(data['loanAmount']),
-        operateMoney = Utils.convertDouble(data['operateMoney']),
-        moneyFlowList = data['moneyRecord'].map<ContractMoneyFlowData>((record) => ContractMoneyFlowData(record)).toList(),
-        costFlowList = data['managementRecord'].map<ContractCostFlowData>((record) => ContractCostFlowData(record)).toList()
-  ;
+//  ContractFlowData(data):
+//      capital = Utils.convertDouble(data['principal']),
+//        contractMoney = Utils.convertDouble(data['loanAmount'] + data['principal']),
+//        loan = Utils.convertDouble(data['loanAmount']),
+//        operateMoney = Utils.convertDouble(data['operateMoney']),
+//        moneyFlowList = data['moneyRecord'].map<ContractMoneyFlowData>((record) => ContractMoneyFlowData(record)).toList(),
+//        costFlowList = data['managementRecord'].map<ContractCostFlowData>((record) => ContractCostFlowData(record)).toList()
+//  ;
   ContractFlowData.fromContractData({
+    this.contractNumber,
     this.loan,
     this.capital,
     this.contractMoney,
@@ -333,6 +342,8 @@ class ContractFlowData{
     this.costFlowList,
     this.moneyFlowList
   });
+
+//  ContractFlowData.fromContractData();
 }
 
 class ContractDelayData{

@@ -489,4 +489,15 @@ class RechargeRequest{
 
     return ResultData(true);
   }
+
+  static getDetailList(pageIndex, pageCount) async {
+    final String api = '/api/v1/capital/getRechargeOrder';
+    var data = HttpRequest.buildPageData(pageIndex, pageCount);
+    var result = await HttpRequest.sendTokenPost(api: api, data: data);
+    if(result == null){
+      return ResultData(false);
+    }
+
+    return ResultData(true, result['data']);
+  }
 }

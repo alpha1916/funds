@@ -316,15 +316,17 @@ class UserRequest {
 
     return ResultData(true, result['data']);
   }
+
+
 }
 
-getDataList(List<dynamic> totalList, startIndex, count){
-  if(startIndex >= totalList.length)
-    return [];
-
-  int end = startIndex + count;
-  if(end > (totalList.length))
-    end = totalList.length;
-
-  return totalList.sublist(startIndex, end);
-}
+//getDataList(List<dynamic> totalList, startIndex, count){
+//  if(startIndex >= totalList.length)
+//    return [];
+//
+//  int end = startIndex + count;
+//  if(end > (totalList.length))
+//    end = totalList.length;
+//
+//  return totalList.sublist(startIndex, end);
+//}

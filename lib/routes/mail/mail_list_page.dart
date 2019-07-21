@@ -27,7 +27,7 @@ class MailListPage extends StatelessWidget{
     listPageDataHandler = ListPageDataHandler(
       itemConverter: (data) => MailData(data),
       requestDataHandler: (pageIndex, pageCount) async{
-        var result = await UserRequest.getMailList(3, pageIndex, pageCount);
+        var result = await UserRequest.getMailList(type, pageIndex, pageCount);
         return result.data;
       }
     );

@@ -271,3 +271,20 @@ class TaskData {
   ;
 
 }
+
+final Map<int, String> rechargeState2Name = {
+  1: '处理中',
+  2: '已完成',
+  3: '已驳回',
+};
+class RechargeData{
+  final double value;
+  final int state;
+  final String date;
+
+  String get strState => rechargeState2Name[state];
+  RechargeData(data):
+        state = data['status'],
+        value = Utils.convertDouble(data['money']),
+        date = data['createTime'];
+}
