@@ -101,7 +101,8 @@ class _CashFlowPageState extends State<CashFlowPage>
       return value.toStringAsFixed(2);
   }
 
-  Widget _itemBuilder(BuildContext context, int index, dynamic data){
+  Widget _itemBuilder(BuildContext context, int index, dynamic srcData){
+    CashFlowData data = srcData;
     final double fontSize = a.px15;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: a.px16),

@@ -117,7 +117,8 @@ class CashFlowData{
         type = data['type'],
         date = data['recordTime'],
         value = Utils.convertDouble(data['money']),
-        remainingSum = Utils.convertDouble(data['beginMoney'] + data['money']);
+        remainingSum = Utils.convertDouble(data['endMoney'])
+  ;
 }
 
 final Map<int, String> integralType2Title = {
@@ -153,6 +154,7 @@ const Map<int, String> cashFlowType2Text = {
   6: '资产解冻',
   7: '资产冻结',
   8: '管理费用',
+  9: '追加保证金',
 };
 
 enum MailType{

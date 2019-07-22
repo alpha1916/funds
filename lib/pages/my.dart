@@ -273,8 +273,8 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
                     _buildBottomItem(CustomIcons.task, '任务中心', true, '签到送积分', _onPressTask),
-                    Divider(height: a.px1, indent: a.px16),
-                    _buildBottomItem(CustomIcons.myShare, '分享赚钱', true, '', _onPressShare),
+//                    Divider(height: a.px1, indent: a.px16),
+//                    _buildBottomItem(CustomIcons.myShare, '分享赚钱', true, '', _onPressShare),
                   ],
                 ),
               ),
@@ -295,8 +295,8 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
                     _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressHelp),
-                    Divider(height: a.px1, indent: a.px16),
-                    _buildBottomItem(CustomIcons.myAbout, '关于${Global.appName}', false, '', _onPressAbout),
+//                    Divider(height: a.px1, indent: a.px16),
+//                    _buildBottomItem(CustomIcons.myAbout, '关于${Global.appName}', false, '', _onPressAbout),
                   ],
                 ),
               ),

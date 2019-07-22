@@ -67,6 +67,7 @@ class CustomRefreshListViewState<T> extends State<CustomRefreshListView> {
     return EasyRefresh(
         key: _easyRefreshKey,
         behavior: ScrollOverBehavior(),
+//        autoLoad: true,
         refreshHeader: header,
         refreshFooter: footer,
         child: ListView.builder(
@@ -83,7 +84,6 @@ class CustomRefreshListViewState<T> extends State<CustomRefreshListView> {
   }
 
   Future<void> refresh() async {
-    print('refresh');
     dataList = await widget.refreshHandler();
     setState(() {
     });
