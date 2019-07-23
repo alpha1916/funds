@@ -355,7 +355,10 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
   }
 
   _applyContract() async {
-    if(!await ContractApplyConfirmDialog.show(data.payment, data.integral))
+    int integral = data.integral - (_selectedCoupon?.cost ?? 0);
+    if(integral < 0) integral = 0;
+
+    if(!await ContractApplyConfirmDialog.show(data.payment, integral))
       return;
 
     ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount, _selectedCoupon?.id);
