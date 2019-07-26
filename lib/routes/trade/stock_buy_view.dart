@@ -369,6 +369,20 @@ class StockTradeFrame extends StatelessWidget{
     return true;
   }
 
+  bool validCount(count){
+    if(count == null){
+      alert2('提示', '请输入正确的委买数量', '确定');
+      return false;
+    }
+
+    if(count % 100 != 0){
+      alert2('提示', '委买数量必须是100的倍数', '确定');
+      return false;
+    }
+
+    return true;
+  }
+
   onBtnTrade() async{
     if(stockInfo == null)
       return;
@@ -379,6 +393,8 @@ class StockTradeFrame extends StatelessWidget{
     }
 
     int count = Utils.parseInt(countInputController.text);
+    if(!validCount(count))
+      return;
 
     double price = getInputPrice();
     if(!validPrice(price))

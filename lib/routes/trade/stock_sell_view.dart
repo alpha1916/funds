@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/common/utils.dart';
 import 'package:funds/network/http_request.dart';
 import 'stock_buy_view.dart';
 import 'stock_list_view.dart';
@@ -45,22 +46,33 @@ class SellFrame extends StockTradeFrame {
   }
 
   @override
+  bool validCount(count){
+    if(count == null){
+      alert2('提示', '请输入正确的委卖数量', '确定');
+      return false;
+    }
+
+    if(count % 100 != 0){
+      alert2('提示', '委卖数量必须是100的倍数', '确定');
+      return false;
+    }
+
+    if(bloc.saleableCount < count) {
+      alert('委卖数量超过可卖数量');
+      return false;
+    }
+
+    return true;
+  }
+
+  @override
   onBtnTrade() async{
     if(stockInfo == null)
       return;
 
-    int count = 0;
-
-    try{
-      count = int.parse(countInputController.text);
-    }catch(e){
-      alert('请输入正确的委卖数量');
+    int count = Utils.parseInt(countInputController.text);
+    if(!validCount(count))
       return;
-    }
-    if(bloc.saleableCount < count){
-      alert('委卖数量超过可卖数量');
-      return;
-    }
 
     double price = getInputPrice();
     if(!validPrice(price))
