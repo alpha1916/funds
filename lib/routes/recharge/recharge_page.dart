@@ -133,7 +133,7 @@ class _RechargePageState extends State<RechargePage> {
     );
   }
 
-  final List<String> _comments = ['申请合约', '追加本金', '交管理费', '普通充值'];
+  final List<String> _comments = ['申请合约', '追加本金', '交担保费', '普通充值'];
   _onPressSelectComment() async {
     String result = await Utils.showBottomPopupOptions(titles: _comments);
     if (result != null) {

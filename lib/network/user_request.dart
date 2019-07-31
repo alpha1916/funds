@@ -213,7 +213,20 @@ class UserRequest {
 
   static getTaskData() async {
     final String api = '/api/v1/task/getTaskList';
-    var result = await HttpRequest.sendTokenGet(api: api);
+    var result = await HttpRequest.sendTokenGet(api: api, askLogin: false);
+    if(result == null){
+      return getNoLoginTaskData();
+    }
+
+    List<dynamic> oDataList = result['data'];
+    List<TaskData> dataList = oDataList.map((data) => TaskData(data)).toList();
+
+    return ResultData(true, dataList);
+  }
+
+  static getNoLoginTaskData() async{
+    final String api = '/api/v1/task/getTaskListNotLogin';
+    var result = await HttpRequest.send(api: api, isPost: false, askLogin: false);
     if(result == null){
       return ResultData(false);
     }

@@ -65,7 +65,7 @@ class CouponSelectPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('管理费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
+            Text('担保费抵用券', style: TextStyle(color: Colors.black87, fontSize: a.px15, fontWeight: FontWeight.w500)),
             SizedBox(height: a.px3,),
             Text('有效期至：${data.expireDate}', style: TextStyle(color: Colors.black54, fontSize: a.px14)),
           ],

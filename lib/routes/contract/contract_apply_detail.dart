@@ -244,7 +244,9 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     list.add(divider);
 
     if(data.contractType == ContractApplyDetailData.normalType){
-      list.add(_buildItemView('管理费', data.strCost, CustomColors.red, data.strCostTips));
+      list.add(_buildItemView('担保费', data.strCost, CustomColors.red, data.strCostTips));
+      list.add(divider);
+      list.add(_buildItemView('利息', '${data.interest}元', CustomColors.red));
       list.add(divider);
     }
 
@@ -361,7 +363,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     if(!await ContractApplyConfirmDialog.show(data.payment, integral))
       return;
 
-    ResultData result = await ContractRequest.applyContract(data.type, data.times, data.loadAmount, _selectedCoupon?.id);
+    ResultData result = await ContractRequest.applyContract(data.type, data.board, data.times, data.loadAmount, _selectedCoupon?.id);
     if(result.success){
       if(result.data['code'] == 504){
         bool confirm = await Utils.showConfirmOptionsDialog(title: '提示', tips: '您的现金余额不足', confirmTitle: '立即充值');

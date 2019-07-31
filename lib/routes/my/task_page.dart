@@ -46,17 +46,24 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   _getData() async{
-    _getTaskData();
     if(AccountData.getInstance().isLogin()){
       var result = await UserRequest.getSignData();
       if(result.success){
         SignData data = result.data;
-        setState(() {
-          _signedDays = data.signedDays;
-          _isSignedToday = data.isSignedToday;
-        });
+        _signedDays = data.signedDays;
+        _isSignedToday = data.isSignedToday;
+        _getTaskData();
         return;
       }
+    }
+
+    //获取无登录任务数据
+    var result = await UserRequest.getNoLoginTaskData();
+    if(result.success){
+      setState(() {
+        _taskDataList = result.data;
+      });
+      return;
     }
   }
 
@@ -292,11 +299,17 @@ class _TaskPageState extends State<TaskPage> {
 
   _gotoDoTask(int taskId) async{
     print(taskId);
-    switch(taskId){
-      case TaskId.register:
-        await Utils.navigateToLoginPage(true);
-        break;
+    if(TaskId.register == taskId){
+      await Utils.navigateToLoginPage(true);
+      return;
+    }
 
+    if(!AccountData.getInstance().isLogin()){
+      await Utils.navigateToLoginPage(false);
+      return;
+    }
+
+    switch(taskId){
       case TaskId.certification:
         await Utils.navigateTo(SettingsPage());
         break;

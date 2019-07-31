@@ -40,7 +40,7 @@ class ContractApplyConfirmDialog extends Dialog{
                 )
               ),
               SizedBox(height: a.px2),
-              Text('支付金额 = 杠杆本金 + 预存管理费', style: TextStyle(fontSize: a.px13, color: Colors.grey)),
+              Text('支付金额 = 杠杆本金 + 预存利息+担保费', style: TextStyle(fontSize: a.px13, color: Colors.grey)),
               Utils.expanded(),
               Divider(height: 0),
               SizedBox(height: a.px15),

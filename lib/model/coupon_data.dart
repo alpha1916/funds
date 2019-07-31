@@ -20,5 +20,3 @@ class CouponData {
       integral = null
   ;
 }
-
-//{'cost': 50, 'title': '管理费抵用券', 'date': '2019-06-29'},

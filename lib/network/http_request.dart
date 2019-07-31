@@ -154,8 +154,8 @@ class HttpRequest {
     String token = AccountData.getInstance().token;
 
     if(askLogin && token == null){
-      await Utils.navigateToLoginPage();
-      token = AccountData.getInstance().token;
+      Utils.navigateToLoginPage();
+      return null;
     }
     return send(api: api, data: data, askLogin: askLogin, token: token, queryParameters: queryParameters);
   }
@@ -168,9 +168,10 @@ class HttpRequest {
   }) async {
     String token = AccountData.getInstance().token;
 
+    //如未登录，去往登录页面，登录成功，去到首页流程；取消不做任何操作
     if(askLogin && token == null){
-      await Utils.navigateToLoginPage();
-      token = AccountData.getInstance().token;
+      Utils.navigateToLoginPage();
+      return null;
     }
 
     return send(

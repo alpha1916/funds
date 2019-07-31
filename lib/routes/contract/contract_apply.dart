@@ -17,6 +17,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   int _currentTypeIdx = 0;
   int _currentTimesIdx = 0;
   int _inputLoadAmount;
+  int _currentBoardIdx = 0;
 
   @override
   void initState() {
@@ -52,17 +53,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            height: a.px20,
-          ),
-          _chipsView(realWidth * 0.2),
-          SizedBox(
-            height: a.px20,
-          ),
-          Container(
-            color: Colors.black26,
-            height: 1,
-          ),
+          _buildTypeChipsView(realWidth * 0.2),
+          Divider(height: 0),
+          _buildBoardChipsView(realWidth * 0.2),
+          Divider(height: 0),
           SizedBox(height: a.px10),
           _inputView(realWidth * 0.25),
           SizedBox(height: a.px10),
@@ -108,7 +102,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
 
     ContractApplyItemData selectedData = dataList[_currentTypeIdx];
     final times = selectedData.timesList[_currentTimesIdx];
-    final ResultData result =  await ContractRequest.preApplyContract(selectedData.type, times, _inputLoadAmount);
+    final ResultData result =  await ContractRequest.preApplyContract(selectedData.type, _currentBoardIdx + 1, times, _inputLoadAmount);
     if(result.success){
       ContractApplyDetailData data = result.data;
       data.title = selectedData.title;
@@ -119,12 +113,68 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       data.type = selectedData.type;
       data.times = times;
       data.loadAmount = _inputLoadAmount;
+      data.board = _currentBoardIdx + 1;
 
       Utils.navigateTo(ContractApplyDetailPage(data));
     }
   }
 
-  Widget _buildChip(idx, title, size) {
+  final _boardTitles = ['主板(创)', '科创板', '蓝筹版'];
+  _buildBoardChipsView(chipSize) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: a.px20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: _boardTitles.map((title) => _buildBoardChip(_boardTitles.indexOf(title), title, chipSize)).toList(), //要显示的子控件集合
+      ),
+    );
+  }
+
+  Widget _buildBoardChip(idx, title, size) {
+    Color titleColor;
+    Color borderColor;
+    Color bgColor;
+
+    if (_currentBoardIdx == idx) {
+      titleColor = Colors.white;
+      borderColor = Colors.orange;
+      bgColor = Colors.orange;
+    } else {
+      titleColor = Colors.black;
+      borderColor = Colors.grey;
+      bgColor = Colors.white;
+    }
+
+    return InkWell(
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.all(Radius.circular(a.px5)),
+          border: Border.all(color: borderColor, width: a.px1), // 边色与边宽度
+        ),
+        width: a.px(100),
+        height: size * 0.6,
+        child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: size * 0.22,
+                color: titleColor,
+              ),
+            )),
+      ),
+      onTap: () {
+        if (_currentBoardIdx != idx) {
+          setState(() {
+            _currentBoardIdx = idx;
+//            inputController.clear();
+          });
+        }
+      },
+    );
+  }
+
+  Widget _buildTypeChip(idx, title, size) {
     Color titleColor;
     Color borderColor;
     Color bgColor;
@@ -168,12 +218,13 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     );
   }
 
-  _chipsView(chipSize) {
-    return Center(
+  _buildTypeChipsView(chipSize) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: a.px20),
       child: Wrap(
         spacing: chipSize * 0.2, //主轴上子控件的间距
         runSpacing: chipSize * 0.1, //交叉轴上子控件之间的间距
-        children: dataList.map((data) => _buildChip(dataList.indexOf(data), data.title, chipSize)).toList(), //要显示的子控件集合
+        children: dataList.map((data) => _buildTypeChip(dataList.indexOf(data), data.title, chipSize)).toList(), //要显示的子控件集合
       ),
     );
   }
@@ -296,7 +347,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       },
     );
   }
-
+  
   Widget _timesItemsView(itemSize, min, timesList) {
     return Expanded(
       child: SingleChildScrollView(

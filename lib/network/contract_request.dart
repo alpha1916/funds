@@ -19,9 +19,14 @@ class ContractRequest {
     return ResultData(true, dataList);
   }
 
-  static Future<ResultData> preApplyContract(type, times, loanAmount) async {
+  static Future<ResultData> preApplyContract(type, board, times, loanAmount) async {
     final String api = '/api/v1/contract/preApplyContract';
-    var queryParameters = {'type': type, 'times': times, 'loanAmount': loanAmount};
+    var queryParameters = {
+      'type': type,
+      'board': board,
+      'times': times,
+      'loanAmount': loanAmount
+    };
     var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
 
     if(result == null){
@@ -33,10 +38,11 @@ class ContractRequest {
     return ResultData(true, resultData);
   }
 
-  static Future<ResultData> applyContract(int type, int times, int loanAmount, int couponId) async {
+  static Future<ResultData> applyContract(int type, int board, int times, int loanAmount, int couponId) async {
     final String api = '/api/v1/contract/applyContract';
     var queryParameters = {
       'type': type,
+      'board': board,
       'times': times,
       'loanAmount': loanAmount,
       'ticketId': couponId ?? 0,

@@ -168,7 +168,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
           children: <TextSpan>[
             TextSpan(text: '最长可延期', style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: widget.delayDataList.length.toString(), style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
-            TextSpan(text: '个交易日,管理费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize, color: Colors.black)),
+            TextSpan(text: '个交易日,担保费一次性收取，延期后合约维持',style: TextStyle(fontSize: fontSize, color: Colors.black)),
             TextSpan(text: '限买状态', style: TextStyle(fontSize: fontSize, color: CustomColors.red)),
             TextSpan(text: '且利益分配不变', style: TextStyle(fontSize: fontSize, color: Colors.black)),
           ],

@@ -31,7 +31,7 @@ class ExperienceInfoData {
 }
 
 
-final type2CostTips = ['', '预存2日费用', '5个交易日', '按月收取', '无管理费'];
+final type2CostTips = ['', '预存2日费用', '5个交易日', '按月收取', '无担保费'];
 final trialId2ConfirmTips = [
   '',
   '参与活动需支付100元杠杆本金\n亏损全赔付',
@@ -48,7 +48,8 @@ class ContractApplyDetailData {
   String period;//持仓时间
 
   final int profit;//盈利分配
-  final double cost;//管理费
+  final double cost;//担保费
+  final double interest;//利息
   final int cordon;//警戒线
   final int cut;//止损线
   final String date;//开始交易时间
@@ -69,6 +70,7 @@ class ContractApplyDetailData {
 
   //普通合约专用
   int type;
+  int board;
   int times;
   int loadAmount;
   int integral;//可获取的积分
@@ -103,6 +105,7 @@ class ContractApplyDetailData {
 
         profit = data['profitRate'],
         cost = Utils.convertDouble(data['management']),
+        interest = Utils.convertDouble(data['interest']),
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
         date = data['tradeStartTime'],
@@ -178,10 +181,11 @@ class ContractData {
   final String endTime;
   final double loan;//借款金额
   final double totalMoney;//资产总值
-  final double cost;//管理费用
+  final double cost;//担保费用
+  final double interest;//担保费用
   final double usableMoney;//可用现金
   final int profitRate;//盈利分配
-  final double realCost;//实收管理费
+  final double realCost;//实收担保费
 
   final String title;//标题
   final int days;//使用天数
@@ -221,6 +225,7 @@ class ContractData {
       capital = Utils.convertDouble(data['principal']),
       loan = Utils.convertDouble(data['loanAmount']),
       cost = Utils.convertDouble(data['management']),
+      interest = Utils.convertDouble(data['interest'] ?? 0.0),
       beginTime = data['beginTime'].split(' ')[0],
       endTime = data['endTime'].split(' ')[0],
       totalMoney = Utils.convertDouble(data['totalMoney']),

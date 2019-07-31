@@ -101,8 +101,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           _buildInfoItem('操盘金额', data.operateMoney.toStringAsFixed(2)),
         ),
         _buildInfoRow(
-          _buildInfoItem('管理费用', data.strCost),
+          _buildInfoItem('担保费用', data.strCost),
           _buildInfoItem('使用天数', '${data.days}个交易日'),
+        ),
+        _buildInfoRow(
+          _buildInfoItem('利息', '${data.interest.toStringAsFixed(2)}元'),
+          Container(),
         ),
       ],
     );
@@ -253,7 +257,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             break;
 
           case ContractOperate.applySettlement:
-            if(await Utils.showConfirmOptionsDialog(tips: '提前终止不退还已收管理费，确认结算当前合约？')){
+            if(await Utils.showConfirmOptionsDialog(tips: '提前终止不退还已收担保费和利息，确认结算当前合约？')){
               ResultData result = await ContractRequest.applySettlement(data.contractNumber);
               if(result.success){
                 await alert('申请结算成功');
