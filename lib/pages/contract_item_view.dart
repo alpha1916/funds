@@ -40,7 +40,7 @@ class ContractItemView extends StatelessWidget {
   }
 
   _titleView() {
-    return Text(data.title, style: TextStyle(fontSize: a.px18, color: Colors.black, fontWeight: FontWeight.w500));
+    return Text(data.strTitle, style: TextStyle(fontSize: a.px18, color: Colors.black, fontWeight: FontWeight.w500));
   }
 
   _stateView() {

@@ -19,6 +19,10 @@ class MailPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index){
+          //屏蔽其他邮件，只显示系统消息
+          if(index < 2)
+            return Container();
+
           int type = index + 1;
           MailData data = dataList[index];
           return _buildItem(index, data, type);

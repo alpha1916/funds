@@ -170,6 +170,12 @@ final Map<int, String> type2manageCostPeriod = {
   3: '月',
 };
 
+final Map<int, String> type2boardTitle = {
+  1: '主板',
+  2: '科创板',
+  3: '蓝筹版',
+};
+
 class ContractData {
   final double contractMoney;//合约金额
   final String contractNumber;//合约信息
@@ -194,6 +200,8 @@ class ContractData {
   final int cut;//止损线
   final bool ongoing;//操盘中
 
+  final int board;
+
   //历史合约专用
   final double returnMoney;//结束退还本金
 
@@ -210,6 +218,11 @@ class ContractData {
     }else{
       return '0.00';
     }
+  }
+
+  String get strTitle {
+    String boardTitle = type2boardTitle[board];
+    return boardTitle == null ? title : '$boardTitle / $title';
   }
 
   ContractData(data):
@@ -230,6 +243,7 @@ class ContractData {
       endTime = data['endTime'].split(' ')[0],
       totalMoney = Utils.convertDouble(data['totalMoney']),
       usableMoney = data['availableMoney'],
+      board = data['board'],
 
       startOperateMoney = Utils.convertDouble(data['startOperateMoney']),
 

@@ -44,7 +44,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(data?.title ?? '当前合约详情'),
+        title: Text(data?.strTitle),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh, size: a.px32, color: Colors.black87),
@@ -150,13 +150,6 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _onPressedFlow() async{
-//    ContractFlowData data = ContractFlowData.fromContractData(
-//      contractNumber: widget.data.contractNumber,
-//      loan: 1000,
-//      contractMoney: 1000,
-//      operateMoney: 1000,
-//      capital: 1000,
-//    );
     Utils.navigateTo(ContractFlowPage(widget.data));
   }
 
@@ -175,8 +168,9 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     }
   }
 
-  _onPressedTrade() {
-    Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
+  _onPressedTrade() async {
+    await Utils.navigateTo(StockTradeMainPage(data.contractNumber, data.title));
+    _refresh();
   }
 
   _buildBottomButton({
