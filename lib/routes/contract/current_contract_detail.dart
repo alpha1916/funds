@@ -105,7 +105,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
           _buildInfoItem('使用天数', '${data.days}个交易日'),
         ),
         _buildInfoRow(
-          _buildInfoItem('利息', '${data.interest.toStringAsFixed(2)}元'),
+          _buildInfoItem('利息', data.strInterest),
           Container(),
         ),
       ],

@@ -84,6 +84,12 @@ class CustomColors {
 
 }
 
+class Board{
+  static const int main = 1;
+  static const int science = 2;
+  static const int blue = 3;
+}
+
 class AppTabIndex{
   static const int home = 0;
   static const int experience = 1;

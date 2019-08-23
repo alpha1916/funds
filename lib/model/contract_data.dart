@@ -58,9 +58,9 @@ class ContractApplyDetailData {
   double get payment {
     double value = 0;
     if(type == 1)
-      value = capital + cost * 2;
+      value = capital + cost * 2 + interest * 2;
     else
-      value = capital + cost;
+      value = capital + cost + interest;
 
     return value;
   }
@@ -88,6 +88,28 @@ class ContractApplyDetailData {
 
       case 3:
         str = '$cost 元';
+        break;
+
+      case 4:
+        str = '0 元/每交易日';
+        break;
+    }
+    return str;
+  }
+
+  String get strInterest{
+    String str;
+    switch(type){
+      case 1:
+        str = '$interest 元/每交易日';
+        break;
+
+      case 2:
+        str = '$interest 元';
+        break;
+
+      case 3:
+        str = '$interest 元';
         break;
 
       case 4:
@@ -145,6 +167,7 @@ class ContractApplyDetailData {
 
 class ContractApplyItemData{
   final int type;
+  final int board;
   final String title;//标题
   final String interest;
   final String timeLimit;
@@ -156,6 +179,7 @@ class ContractApplyItemData{
   int get maxRate => timesList.last;
   ContractApplyItemData(data):
         type = data['type'],
+        board = data['board'],
         title = data['name'],
         timeLimit = data['timeLimitName'],
         interest = data['managementName'],
@@ -214,7 +238,15 @@ class ContractData {
 
   String get strCost {
     if(cost > 0){
-      return '${cost.toStringAsFixed(2)}/${type2manageCostPeriod[type]}';
+      return '${cost.toStringAsFixed(2)}元/${type2manageCostPeriod[type]}';
+    }else{
+      return '0.00';
+    }
+  }
+
+  String get strInterest {
+    if(interest > 0){
+      return '${interest.toStringAsFixed(2)}元/${type2manageCostPeriod[type]}';
     }else{
       return '0.00';
     }
@@ -323,16 +355,23 @@ class ContractMoneyFlowData {
   ;
 }
 
+final costType2Text = {
+  1: '担保费',
+  2: '利息'
+};
 class ContractCostFlowData {
+  final int type;
   final double value;
   final double leftMoney;
   final String date;
   final String tips;
+  String get strType => costType2Text[type ?? 1];
   ContractCostFlowData(data):
-        value = Utils.convertDouble(data['money']),
-        leftMoney= Utils.convertDouble(data['nowMoney']),
-        tips = data['tips'] ?? '',
-        date = data['recordTime']
+      type = data['type'],
+      value = Utils.convertDouble(data['money']),
+      leftMoney= Utils.convertDouble(data['nowMoney']),
+      tips = data['tips'] ?? '',
+      date = data['recordTime']
   ;
 }
 

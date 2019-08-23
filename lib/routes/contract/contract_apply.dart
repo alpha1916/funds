@@ -5,9 +5,9 @@ import 'package:funds/routes/contract/contract_apply_detail.dart';
 import 'package:funds/network/contract_request.dart';
 
 class ContractApplyPage extends StatefulWidget {
-  final List<ContractApplyItemData> dataList;
+  Map<int, List<ContractApplyItemData>> configs;
   final int type;
-  ContractApplyPage(this.dataList, [this.type = 0]);
+  ContractApplyPage(this.configs, [this.type = 0]);
   @override
   _ContractApplyPageState createState() => _ContractApplyPageState();
 }
@@ -23,7 +23,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   void initState() {
     super.initState();
 
-    dataList = widget.dataList;
+    dataList = getDataList();
     ContractApplyItemData currentData;
     if(widget.type == 0){
       currentData = dataList[0];
@@ -37,6 +37,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       inputController.text = '10000';
       _onInputChanged('10000');
     }
+  }
+
+  getDataList() {
+    return widget.configs[_currentBoardIdx + 1];
   }
 
   @override
@@ -167,7 +171,9 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         if (_currentBoardIdx != idx) {
           setState(() {
             _currentBoardIdx = idx;
-//            inputController.clear();
+            dataList = getDataList();
+            inputController.clear();
+            _inputLoadAmount = null;
           });
         }
       },
@@ -212,6 +218,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
           setState(() {
             _currentTypeIdx = idx;
             inputController.clear();
+            _inputLoadAmount = null;
           });
         }
       },
@@ -342,6 +349,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         if (_currentTimesIdx != idx) {
           setState(() {
             _currentTimesIdx = idx;
+            _inputLoadAmount = null;
           });
         }
       },

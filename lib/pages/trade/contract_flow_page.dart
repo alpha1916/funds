@@ -123,7 +123,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
       child: TabBar(
         tabs: <Widget>[
           Text('流水明细'),
-          Text('担保费明细'),
+          Text('费用明细'),
         ],
         controller: _tabController,
         indicatorColor: CustomColors.red,
@@ -249,7 +249,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text('担保费用', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
+              Text(data.strType, style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
               data.tips == '' ? Container() : Text('（${data.tips}）', style: TextStyle(fontSize: a.px14)),
               Utils.expanded(),
               Text(data.value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: valueColor)),

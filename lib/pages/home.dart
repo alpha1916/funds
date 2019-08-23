@@ -14,6 +14,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String mail = CustomIcons.mail0;
+  Map<int, List<ContractApplyItemData>> configs;
   List<ContractApplyItemData> _dataList = [];
 
   @override
@@ -33,7 +34,8 @@ class _HomeViewState extends State<HomeView> {
     ResultData result = await ContractRequest.getConfigs();
     if(result.success){
       setState(() {
-        _dataList = result.data;
+        configs = result.data;
+        _dataList = configs[Board.main];
       });
     }
   }
@@ -116,7 +118,7 @@ class _HomeViewState extends State<HomeView> {
             trailing: Utils.buildForwardIcon(),
             contentPadding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px4),
             onTap: (){
-              Utils.navigateTo(ContractApplyPage(_dataList, data.type));
+              Utils.navigateTo(ContractApplyPage(configs, data.type));
             },
           ),
           Divider(height: a.px1, indent: a.px16),

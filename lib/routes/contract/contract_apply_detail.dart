@@ -246,7 +246,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
     if(data.contractType == ContractApplyDetailData.normalType){
       list.add(_buildItemView('担保费', data.strCost, CustomColors.red, data.strCostTips));
       list.add(divider);
-      list.add(_buildItemView('利息', '${data.interest}元', CustomColors.red));
+      list.add(_buildItemView('利息', data.strInterest, CustomColors.red, data.strCostTips));
       list.add(divider);
     }
 
@@ -304,7 +304,7 @@ class _ContractApplyDetailPageState extends State<ContractApplyDetailPage> {
                 url = '${Global.host}api/v1/eprotocol?id=${data.experienceId}';
               }
               else{
-                url = '${Global.host}api/v1/protocol?times=${data.times}&loanAmount=${data.loadAmount}&type=${data.type}';
+                url = '${Global.host}api/v1/protocol?times=${data.times}&loanAmount=${data.loadAmount}&type=${data.type}&board=${data.board}';
               }
 
               final Map<String, String> headers = {

@@ -1,6 +1,6 @@
 import 'http_request.dart';
 import 'package:funds/model/stock_trade_data.dart';
-import 'package:funds/model/contract_data.dart';
+//import 'package:funds/model/contract_data.dart';
 
 class StockTradeRequest {
   static getStockInfo(code) async {

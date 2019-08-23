@@ -16,7 +16,22 @@ class ContractRequest {
     List<dynamic> oDataList = result['data'];
     final List<ContractApplyItemData> dataList = oDataList.map((data) => ContractApplyItemData(data)).toList();
 
-    return ResultData(true, dataList);
+    Map<int, List<ContractApplyItemData>> configs = {};
+    for(int board = 1; board <= 3; ++board){
+      configs[board] = [];
+    }
+
+    for(int i = 0; i < dataList.length; ++i){
+      ContractApplyItemData data = dataList[i];
+      configs[data.board].add(data);
+    }
+
+    for(int board = 1; board <= 3; ++board){
+      List<ContractApplyItemData> list = configs[board];
+      list.sort((data1, data2) => data2.board - data1.board);
+    }
+
+    return ResultData(true, configs);
   }
 
   static Future<ResultData> preApplyContract(type, board, times, loanAmount) async {

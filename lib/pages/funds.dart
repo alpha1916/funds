@@ -12,6 +12,8 @@ class FundsView extends StatefulWidget {
 
 class _FundsViewState extends State<FundsView> {
   List<ContractApplyItemData> _dataList = [];
+  Map<int, List<ContractApplyItemData>> configs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +44,8 @@ class _FundsViewState extends State<FundsView> {
     ResultData result = await ContractRequest.getConfigs();
     if(mounted && result.success){
       setState(() {
-        _dataList = result.data;
+        configs = result.data;
+        _dataList = configs[Board.main];
       });
     }
   }
@@ -132,6 +135,6 @@ class _FundsViewState extends State<FundsView> {
 
   _onClickedItem(int type) async{
     print('apply item:$type');
-    Utils.navigateTo(ContractApplyPage(_dataList, type));
+    Utils.navigateTo(ContractApplyPage(configs, type));
   }
 }
