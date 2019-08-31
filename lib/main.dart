@@ -13,6 +13,11 @@ import 'pages/trade.dart';
 import 'pages/trial.dart';
 import 'pages/funds.dart';
 
+//160394255@qq.com
+//CWj84798388
+//e965748710ade53a042e63e258068598c75a841a
+//96e79f673cae701ae61ca2c25a69b78f4af14c5d
+
 void main() {
   runApp(MaterialApp(
     theme: ThemeData(

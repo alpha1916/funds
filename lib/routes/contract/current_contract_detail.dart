@@ -232,7 +232,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     List<PopupMenuItem<int>> menuItems = [
       buildMenuItem('追加本金', ContractOperate.addMoney),
       buildMenuItem('申请结算', ContractOperate.applySettlement),
-      buildMenuItem('申请停牌回收', ContractOperate.applySuspendedCycle)
+//      buildMenuItem('申请停牌回收', ContractOperate.applySuspendedCycle),
     ];
 
     if(data.canDelay)

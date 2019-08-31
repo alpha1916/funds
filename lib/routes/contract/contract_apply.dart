@@ -171,6 +171,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         if (_currentBoardIdx != idx) {
           setState(() {
             _currentBoardIdx = idx;
+            _currentTypeIdx = 0;
             dataList = getDataList();
             inputController.clear();
             _inputLoadAmount = null;
@@ -349,7 +350,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         if (_currentTimesIdx != idx) {
           setState(() {
             _currentTimesIdx = idx;
-            _inputLoadAmount = null;
           });
         }
       },

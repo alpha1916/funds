@@ -66,8 +66,8 @@ class _FundsViewState extends State<FundsView> {
                   ),
                   Positioned(
                     top: 0,
-                    left: index.isOdd ? null : 0,
-                    right: index.isOdd ? a.px6: null,
+                    left: data.type.isOdd ? 0 : null,
+                    right: data.type.isOdd ? null : a.px6,
                     child: _buildItemTextView(data),
                   )
                 ],
