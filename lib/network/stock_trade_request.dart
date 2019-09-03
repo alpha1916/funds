@@ -3,10 +3,10 @@ import 'package:funds/model/stock_trade_data.dart';
 //import 'package:funds/model/contract_data.dart';
 
 class StockTradeRequest {
-  static getStockInfo(code) async {
+  static getStockInfo(code, [showLoading = true]) async {
     final String api = '/api/v1/trade/getStockInfo';
     var data = {'secCode': code};
-    var result = await HttpRequest.send(api: api, data: data, isPost: false);
+    var result = await HttpRequest.send(api: api, data: data, isPost: false, showLoading: showLoading);
     if(result == null){
       return ResultData(false);
     }
@@ -77,12 +77,12 @@ class StockTradeRequest {
     return ResultData(true, dataList);
   }
 
-  static getHoldList(contractNumber) async {
+  static getHoldList(contractNumber, [showLoading = true]) async {
     final String api = '/api/v1/trade/holds';
     var data = {
       'contractNumber': contractNumber,
     };
-    var result = await HttpRequest.sendTokenGet(api: api, data: data);
+    var result = await HttpRequest.sendTokenGet(api: api, data: data, showLoading: showLoading );
     if(result == null){
       return ResultData(false);
     }

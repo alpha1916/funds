@@ -37,8 +37,8 @@ class TradeBloc {
   }
 
   getStockInfo(code) async {
-    ResultData result = await StockTradeRequest.getStockInfo(code);
-    TradingStockData _stockInfo;
+    ResultData result = await StockTradeRequest.getStockInfo(code, false);
+//    TradingStockData _stockInfo;
     if(result.success){
       _stockInfo = result.data;
     }
@@ -47,6 +47,7 @@ class TradeBloc {
   }
 
   clearStockInfo() {
+    _stockInfo = null;
     _stockInfoController.add(null);
   }
 
@@ -78,7 +79,7 @@ class TradeBloc {
   }
 
   updateMoney() async{
-    ResultData result = await ContractRequest.getContractDetail(contractNumber);
+    ResultData result = await ContractRequest.getContractDetail(contractNumber, false);
     if(result.success){
       ContractData data = result.data;
       if(_money != data.usableMoney){
@@ -89,7 +90,7 @@ class TradeBloc {
   }
 
   updateHoldList() async {
-    ResultData result = await StockTradeRequest.getHoldList(contractNumber);
+    ResultData result = await StockTradeRequest.getHoldList(contractNumber, false);
     print('updateHoldList');
     _holdList = [];
     if(result.success){
@@ -110,6 +111,8 @@ class TradeBloc {
     print('trade bloc refresh');
     updateMoney();
     updateHoldList();
+    if(_stockInfo != null)
+      getStockInfo(_stockInfo.code);
   }
 
   static TradeBloc bloc;

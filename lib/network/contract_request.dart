@@ -90,10 +90,10 @@ class ContractRequest {
     return ResultData(true, result['data']);
   }
 
-  static Future<ResultData> getContractDetail(contractNumber) async {
+  static Future<ResultData> getContractDetail(contractNumber, [showLoading = true]) async {
     final String api = '/api/v1/contract/getContractByNo';
     var queryParameters = {'contractNumber': contractNumber};
-    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
+    var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters, showLoading: showLoading);
 
     if(result == null){
       return ResultData(false);

@@ -295,6 +295,7 @@ class _MyViewState extends State<MyView> {
                 child: Column(
                   children: <Widget>[
                     _buildBottomItem(CustomIcons.myService, '帮助与客服', false, '', _onPressHelp),
+                    _buildBottomItem(CustomIcons.version, '当前版本', false, Global.version, null),
 //                    Divider(height: a.px1, indent: a.px16),
 //                    _buildBottomItem(CustomIcons.myAbout, '关于${Global.appName}', false, '', _onPressAbout),
                   ],

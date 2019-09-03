@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+echo "开始打包apk"
+flutter build apk --target-platform android-arm --split-per-abi
+
 echo "开始打包ipa"
 flutter build ios --release #--no-codesign
 

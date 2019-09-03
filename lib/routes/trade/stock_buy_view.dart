@@ -36,11 +36,11 @@ class StockTradeFrame extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    if(Global.debug){
-      countInputController.text = '100';
-      if(bloc.stockInfo == null)
-        bloc.getStockInfo('002656');
-    }
+//    if(Global.debug){
+//      countInputController.text = '100';
+//      if(bloc.stockInfo == null)
+//        bloc.getStockInfo('000001');
+//    }
 
     return StreamBuilder<TradingStockData>(
       stream: bloc.stockStream,
@@ -549,12 +549,12 @@ class StockTradeFrame extends StatelessWidget{
   }
 
   String _getCountStr(int value){
-    String str;
+    String str = '0';
     if(value < 1000)
       str = value.toString();
-    else if(value > 1000000)
+    else if(value >= 1000000)
       str = '${(value / 1000000).toStringAsFixed(2)}m';
-    else if(value > 1000)
+    else if(value >= 1000)
       str = '${(value / 1000).toStringAsFixed(2)}k';
 
     return str;

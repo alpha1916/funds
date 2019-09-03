@@ -80,19 +80,34 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
       if(_currentIndex != _tabController.index){
         setState(() {
           _currentIndex = _tabController.index;
+          TradeBloc.getInstance().clearStockInfo();
           if(_tabController.index < 3)
             _refresh();
+          else
+            removeAutoRefresh();
         });
       }
     });
     _refresh();
-//    refreshTimer = Timer.periodic(Duration(milliseconds: 1000), (_){
-//      TradeBloc.getInstance().refresh();
-//    });
+  }
+
+  addAutoRefresh() {
+    if(refreshTimer != null)
+      return;
+
+    refreshTimer = Timer.periodic(Duration(milliseconds: 3000), (_){
+      TradeBloc.getInstance().refresh();
+    });
+  }
+
+  removeAutoRefresh() {
+    refreshTimer?.cancel();
+    refreshTimer = null;
   }
 
   _refresh() {
     TradeBloc.getInstance().refresh();
+    addAutoRefresh();
   }
 
   @override

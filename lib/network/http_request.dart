@@ -55,7 +55,8 @@ class HttpRequest {
     queryParameters,
     token,
     isPost = true,
-    askLogin = true
+    askLogin = true,
+    showLoading = true,
   }) async{
     bool connected = await isNetworkAvailable();
     if(!connected){
@@ -64,7 +65,8 @@ class HttpRequest {
     }
 
     try {
-      Loading.show();
+      if(showLoading)
+        Loading.show();
       print('[${DateTime.now().toString().substring(11)}]http ${isPost? 'post' : 'get'}:$api,data:${data.toString()}, queryParameters:${queryParameters.toString()}');
       Response response;
       RequestOptions options;
@@ -88,7 +90,8 @@ class HttpRequest {
         response = await dio.get(api, queryParameters: data, options: options);
       }
 
-      Loading.hide();
+      if(showLoading)
+        Loading.hide();
       print('response.statusCode:${response.statusCode}');
       if(response.statusCode == 200){
         var data = response.data;
@@ -149,7 +152,8 @@ class HttpRequest {
     @required api,
     data,
     queryParameters,
-    askLogin = true
+    askLogin = true,
+    showLoading = true,
   }) async {
     String token = AccountData.getInstance().token;
 
@@ -157,14 +161,22 @@ class HttpRequest {
       Utils.navigateToLoginPage();
       return null;
     }
-    return send(api: api, data: data, askLogin: askLogin, token: token, queryParameters: queryParameters);
+    return send(
+        showLoading: showLoading,
+        api: api,
+        data: data,
+        askLogin: askLogin,
+        token: token,
+        queryParameters: queryParameters,
+    );
   }
 
   static sendTokenGet({
     @required api,
     data,
     queryParameters,
-    askLogin = true
+    askLogin = true,
+    showLoading = true,
   }) async {
     String token = AccountData.getInstance().token;
 
@@ -180,7 +192,8 @@ class HttpRequest {
       queryParameters: queryParameters,
       askLogin: askLogin,
       token: token,
-      isPost: false
+      isPost: false,
+      showLoading: showLoading,
     );
   }
 
