@@ -40,7 +40,7 @@ class HttpRequest {
   }
 
 //  static List<int> businessErrorCodes = [500, 501, 502, 503, 512, 400];
-  static List<int> noBusinessErrorCodes = [200, 401];
+  static List<int> noBusinessErrorCodes = [200, 401, 512];
 
   static void handleUnauthorized(askLogin) {
     print('token Unauthorized');
@@ -95,6 +95,10 @@ class HttpRequest {
       print('response.statusCode:${response.statusCode}');
       if(response.statusCode == 200){
         var data = response.data;
+        if(isUnauthorized(data['code'])) {
+          handleUnauthorized(askLogin);
+          return null;
+        }
         print('[${DateTime.now().toString().substring(11)}]response:${data.toString()}');
         if(!noBusinessErrorCodes.contains(data['code'])){
           handleBusinessCode(data['code'], data['desc']);
@@ -105,7 +109,7 @@ class HttpRequest {
         await handleRewardData(data);
 
         return data;
-      }else if(response.statusCode == 401){
+      }else if(isUnauthorized(response.statusCode)){
         handleUnauthorized(askLogin);
         return null;
       }else{
@@ -114,7 +118,7 @@ class HttpRequest {
       }
     } catch (e) {
       Loading.hide();
-      if(e.response != null && e.response.statusCode == 401){
+      if(e.response != null && isUnauthorized(e.response.statusCode)){
         handleUnauthorized(askLogin);
         return null;
       }
@@ -122,6 +126,10 @@ class HttpRequest {
 //      alert(e.toString());
       alert('请求数据错误，请联系客服');
     }
+  }
+
+  static isUnauthorized(code){
+    return code == 401 || code == 512;
   }
 
   static handleRewardData(data) async{
@@ -253,7 +261,7 @@ class HttpRequest {
         }
 
         return data['data'];
-      }else if(response.statusCode == 401){
+      }else if(isUnauthorized(response.statusCode)){
         handleUnauthorized(true);
         return null;
       }else{

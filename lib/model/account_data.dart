@@ -19,7 +19,7 @@ class AccountData {
   String phone = '';
   String name = '';
   String address = '';
-  bool bindBank;
+  bool bindBank = false;
   String token;
   bool agreedRisk = false;
   bool hasUnreadMail = false;
@@ -39,11 +39,11 @@ class AccountData {
     cash = Utils.convertDouble(data['cashWealth']);
     stock = Utils.convertDouble(data['bondWealth']);
     total = Utils.convertDouble(data['cashWealth'] + data['bondWealth']);
-    phone = data['phone'];
-    integral = data['score'];
-    name = data['name'];
+    phone = data['phone'] ?? '';
+    integral = data['score'] ?? 0;
+    name = data['name'] ?? '';
     address = data['address'] ?? '';
-    bindBank = data['bindBank'];
+    bindBank = data['bindBank'] ?? false;
     agreedRisk = data['agreeProto'] ?? false;
 
     String strExperiences = data['experierceList'];

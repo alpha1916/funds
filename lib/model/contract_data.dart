@@ -126,8 +126,8 @@ class ContractApplyDetailData {
 //        capital = data['capital'],
 
         profit = data['profitRate'],
-        cost = Utils.convertDouble(data['management']),
-        interest = Utils.convertDouble(data['interest']),
+        cost = Utils.convertDouble(data['management'] ?? 0),
+        interest = Utils.convertDouble(data['interest'] ?? 0),
         cordon = data['warnLine'],
         cut = data['stopLossLine'],
         date = data['tradeStartTime'],
@@ -335,7 +335,7 @@ class TradeFlowData{
         strTime = data['entrustTime'].split(' ')[1];
 }
 
-final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约'];
+final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约', '分红', '送股'];
 class ContractMoneyFlowData {
   final String title;
   final double value;//变化数值

@@ -8,58 +8,63 @@ import 'login_page.dart';
 class ForgetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if(Global.debug){
-      passController1.text = Global.testPwd;
-      passController2.text = Global.testPwd;
-      phoneController.text = Global.testPhoneNumber;
-    }
+//    if(Global.debug){
+//      passController1.text = Global.testPwd;
+//      passController2.text = Global.testPwd;
+//      phoneController.text = Global.testPhoneNumber;
+//    }
     return Scaffold(
       appBar: AppBar(
         title:Text('忘记密码'),
       ),
-      body: Column(
-        children: <Widget>[
-          SizedBox(height: a.px20),
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                buildTextFiled(
-                  phoneController,
-                  TextInputType.text,
-                  '11位手机号码',
-                  false,
-                  Icon(Icons.phone),
-                ),
-                Divider(height: a.px1, indent: a.px16),
-                buildCaptchaTextFiled(captchaController, _onPressedGetCaptcha),
-                Divider(height: a.px1, indent: a.px16),
-                buildTextFiled(
-                  passController1,
-                  TextInputType.text,
-                  '请设置新密码',
-                  true,
-                  Icon(Icons.lock),
-                ),
-                Divider(height: a.px1, indent: a.px16),
-                buildTextFiled(
-                  passController2,
-                  TextInputType.text,
-                  '请再次输入',
-                  true,
-                  Icon(Icons.lock),
-                ),
-              ],
+      body: InkWell(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: a.px20),
+            Container(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  buildTextFiled(
+                    phoneController,
+                    TextInputType.number,
+                    '11位手机号码',
+                    false,
+                    Icon(Icons.phone),
+                  ),
+                  Divider(height: a.px1, indent: a.px16),
+                  buildCaptchaTextFiled(captchaController, _onPressedGetCaptcha),
+                  Divider(height: a.px1, indent: a.px16),
+                  buildTextFiled(
+                    passController1,
+                    TextInputType.text,
+                    '请设置新密码',
+                    true,
+                    Icon(Icons.lock),
+                  ),
+                  Divider(height: a.px1, indent: a.px16),
+                  buildTextFiled(
+                    passController2,
+                    TextInputType.text,
+                    '请再次输入',
+                    true,
+                    Icon(Icons.lock),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 10, left: 20),
-            child: Text('登录密码由6-16位数字和字母组成'),
-          ),
-          Utils.buildRaisedButton(title: '确定', onPressed: _onPressedOK)
-        ],
-      ),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(top: 10, left: 20),
+              child: Text('登录密码由6-16位数字和字母组成'),
+            ),
+            Utils.buildRaisedButton(title: '确定', onPressed: _onPressedOK)
+          ],
+        ),
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+      )
     );
   }
 

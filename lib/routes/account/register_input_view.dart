@@ -17,10 +17,10 @@ class RegisterInputViewState extends State<RegisterInputView> {
 
   @override
   Widget build(BuildContext context) {
-    if(Global.debug){
-      phoneController.text = Global.testPhoneNumber;
-      passController.text = Global.testPwd;
-    }
+//    if(Global.debug){
+//      phoneController.text = Global.testPhoneNumber;
+//      passController.text = Global.testPwd;
+//    }
     return Column(
       children: <Widget>[
         SizedBox(
@@ -32,7 +32,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
             children: <Widget>[
               buildTextFiled(
                 phoneController,
-                TextInputType.text,
+                TextInputType.number,
                 '11位手机号码',
                 false,
                 Icon(Icons.phone),

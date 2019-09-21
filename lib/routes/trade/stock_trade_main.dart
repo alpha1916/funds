@@ -118,17 +118,24 @@ class _StockTradeMainPageState extends State<StockTradeMainPage>
     _tabController.dispose();
   }
 
+  final focusNode = FocusNode();
   _buildPageBody() {
-    return Container(
-      color: CustomColors.background2,
-      child: Column(
-        children: <Widget>[
-          _buildCashView(),
-          SizedBox(height: a.px12),
-          _buildTabBar(),
-          _buildTabBarView(),
-        ],
-      )
+    return InkWell(
+      child: Container(
+          color: CustomColors.background2,
+          child: Column(
+            children: <Widget>[
+              _buildCashView(),
+              SizedBox(height: a.px12),
+              _buildTabBar(),
+              _buildTabBarView(),
+            ],
+          )
+      ),
+      onTap: () {
+        print('click');
+        FocusScope.of(context).unfocus();
+      },
     );
   }
 

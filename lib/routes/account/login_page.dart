@@ -76,15 +76,20 @@ with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child:Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            _tabBar(),
-            _tabBarView(),
-          ],
+      child: InkWell(
+        child:Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              _tabBar(),
+              _tabBarView(),
+            ],
+          ),
         ),
-      )
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+      ),
     );
   }
 
@@ -128,6 +133,7 @@ Widget buildTextFiled(controller, keyboardType, labelText, obscureText, icon) {
         labelStyle: TextStyle(fontSize: a.px20),
       ),
       obscureText: obscureText,
+      enableInteractiveSelection: false,
     ),
     dense: true,
   );
@@ -139,11 +145,13 @@ Widget buildCaptchaTextFiled(controller, onPressedGetCaptcha) {
     title: TextField(
       controller: controller,
       cursorColor: Colors.black12,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: '手机验证码',
         labelStyle: TextStyle(fontSize: a.px20),
       ),
+      enableInteractiveSelection: false,
     ),
     trailing: PhoneCaptchaButton(onPressedGetCaptcha),
     dense: true,

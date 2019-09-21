@@ -23,10 +23,10 @@ class LoginInputViewState extends State<LoginInputView> {
 
   @override
   Widget build(BuildContext context) {
-    if(Global.debug){
-      phoneController.text = Global.testPhoneNumber;
-      passController.text = Global.testPwd;
-    }
+//    if(Global.debug){
+//      phoneController.text = Global.testPhoneNumber;
+//      passController.text = Global.testPwd;
+//    }
 
     return Column(
         children: <Widget>[
@@ -35,7 +35,7 @@ class LoginInputViewState extends State<LoginInputView> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                buildTextFiled(phoneController, TextInputType.text, '11位手机号码', false,Icon(Icons.phone)),
+                buildTextFiled(phoneController, TextInputType.number, '11位手机号码', false,Icon(Icons.phone)),
                 Divider(height: a.px1, indent: a.px10, color: Colors.black12),
                 buildTextFiled(passController, TextInputType.text, '请输入登录密码', true, Icon(Icons.lock),
                 ),

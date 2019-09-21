@@ -42,18 +42,26 @@ class StockTradeFrame extends StatelessWidget{
 //        bloc.getStockInfo('000001');
 //    }
 
+    priceFocusNode.addListener(() {
+      if (!priceFocusNode.hasFocus) {
+        _checkPriceInput();
+      }
+    });
+
     return StreamBuilder<TradingStockData>(
       stream: bloc.stockStream,
       initialData: bloc.stockInfo,
       builder: (BuildContext context, AsyncSnapshot<TradingStockData> snapshot){
-        stockInfo = snapshot.data;
-        if(stockInfo != null){
-          codeInputController.text = stockInfo.code;
-          priceInputController.text = Utils.convertDoubleString(stockInfo.lastPrice);
-          updateUsableCount(stockInfo.lastPrice);
+        if(snapshot.data != null){
+          if(stockInfo == null || stockInfo.code != snapshot.data.code){
+//            codeInputController.text = snapshot.data.code;
+            priceInputController.text = Utils.convertDoubleString(snapshot.data.lastPrice);
+          }
+          updateUsableCount(snapshot.data.lastPrice);
         }else{
           updateUsableCount(0.0);
         }
+        stockInfo = snapshot.data;
 
         return Container(
           color: Colors.white,
@@ -97,8 +105,10 @@ class StockTradeFrame extends StatelessWidget{
   TextEditingController codeInputController = TextEditingController();
   TextEditingController priceInputController = TextEditingController();
   TextEditingController countInputController = TextEditingController();
+  FocusNode codeInputFocusNode = FocusNode();
+  FocusNode priceFocusNode = FocusNode();
+  FocusNode countInputFocusNode = FocusNode();
   _buildTitleView() {
-    FocusNode codeInputFocusNode = FocusNode();
     return Builder(
       builder: (context){
         return InkWell(
@@ -114,6 +124,7 @@ class StockTradeFrame extends StatelessWidget{
                   child: TextField(
                     focusNode: codeInputFocusNode,
                     textAlign: TextAlign.left,
+                    keyboardType: TextInputType.number,
                     controller: codeInputController,
                     cursorColor: Colors.black12,
                     decoration: InputDecoration(
@@ -124,6 +135,7 @@ class StockTradeFrame extends StatelessWidget{
                     ),
                     autofocus: false,
                     onChanged: _onCodeInputChange,
+                    enableInteractiveSelection: false,
                   ),
                 ),
                 Text(stockInfo?.title ?? '', style: TextStyle(fontSize: a.px16)),
@@ -168,13 +180,6 @@ class StockTradeFrame extends StatelessWidget{
       );
     }
 
-    FocusNode focusNode = FocusNode();
-    focusNode.addListener(() {
-      if (!focusNode.hasFocus) {
-        _checkPriceInput();
-      }
-    });
-
     return Container(
       height: a.px50,
       decoration: BoxDecoration(
@@ -189,7 +194,8 @@ class StockTradeFrame extends StatelessWidget{
             width: a.px(80),
             child: Center(
               child: TextField(
-                focusNode: focusNode,
+                focusNode: priceFocusNode,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 textAlign: TextAlign.center,
                 controller: priceInputController,
                 cursorColor: Colors.black12,
@@ -200,6 +206,7 @@ class StockTradeFrame extends StatelessWidget{
                 ),
                 autofocus: false,
                 onChanged: onPriceInputChange,
+                enableInteractiveSelection: false,
               ),
             ),
           ),
@@ -303,7 +310,6 @@ class StockTradeFrame extends StatelessWidget{
   }
 
   buildUsableCountView(Stream<int> steam, int initCount) {
-    FocusNode countInputFocusNode = FocusNode();
     return StreamBuilder<int>(
       stream: steam,
       initialData: initCount,
@@ -323,6 +329,7 @@ class StockTradeFrame extends StatelessWidget{
                   child: TextField(
                     focusNode: countInputFocusNode,
                     textAlign: TextAlign.left,
+                    keyboardType: TextInputType.number,
                     controller: countInputController,
                     cursorColor: Colors.black12,
                     decoration: InputDecoration(
@@ -332,6 +339,7 @@ class StockTradeFrame extends StatelessWidget{
                       labelStyle: TextStyle(fontSize: a.px15),
                     ),
                     autofocus: false,
+                    enableInteractiveSelection: false,
                   ),
                 ),
                 Text(tips, style: TextStyle(fontSize: a.px15),)
