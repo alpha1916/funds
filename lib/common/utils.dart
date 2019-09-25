@@ -359,7 +359,7 @@ class CustomTextEditingController extends TextEditingController{
     bool result = true;
     if(regExp != null){
       result = RegExp(regExp).hasMatch(this.text);
-    }else if(validator == null)
+    }else if(validator != null)
       result = validator(this.text);
 
     if(!result)
@@ -395,6 +395,15 @@ class CustomTextEditingController extends TextEditingController{
       regExp: exp,
       invalidTips: '请输入正确的手机号码',
     );
+  }
+
+  static CustomTextEditingController buildInviteCodeEditingController(){
+//    final exp = r'^\d{6}$';
+//    return CustomTextEditingController(invalidTips: '请输入邀请码', validator: (str) => str.length > 0 );
+    return CustomTextEditingController(invalidTips: '请输入邀请码', validator: (str) {
+      print(str.length);
+      return str.length > 0;
+    } );
   }
 
   static CustomTextEditingController buildBankCardEditingController(){

@@ -73,7 +73,7 @@ class HttpRequest {
       if(token != null) {
         options = RequestOptions(
             headers: {
-              "Accept": "*/*",
+              'Accept': '*/*',
               'token': token,
             }
         );
@@ -234,19 +234,19 @@ class HttpRequest {
       debugPrint('o len:${bytes.length}');
       debugPrint('c len:${result.length}');
 
-      var name = path.substring(path.lastIndexOf("/") + 1, path.length);
-      var suffix = name.substring(name.lastIndexOf(".") + 1, name.length);
+      var name = path.substring(path.lastIndexOf('/') + 1, path.length);
+      var suffix = name.substring(name.lastIndexOf('.') + 1, name.length);
       FormData data = FormData.from({
         'head': UploadFileInfo.fromBytes(
           result,
           name,
-          contentType: ContentType.parse("image/$suffix")
+          contentType: ContentType.parse('image/$suffix')
         )
       });
 
       RequestOptions options = RequestOptions(
         headers: {
-          "Accept": "*/*",
+          'Accept': '*/*',
           'token': AccountData.getInstance().token,
         }
       );
@@ -366,12 +366,13 @@ class ResultData{
 }
 
 class LoginRequest {
-  static register(String phone, String pwd, String captcha) async {
+  static register(String phone, String pwd, String captcha, inviteCode) async {
     final String api = '/api/v1/register';
     var data = {
-      "phone": phone,
-      "captcha": captcha,
-      "password": pwd,
+      'phone': phone,
+      'captcha': captcha,
+      'password': pwd,
+      'inviteCode': inviteCode
     };
     var result = await HttpRequest.send(api: api, data: data);
     if(result == null)
@@ -383,8 +384,8 @@ class LoginRequest {
   static login(String phone, String pwd) async {
     final String api = '/api/v1/login';
     var data = {
-      "phone": phone,
-      "password": pwd,
+      'phone': phone,
+      'password': pwd,
     };
     var result = await HttpRequest.send(api: api, data: data);
     if(result == null)
@@ -399,9 +400,9 @@ class LoginRequest {
   static setNewPassword(String phone, String pwd, String captcha) async {
     final String api = '/api/v1/forgot-password';
     var data = {
-      "phone": phone,
-      "captcha": captcha,
-      "password": pwd,
+      'phone': phone,
+      'captcha': captcha,
+      'password': pwd,
     };
     var result = await HttpRequest.send(api: api, data: data);
     if(result == null)
@@ -413,8 +414,8 @@ class LoginRequest {
   static modifyPassword(String oldPwd, String newPwd) async {
     final String api = '/api/v1/user/upLoginPassword';
     var queryParameters = {
-      "oldPw":oldPwd,
-      "newPw": newPwd,
+      'oldPw':oldPwd,
+      'newPw': newPwd,
     };
     var result = await HttpRequest.sendTokenPost(api: api, queryParameters: queryParameters);
     if(result == null)

@@ -14,13 +14,14 @@ class RegisterInputViewState extends State<RegisterInputView> {
   final CustomTextEditingController phoneController = CustomTextEditingController.buildPhoneEditingController();
   final CustomTextEditingController captchaController = CustomTextEditingController.buildCaptchaEditingController();
   final CustomTextEditingController passController = CustomTextEditingController.buildPasswordEditingController();
+  final CustomTextEditingController inviteController = CustomTextEditingController.buildInviteCodeEditingController();
 
   @override
   Widget build(BuildContext context) {
-//    if(Global.debug){
-//      phoneController.text = Global.testPhoneNumber;
-//      passController.text = Global.testPwd;
-//    }
+    if(Global.debug){
+      phoneController.text = Global.testPhoneNumber;
+      passController.text = Global.testPwd;
+    }
     return Column(
       children: <Widget>[
         SizedBox(
@@ -36,6 +37,13 @@ class RegisterInputViewState extends State<RegisterInputView> {
                 '11位手机号码',
                 false,
                 Icon(Icons.phone),
+              ),
+              buildTextFiled(
+                inviteController,
+                TextInputType.text,
+                '请输入邀请码',
+                false,
+                Icon(Icons.insert_invitation),
               ),
               Divider(height: a.px1, indent: 10, color: Colors.black12),
               buildCaptchaTextFiled(captchaController, _onPressedGetCaptcha),
@@ -61,11 +69,13 @@ class RegisterInputViewState extends State<RegisterInputView> {
   }
 
   _onPressedRegister() async {
-    if( captchaController.approved() &&
-        phoneController.approved() &&
+    if( phoneController.approved() &&
+        inviteController.approved() &&
+        captchaController.approved() &&
         passController.approved()
     ){
-      final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text);
+      print(inviteController.text);
+      final result = await LoginRequest.register(phoneController.text, passController.text, captchaController.text, inviteController.text);
       if(result.success){
         Utils.login(phoneController.text, passController.text);
       }
@@ -77,6 +87,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
       phoneController.clear();
       passController.clear();
       captchaController.clear();
+      inviteController.clear();
     });
   }
 
