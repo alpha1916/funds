@@ -292,6 +292,14 @@ class ContractData {
 
 }
 
+final Map<int, String> type2TradeTitle = {
+  1: '买入',
+  2: '卖出',
+  3: '分红',
+  4: '送股',
+  5: '配股',
+};
+
 class TradeFlowData{
   final String title;
   final String code;
@@ -303,7 +311,8 @@ class TradeFlowData{
   final int type;
   final String strState;
 
-  String get strType => type == TradeType.buy ? '买入' : '卖出';
+  String get strType => type2TradeTitle[type];//type == TradeType.buy ? '买入' : '卖出';
+
   TradeFlowData(data):
       title = data['secShortname'],
       code = data['secCode'],
@@ -335,7 +344,7 @@ class TradeFlowData{
         strTime = data['entrustTime'].split(' ')[1];
 }
 
-final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约', '分红', '送股'];
+final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约', '分红', '送股', '配股'];
 class ContractMoneyFlowData {
   final String title;
   final double value;//变化数值

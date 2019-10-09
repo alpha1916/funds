@@ -39,16 +39,16 @@ class ContractAddCapitalPage extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px12),
-            child: Row(
-              children: <Widget>[
-                Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: a.px13),),
-                Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: CustomColors.red),),
-                Text(' 元', style: TextStyle(fontSize: a.px13),),
-              ],
-            ),
-          ),
+//          Container(
+//            padding: EdgeInsets.symmetric(horizontal: a.px16, vertical: a.px12),
+//            child: Row(
+//              children: <Widget>[
+//                Text('追加本金不能少于总操盘资金1%，最低可追加 ', style: TextStyle(fontSize: a.px13),),
+//                Text(minValue.toStringAsFixed(2), style: TextStyle(fontSize: a.px14, color: CustomColors.red),),
+//                Text(' 元', style: TextStyle(fontSize: a.px13),),
+//              ],
+//            ),
+//          ),
           SizedBox(height: 40),
           Container(
             width: a.px(180),
@@ -91,10 +91,10 @@ class ContractAddCapitalPage extends StatelessWidget {
     }
 
     int inputNum = int.parse(_inputController.text);
-    if(inputNum < minValue){
-      alert('追加本金不能少于总操盘资金1%');
-      return;
-    }
+//    if(inputNum < minValue){
+//      alert('追加本金不能少于总操盘资金1%');
+//      return;
+//    }
 
     if(inputNum > AccountData.getInstance().cash){
       Utils.showMoneyEnoughTips();

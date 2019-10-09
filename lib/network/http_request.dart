@@ -372,7 +372,7 @@ class LoginRequest {
       'phone': phone,
       'captcha': captcha,
       'password': pwd,
-      'inviteCode': inviteCode
+      'tjm': inviteCode
     };
     var result = await HttpRequest.send(api: api, data: data);
     if(result == null)

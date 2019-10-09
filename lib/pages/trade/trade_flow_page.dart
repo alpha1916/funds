@@ -4,6 +4,8 @@ import 'package:funds/common/utils.dart';
 
 import 'package:funds/common/widgets/custom_refresh_list_view.dart';
 import 'package:funds/model/list_page_data.dart';
+import 'package:funds/model/contract_data.dart';
+
 
 class TradeFlowPage extends StatelessWidget {
   final ListPageDataHandler listPageDataHandler;
@@ -88,7 +90,8 @@ class TradeFlowPage extends StatelessWidget {
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index, dynamic data){
+  Widget _itemBuilder(BuildContext context, int index, dynamic srcData){
+    TradeFlowData data = srcData;
     return Container(
       color: Colors.transparent,
       child: Column(

@@ -67,7 +67,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
                   _buildInfoView(),
                   divider,
                   //图标栏
-                  Align(alignment: Alignment.centerRight, child: _buildUnderlineTextButton('今日限买股', _onPressedLimited)),
+//                  Align(alignment: Alignment.centerRight, child: _buildUnderlineTextButton('今日限买股', _onPressedLimited)),
                   SizedBox(height: a.px10),
                   _buildMeterView(),
                   divider,
