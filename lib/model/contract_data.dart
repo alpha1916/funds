@@ -217,6 +217,8 @@ class ContractData {
   final int profitRate;//盈利分配
   final double realCost;//实收担保费
 
+  final double additional;//追加本金
+
   final String title;//标题
   final int days;//使用天数
   final int leftDays;//使用天数
@@ -235,6 +237,14 @@ class ContractData {
 
   //合约流水专用
   final double startOperateMoney;//初始操盘金额
+
+  String get strProfit {
+    double rate = profit / (capital + additional) * 100;
+    print(profit);
+    print(capital);
+    print(additional);
+    return '${profit.toStringAsFixed(2)}(${rate.toStringAsFixed(2)}%)';
+  }
 
   String get strCost {
     if(cost > 0){
@@ -277,6 +287,8 @@ class ContractData {
       usableMoney = data['availableMoney'],
       board = data['board'],
 
+      additional = Utils.convertDouble(data['otherPrincipal']),
+
       startOperateMoney = Utils.convertDouble(data['startOperateMoney']),
 
       canDelay = data['canDelay'],// ?? true,
@@ -298,6 +310,7 @@ final Map<int, String> type2TradeTitle = {
   3: '分红',
   4: '送股',
   5: '配股',
+  6: '回收股票',
 };
 
 class TradeFlowData{
@@ -344,18 +357,34 @@ class TradeFlowData{
         strTime = data['entrustTime'].split(' ')[1];
 }
 
-final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约', '分红', '送股', '配股'];
+//final type2ContractMoneyFlowDataTitle = ['', '初始合约', '追加本金', '提取现金', '终止合约', '分红', '送股', '配股', '回收股票',];
+final Map<int, String> type2ContractMoneyFlowDataTitle = {
+  1: '初始合约',
+  2: '追加本金',
+  3: '提取现金',
+  4: '终止合约',
+  5: '分红',
+  6: '送股',
+  7: '配股',
+  8: '回收股票',
+};
 class ContractMoneyFlowData {
+  final int type;
   final String title;
   final double value;//变化数值
+  final double price;//配股，股票回收价
+  final String code;//股票代码
   final double capital;//杠杆本金
   final double contractMoney;//合约金额
   final double loan;//借款金额
   final double operateMoney;//操盘金额
   final String date;
   ContractMoneyFlowData(data):
+        type = data['type'],
         title = type2ContractMoneyFlowDataTitle[data['type']],
         value = Utils.convertDouble(data['money']),
+        code = data['secCode'],
+        price = Utils.convertDouble(data['setStockPrice']),
         capital = Utils.convertDouble(data['principal']),
         contractMoney = Utils.convertDouble(data['loanAmount'] + data['principal']),
         loan = Utils.convertDouble(data['loanAmount']),

@@ -288,13 +288,13 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
   }
 
   _buildFundsItem(title, value, valueFontSize,
-      [percent, onPressed]) {
+      [percent, onPressed, color]) {
     Widget titleText;
     if (onPressed != null) {
       titleText = Row(
         children: <Widget>[
           Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black87)),
-          SizedBox(width: 5),
+          SizedBox(width: a.px5),
           InkWell(
             child: Icon(Icons.help, size: a.px20,),
             onTap: onPressed,
@@ -304,6 +304,8 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
     } else {
       titleText = Text(title, style: TextStyle(fontSize: a.px15, color: Colors.black87));
     }
+
+//    String strValue = ivalue
     List<Widget> children = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +316,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             value.toStringAsFixed(2),
             style: TextStyle(
                 fontSize: valueFontSize,
-                color: Utils.getProfitColor(value),
+                color: color ?? Utils.getProfitColor(value),
                 fontWeight: FontWeight.w700
             ),
           ),
@@ -334,6 +336,62 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
       child: Row(
         children: children,
       ),
+    );
+  }
+
+  _buildProfitItem() {
+    Widget titleText = Row(
+      children: <Widget>[
+        Text('累计盈亏', style: TextStyle(fontSize: a.px15, color: Colors.black87)),
+        SizedBox(width: a.px5),
+        InkWell(
+          child: Icon(Icons.help, size: a.px20,),
+          onTap: () {
+            alert2('累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
+          },
+        )
+      ],
+    );
+
+//
+//    List<Widget> children = [
+//      Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        children: <Widget>[
+//          titleText,
+//          SizedBox(height: a.px5),
+//          Text(
+//            data.strProfit,
+//            style: TextStyle(
+//                fontSize: a.px18,
+//                color: Utils.getProfitColor(data.profit),
+//                fontWeight: FontWeight.w700
+//            ),
+//          ),
+//        ],
+//      ),
+////      Expanded(child: Container()),
+////      SizedBox(width: a.px16),
+////      Container(
+////        height: 30,
+////        width: 1,
+////        color: Colors.white30,
+////      )
+//    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        titleText,
+        SizedBox(height: a.px5),
+        Text(
+          data?.strProfit ?? '',
+          style: TextStyle(
+              fontSize: a.px18,
+              color: Utils.getProfitColor(data.profit),
+              fontWeight: FontWeight.w700
+          ),
+        ),
+      ],
     );
   }
 
@@ -362,15 +420,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
             ],
           ),
           SizedBox(height: a.px8),
-          _buildFundsItem(
-            '累计盈亏',
-            data?.profit ?? 0,
-            a.px18,
-            null,
-            () {
-              alert2('累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
-            },
-          ),
+          _buildProfitItem(),
         ],
       ),
     );

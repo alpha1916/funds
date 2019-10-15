@@ -156,6 +156,7 @@ const Map<int, String> cashFlowType2Text = {
   8: '担保费用',
   9: '追加保证金',
   10: '利息',
+  11: '调增',
 };
 
 enum MailType{

@@ -170,6 +170,29 @@ class _ContractFlowPageState extends State<ContractFlowPage>
 
   Widget _buildCashItemView(context, index, srcData) {
     ContractMoneyFlowData data = srcData;
+    Widget item;
+    switch(data.type){
+      case 5://分红
+        item = _buildDividendosItem(data);
+        break;
+
+      case 6://送股
+        item = _buildBonusIssueItem(data);
+        break;
+
+      case 7://配股
+      case 8://股票回收
+        item = _buildRightsIssueItem(data);
+        break;
+
+      default:
+        item = _buildNormalItem(data);
+        break;
+    }
+    return item;
+  }
+
+  _buildNormalItem(ContractMoneyFlowData data) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(left: a.px16, top: a.px10),
@@ -179,7 +202,7 @@ class _ContractFlowPageState extends State<ContractFlowPage>
             children: <Widget>[
               Text(data.title, style: TextStyle(fontSize: a.px16)),
               SizedBox(width: a.px5),
-              Text(data.value.toString(), style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
+              Text(data.value.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
               Expanded(child: Container()),
               Text(data.date, style: TextStyle(fontSize: a.px14)),
               SizedBox(width: a.px16),
@@ -203,6 +226,84 @@ class _ContractFlowPageState extends State<ContractFlowPage>
             ],
           ),
           Divider(height: 0,),
+        ],
+      ),
+    );
+  }
+
+  //配股，股票回收
+  _buildRightsIssueItem(ContractMoneyFlowData data) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(left: a.px16, top: a.px10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(data.title, style: TextStyle(fontSize: a.px16)),
+              Expanded(child: Container()),
+              Text(data.date, style: TextStyle(fontSize: a.px14)),
+              SizedBox(width: a.px16),
+            ],
+          ),
+          SizedBox(height: a.px10),
+          Row(
+            children: <Widget>[
+              Text('${data.value.toInt()}股(${data.code})', style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
+              SizedBox(width: a.px5),
+              Text('${data.price.toStringAsFixed(2)} / 股', style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
+            ],
+          ),
+          SizedBox(height: a.px10),
+          Divider(height: 0,),
+        ],
+      ),
+    );
+  }
+
+  //送股
+  _buildBonusIssueItem(ContractMoneyFlowData data) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(left: a.px16, top: a.px10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(data.title, style: TextStyle(fontSize: a.px16)),
+              SizedBox(width: a.px5),
+              Text('${data.value.toInt()}股(${data.code})', style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
+              Expanded(child: Container()),
+              Text(data.date, style: TextStyle(fontSize: a.px14)),
+              SizedBox(width: a.px16),
+            ],
+          ),
+          SizedBox(height: a.px10),
+          Divider(height: 0),
+        ],
+      ),
+    );
+  }
+
+  //分红
+  _buildDividendosItem(ContractMoneyFlowData data) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(left: a.px16, top: a.px10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(data.title, style: TextStyle(fontSize: a.px16)),
+              SizedBox(width: a.px5),
+              Text('${data.value.toStringAsFixed(2)}(${data.code})', style: TextStyle(fontSize: a.px16, color: CustomColors.red)),
+              Expanded(child: Container()),
+              Text(data.date, style: TextStyle(fontSize: a.px14)),
+              SizedBox(width: a.px16),
+            ],
+          ),
+          SizedBox(height: a.px10),
+          Divider(height: 0),
         ],
       ),
     );
