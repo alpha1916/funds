@@ -124,7 +124,10 @@ class Utils {
   }
 
   static openOnlineService() {
-    navigateTo(OnlineServicePage());
+    if(Global.platformName == 'android')
+      navigateTo(OnlineServicePageAndroid());
+    else
+      navigateTo(OnlineServicePage());
   }
   
   static getProfitColor(value) {

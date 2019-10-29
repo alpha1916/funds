@@ -49,7 +49,7 @@ class CurrentContractWithdrawPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('可提现金', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
+          Text('可提盈利', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
           Expanded(
             child: TextField(
               controller: inputController,

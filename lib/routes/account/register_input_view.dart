@@ -98,7 +98,7 @@ class RegisterInputViewState extends State<RegisterInputView> {
 
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.register, phoneController.text);
     if(result.success){
-      captchaController.text = result.data;
+//      captchaController.text = result.data;
       alert('验证码已发送');
     }
 

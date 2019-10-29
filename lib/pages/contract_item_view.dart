@@ -24,7 +24,7 @@ class ContractItemView extends StatelessWidget {
       case ContractType.current:
         totalColor = CustomColors.red;;
         profitValueColor = Colors.black;
-        profitTitle = '可提现金';
+        profitTitle = '可提盈利';
         profitValue = data.cash.toStringAsFixed(2);
         break;
 

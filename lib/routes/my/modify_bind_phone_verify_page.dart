@@ -72,7 +72,7 @@ class ModifyPhoneVerifyPage extends StatelessWidget {
   _onPressedGetCaptcha() async {
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.oldPhone, AccountData.getInstance().phone);
     if(result.success){
-      captchaController.text = result.data;
+//      captchaController.text = result.data;
       alert('验证码已发送');
     }
 

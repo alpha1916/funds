@@ -86,7 +86,7 @@ class BindNewPhonePage extends StatelessWidget {
 
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.newPhone, phoneController.text);
     if(result.success){
-      captchaController.text = result.data;
+//      captchaController.text = result.data;
       alert('验证码已发送');
     }
 

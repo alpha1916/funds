@@ -205,7 +205,7 @@ class ContractData {
   final String contractNumber;//合约信息
   final double profit;//累计盈亏
   final double capital;//杠杆本金
-  final double cash;//可提现金
+  final double cash;//可提盈利
   final double operateMoney;//操盘金额
   final String beginTime;
   final String endTime;

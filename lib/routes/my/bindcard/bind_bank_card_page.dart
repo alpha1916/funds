@@ -23,7 +23,7 @@ class _BindBankCardPageState extends State<BindBankCardPage> {
   Widget build(BuildContext context) {
     if(Global.debug){
       cardController.text = '12234556781223455678';
-      phoneController.text = '18123456789';
+      phoneController.text = Global.testPhoneNumber;
     }
     String provinceName = selectProvinceData == null ? null : selectProvinceData['name'];
     

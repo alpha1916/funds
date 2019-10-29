@@ -347,7 +347,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         InkWell(
           child: Icon(Icons.help, size: a.px20,),
           onTap: () {
-            alert2('累计盈亏', '累计盈亏=当前盈亏+利润提取', '知道了');
+            alert2('累计盈亏', '累计盈亏=当前盈亏+已提盈利', '知道了');
           },
         )
       ],
@@ -408,12 +408,12 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
               ),
               Expanded(
                 child: _buildFundsItem(
-                  '可提现金',
+                  '可提盈利',
                   data?.cash ?? 0,
                   a.px25,
                   null,
                       () {
-                    alert2('可提现金', '可提现金=非杠杆现金+当前盈亏，盘后可提现', '知道了');
+                    alert2('可提盈利', '可提现金=非杠杆现金+当前盈亏，盘后可提取', '知道了');
                   },
                 ),
               ),

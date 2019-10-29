@@ -80,7 +80,7 @@ class ForgetPasswordPage extends StatelessWidget {
 
     final ResultData result = await HttpRequest.getPhoneCaptcha(CaptchaType.forgotPassword, phoneController.text);
     if(result.success){
-      captchaController.text = result.data;
+//      captchaController.text = result.data;
       alert('验证码已发送');
     }
     return Future.value(result.success);
