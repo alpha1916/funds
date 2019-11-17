@@ -3,26 +3,28 @@ import 'package:funds/common/constants.dart';
 import 'login_input_view.dart';
 import 'register_input_view.dart';
 import 'package:funds/common/widgets/phone_captcha_button.dart';
+import 'package:funds/model/account_data.dart';
 
 class LoginPage extends StatelessWidget{
   final isRegister;
   LoginPage(this.isRegister);
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
+    bool noBack = AccountData.getInstance().token != null;
     return Scaffold(
       appBar: AppBar(
         title: Text('登录注册'),
+        leading: noBack ? null : Text(''),
       ),
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(vertical: a.px10),
-            alignment: Alignment.center,
-            color: Colors.white,
-            child: Image.asset(CustomIcons.iconText, width: realWidth * 0.4,)
+              padding: EdgeInsets.symmetric(vertical: a.px15),
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: Image.asset(CustomIcons.iconText, width: a.px(80),)
           ),
           _InputView(isRegister),
         ],

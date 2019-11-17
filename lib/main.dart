@@ -6,6 +6,7 @@ import 'package:funds/network/user_request.dart';
 import 'package:funds/model/account_data.dart';
 
 import 'package:package_info/package_info.dart';
+import 'package:funds/routes/account/login_page.dart';
 
 import 'pages/home.dart';
 import 'pages/my.dart';
@@ -61,7 +62,7 @@ class _AppState extends State<App> {
   final viewDataList = [
     ['首页', 'ic_home_unchecked', 'ic_home_checked'],
     ['体验', 'ic_experience_unchecked', 'ic_experience_checked'],
-    ['配资', 'ic_market_unchecked', 'ic_market_checked'],
+    ['策略', 'ic_market_unchecked', 'ic_market_checked'],
     ['交易', 'ic_deal_unchecked', 'ic_deal_checked'],
     ['我的', 'ic_me_unchecked', 'ic_me_checked'],
   ];
@@ -112,6 +113,23 @@ class _AppState extends State<App> {
     });
   }
 
+  void checkNeedLogin() async {
+    await AccountData.getInstance().getLocalToken();
+    if(AccountData.getInstance().token == null) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) {
+            return WillPopScope(
+              child: LoginPage(false),
+              onWillPop: (){
+                return Future.value(AccountData.getInstance().token != null);
+              },
+            );
+          })
+      );
+//      Utils.navigateToLoginPage();
+    }
+  }
+
   void appInit(context) {
     print('app init');
 
@@ -129,7 +147,7 @@ class _AppState extends State<App> {
     Size size = MediaQuery.of(context).size;
     a.init(size.width, size.height);
 
-    AccountData.getInstance().getLocalToken();
+//    AccountData.getInstance().getLocalToken();
 
     _navigationIconViews = viewDataList.map((list) {
       return NavigationIconView(
@@ -149,5 +167,7 @@ class _AppState extends State<App> {
     ];
 
     _initialized = true;
+
+    checkNeedLogin();
   }
 }

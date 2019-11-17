@@ -22,8 +22,8 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Image.asset(CustomIcons.logo, width: a.px(60), fit: BoxFit.fill),
-                  SizedBox(height: a.px20,),
-                  Text('股票配资神器', style: TextStyle(fontSize: a.px18, color: Colors.white, fontWeight: FontWeight.w500),),
+//                  SizedBox(height: a.px20,),
+//                  Text('股票配资神器', style: TextStyle(fontSize: a.px18, color: Colors.white, fontWeight: FontWeight.w500),),
                 ],
               )
             ),

@@ -214,7 +214,7 @@ class ContractData {
   final double cost;//担保费用
   final double interest;//担保费用
   final double usableMoney;//可用现金
-  final int profitRate;//盈利分配
+  final int allocationRate;//盈利分配
   final double realCost;//实收担保费
 
   final double additional;//追加本金
@@ -239,11 +239,12 @@ class ContractData {
   final double startOperateMoney;//初始操盘金额
 
   String get strProfit {
+    return '${profit.toStringAsFixed(2)}($strProfitRate)';
+  }
+
+  String get strProfitRate{
     double rate = profit / (capital + additional) * 100;
-    print(profit);
-    print(capital);
-    print(additional);
-    return '${profit.toStringAsFixed(2)}(${rate.toStringAsFixed(2)}%)';
+    return '${rate.toStringAsFixed(2)}%';
   }
 
   String get strCost {
@@ -273,7 +274,7 @@ class ContractData {
       contractMoney = Utils.convertDouble(data['contractMoney']),
       profit = data['profit'],
       realCost = Utils.convertDouble(data['realManagement']),
-      profitRate = data['profitRate'],
+      allocationRate = data['profitRate'],
       returnMoney = Utils.convertDouble(data['returnMoney']),
       cash = Utils.convertDouble(data['cash']),
       operateMoney = data['operateMoney'],

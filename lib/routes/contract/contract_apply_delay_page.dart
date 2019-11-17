@@ -61,7 +61,7 @@ class _ContractApplyDelayPageState extends State<ContractApplyDelayPage> {
           Row(
             children: <Widget>[
               Text('合约信息', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),
-              Text(' (${widget.contractData.profitRate}%盈利分配)', style: TextStyle(fontSize: a.px13)),
+              Text(' (${widget.contractData.allocationRate}%盈利分配)', style: TextStyle(fontSize: a.px13)),
             ],
           ),
           SizedBox(height: a.px10),

@@ -301,7 +301,7 @@ class Utils {
   }
 
   static callService() {
-    dial(Global.servicePhoneNumber);
+//    dial(Global.servicePhoneNumber);
   }
 
   static openWx() {

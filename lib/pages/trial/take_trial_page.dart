@@ -272,7 +272,7 @@ class _SelectViewState extends State<_SelectView> {
 class _TipsView extends StatelessWidget {
   final List<ExperienceInfoData> _dataList;
   _TipsView(this._dataList);
-  static final String p1 = '1、全民来配资，${Global.appName}为你准备了如下体验合约：';
+  static final String p1 = '1、开心来炒股，${Global.appName}为你准备了如下体验合约：';
   static final p2 = [
     '免费体验和免息体验可以同时申请，且只能体验一次',
     '2、 体验合约在合约结算后，盈亏部分+杠杆本金将返还至你的现金余额中(若免费体验合约产生亏损，杠杆本金全额返还)，可进行正常提现操作；',

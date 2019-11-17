@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:funds/common/constants.dart';
 import 'package:funds/model/coupon_data.dart';
 
-double realWidth;
 class CouponSelectPage extends StatelessWidget {
   CouponSelectPage(this.dataList, this.selectedId);
 
@@ -10,7 +9,7 @@ class CouponSelectPage extends StatelessWidget {
   final int selectedId;
   @override
   Widget build(BuildContext context) {
-    realWidth = MediaQuery.of(context).size.width;
+    double realWidth = MediaQuery.of(context).size.width;
     final margin = a.px16;
     final itemHeight = (realWidth - margin * 2) * 0.2;
     return Scaffold(

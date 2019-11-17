@@ -106,7 +106,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         ),
         _buildInfoRow(
           _buildInfoItem('利息', data.strInterest),
-          Container(),
+          _buildInfoItem('盈利分配', '${data.allocationRate}%'),
         ),
       ],
     );

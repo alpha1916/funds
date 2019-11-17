@@ -62,6 +62,10 @@ class ContractItemView extends StatelessWidget {
     return Text('${data.beginTime} 至 ${data.endTime}', style: TextStyle(fontSize: a.px13, color: Colors.black54));
   }
 
+  _contractNumberView() {
+    return Text('合约号 : ${data.contractNumber}', style: TextStyle(fontSize: a.px13, color: Colors.black54));
+  }
+
   Widget _buildRow1() {
     return Expanded(
       child: Row(
@@ -77,19 +81,32 @@ class ContractItemView extends StatelessWidget {
     return Expanded(
       child: Row(
         children: <Widget>[
-          Text('合约金额  ', style: TextStyle(fontSize: a.px16, color: Color(0xBF000000))),
-          Text(data.contractMoney.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: Colors.black,)),
+          Text('累计盈亏  ', style: TextStyle(fontSize: a.px16, color: Color(0xBF000000))),
+          Text(data.profit.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, color: Utils.getProfitColor(data.profit),)),
         ],
       ),
     );
   }
 
   Widget _buildRow3() {
-    return Row(
-      children: <Widget>[
-        Text(profitTitle, style: TextStyle(fontSize: a.px16, color: Color(0xBF000000))),
-        Text(profitValue, style: TextStyle(fontSize: a.px16, color: profitValueColor)),
-      ],
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          Text(profitTitle, style: TextStyle(fontSize: a.px16, color: Color(0xBF000000))),
+          Text(profitValue, style: TextStyle(fontSize: a.px16, color: profitValueColor)),
+        ],
+      )
+    );
+  }
+
+  Widget _buildRow4() {
+    return Expanded(
+        child: Row(
+          children: <Widget>[
+            Text('盈亏比例  ', style: TextStyle(fontSize: a.px16, color: Color(0xBF000000))),
+            Text('${data.strProfitRate}', style: TextStyle(fontSize: a.px16, color: Utils.getProfitColor(data.profit)),),
+          ],
+        )
     );
   }
 
@@ -101,16 +118,21 @@ class ContractItemView extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px10, bottom: a.px10),
+                padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px10),
                 child: Row(
                   children: <Widget>[
                     _titleView(),
                     SizedBox(width: a.px10),
                     _stateView(),
                     Utils.expanded(),
-                    _dateView(),
+                    _contractNumberView(),
                   ],
                 ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: a.px16, right: a.px16, top: a.px10, bottom: a.px10),
+                child: _dateView(),
               ),
               Divider(height: a.px1, indent: a.px16),
               Container(
@@ -124,7 +146,14 @@ class ContractItemView extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: a.px6),
-                    _buildRow3()
+                    Row(
+                      children: <Widget>[
+                        _buildRow3(),
+                        _buildRow4(),
+                      ],
+                    ),
+//                    _buildRow3()
+
                   ],
                 ),
               ),

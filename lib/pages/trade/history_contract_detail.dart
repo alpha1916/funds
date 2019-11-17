@@ -148,7 +148,7 @@ class HistoryContractDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text('结算退还', style: TextStyle(fontSize: a.px16, color: Colors.black,fontWeight: FontWeight.w500)),
-          Text('(${data.profitRate}%盈利分配)', style: TextStyle(fontSize: a.px13, color: Colors.black)),
+          Text('(${data.allocationRate}%盈利分配)', style: TextStyle(fontSize: a.px13, color: Colors.black)),
           Utils.expanded(),
           Text(data.returnMoney.toStringAsFixed(2), style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500, color: Utils.getProfitColor(data.returnMoney)),),
           Text(' 元', style: TextStyle(fontSize: a.px16, fontWeight: FontWeight.w500)),

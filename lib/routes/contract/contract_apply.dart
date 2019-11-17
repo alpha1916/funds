@@ -45,7 +45,6 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
 
   @override
   Widget build(BuildContext context) {
-    final realWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -57,12 +56,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          _buildTypeChipsView(realWidth * 0.2),
+          _buildTypeChipsView(a.px(80)),
           Divider(height: 0),
-          _buildBoardChipsView(realWidth * 0.2),
+          _buildBoardChipsView(a.px(80)),
           Divider(height: 0),
           SizedBox(height: a.px10),
-          _inputView(realWidth * 0.25),
+          _inputView(a.px(104)),
           SizedBox(height: a.px10),
           Container(
             width: double.infinity,

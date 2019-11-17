@@ -22,5 +22,5 @@ else
     echo "ios打包报错了😭, 打开Xcode查找错误原因"
 fi
 
-
-https://github.com/genius158/FlutterTest/blob/master/lib/main.dart
+mv ./build/ios/iphoneos/*.ipa ./publish
+mv ./build/app/outputs/apk/release/*.apk ./publish
