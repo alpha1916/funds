@@ -22,5 +22,6 @@ else
     echo "ios打包报错了😭, 打开Xcode查找错误原因"
 fi
 
-mv ./build/ios/iphoneos/*.ipa ./publish
-mv ./build/app/outputs/apk/release/*.apk ./publish
+sleep 1m
+mv ./build/ios/iphoneos/funds-ios.ipa ./publish/funds-ios.ipa
+mv ./build/app/outputs/apk/release/app-armeabi-v7a-release.apk ./publish/app-armeabi-v7a-release.apk

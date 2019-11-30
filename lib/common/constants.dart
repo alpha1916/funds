@@ -258,7 +258,8 @@ class a{
 }
 
 class Global{
-  static String host = 'http://119.29.142.63:8070/';
+//  static String host = 'http://119.29.142.63:8070/';
+  static String host = 'http://134.175.88.198/';
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;

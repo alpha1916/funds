@@ -232,21 +232,20 @@ class _RechargePageState extends State<RechargePage> {
               text: '图片示例',
               style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
               recognizer: TapGestureRecognizer()..onTap = () {
-                print('hhh');
                 Utils.navigateTo(ImageViewerPage(CustomIcons.rechargeSample));
               }
             ),
-            TextSpan(
-                text: '\n\n3、如果遇到任何问题，请联系客服：',
-                style: style
-            ),
-            TextSpan(
-                text: phoneNumber,
-                style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
-                recognizer: TapGestureRecognizer()..onTap = () {
-                  Utils.callService();
-                }
-            ),
+//            TextSpan(
+//                text: '\n\n3、如果遇到任何问题，请联系客服：',
+//                style: style
+//            ),
+//            TextSpan(
+//                text: phoneNumber,
+//                style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
+//                recognizer: TapGestureRecognizer()..onTap = () {
+//                  Utils.callService();
+//                }
+//            ),
           ],
         )
       ),
