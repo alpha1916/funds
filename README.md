@@ -21,6 +21,9 @@ publish.sh              mac系统下打包脚本，ipa跟apk文件会发布在pu
 
 pubspec.yaml            项目配置文件，资源，版本号，使用第三方插件等
 
+
+assets目录                  图片资源存放目录
+
 2 原生代码相关，根目录下
 ios                     ios工程目录
 android                 android工程目录
