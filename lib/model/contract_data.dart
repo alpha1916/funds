@@ -305,6 +305,21 @@ class ContractData {
 
 }
 
+final Map<int, String>tradeFlowStatus = {
+  -1: '委托失败',
+  0: '委托中',
+  1: '未报',
+  2: '未报',
+  3: '未报',
+  4: '已报',
+  5: '废单',
+  6: '部分成交',
+  7: '已成交',
+  8: '部分撤单',
+  9: '已撤单',
+  10: '待撤单',
+};
+
 final Map<int, String> type2TradeTitle = {
   1: '买入',
   2: '卖出',

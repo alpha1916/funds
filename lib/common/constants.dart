@@ -260,6 +260,7 @@ class a{
 class Global{
 //  static String host = 'http://119.29.142.63:8070/';
   static String host = 'http://134.175.88.198/';
+  static String httpBaseUrl = 'http://134.175.88.198';
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
@@ -279,18 +280,3 @@ class Global{
   static String appName = '基石';
   static String wxName = '基石投资';
 }
-
-final Map<int, String>tradeFlowStatus = {
-  -1: '委托失败',
-  0: '委托中',
-  1: '未报',
-  2: '未报',
-  3: '未报',
-  4: '已报',
-  5: '废单',
-  6: '部分成交',
-  7: '已成交',
-  8: '部分撤单',
-  9: '已撤单',
-  10: '待撤单',
-};

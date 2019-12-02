@@ -23,16 +23,6 @@ class CaptchaType {
   static int newPhone = 5;
 }
 
-enum RequestType{
-  get,
-  tokenGet,
-  tokenPost,
-}
-
-//class ListPageData{
-//
-//}
-
 class HttpRequest {
   static Future<bool> isNetworkAvailable() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -80,11 +70,6 @@ class HttpRequest {
         print('token:$token');
       }
       if(isPost){
-//        if(token != null) {
-//          response = await dio.post(api, queryParameters: data, options: options);
-//        }else{
-//          response = await dio.post(api, data: data);
-//        }
         response = await dio.post(api, data: data, queryParameters: queryParameters, options: options);
       }else{
         response = await dio.get(api, queryParameters: data, options: options);
@@ -276,38 +261,6 @@ class HttpRequest {
     }
   }
 
-//  static requestListData({
-//    @required type,
-//    @required api,
-//    data,
-//    dataConverter,
-//    askLogin = true,
-//  }) async {
-//    var result;
-//    switch(type){
-//      case RequestType.get:
-//        result = await HttpRequest.send(api: api, data: data);
-//        break;
-//
-//      case RequestType.tokenGet:
-//        result = await HttpRequest.sendTokenPost(api: api, data: data);
-//        break;
-//
-//      case RequestType.tokenPost:
-//        result = await HttpRequest.sendTokenPost(api: api, data: data);
-//        break;
-//
-//    }
-//    if(result == null){
-//      return ResultData(false);
-//    }
-//
-//    List<dynamic> oDataList = result['data'];
-//    List<dynamic> dataList = oDataList.map(dataConverter).toList();
-//
-//    return ResultData(true, dataList);
-//  }
-
   static buildPageData(pageIndex, pageCount){
     return {
       'currentPage': pageIndex,
@@ -321,7 +274,7 @@ class HttpRequest {
     dio = Dio(); // 使用默认配置
 //    dio.options.baseUrl = 'http://119.29.142.63:8070';
 //    dio.options.baseUrl = 'http://182.254.204.211:6078';
-    dio.options.baseUrl = 'http://134.175.88.198';
+    dio.options.baseUrl = Global.httpBaseUrl;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
 

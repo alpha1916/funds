@@ -1,5 +1,6 @@
 import 'package:funds/common/utils.dart';
 import 'package:funds/common/constants.dart';
+import 'package:funds/model/contract_data.dart';
 
 class StockHoldData{
   String title;
