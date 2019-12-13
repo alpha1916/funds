@@ -111,7 +111,10 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       data.title = selectedData.title;
       data.capital = (_inputLoadAmount / times).round();
       data.total = data.capital + _inputLoadAmount;
-      data.period = '${selectedData.timeLimit}，到期不可续约';
+      if(selectedData.type == 4)
+        data.period = '${selectedData.timeLimit}，到期不可续约';
+      else
+        data.period = '到期自动续约';
 
       data.type = selectedData.type;
       data.times = times;
