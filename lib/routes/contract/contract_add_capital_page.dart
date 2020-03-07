@@ -3,6 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/network/contract_request.dart';
 import 'package:funds/model/account_data.dart';
+import 'package:funds/network/user_request.dart';
 
 class ContractAddCapitalPage extends StatelessWidget {
   final contractNumber;
@@ -104,6 +105,7 @@ class ContractAddCapitalPage extends StatelessWidget {
     ResultData result = await ContractRequest.addCapital(contractNumber, inputNum);
     if(result.success){
       await alert('追加保证金成功');
+      UserRequest.getUserInfo();
       Utils.navigatePop(true);
     }
   }

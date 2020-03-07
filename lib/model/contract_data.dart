@@ -200,6 +200,13 @@ final Map<int, String> type2boardTitle = {
   3: '蓝筹版',
 };
 
+final Map<int, String> state2text= {
+  1: '正常',
+  2: '已结算',
+  3: '单向冻结',
+  4: '风控平仓',
+};
+
 class ContractData {
   final double contractMoney;//合约金额
   final String contractNumber;//合约信息
@@ -225,6 +232,7 @@ class ContractData {
   final int cordon;//警戒线
   final int cut;//止损线
   final bool ongoing;//操盘中
+  final int state;//合约状态
 
   final int board;
 
@@ -245,6 +253,10 @@ class ContractData {
   String get strProfitRate{
     double rate = profit / (capital + additional) * 100;
     return '${rate.toStringAsFixed(2)}%';
+  }
+
+  String get strState {
+      return state2text[state];
   }
 
   String get strCost {
@@ -299,6 +311,7 @@ class ContractData {
       cut = data['stopLossLine'],
       days = data['useDay'],
       leftDays = data['canUseDay'],
+      state = data['stat'],
       ongoing = data['stat'] == 1
 
   ;

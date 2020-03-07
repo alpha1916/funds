@@ -10,6 +10,7 @@ class WebViewPage extends StatelessWidget {
   WebViewPage({this.title, this.url, this.headers});
   @override
   Widget build(BuildContext context) {
+    print('webview:' + this.url);
     return WebviewScaffold(
       url: url,
       headers: headers,

@@ -245,6 +245,7 @@ class _CurrentContractDetailState extends State<CurrentContractDetail> {
         switch(value){
           case ContractOperate.addMoney:
             double minAdd = (data.operateMoney * 0.01 * 100).round() / 100;
+            await UserRequest.getUserInfo();
             var success = await Utils.navigateTo(ContractAddCapitalPage(data.contractNumber, minAdd));
             if(success == true)
               _refresh();

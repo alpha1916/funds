@@ -44,11 +44,25 @@ class ContractItemView extends StatelessWidget {
   }
 
   _stateView() {
-    final String text = data.ongoing ? '操盘中' : '已结束';
-    final Color color = data.ongoing ? CustomColors.red : Colors.grey;
+    final String text = data.strState;//data.ongoing ? '操盘中' : '已结束';
+    Color color;//data.ongoing ? CustomColors.red : Colors.grey;
+    switch(data.state){
+      case 1:
+        color = CustomColors.red;
+        break;
+
+      case 2:
+        color = Colors.grey;
+        break;
+
+      default:
+        color = Colors.green;
+        break;
+    }
+
     return Container(
       alignment: Alignment.center,
-      width: a.px50,
+      width: a.px(64),
       height: a.px22,
       decoration: BoxDecoration(
         color: color,
