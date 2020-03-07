@@ -175,7 +175,7 @@ class _MyViewState extends State<MyView> {
           Row(
             children: <Widget>[
               Expanded(
-                child: _buildRow('证券净值', _data.stock.toStringAsFixed(2), true, _onPressContract),
+                child: _buildRow('合约净值', _data.stock.toStringAsFixed(2), true, _onPressContract),
               ),
               Expanded(
                 child: _buildRow('现金金额', _data.cash.toStringAsFixed(2), false, _onPressCashFlow),
