@@ -26,5 +26,5 @@ else
 fi
 
 cd ${rootPath}
-mv ./build/ios/iphoneos/*.ipa ./publish/
-mv ./build/app/outputs/apk/release/*.apk ./publish/
+mv ./build/ios/iphoneos/*.ipa ./publish/基石.ipa
+mv ./build/app/outputs/apk/release/*.apk ./publish/基石.apk

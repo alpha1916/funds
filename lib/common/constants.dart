@@ -258,9 +258,9 @@ class a{
 }
 
 class Global{
-  static String httpBaseUrl = 'http://182.254.204.211:6078';
   static String host = 'http://134.175.88.198/';
-//  static String httpBaseUrl = 'http://134.175.88.198';
+//  static String httpBaseUrl = 'http://182.254.204.211:6078';
+  static String httpBaseUrl = 'http://134.175.88.198';
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
