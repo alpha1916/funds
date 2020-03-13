@@ -68,7 +68,7 @@ class TradeBloc {
     print('holdList.length:${holdList.length}');
     int count = 0;
     if(code != null && holdList != null && holdList.length > 0){
-      selectedHoldData = holdList.firstWhere((data) => data.code == code);
+      selectedHoldData = holdList.firstWhere((data) => data.code == code, orElse: () => null);
       if(selectedHoldData != null)
         count = selectedHoldData.usable;
     }
