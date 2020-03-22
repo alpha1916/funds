@@ -177,7 +177,7 @@ class _RechargePageState extends State<RechargePage> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(a.px10),
-              child: Image.asset(_imagePath, width: a.px(50),),
+              child: Image.file(File(_imagePath), width: a.px(50),),
             ),
             Positioned(
               right: 0,

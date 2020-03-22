@@ -54,7 +54,10 @@ class StockTradeFrame extends StatelessWidget{
       builder: (BuildContext context, AsyncSnapshot<TradingStockData> snapshot){
         if(snapshot.data != null){
           if(stockInfo == null || stockInfo.code != snapshot.data.code){
-//            codeInputController.text = snapshot.data.code;
+            //避免重复赋值导致输入光标跑到输入框开头
+            if(codeInputController.text != snapshot.data.code)
+              codeInputController.text = snapshot.data.code;
+
             priceInputController.text = Utils.convertDoubleString(snapshot.data.lastPrice);
           }
           updateUsableCount(snapshot.data.lastPrice);
