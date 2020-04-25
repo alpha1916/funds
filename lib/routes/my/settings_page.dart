@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget {
               children: <Widget>[
                 _buildSettableItem('联系地址', data.address != '', _onPressedModifyAddress),
                 SizedBox(height: a.px10),
-                _buildNameView(data.name),
+                _buildNameView(data.certification, data.name),
                 Divider(height: a.px1, indent: a.px16),
                 _buildSettableItem('绑定银行卡', data.bindBank, _onPressedModifyBankCard),
                 Divider(height: a.px1, indent: a.px16),
@@ -76,8 +76,8 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  _buildNameView(name){
-    if(name == '')
+  _buildNameView(bool certification, String name){
+    if(!certification)
       return _buildSettableItem('实名认证', false, _onPressedCertification);
     else{
       return Container(

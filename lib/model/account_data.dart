@@ -47,7 +47,7 @@ class AccountData {
     name = data['name'] ?? '';
     address = data['address'] ?? '';
     bindBank = data['bindBank'] ?? false;
-    certification = name != null && name != '';
+    certification = data['authentication'] ?? false;
     agreedRisk = data['agreeProto'] ?? false;
 
     String strExperiences = data['experierceList'];

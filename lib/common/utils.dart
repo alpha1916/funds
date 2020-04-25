@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:funds/routes/mail/mail_page.dart';
 import 'package:funds/routes/my/withdraw_page.dart';
 import 'package:funds/routes/online_service_page.dart';
+import 'package:funds/routes/online_service_page2.dart';
 
 import 'package:funds/model/list_page_data.dart';
 

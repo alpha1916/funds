@@ -265,10 +265,9 @@ class a{
 class Global{
 //  static String host = 'http://134.175.88.198/';
 //  static String httpBaseUrl = 'http://134.175.88.198';
-
   //测试服
-  static String httpBaseUrl = 'http://129.204.125.172:18181';
-  static String host = 'http://129.204.125.172:18181/';
+  static String httpBaseUrl = 'http://106.52.53.230:18181';
+  static String host = 'http://106.52.53.230:18181/';
 
   static BuildContext buildContext;
 //  static bool debug = false;
