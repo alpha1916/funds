@@ -225,16 +225,16 @@ class _RechargePageState extends State<RechargePage> {
         text: TextSpan(
           children: <TextSpan>[
             TextSpan(
-             text: '温馨提示：\n\n1、 已完成线下转账的用户，请通过本页面提交线下转账凭证；\n\n2、 请明确填写的充值金额与实际转账金额一致，转账凭证中包含付款人、收款人、金额三要素；',
+             text: '温馨提示：\n\n1、 已完成线下转账的用户，请通过本页面提交线下转账凭证；\n\n2、 请明确填写的充值金额与实际转账金额一致，转账凭证中包含付款人、收款人、金额三要素。',
              style: style
-           ),
-            TextSpan(
-              text: '图片示例',
-              style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
-              recognizer: TapGestureRecognizer()..onTap = () {
-                Utils.navigateTo(ImageViewerPage(CustomIcons.rechargeSample));
-              }
             ),
+//            TextSpan(
+//              text: '图片示例',
+//              style: TextStyle(decoration: TextDecoration.underline, fontSize: a.px13, color: Colors.black),
+//              recognizer: TapGestureRecognizer()..onTap = () {
+//                Utils.navigateTo(ImageViewerPage(CustomIcons.rechargeSample));
+//              }
+//            ),
 //            TextSpan(
 //                text: '\n\n3、如果遇到任何问题，请联系客服：',
 //                style: style

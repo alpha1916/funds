@@ -3,6 +3,7 @@ import 'package:funds/common/constants.dart';
 import 'package:funds/common/utils.dart';
 import 'package:funds/routes/contract/contract_apply_detail.dart';
 import 'package:funds/network/contract_request.dart';
+import 'package:funds/model/contract_data.dart';
 
 class ContractApplyPage extends StatefulWidget {
   Map<int, List<ContractApplyItemData>> configs;
@@ -67,12 +68,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
             width: double.infinity,
             height: a.px50,
             child: RaisedButton(
-                child: Text(
+              child: Text(
                 '下一步',
                 style: TextStyle(color: Colors.white, fontSize: a.px18),
-            ),
-            onPressed: _onPressedNext,
-            color: Colors.black,
+              ),
+              onPressed: _onPressedNext,
+              color: Colors.black,
             ),
           )
         ],
@@ -125,18 +126,29 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     }
   }
 
-  final _boardTitles = ['主板(创)', '科创板', '蓝筹版'];
+//  final _boardTitles = ['主板', '科创板', '蓝筹板'];
   _buildBoardChipsView(chipSize) {
+    List<int> boards = [];
+    widget.configs.forEach((int board, List list){
+      if(list.length > 0)
+        boards.add(board);
+    });
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: a.px20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: _boardTitles.map((title) => _buildBoardChip(_boardTitles.indexOf(title), title, chipSize)).toList(), //要显示的子控件集合
+        children: boards.map((board) => _buildBoardChip(
+            boards.indexOf(board),
+            board,
+            type2boardTitle[board],
+            chipSize)
+        ).toList(), //要显示的子控件集合
       ),
     );
   }
 
-  Widget _buildBoardChip(idx, title, size) {
+  Widget _buildBoardChip(idx, board, title, size) {
     Color titleColor;
     Color borderColor;
     Color bgColor;
@@ -209,12 +221,12 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
         height: size * 0.6,
         child: Center(
             child: Text(
-          title,
-          style: TextStyle(
-            fontSize: size * 0.22,
-            color: titleColor,
-          ),
-        )),
+              title,
+              style: TextStyle(
+                fontSize: size * 0.22,
+                color: titleColor,
+              ),
+            )),
       ),
       onTap: () {
         if (_currentTypeIdx != idx) {
@@ -242,28 +254,28 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
   TextEditingController inputController = TextEditingController();
   Widget _buildTextFiled(hintText) {
     return Container(
-      color: Colors.white,
-      margin: EdgeInsets.only(left: a.px30, right: a.px30),
-      child: Container(
-        child: TextField(
-          textAlign: TextAlign.center,
-          controller: inputController,
-          cursorColor: Colors.black12,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hintText,
-            labelStyle: TextStyle(fontSize: a.px30),
+        color: Colors.white,
+        margin: EdgeInsets.only(left: a.px30, right: a.px30),
+        child: Container(
+          child: TextField(
+            textAlign: TextAlign.center,
+            controller: inputController,
+            cursorColor: Colors.black12,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: hintText,
+              labelStyle: TextStyle(fontSize: a.px30),
+            ),
+            autofocus: false,
+            onChanged: _onInputChanged,
           ),
-          autofocus: false,
-          onChanged: _onInputChanged,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: a.px(0.5)), // 边色与边宽度
-        ),
-      )
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: a.px(0.5)), // 边色与边宽度
+          ),
+        )
     );
   }
-  
+
   _onInputChanged(text){
     int amount = Utils.parseInt(text);
     if(_inputLoadAmount != amount){
@@ -357,7 +369,7 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
       },
     );
   }
-  
+
   Widget _timesItemsView(itemSize, min, timesList) {
     return Expanded(
       child: SingleChildScrollView(
@@ -376,19 +388,19 @@ class _ContractApplyPageState extends State<ContractApplyPage> {
     final max = data.max;
     final timesList = data.timesList;
     return Expanded(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text('请输入申请资金', style: TextStyle(fontSize: a.px16)),
-            SizedBox(height: a.px10),
-            _buildTextFiled(_getHintText(min, max)),
-            SizedBox(height: a.px10),
-            Text('请选择杠杠本金', style: TextStyle(fontSize: a.px16)),
-            SizedBox(height: a.px10),
-            _timesItemsView(itemSize, min, timesList),
-          ],
-        ),
-      )
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text('请输入申请资金', style: TextStyle(fontSize: a.px16)),
+              SizedBox(height: a.px10),
+              _buildTextFiled(_getHintText(min, max)),
+              SizedBox(height: a.px10),
+              Text('请选择杠杠本金', style: TextStyle(fontSize: a.px16)),
+              SizedBox(height: a.px10),
+              _timesItemsView(itemSize, min, timesList),
+            ],
+          ),
+        )
     );
   }
 }

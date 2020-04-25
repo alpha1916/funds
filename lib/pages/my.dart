@@ -13,6 +13,9 @@ import 'package:funds/routes/my/coupons_page.dart';
 import 'package:funds/routes/my/about/about_page.dart';
 import 'package:funds/routes/my/help_page.dart';
 
+import 'package:funds/routes/my/bindcard/bind_bank_card_page.dart';
+import 'package:funds/routes/my/certification_page.dart';
+
 class MyView extends StatefulWidget {
   @override
   _MyViewState createState() => _MyViewState();
@@ -339,6 +342,22 @@ class _MyViewState extends State<MyView> {
   }
 
   _onPressCharge() async {
+    if(!_data.certification){
+      var result = await Utils.navigateTo(CertificationPage());
+      if(result == true){
+        UserRequest.getUserInfo();
+      }
+      return;
+    }
+
+    if(!_data.bindBank){
+      var result = await Utils.navigateTo(BindBankCardPage());
+      if(result == true){
+        UserRequest.getUserInfo();
+      }
+      return;
+    }
+
     print('press recharge');
     Utils.navigateTo(RechargePage());
 //    _refresh();

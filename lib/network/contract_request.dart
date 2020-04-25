@@ -23,8 +23,6 @@ class ContractRequest {
 
     for(int i = 0; i < dataList.length; ++i){
       ContractApplyItemData data = dataList[i];
-//      if(data.type == 1 && data.board == 1)
-//        continue;
       configs[data.board].add(data);
     }
 

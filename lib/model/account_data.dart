@@ -19,7 +19,10 @@ class AccountData {
   String phone = '';
   String name = '';
   String address = '';
+  //是否绑定银行卡
   bool bindBank = false;
+  //是否实名认证
+  bool certification = false;
   String token;
   bool agreedRisk = false;
   bool hasUnreadMail = false;
@@ -44,6 +47,7 @@ class AccountData {
     name = data['name'] ?? '';
     address = data['address'] ?? '';
     bindBank = data['bindBank'] ?? false;
+    certification = name != null && name != '';
     agreedRisk = data['agreeProto'] ?? false;
 
     String strExperiences = data['experierceList'];

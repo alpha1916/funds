@@ -258,9 +258,13 @@ class a{
 }
 
 class Global{
-  static String host = 'http://134.175.88.198/';
-//  static String httpBaseUrl = 'http://182.254.204.211:6078';
-  static String httpBaseUrl = 'http://134.175.88.198';
+//  static String host = 'http://134.175.88.198/';
+//  static String httpBaseUrl = 'http://134.175.88.198';
+
+  //测试服
+  static String httpBaseUrl = 'http://129.204.125.172:18181';
+  static String host = 'http://129.204.125.172:18181/';
+
   static BuildContext buildContext;
 //  static bool debug = false;
   static bool debug = !bool.fromEnvironment("dart.vm.product") ;
@@ -275,8 +279,8 @@ class Global{
     return 'unknown';
   }
 
-  static String testPhoneNumber = '18612345658';
-  static String testPwd = '123456';
+  static String testPhoneNumber = '15999970987';
+  static String testPwd = '19821220';
   static String appName = '基石';
   static String wxName = '基石投资';
 }
