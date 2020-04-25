@@ -190,7 +190,12 @@ class a{
   static init(double width, double height){
     screenWidth = width;
     screenHeight = height;
-    ratio = screenWidth / 414;
+    if(height / width >= 16 / 9){
+      ratio = screenWidth / 414;
+    }
+    else{
+      ratio = height * 9 / 16 / 414;
+    }
 
     px1 = px(1);
     px2 = px(2);

@@ -23,10 +23,10 @@ class LoginInputViewState extends State<LoginInputView> {
 
   @override
   Widget build(BuildContext context) {
-//    if(Global.debug){
-//      phoneController.text = Global.testPhoneNumber;
-//      passController.text = Global.testPwd;
-//    }
+    if(Global.debug){
+      phoneController.text = Global.testPhoneNumber;
+      passController.text = Global.testPwd;
+    }
 
     return Column(
         children: <Widget>[
